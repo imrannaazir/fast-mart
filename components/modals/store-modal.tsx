@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import axios from "axios";
 import { useDispatch } from "react-redux";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,13 +20,17 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "../ui/button";
+import { toast } from "react-hot-toast";
 
 const StoreModal = () => {
+  // loading state
+  const [isLoading, setIsLoading] = useState(false);
+
   // dispatch function
   const dispatch = useDispatch<AppDispatch>();
 
   // select isOpen value
-  const isOpen = useAppSelector((state) => state.modal.isOpen);
+  const isOpen = useAppSelector((state) => state?.modal?.isOpen);
 
   // define form schema
   const formSchema = z.object({
@@ -41,7 +47,17 @@ const StoreModal = () => {
 
   // onsubmit function
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      setIsLoading(true);
+
+      const response = await axios.post("/api/stores", values);
+
+      toast.success("Store created successfully!");
+    } catch (error) {
+      toast.error("Something went wrong!");
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <Modal
@@ -66,7 +82,11 @@ const StoreModal = () => {
                   <FormItem>
                     <FormLabel>Store Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e-commerce" {...field} />
+                      <Input
+                        disabled={isLoading}
+                        placeholder="e-commerce"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -82,10 +102,16 @@ const StoreModal = () => {
               justify-end
               "
               >
-                <Button onClick={() => dispatch(onClose())} variant={"outline"}>
+                <Button
+                  disabled={isLoading}
+                  onClick={() => dispatch(onClose())}
+                  variant={"outline"}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">Continue</Button>
+                <Button disabled={isLoading} type="submit">
+                  Continue
+                </Button>
               </div>
             </form>
           </Form>
