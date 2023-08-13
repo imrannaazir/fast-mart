@@ -1,7 +1,24 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, auth } from "@clerk/nextjs";
 import MainNav from "@/components/navbar/main-nav";
+import StoreSwitcher from "@/components/navbar/store-switcher";
+import { redirect } from "next/navigation";
+import prismaDb from "@/lib/prismadb";
 
-const Navbar = () => {
+const Navbar = async () => {
+  // get user id
+  const { userId } = auth();
+
+  // if userId not available
+  if (!userId) {
+    redirect("/sign-in");
+  }
+
+  const stores = await prismaDb.store.findMany({
+    where: {
+      userId,
+    },
+  });
+
   return (
     <div
       className="
@@ -15,7 +32,7 @@ const Navbar = () => {
     px-4
     "
       >
-        <div>This will be switcher</div>
+        <StoreSwitcher items={stores} />
         <MainNav className="mx-4" />
         <div
           className="
