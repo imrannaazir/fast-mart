@@ -1,13 +1,16 @@
 "use client";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { Trash } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import Headline from "@/components/ui/headline";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
 import AlertModal from "@/components/modals/alert-modal";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
 import { Separator } from "@/components/ui/separator";
 import {
   Form,
@@ -17,11 +20,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Store } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import ApiAlert from "@/components/ui/api-alert";
-import { useParams } from "next/navigation";
 import useOrigin from "@/hooks/useOrigin";
 
 //form schema
@@ -41,6 +42,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
   const params = useParams();
   const origin = useOrigin();
+  const router = useRouter();
 
   //   react hook form
   const form = useForm<SettingsFormValue>({
@@ -50,7 +52,32 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
   // handle on submit
   const onSubmit = async (data: SettingsFormValue) => {
-    console.log(data);
+    try {
+      setIsLoading(true);
+
+      await axios.patch(`/api/stores/${params.storeId}`, data);
+      router.refresh();
+      toast.success("Store updated.");
+    } catch (error) {
+      toast.error("Something is wrong.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // handle delete store
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      axios.delete(`/api/stores/${params.storeId}`);
+      router.refresh();
+      router.push("/");
+      toast.success("Store deleted");
+    } catch (error) {
+      toast.error("Something is  wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <>
@@ -58,7 +85,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
         isLoading={isLoading}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onConfirm={() => {}}
+        onConfirm={handleDelete}
       />
 
       {/* top */}
