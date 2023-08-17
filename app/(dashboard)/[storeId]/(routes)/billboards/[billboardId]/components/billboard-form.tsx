@@ -2,14 +2,17 @@
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import * as z from "zod";
+import axios from "axios";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 import { Billboard } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -18,9 +21,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
 import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import AlertModal from "@/components/modals/alert-modal";
