@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import Headline from "@/components/ui/headline";
 import { Button } from "@/components/ui/button";
 import AlertModal from "@/components/modals/alert-modal";
 import { Separator } from "@/components/ui/separator";
@@ -24,6 +23,7 @@ import { Store } from "@prisma/client";
 import { Input } from "@/components/ui/input";
 import ApiAlert from "@/components/ui/api-alert";
 import useOrigin from "@/hooks/useOrigin";
+import Heading from "@/components/ui/heading";
 
 //form schema
 const formSchema = z.object({
@@ -90,7 +90,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
 
       {/* top */}
       <div className="flex items-center justify-between">
-        <Headline
+        <Heading
           title="Store settings"
           description="Manage store preferences"
         />

@@ -1,9 +1,9 @@
-interface HeadlineProps {
+interface HeadingProps {
   title: string;
   description: string;
 }
 
-const Headline: React.FC<HeadlineProps> = ({ title, description }) => {
+const Heading: React.FC<HeadingProps> = ({ title, description }) => {
   return (
     <div>
       <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
@@ -12,4 +12,4 @@ const Headline: React.FC<HeadlineProps> = ({ title, description }) => {
   );
 };
 
-export default Headline;
+export default Heading;
