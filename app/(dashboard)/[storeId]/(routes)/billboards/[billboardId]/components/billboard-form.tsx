@@ -23,6 +23,7 @@ import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
+import AlertModal from "@/components/modals/alert-modal";
 
 const formSchema = z.object({
   label: z.string().min(1),
@@ -37,6 +38,7 @@ interface BillboardFormProps {
 
 const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const params = useParams();
   const router = useRouter();
@@ -54,6 +56,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
     },
   });
 
+  // onsubmit
   const onSubmit = async (data: BillboardFormValues) => {
     try {
       setIsLoading(true);
@@ -75,8 +78,32 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
       setIsLoading(false);
     }
   };
+
+  // on confirm
+  const onConfirm = async () => {
+    try {
+      setIsLoading(true);
+      await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      );
+      router.refresh();
+      router.push(`/${params.storeId}/billboards`);
+      toast.success("Billboard deleted successfully.");
+    } catch (error) {
+      toast.error("Something went wrong.");
+    } finally {
+      setIsOpen(false);
+      setIsLoading(false);
+    }
+  };
   return (
     <>
+      <AlertModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        isLoading={isLoading}
+        onConfirm={onConfirm}
+      />
       <div className="flex  items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
@@ -84,7 +111,7 @@ const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }) => {
             variant="destructive"
             disabled={isLoading}
             size="sm"
-            onClick={() => {}}
+            onClick={() => setIsOpen(true)}
           >
             <Trash className="h-4 w-4" />
           </Button>
