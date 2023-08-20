@@ -20,11 +20,6 @@ export default function MainNav({
       isActive: pathname === `/${storeId}`,
     },
     {
-      href: `/${storeId}/settings`,
-      label: "Settings",
-      isActive: pathname === `/${storeId}/settings`,
-    },
-    {
       href: `/${storeId}/billboards`,
       label: "Billboards",
       isActive: pathname === `/${storeId}/billboards`,
@@ -33,6 +28,16 @@ export default function MainNav({
       href: `/${storeId}/categories`,
       label: "Categories",
       isActive: pathname === `/${storeId}/categories`,
+    },
+    {
+      href: `/${storeId}/sizes`,
+      label: "Sizes",
+      isActive: pathname === `/${storeId}/sizes`,
+    },
+    {
+      href: `/${storeId}/settings`,
+      label: "Settings",
+      isActive: pathname === `/${storeId}/settings`,
     },
   ];
 

@@ -40,7 +40,7 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
       <Separator />
 
       {/* data table */}
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={data} searchKey="label" />
 
       {/* api */}
       <Heading title="API" description="API Calls for Billboards" />

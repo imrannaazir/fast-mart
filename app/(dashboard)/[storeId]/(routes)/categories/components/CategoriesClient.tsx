@@ -7,6 +7,7 @@ import { Plus } from "lucide-react";
 import { CategoryColumn, columns } from "./category-column";
 import { DataTable } from "@/components/ui/data-table";
 import { useParams, useRouter } from "next/navigation";
+import ApiList from "@/components/ui/api-list";
 
 interface CategoriesClientProps {
   data: CategoryColumn[];
@@ -33,7 +34,14 @@ const CategoriesClient: React.FC<CategoriesClientProps> = ({ data }) => {
       <Separator />
 
       {/* data table */}
-      <DataTable data={data} columns={columns} />
+      <DataTable data={data} columns={columns} searchKey="name" />
+
+      <Heading title="API" description="API Calls for Categories." />
+
+      <Separator />
+
+      {/* api list */}
+      <ApiList entityIdName="categoryId" entityName="categories" />
     </>
   );
 };
