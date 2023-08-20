@@ -15,10 +15,10 @@ import { useState } from "react";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { SizeColumn } from "./color-column";
+import { ColorColumn } from "./color-column";
 
 interface CellActionsProps {
-  data: SizeColumn;
+  data: ColorColumn;
 }
 
 const CellActions: React.FC<CellActionsProps> = ({ data }) => {
@@ -31,11 +31,11 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
-      toast.success("Size deleted.");
+      await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+      toast.success("Color deleted.");
       router.refresh();
     } catch (error) {
-      toast.error("Make sure you remove all product using this size first.");
+      toast.error("Make sure you remove all product using this color first.");
     } finally {
       setIsOpen(false);
       setIsLoading(false);
@@ -44,7 +44,7 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
 
   const onCopy = () => {
     navigator.clipboard.writeText(data.id);
-    toast.success("Size ID copied successfully.");
+    toast.success("Color ID copied successfully.");
   };
 
   return (
@@ -73,7 +73,7 @@ const CellActions: React.FC<CellActionsProps> = ({ data }) => {
 
           {/* update */}
           <DropdownMenuItem
-            onClick={() => router.push(`/${params.storeId}/sizes/${data.id}`)}
+            onClick={() => router.push(`/${params.storeId}/colors/${data.id}`)}
           >
             <Edit className="w-4 h-4 mr-2" />
             Update
