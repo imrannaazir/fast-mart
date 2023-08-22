@@ -20,6 +20,7 @@ model Store{
   sizes      Size[] @relation("StoreToSize")
   colors     Color[] @relation("StoreToColor") 
   products   Product[] @relation("StoreToProduct")
+  orders     Order[] @relation("StoreToOrder")
   createdAt  DateTime @default(now())
   updatedAt  DateTime  @updatedAt
 }
@@ -87,6 +88,7 @@ model Product{
   size            Size @relation("SizeToProduct",fields: [sizeId], references: [id])
   colorId         String @db.ObjectId
   color           Color @relation("ColorToProduct",fields: [colorId],references: [id])
+  orderItems      OrderItem[]
   name            String
   price           Float @default(0.0)
   isFeatured      Boolean @default(false)
@@ -108,6 +110,28 @@ model Image{
   updatedAt     DateTime @updatedAt
 }
 
+
+// model for order
+model Order{
+  id              String @default(auto()) @id @map("_id") @db.ObjectId
+  storeId         String @db.ObjectId
+  store           Store @relation("StoreToOrder",fields: [storeId],references: [id])
+  orderItems       OrderItem[]
+  isPaid           Boolean @default(false)
+  phone            String  @default("")
+  address          String  @default("")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// model for orderItem
+model OrderItem{
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  orderId           String @db.ObjectId
+  Order             Order @relation(fields: [orderId],references: [id])
+  productId         String @db.ObjectId
+  product           Product @relation(fields: [productId],references: [id])
+}
 
 // npx prisma generate
 //npx prisma db push
