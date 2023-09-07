@@ -99,6 +99,8 @@ export async function GET(
     const sizeId = searchParams.get("sizeId") || undefined;
     const isFeatured = searchParams.get("isFeatured");
 
+    // console.log(">>>>>>>>>", searchParams, "??????");
+
     if (!params.storeId) {
       return new NextResponse("Store ID is required.", { status: 400 });
     }
