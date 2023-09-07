@@ -3,6 +3,7 @@ import MainNav from "@/components/navbar/main-nav";
 import StoreSwitcher from "@/components/navbar/store-switcher";
 import { redirect } from "next/navigation";
 import prismaDb from "@/lib/prismadb";
+import { ThemeToggle } from "../theme-toggle";
 
 const Navbar = async () => {
   // get user id
@@ -41,6 +42,7 @@ const Navbar = async () => {
         items-center
         space-x-4"
         >
+          <ThemeToggle />
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>
