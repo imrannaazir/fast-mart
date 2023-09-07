@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import Navbar from "@/components/navbar/navbar";
+import prismaDb from "@/lib/prismadb";
 
 const DashboardLayout = async ({
   children,
@@ -18,7 +19,7 @@ const DashboardLayout = async ({
   }
 
   //   get first store of the user
-  const store = await prisma?.store.findFirst({
+  const store = await prismaDb?.store.findFirst({
     where: {
       id: params.storeId,
       userId,
