@@ -39,7 +39,7 @@ export async function PATCH(
     }
 
     const body = await req.json();
-    const { name, billboardId } = body;
+    const { name, billboardId, icon } = body;
 
     if (!name) {
       return new NextResponse("Name is required.", { status: 400 });
@@ -47,6 +47,10 @@ export async function PATCH(
 
     if (!billboardId) {
       return new NextResponse("Billboard ID is required.", { status: 400 });
+    }
+
+    if (!icon) {
+      return new NextResponse("Icon is required.", { status: 400 });
     }
 
     const storeByUserId = await prismaDb.store.findFirst({
@@ -67,6 +71,7 @@ export async function PATCH(
       data: {
         name,
         billboardId,
+        icon,
       },
     });
 

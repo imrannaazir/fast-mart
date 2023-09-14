@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,6 +34,7 @@ import AlertModal from "@/components/modals/alert-modal";
 
 const formSchema = z.object({
   name: z.string().min(2),
+  icon: z.string().min(5),
   billboardId: z.string().min(1),
 });
 
@@ -63,6 +65,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
+      icon: "",
       billboardId: "",
     },
   });
@@ -154,6 +157,36 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="icon"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel> Icon</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder="eg: arrow-down-up"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    <p className="text-xs text-yellow-500 ">
+                      Go to{" "}
+                      <a
+                        href="https://lucide.dev/icons/"
+                        target="_blank"
+                        className="text-indigo-500 underline"
+                      >
+                        lucide icon
+                      </a>{" "}
+                      & copy JSX of appropriate icon.
+                    </p>
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

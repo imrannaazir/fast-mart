@@ -14,7 +14,7 @@ export async function POST(
       return new NextResponse("Unauthenticated", { status: 403 });
     }
 
-    const { name, billboardId } = body;
+    const { name, billboardId, icon } = body;
 
     if (!name) {
       return new NextResponse("Name is required.", { status: 400 });
@@ -22,6 +22,9 @@ export async function POST(
 
     if (!billboardId) {
       return new NextResponse("Billboard ID is required.", { status: 400 });
+    }
+    if (!icon) {
+      return new NextResponse("Icon is required.", { status: 400 });
     }
 
     const storeByUserId = await prismaDb.store.findFirst({
@@ -40,6 +43,7 @@ export async function POST(
         name,
         billboardId,
         storeId: params.storeId,
+        icon,
       },
     });
 
