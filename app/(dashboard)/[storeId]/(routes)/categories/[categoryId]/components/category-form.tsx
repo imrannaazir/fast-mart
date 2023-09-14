@@ -184,7 +184,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                       >
                         lucide icon
                       </a>{" "}
-                      & copy JSX of appropriate icon.
+                      & copy name of appropriate icon.
                     </p>
                   </FormDescription>
                   <FormMessage />
