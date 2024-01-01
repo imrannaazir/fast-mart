@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import Navbar from "@/components/navbar/navbar";
 import prismaDb from "@/lib/prismadb";
+import LeftSidebar from "@/components/navbar/left-sidebar";
 
 const DashboardLayout = async ({
   children,
@@ -34,7 +35,10 @@ const DashboardLayout = async ({
   return (
     <>
       <Navbar />
-      {children}
+      <div className="flex flex-row">
+        <LeftSidebar />
+        <div className="flex-grow">{children}</div>
+      </div>
     </>
   );
 };

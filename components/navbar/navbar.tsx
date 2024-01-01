@@ -23,7 +23,11 @@ const Navbar = async () => {
   return (
     <div
       className="
-  border-b"
+  bg-foreground
+  sticky
+  top-0
+  z-50
+  "
     >
       <div
         className="
@@ -33,16 +37,18 @@ const Navbar = async () => {
     px-4
     "
       >
-        <StoreSwitcher items={stores} />
-        <MainNav className="mx-4" />
+        {/* logo */}
+        <p className="text-white text-xl font-bold dark:text-black">StoreFy</p>
+        {/* <MainNav className="mx-4" /> */}
         <div
           className="
-        ml-auto
-        flex
-        items-center
-        space-x-4"
+          ml-auto
+          flex
+          items-center
+          space-x-4"
         >
-          <ThemeToggle />
+          <StoreSwitcher items={stores} />
+          {/* <ThemeToggle /> */}
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>
