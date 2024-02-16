@@ -22,8 +22,25 @@ const register = catchAsync(async (req, res) => {
   });
 });
 
+// login
+const login = catchAsync(async (req, res) => {
+  const { accessToken, refreshToken } = await AuthService.login(req.body);
+
+  // set cookie
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'development' ? true : false,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'User logged in successfully.',
+    data: { accessToken },
+  });
+});
 const AuthController = {
   register,
+  login,
 };
 
 export default AuthController;

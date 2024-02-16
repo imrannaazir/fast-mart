@@ -16,3 +16,10 @@ export const registrationValidationSchema = z.object({
     profileImage: z.string().optional(),
   }),
 });
+
+export const loginValidationSchema = z.object({
+  body: z.object({
+    email: z.string().email(),
+    password: z.string().min(4).max(30),
+  }),
+});
