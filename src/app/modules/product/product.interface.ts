@@ -8,7 +8,7 @@ export type TProduct = {
   price: number;
   quantity: number;
   status: TStatus;
-  model: string;
+  model?: string;
   weight?: number;
   unit?: string;
   compatibility?: string;
