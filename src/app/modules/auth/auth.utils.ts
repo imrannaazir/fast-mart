@@ -22,12 +22,8 @@ export const generateToken = async (
   expiresIn: string,
 ) => {
   try {
-    console.log(expiresIn);
-
     return jwt.sign(payload, secret, { expiresIn });
   } catch (error) {
-    console.log(error);
-
     throw new AppError(
       StatusCodes.INTERNAL_SERVER_ERROR,
       'Failed to generate token.',

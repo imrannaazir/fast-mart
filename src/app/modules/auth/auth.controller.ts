@@ -2,16 +2,23 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import AuthService from './auth.service';
+import config from '../../config';
 
 // register
 const register = catchAsync(async (req, res) => {
-  const result = await AuthService.register(req.body);
+  const { accessToken, refreshToken, user } = await AuthService.register(
+    req.body,
+  );
+
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'development' ? true : false,
+  });
 
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
     message: 'User registered successfully.',
-    data: result,
+    data: { accessToken, user },
   });
 });
 
