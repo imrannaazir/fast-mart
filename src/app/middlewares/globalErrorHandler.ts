@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 import handleZodError from '../errors/handleZodError';
@@ -5,6 +7,9 @@ import config from '../config';
 import colors from 'colors';
 import handleMongooseError from '../errors/handleMongooseError';
 import handleDuplicateKeyError from '../errors/handleDuplicateKeyError';
+import handleCastError from '../errors/handleCastError';
+import AppError from '../errors/AppError';
+import handleAppError from '../errors/handleAppError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   /* 
@@ -43,6 +48,21 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     errorSources = simplifiedError.errorSources;
   }
 
+  // handle CastError
+  if (error.name === 'CastError') {
+    const simplifiedError = handleCastError(error);
+    message = simplifiedError.message;
+    statusCode = simplifiedError.statusCode;
+    errorSources = simplifiedError.errorSources;
+  }
+
+  //handle instance of app error
+  if (error instanceof AppError) {
+    const simplifiedError = handleAppError(error);
+    message = simplifiedError.message;
+    statusCode = simplifiedError.statusCode;
+    errorSources = simplifiedError.errorSources;
+  }
   // send response
   res.status(statusCode).json({
     success,

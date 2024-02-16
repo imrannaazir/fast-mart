@@ -6,8 +6,8 @@ import UserController from './user.controller';
 const router = Router();
 
 // create user : POST
-router.post(
-  '/',
+router.get(
+  '/:id',
   // validateRequest(createUserValidationSchema),
   UserController.createUser,
 );
