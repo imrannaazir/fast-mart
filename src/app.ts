@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { Application } from 'express';
+import notFoundHandler from './app/middlewares/notFoundHandler';
 
 const app: Application = express();
 // parser
@@ -14,4 +15,6 @@ app.get('/api/v1', (req, res) => {
 });
 
 // handle 404 error
+app.use(notFoundHandler);
+
 export default app;
