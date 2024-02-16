@@ -21,7 +21,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     */
   const success = false;
   let statusCode = 500;
-  let message = 'Internal server error.';
+  let message = error.message || 'Internal server error.';
   let errorSources = null;
 
   // handle zod error
