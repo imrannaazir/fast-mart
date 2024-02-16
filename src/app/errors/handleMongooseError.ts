@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import colors from 'colors';
 import { TErrorSource, TGenericErrorResponse } from '../interface/error';
 import { StatusCodes } from 'http-status-codes';
 
@@ -14,8 +13,6 @@ const handleMongooseError = (
       path: issue.path,
     }),
   );
-
-  console.log(colors.red(errorSources));
 
   return {
     message,

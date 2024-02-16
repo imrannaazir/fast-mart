@@ -4,6 +4,7 @@ import handleZodError from '../errors/handleZodError';
 import config from '../config';
 import colors from 'colors';
 import handleMongooseError from '../errors/handleMongooseError';
+import handleDuplicateKeyError from '../errors/handleDuplicateKeyError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   /* 
@@ -29,6 +30,14 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   // handle mongoose validation error
   if (error.name === 'ValidationError') {
     const simplifiedError = handleMongooseError(error);
+    message = simplifiedError.message;
+    statusCode = simplifiedError.statusCode;
+    errorSources = simplifiedError.errorSources;
+  }
+
+  // handle duplicate key error
+  if (error.code === 11000) {
+    const simplifiedError = handleDuplicateKeyError(error);
     message = simplifiedError.message;
     statusCode = simplifiedError.statusCode;
     errorSources = simplifiedError.errorSources;
