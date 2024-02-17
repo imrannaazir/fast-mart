@@ -18,6 +18,7 @@ export type TProduct = {
   category: Types.ObjectId;
   operatingSystem?: Types.ObjectId;
   powerSource?: Types.ObjectId;
+  connectivity?: Types.ObjectId;
   features: [Types.ObjectId];
   tags: [Types.ObjectId];
 };

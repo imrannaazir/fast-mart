@@ -15,6 +15,7 @@ export const createProductValidationSchema = z.object({
     category: z.string(),
     powerSource: z.string().optional(),
     operatingSystem: z.string().optional(),
+    connectivity: z.string().optional(),
     features: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
   }),

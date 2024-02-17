@@ -5,6 +5,7 @@ import BrandRoutes from '../modules/brand/brand.route';
 import CategoryRoutes from '../modules/category/category.route';
 import OperatingSystemRoutes from '../modules/OperatingSystem/OperatingSystem.route';
 import PowerSourceRoutes from '../modules/powerSource/powerSource.route';
+import ConnectivityRoutes from '../modules/connectivity/connectivity.route';
 
 const router = Router();
 
@@ -36,6 +37,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/power-source',
     route: PowerSourceRoutes,
+  },
+  {
+    path: '/connectivity',
+    route: ConnectivityRoutes,
   },
 ];
 routerModules.forEach(routerModule => {

@@ -62,6 +62,10 @@ const productSchema = new Schema<TProduct>(
       type: Schema.Types.ObjectId,
       ref: 'powerSource',
     },
+    connectivity: {
+      type: Schema.Types.ObjectId,
+      ref: 'connectivity',
+    },
     features: [
       {
         type: Schema.Types.ObjectId,
