@@ -6,6 +6,7 @@ import CategoryRoutes from '../modules/category/category.route';
 import OperatingSystemRoutes from '../modules/OperatingSystem/OperatingSystem.route';
 import PowerSourceRoutes from '../modules/powerSource/powerSource.route';
 import ConnectivityRoutes from '../modules/connectivity/connectivity.route';
+import TagRoutes from '../modules/tag/tag.route';
 
 const router = Router();
 
@@ -41,6 +42,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/connectivity',
     route: ConnectivityRoutes,
+  },
+  {
+    path: '/tag',
+    route: TagRoutes,
   },
 ];
 routerModules.forEach(routerModule => {
