@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import OperatingSystemService from './OperatingSystem.service';
+import OperatingSystemService from './operatingSystem.service';
 
 // create OperatingSystem
 const createOperatingSystem = catchAsync(async (req, res) => {

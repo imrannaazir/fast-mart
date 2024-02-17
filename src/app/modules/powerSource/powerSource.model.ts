@@ -9,5 +9,5 @@ const powerSourceSchema = new Schema<TPowerSource>({
   },
 });
 
-const PowerSource = model<TPowerSource>('PowerSource', powerSourceSchema);
+const PowerSource = model<TPowerSource>('powerSource', powerSourceSchema);
 export default PowerSource;

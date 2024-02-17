@@ -17,6 +17,6 @@ export const createProductValidationSchema = z.object({
     operatingSystem: z.string().optional(),
     connectivity: z.string().optional(),
     tags: z.array(z.string()).optional(),
-    features: z.array(featureValidationSchema).optional(),
+    features: featureValidationSchema.optional(),
   }),
 });

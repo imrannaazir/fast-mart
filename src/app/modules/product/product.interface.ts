@@ -22,4 +22,5 @@ export type TProduct = {
   connectivity?: Types.ObjectId;
   features?: TFeature[];
   tags?: [Types.ObjectId];
+  createdBy?: Types.ObjectId;
 };

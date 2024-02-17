@@ -11,5 +11,8 @@ router.post(
   validateRequest(createProductValidationSchema),
   ProductController.createProduct,
 );
+
+// get all product : POST
+router.get('/', ProductController.getAllProduct);
 const ProductRoutes = router;
 export default ProductRoutes;

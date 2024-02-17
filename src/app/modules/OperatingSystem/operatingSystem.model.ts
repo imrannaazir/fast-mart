@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TOperatingSystem } from './OperatingSystem.interface';
+import { TOperatingSystem } from './operatingSystem.interface';
 
 const operatingSystemSchema = new Schema<TOperatingSystem>({
   name: {
@@ -10,7 +10,7 @@ const operatingSystemSchema = new Schema<TOperatingSystem>({
 });
 
 const OperatingSystem = model<TOperatingSystem>(
-  'OperatingSystem',
+  'operatingSystem',
   operatingSystemSchema,
 );
 export default OperatingSystem;

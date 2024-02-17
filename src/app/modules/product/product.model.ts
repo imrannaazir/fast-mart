@@ -68,13 +68,20 @@ const productSchema = new Schema<TProduct>(
       type: Schema.Types.ObjectId,
       ref: 'connectivity',
     },
-    features: [featureSchema],
+    features: {
+      type: featureSchema,
+    },
     tags: [
       {
         type: Schema.Types.ObjectId,
         ref: 'tag',
       },
     ],
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   { timestamps: true },
 );

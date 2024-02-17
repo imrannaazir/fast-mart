@@ -3,11 +3,11 @@ import AuthRoutes from '../modules/auth/auth.route';
 import ProductRoutes from '../modules/product/product.route';
 import BrandRoutes from '../modules/brand/brand.route';
 import CategoryRoutes from '../modules/category/category.route';
-import OperatingSystemRoutes from '../modules/OperatingSystem/OperatingSystem.route';
 import PowerSourceRoutes from '../modules/powerSource/powerSource.route';
 import ConnectivityRoutes from '../modules/connectivity/connectivity.route';
 import TagRoutes from '../modules/tag/tag.route';
 import FeatureNameRoutes from '../modules/featureName/featureName.route';
+import OperatingSystemRoutes from '../modules/operatingSystem/operatingSystem.route';
 
 const router = Router();
 

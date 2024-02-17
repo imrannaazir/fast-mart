@@ -1,8 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TOperatingSystem } from './OperatingSystem.interface';
-import OperatingSystem from './OperatingSystem.model';
+import { TOperatingSystem } from './operatingSystem.interface';
+import OperatingSystem from './operatingSystem.model';
 
+// create product
 const createOperatingSystem = async (payload: TOperatingSystem) => {
   // check is already a operating system by provided name
   const isAlreadyOperatingSystemByName = await OperatingSystem.findOne({
@@ -16,7 +17,7 @@ const createOperatingSystem = async (payload: TOperatingSystem) => {
   }
 
   // create
-  const result = await OperatingSystem.create(payload);
+  const result = (await OperatingSystem.create(payload)).populate('brand');
   if (!result) {
     throw new AppError(
       StatusCodes.BAD_REQUEST,

@@ -15,5 +15,5 @@ const brandSchema = new Schema<TBrand>({
   },
 });
 
-const Brand = model<TBrand>('Brand', brandSchema);
+const Brand = model<TBrand>('brand', brandSchema);
 export default Brand;

@@ -9,5 +9,5 @@ const connectivitySchema = new Schema<TConnectivity>({
   },
 });
 
-const Connectivity = model<TConnectivity>('Connectivity', connectivitySchema);
+const Connectivity = model<TConnectivity>('connectivity', connectivitySchema);
 export default Connectivity;

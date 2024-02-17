@@ -9,5 +9,5 @@ const tagSchema = new Schema<TTag>({
   },
 });
 
-const Tag = model<TTag>('Tag', tagSchema);
+const Tag = model<TTag>('tag', tagSchema);
 export default Tag;
