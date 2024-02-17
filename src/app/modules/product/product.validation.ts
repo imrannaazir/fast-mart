@@ -1,5 +1,5 @@
 import { z } from 'zod';
-
+const featureValidationSchema = z.record(z.string());
 export const createProductValidationSchema = z.object({
   body: z.object({
     name: z.string(),
@@ -16,7 +16,7 @@ export const createProductValidationSchema = z.object({
     powerSource: z.string().optional(),
     operatingSystem: z.string().optional(),
     connectivity: z.string().optional(),
-    features: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
+    features: z.array(featureValidationSchema).optional(),
   }),
 });

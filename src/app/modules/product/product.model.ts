@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { TProduct } from './product.interface';
+import { TFeature, TProduct } from './product.interface';
 import { Status } from './product.constant';
+
+const featureSchema = new Schema<TFeature>({}, { _id: false });
 
 const productSchema = new Schema<TProduct>(
   {
@@ -66,12 +68,7 @@ const productSchema = new Schema<TProduct>(
       type: Schema.Types.ObjectId,
       ref: 'connectivity',
     },
-    features: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'feature',
-      },
-    ],
+    features: [featureSchema],
     tags: [
       {
         type: Schema.Types.ObjectId,

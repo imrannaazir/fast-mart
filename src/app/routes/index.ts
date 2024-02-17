@@ -7,6 +7,7 @@ import OperatingSystemRoutes from '../modules/OperatingSystem/OperatingSystem.ro
 import PowerSourceRoutes from '../modules/powerSource/powerSource.route';
 import ConnectivityRoutes from '../modules/connectivity/connectivity.route';
 import TagRoutes from '../modules/tag/tag.route';
+import FeatureNameRoutes from '../modules/featureName/featureName.route';
 
 const router = Router();
 
@@ -14,6 +15,7 @@ type TRouteModule = {
   path: string;
   route: Router;
 };
+
 const routerModules: TRouteModule[] = [
   {
     path: '/auth',
@@ -47,7 +49,12 @@ const routerModules: TRouteModule[] = [
     path: '/tag',
     route: TagRoutes,
   },
+  {
+    path: '/feature-name',
+    route: FeatureNameRoutes,
+  },
 ];
+
 routerModules.forEach(routerModule => {
   router.use(routerModule.path, routerModule.route);
 });
