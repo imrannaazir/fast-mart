@@ -1,5 +1,10 @@
-import { Button } from "./components/ui/button";
+import MainLayout from "./components/layout/MainLayout";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 export default function App() {
-  return <Button>Click here</Button>;
+  return (
+    <ProtectedRoute>
+      <MainLayout />
+    </ProtectedRoute>
+  );
 }
