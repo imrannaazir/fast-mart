@@ -26,6 +26,7 @@ import {
   CommandItem,
 } from "../ui/command";
 import { CheckIcon } from "lucide-react";
+import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
 
 // Define modules and formats for React Quill
 const modules = {
@@ -61,18 +62,6 @@ const formats = [
   "video",
 ];
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-] as const;
-
 // Define form schema using Zod
 const formSchema = z.object({
   name: z.string().email().min(2, {
@@ -81,15 +70,20 @@ const formSchema = z.object({
   description: z.string().min(10, {
     message: "Description must be at least 4 characters.",
   }),
-  language: z.string(),
+  brand: z.string(),
 });
 
 const AddProductForm = () => {
+  const { data } = useGetAllBrandsQuery(undefined);
+
+  const brands: { _id: string; name: string }[] = data?.data;
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       description: "",
+      brand: "",
     },
   });
 
@@ -153,7 +147,7 @@ const AddProductForm = () => {
           {/* product brand */}
           <FormField
             control={form.control}
-            name="language"
+            name="brand"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Brand</FormLabel>
@@ -169,10 +163,9 @@ const AddProductForm = () => {
                         )}
                       >
                         {field.value
-                          ? languages.find(
-                              (language) => language.value === field.value
-                            )?.label
-                          : "Select language"}
+                          ? brands.find((brand) => brand._id === field.value)
+                              ?.name
+                          : "Select Brand"}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </FormControl>
@@ -180,24 +173,24 @@ const AddProductForm = () => {
                   <PopoverContent className="w-[200px] p-0">
                     <Command>
                       <CommandInput
-                        placeholder="Search framework..."
+                        placeholder="Search brand..."
                         className="h-9"
                       />
-                      <CommandEmpty>No framework found.</CommandEmpty>
+                      <CommandEmpty>No brand found.</CommandEmpty>
                       <CommandGroup>
-                        {languages.map((language) => (
+                        {brands?.map((brand) => (
                           <CommandItem
-                            value={language.label}
-                            key={language.value}
+                            value={brand.name}
+                            key={brand._id}
                             onSelect={() => {
-                              form.setValue("language", language.value);
+                              form.setValue("brand", brand._id);
                             }}
                           >
-                            {language.label}
+                            {brand.name}
                             <CheckIcon
                               className={cn(
                                 "ml-auto h-4 w-4",
-                                language.value === field.value
+                                brand._id === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
