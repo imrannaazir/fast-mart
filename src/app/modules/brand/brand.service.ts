@@ -22,7 +22,18 @@ const createBrand = async (payload: TBrand) => {
   return result;
 };
 
+const getAllBrands = async () => {
+  const result = await Brand.find({});
+
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'No brand founded.');
+  }
+
+  return result;
+};
+
 const BrandService = {
   createBrand,
+  getAllBrands,
 };
 export default BrandService;

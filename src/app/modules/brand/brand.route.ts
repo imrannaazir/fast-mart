@@ -11,5 +11,9 @@ router.post(
   validateRequest(createBrandValidationSchema),
   BrandController.createBrand,
 );
+
+// get all brand : GET
+router.get('/', BrandController.getAllBrands);
+
 const BrandRoutes = router;
 export default BrandRoutes;

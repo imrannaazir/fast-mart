@@ -3,6 +3,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import BrandService from './brand.service';
 
+// create brand
 const createBrand = catchAsync(async (req, res) => {
   const result = await BrandService.createBrand(req.body);
 
@@ -14,8 +15,20 @@ const createBrand = catchAsync(async (req, res) => {
   });
 });
 
+// get all brands
+const getAllBrands = catchAsync(async (req, res) => {
+  const result = await BrandService.getAllBrands();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Brand retrieved successfully.',
+    data: result,
+  });
+});
 const BrandController = {
   createBrand,
+  getAllBrands,
 };
 
 export default BrandController;
