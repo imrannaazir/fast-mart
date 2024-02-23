@@ -11,5 +11,8 @@ router.post(
   validateRequest(createCategoryValidationSchema),
   CategoryController.createCategory,
 );
+
+// get all categories
+router.get('/', CategoryController.getAllCategory);
 const CategoryRoutes = router;
 export default CategoryRoutes;

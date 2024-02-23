@@ -3,6 +3,7 @@ import AppError from '../../errors/AppError';
 import { TCategory } from './category.interface';
 import Category from './category.model';
 
+// create category
 const createCategory = async (payload: TCategory) => {
   // check is already a category by provided name
   const isAlreadyCategoryByName = await Category.findOne({
@@ -24,8 +25,19 @@ const createCategory = async (payload: TCategory) => {
   return result;
 };
 
+// get all category
+const getAllCategory = async () => {
+  const result = Category.find({});
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Categories not founded.');
+  }
+
+  return result;
+};
+
 const CategoryService = {
   createCategory,
+  getAllCategory,
 };
 
 export default CategoryService;
