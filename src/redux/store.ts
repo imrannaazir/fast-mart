@@ -12,6 +12,7 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import modalSlice from "./features/modal/modalSlice";
 
 const persistConfig = {
   key: "auth",
@@ -23,6 +24,7 @@ const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
+    modal: modalSlice,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({
