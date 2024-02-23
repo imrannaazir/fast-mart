@@ -8,6 +8,7 @@ export const addProductFormSchema = z.object({
     message: "Description must be at least 4 characters.",
   }),
   brand: z.string(),
+  category: z.string(),
 });
 
 export type TProductFormValues = z.infer<typeof addProductFormSchema>;

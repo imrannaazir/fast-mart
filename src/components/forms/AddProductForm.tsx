@@ -25,13 +25,21 @@ import {
   TProductFormValues,
   addProductFormSchema,
 } from "./ZodValidationSchema";
+import {
+  useCreateCategoryMutation,
+  useGetAllCategoriesQuery,
+} from "@/redux/features/category/categoryApi";
 
+type TCollections = { _id: string; name: string }[];
 const AddProductForm = () => {
   const { data } = useGetAllBrandsQuery(undefined);
-
   const [createBrand] = useCreateBrandMutation();
 
-  const brands: { _id: string; name: string }[] = data?.data;
+  const { data: categoryData } = useGetAllCategoriesQuery(undefined);
+  const [createCategory] = useCreateCategoryMutation();
+
+  const brands: TCollections = data?.data;
+  const categories: TCollections = categoryData?.data;
 
   const form = useForm<TProductFormValues>({
     resolver: zodResolver(addProductFormSchema),
@@ -40,7 +48,6 @@ const AddProductForm = () => {
       description: "",
       brand: "",
     },
-    shouldUnregister: false,
   });
 
   // Define submit handler
@@ -87,25 +94,47 @@ const AddProductForm = () => {
             )}
           />
 
-          {/* product brand */}
-          <FormField
-            control={form.control}
-            name="brand"
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Brand</FormLabel>
-                <SelectOrCreate
-                  field={field}
-                  form={form}
-                  collections={brands}
-                  collectionName="brand"
-                  createCollection={createBrand}
-                />
+          <div className=" flex mt-4 gap-4">
+            {/* product brand */}
+            <FormField
+              control={form.control}
+              name="brand"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Brand</FormLabel>
+                  <SelectOrCreate
+                    field={field}
+                    form={form}
+                    collections={brands}
+                    collectionName="brand"
+                    createCollection={createBrand}
+                  />
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* product category */}
+            <FormField
+              control={form.control}
+              name="category"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Category</FormLabel>
+                  <SelectOrCreate
+                    field={field}
+                    form={form}
+                    collections={categories}
+                    collectionName="category"
+                    createCollection={createCategory}
+                  />
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </section>
         <Button type="submit">Save</Button>
       </form>
