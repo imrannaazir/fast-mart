@@ -30,6 +30,18 @@ import {
   useCreateCategoryMutation,
   useGetAllCategoriesQuery,
 } from "@/redux/features/category/categoryApi";
+import {
+  useCreateConnectivityMutation,
+  useGetAllConnectivityQuery,
+} from "@/redux/features/connectivity/connectivityApi";
+import {
+  useCreatePowerSourcesMutation,
+  useGetAllPowerSourcesQuery,
+} from "@/redux/features/powerSource/powerSourceApi";
+import {
+  useCreateOperatingSystemsMutation,
+  useGetAllOperatingSystemsQuery,
+} from "@/redux/features/operatingSystem/operatingSystemApi";
 
 type TCollections = { _id: string; name: string }[];
 const AddProductForm = () => {
@@ -39,8 +51,21 @@ const AddProductForm = () => {
   const { data: categoryData } = useGetAllCategoriesQuery(undefined);
   const [createCategory] = useCreateCategoryMutation();
 
+  const { data: connectivityData } = useGetAllConnectivityQuery(undefined);
+  const [createConnectivity] = useCreateConnectivityMutation();
+
+  const { data: powerSourceData } = useGetAllPowerSourcesQuery(undefined);
+  const [createPowerSource] = useCreatePowerSourcesMutation();
+
+  const { data: operatingSystemData } =
+    useGetAllOperatingSystemsQuery(undefined);
+  const [createOperatingSystem] = useCreateOperatingSystemsMutation();
+
   const brands: TCollections = data?.data;
   const categories: TCollections = categoryData?.data;
+  const connectivity: TCollections = connectivityData?.data;
+  const powerSources: TCollections = powerSourceData?.data;
+  const operatingSystems: TCollections = operatingSystemData?.data;
 
   const form = useForm<TProductFormValues>({
     resolver: zodResolver(addProductFormSchema),
@@ -251,7 +276,7 @@ const AddProductForm = () => {
                 )}
               />
 
-              <div className=" flex  gap-2 mt-2">
+              <div className=" flex  gap-2 mt-4">
                 {/* product operatingSystem */}
                 <FormField
                   control={form.control}
@@ -262,9 +287,9 @@ const AddProductForm = () => {
                       <SelectOrCreate
                         field={field}
                         form={form}
-                        collections={brands}
+                        collections={operatingSystems}
                         collectionName="operatingSystem"
-                        createCollection={createBrand}
+                        createCollection={createOperatingSystem}
                       />
 
                       <FormMessage />
@@ -272,7 +297,7 @@ const AddProductForm = () => {
                   )}
                 />
 
-                {/* product category */}
+                {/* product Power source */}
                 <FormField
                   control={form.control}
                   name="powerSource"
@@ -282,9 +307,9 @@ const AddProductForm = () => {
                       <SelectOrCreate
                         field={field}
                         form={form}
-                        collections={categories}
+                        collections={powerSources}
                         collectionName="powerSource"
-                        createCollection={createCategory}
+                        createCollection={createPowerSource}
                       />
 
                       <FormMessage />
@@ -292,6 +317,26 @@ const AddProductForm = () => {
                   )}
                 />
               </div>
+
+              {/* connectivity */}
+              <FormField
+                control={form.control}
+                name="connectivity"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col mt-4">
+                    <FormLabel>Connectivity</FormLabel>
+                    <SelectOrCreate
+                      field={field}
+                      form={form}
+                      collections={connectivity}
+                      collectionName="connectivity"
+                      createCollection={createConnectivity}
+                    />
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </section>
         </div>
