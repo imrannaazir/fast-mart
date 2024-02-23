@@ -9,6 +9,14 @@ export const addProductFormSchema = z.object({
   }),
   brand: z.string(),
   category: z.string(),
+  price: z.number().gt(0),
+  quantity: z.number().gte(0),
+  weight: z.number().gt(0),
+  unit: z.string(),
+  dimensions: z.string(),
+  operatingSystem: z.string(),
+  powerSource: z.string(),
+  connectivity: z.string(),
 });
 
 export type TProductFormValues = z.infer<typeof addProductFormSchema>;
