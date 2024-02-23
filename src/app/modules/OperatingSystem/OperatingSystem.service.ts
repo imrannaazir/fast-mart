@@ -3,7 +3,7 @@ import AppError from '../../errors/AppError';
 import { TOperatingSystem } from './operatingSystem.interface';
 import OperatingSystem from './operatingSystem.model';
 
-// create product
+// create Operating system
 const createOperatingSystem = async (payload: TOperatingSystem) => {
   // check is already a operating system by provided name
   const isAlreadyOperatingSystemByName = await OperatingSystem.findOne({
@@ -28,8 +28,19 @@ const createOperatingSystem = async (payload: TOperatingSystem) => {
   return result;
 };
 
+// get all Operating system
+const getAllOperatingSystem = async () => {
+  const result = OperatingSystem.find({});
+  if (!result) {
+    throw new AppError(StatusCodes.OK, 'Operating system not founded.');
+  }
+
+  return result;
+};
+
 const OperatingSystemService = {
   createOperatingSystem,
+  getAllOperatingSystem,
 };
 
 export default OperatingSystemService;

@@ -27,8 +27,18 @@ const createPowerSource = async (payload: TPowerSource) => {
   return result;
 };
 
+const getAllPowerSource = async () => {
+  const result = await PowerSource.find({});
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Power source not founded.');
+  }
+
+  return result;
+};
+
 const PowerSourceService = {
   createPowerSource,
+  getAllPowerSource,
 };
 
 export default PowerSourceService;

@@ -15,8 +15,20 @@ const createPowerSource = catchAsync(async (req, res) => {
   });
 });
 
+// get all power source
+const getAllPowerSource = catchAsync(async (req, res) => {
+  const result = await PowerSourceService.getAllPowerSource();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Power source retrieved successfully.',
+    data: result,
+  });
+});
+
 const PowerSourceController = {
   createPowerSource,
+  getAllPowerSource,
 };
 
 export default PowerSourceController;

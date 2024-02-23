@@ -15,8 +15,20 @@ const createOperatingSystem = catchAsync(async (req, res) => {
   });
 });
 
+// get all operating system
+const getAllOperatingSystem = catchAsync(async (req, res) => {
+  const result = await OperatingSystemService.getAllOperatingSystem();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Operating system retrieved successfully.',
+    data: result,
+  });
+});
+
 const OperatingSystemController = {
   createOperatingSystem,
+  getAllOperatingSystem,
 };
 
 export default OperatingSystemController;

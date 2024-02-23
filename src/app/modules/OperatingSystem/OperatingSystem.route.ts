@@ -11,5 +11,8 @@ router.post(
   validateRequest(createOperatingSystemValidationSchema),
   OperatingSystemController.createOperatingSystem,
 );
+
+// create Operating system : GET
+router.get('/', OperatingSystemController.getAllOperatingSystem);
 const OperatingSystemRoutes = router;
 export default OperatingSystemRoutes;

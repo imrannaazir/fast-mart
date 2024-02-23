@@ -11,5 +11,8 @@ router.post(
   validateRequest(createPowerSourceValidationSchema),
   PowerSourceController.createPowerSource,
 );
+
+// get all power source : GET
+router.get('/', PowerSourceController.getAllPowerSource);
 const PowerSourceRoutes = router;
 export default PowerSourceRoutes;

@@ -4,6 +4,7 @@ import PowerSource from './connectivity.model';
 import { TConnectivity } from './connectivity.interface';
 import Connectivity from './connectivity.model';
 
+// create connectivity
 const createConnectivity = async (payload: TConnectivity) => {
   // check is already a PowerSource by provided name
   const isAlreadyConnectivityByName = await PowerSource.findOne({
@@ -28,8 +29,18 @@ const createConnectivity = async (payload: TConnectivity) => {
   return result;
 };
 
+// get all connectivity
+const getAllConnectivity = async () => {
+  const result = await Connectivity.find({});
+  if (!result) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'No connectivity founded.');
+  }
+  return result;
+};
+
 const ConnectivityService = {
   createConnectivity,
+  getAllConnectivity,
 };
 
 export default ConnectivityService;
