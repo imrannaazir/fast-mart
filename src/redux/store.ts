@@ -13,6 +13,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import modalSlice from "./features/modal/modalSlice";
+import tagSlice from "./features/tag/tagSlice";
 
 const persistConfig = {
   key: "auth",
@@ -25,6 +26,7 @@ const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
     modal: modalSlice,
+    tags: tagSlice,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

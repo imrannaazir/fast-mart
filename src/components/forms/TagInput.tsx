@@ -32,6 +32,7 @@ import {
   selectIsOpen,
 } from "@/redux/features/modal/modalSlice";
 import { ClassValue } from "clsx";
+import { assignTag } from "@/redux/features/tag/tagSlice";
 
 type TSelectOrCreateProps = {
   collections: { name: string; _id: string }[];
@@ -59,7 +60,7 @@ type TSelectOrCreateProps = {
   >;
 };
 
-const SelectOrCreate: FC<TSelectOrCreateProps> = ({
+const TagInput: FC<TSelectOrCreateProps> = ({
   collections,
   field,
   form,
@@ -83,11 +84,7 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
                 !field.value && "text-muted-foreground"
               )}
             >
-              {field.value
-                ? collections?.find(
-                    (collection) => collection._id === field.value
-                  )?.name
-                : `Select ${collectionName}`}
+              Select {collectionName}
               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </FormControl>
@@ -115,7 +112,13 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
                   value={collection.name}
                   key={collection._id}
                   onSelect={() => {
-                    form.setValue(collectionName, collection._id);
+                    const tagValues = form?.getValues("tags");
+
+                    form.setValue(collectionName, [
+                      ...tagValues,
+                      collection._id,
+                    ]);
+                    dispatch(assignTag(collection));
                   }}
                 >
                   {collection.name}
@@ -151,4 +154,4 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
   );
 };
 
-export default SelectOrCreate;
+export default TagInput;

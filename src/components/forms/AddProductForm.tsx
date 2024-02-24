@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -42,9 +43,27 @@ import {
   useCreateOperatingSystemsMutation,
   useGetAllOperatingSystemsQuery,
 } from "@/redux/features/operatingSystem/operatingSystemApi";
+import {
+  useCreateTagMutation,
+  useGetAllTagQuery,
+} from "@/redux/features/tag/tagApi";
+import TagInput from "./TagInput";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  getAllTags,
+  removeTag,
+  selectSelectedTags,
+  selectTags,
+} from "@/redux/features/tag/tagSlice";
+import { X } from "lucide-react";
+import { useEffect } from "react";
 
 type TCollections = { _id: string; name: string }[];
 const AddProductForm = () => {
+  const dispatch = useAppDispatch();
+  const selectedTags = useAppSelector(selectSelectedTags);
+  const allTags = useAppSelector(selectTags);
+
   const { data } = useGetAllBrandsQuery(undefined);
   const [createBrand] = useCreateBrandMutation();
 
@@ -61,18 +80,36 @@ const AddProductForm = () => {
     useGetAllOperatingSystemsQuery(undefined);
   const [createOperatingSystem] = useCreateOperatingSystemsMutation();
 
+  const { data: tagData } = useGetAllTagQuery(undefined);
+  const [createTag] = useCreateTagMutation();
+
   const brands: TCollections = data?.data;
   const categories: TCollections = categoryData?.data;
   const connectivity: TCollections = connectivityData?.data;
   const powerSources: TCollections = powerSourceData?.data;
   const operatingSystems: TCollections = operatingSystemData?.data;
+  const tags: TCollections = tagData?.data as TCollections;
+
+  useEffect(() => {
+    dispatch(getAllTags({ tags, selectedTags }));
+  }, [tags]);
 
   const form = useForm<TProductFormValues>({
     resolver: zodResolver(addProductFormSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      brand: "",
+      name: "hello world",
+      description: "hello world",
+      brand: "hello world",
+      tags: [],
+      category: "hello world",
+      connectivity: "hello world",
+      dimensions: "hello world",
+      operatingSystem: "hello world",
+      powerSource: "hello world",
+      price: "hello world",
+      quantity: "hello world",
+      unit: "hello world",
+      weight: "hello world",
     },
   });
 
@@ -331,6 +368,56 @@ const AddProductForm = () => {
                       collections={connectivity}
                       collectionName="connectivity"
                       createCollection={createConnectivity}
+                    />
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* tags */}
+            <div className=" border p-4 rounded-md mt-6">
+              <h3 className="text-xl mb-6">Related Tags</h3>
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    {selectedTags.length === 0 && <FormLabel>Tags</FormLabel>}
+                    <div className="flex gap-2">
+                      {selectTags.length !== 0 &&
+                        selectedTags?.map((tag) => (
+                          <Button
+                            key={tag._id}
+                            size={"sm"}
+                            variant={"secondary"}
+                            type="button"
+                            className="flex items-center gap-2 "
+                          >
+                            {tag.name}
+
+                            <X
+                              onClick={() => {
+                                const tagValues = form.getValues("tags");
+                                const newTagValue = tagValues.filter(
+                                  (tagVal) => tagVal !== tag._id
+                                );
+                                form.setValue("tags", newTagValue);
+                                dispatch(removeTag(tag));
+                              }}
+                              size={14}
+                            />
+                          </Button>
+                        ))}
+                    </div>
+                    <TagInput
+                      className="w-auto"
+                      field={field}
+                      form={form}
+                      collections={allTags}
+                      collectionName="tags"
+                      createCollection={createTag}
                     />
 
                     <FormMessage />

@@ -2,7 +2,7 @@ import AddProductForm from "@/components/forms/AddProductForm";
 
 const AddProductPage = () => {
   return (
-    <section>
+    <section className="pb-6">
       <AddProductForm />
     </section>
   );

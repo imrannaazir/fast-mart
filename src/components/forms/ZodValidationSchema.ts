@@ -1,12 +1,8 @@
 import { z } from "zod";
 
 export const addProductFormSchema = z.object({
-  name: z.string().email().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  description: z.string().min(10, {
-    message: "Description must be at least 4 characters.",
-  }),
+  name: z.string(),
+  description: z.string(),
   brand: z.string(),
   category: z.string(),
   price: z.string(),
@@ -17,6 +13,7 @@ export const addProductFormSchema = z.object({
   operatingSystem: z.string(),
   powerSource: z.string(),
   connectivity: z.string(),
+  tags: z.array(z.string()),
 });
 
 export type TProductFormValues = z.infer<typeof addProductFormSchema>;

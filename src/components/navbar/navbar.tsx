@@ -8,33 +8,39 @@ const Navbar = () => {
     <div
       className=" 
   sticky
-  top-4
+  top-0
   z-50
-  border
-  rounded-md
-  bg-background
+  
+  
+  
   "
     >
-      <div
-        className="
-    flex
-    h-16
-    items-center
-    px-4
-    "
-      >
-        {/* logo */}
-        {/* <MainNav className="mx-4" /> */}
+      <div className=" px-4  pt-6 backdrop-blur-md">
         <div
           className="
+          border
+          bg-background
+          rounded-md
+          flex
+          h-16
+          items-center
+          px-4
+    
+    "
+        >
+          {/* logo */}
+          {/* <MainNav className="mx-4" /> */}
+          <div
+            className="
           ml-auto
           flex
           items-center
           space-x-4"
-        >
-          <Button variant="outline" onClick={() => dispatch(logOut())}>
-            Logout
-          </Button>
+          >
+            <Button variant="outline" onClick={() => dispatch(logOut())}>
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
     </div>

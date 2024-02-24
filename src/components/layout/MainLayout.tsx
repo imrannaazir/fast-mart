@@ -7,9 +7,9 @@ const MainLayout = () => {
     <>
       <div className="flex flex-row">
         <LeftSidebar />
-        <div className="flex-grow px-4  ">
+        <div className="flex-grow ">
           <Navbar />
-          <div className=" pt-6">
+          <div className=" pt-6 px-4">
             <Outlet />
           </div>
         </div>

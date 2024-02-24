@@ -54,7 +54,6 @@ const LoginForm = () => {
 
     try {
       const response = await login(values).unwrap();
-      console.log(response);
       if (response?.data?.accessToken) {
         toast.success("Logged in.", {
           id: toastId,

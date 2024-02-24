@@ -14,6 +14,7 @@ import {
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 import { toast } from "sonner";
+import { assignTag } from "@/redux/features/tag/tagSlice";
 
 type CreateCollectionFormProps = {
   collectionName: string;
@@ -54,7 +55,15 @@ const CreateCollectionForm: FC<CreateCollectionFormProps> = ({
       });
       const response = await createCollection({ name }).unwrap();
       if (response?.data) {
-        form.setValue(collectionName, response?.data?._id);
+        if (collectionName !== "tags") {
+          form.setValue(collectionName, response?.data?._id);
+        } else {
+          const tagValue = form.getValues("tags");
+          const newTagValue = [...tagValue, response?.data?._id];
+
+          form.setValue("tags", newTagValue);
+          dispatch(assignTag(response?.data));
+        }
         toast.success(`${collectionName} created successfully.`, {
           id: toastId,
         });
