@@ -9,8 +9,6 @@ export type TProduct = {
   brand: Types.ObjectId;
   category: Types.ObjectId;
 
-  features?: TFeature[];
-
   price: number;
   quantity: number;
   weight?: number;
@@ -21,6 +19,8 @@ export type TProduct = {
   operatingSystem?: Types.ObjectId;
   powerSource?: Types.ObjectId;
   connectivity?: Types.ObjectId;
+
+  features?: TFeature[];
   tags?: [Types.ObjectId];
 
   image?: string;

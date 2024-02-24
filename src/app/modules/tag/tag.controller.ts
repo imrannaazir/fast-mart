@@ -15,8 +15,19 @@ const createTag = catchAsync(async (req, res) => {
   });
 });
 
+// get all tags
+const getAllTags = catchAsync(async (req, res) => {
+  const result = await TagService.getAllTags();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Tags retrieved successfully.',
+    data: result,
+  });
+});
 const TagController = {
   createTag,
+  getAllTags,
 };
 
 export default TagController;

@@ -11,5 +11,8 @@ router.post(
   validateRequest(createTagValidationSchema),
   TagController.createTag,
 );
+
+// get all Tags : GET
+router.get('/', TagController.getAllTags);
 const TagRoutes = router;
 export default TagRoutes;
