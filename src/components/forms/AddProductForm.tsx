@@ -55,7 +55,7 @@ import {
   selectSelectedTags,
   selectTags,
 } from "@/redux/features/tag/tagSlice";
-import { X } from "lucide-react";
+import { Trash, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   useCreateFeatureNameMutation,
@@ -171,9 +171,12 @@ const AddProductForm = () => {
     console.log(values);
   }
 
+  //submitted features
+  const submittedFeatures = form.watch("features");
+
   // handle add new feature
   const handleAddFeature = () => {
-    const allFeatures = { ...form.watch("features") };
+    const allFeatures = { ...submittedFeatures };
     const featureName = form.getValues("featureName");
     if (featureName && featureValue) {
       allFeatures[featureName] = featureValue;
@@ -182,6 +185,43 @@ const AddProductForm = () => {
     form.setValue("featureName", "");
     setFeatureValue("");
   };
+
+  // features content to render
+  let featuresContent = null;
+
+  featuresContent = Object.entries(submittedFeatures)?.map(([key, value]) => {
+    const featureName = featuresNames?.find(
+      (featureName) => featureName._id === key
+    );
+
+    const handleDeleteFeature = () => {
+      delete submittedFeatures[key];
+
+      form.setValue("features", submittedFeatures);
+    };
+    return (
+      <div className="flex gap-4" key={value}>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor={key}>Feature</Label>
+          <Input disabled type="text" id={key} value={featureName?.name} />
+        </div>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label htmlFor="email">Value</Label>
+          <Input disabled type="text" id={value} value={value} />
+        </div>
+
+        <Button
+          type="button"
+          onClick={handleDeleteFeature}
+          className="mt-[22px]"
+          variant={"destructive"}
+          size={"sm"}
+        >
+          <Trash size={14} />
+        </Button>
+      </div>
+    );
+  });
 
   return (
     <>
@@ -288,6 +328,8 @@ const AddProductForm = () => {
               {/* Product features */}
               <section className="border p-4 rounded-md mt-6">
                 <h3 className="text-xl mb-6">Product Features</h3>
+                {/* all features   */}
+                <div>{featuresContent}</div>
 
                 <div className="flex items-center gap-4">
                   {/* Add product feature*/}
