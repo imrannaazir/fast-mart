@@ -11,5 +11,8 @@ router.post(
   validateRequest(createFeatureNameValidationSchema),
   FeatureNameController.createFeatureName,
 );
+
+// get all feature name : GET
+router.get('/', FeatureNameController.getAllFeatureNames);
 const FeatureNameRoutes = router;
 export default FeatureNameRoutes;
