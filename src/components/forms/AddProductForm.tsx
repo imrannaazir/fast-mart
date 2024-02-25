@@ -56,13 +56,30 @@ import {
   selectTags,
 } from "@/redux/features/tag/tagSlice";
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  useCreateFeatureNameMutation,
+  useGetAllFeatureNamesQuery,
+} from "@/redux/features/featureName/featureNameApi";
+import { Label } from "../ui/label";
+import Modal from "../ui/modal";
+import {
+  onClose,
+  selectCollectionName,
+  selectIsOpen,
+} from "@/redux/features/modal/modalSlice";
+import CreateCollectionForm from "./CreateCollectionForm";
+import { TCreateCollection } from "@/types/rtkQuery.type";
 
 type TCollections = { _id: string; name: string }[];
 const AddProductForm = () => {
+  const [featureValue, setFeatureValue] = useState("");
+
   const dispatch = useAppDispatch();
   const selectedTags = useAppSelector(selectSelectedTags);
+  const isOpen = useAppSelector(selectIsOpen);
   const allTags = useAppSelector(selectTags);
+  const selectedCollectionName = useAppSelector(selectCollectionName);
 
   const { data } = useGetAllBrandsQuery(undefined);
   const [createBrand] = useCreateBrandMutation();
@@ -83,17 +100,50 @@ const AddProductForm = () => {
   const { data: tagData } = useGetAllTagQuery(undefined);
   const [createTag] = useCreateTagMutation();
 
+  const { data: featuresNamesData } = useGetAllFeatureNamesQuery(undefined);
+  const [createFeatureName] = useCreateFeatureNameMutation();
+
   const brands: TCollections = data?.data;
   const categories: TCollections = categoryData?.data;
   const connectivity: TCollections = connectivityData?.data;
   const powerSources: TCollections = powerSourceData?.data;
   const operatingSystems: TCollections = operatingSystemData?.data;
-  const tags: TCollections = tagData?.data as TCollections;
+  const tags: TCollections = tagData?.data;
+  const featuresNames: TCollections = featuresNamesData?.data;
 
+  // save all tags in the redux store
   useEffect(() => {
     dispatch(getAllTags({ tags, selectedTags }));
   }, [tags]);
 
+  let createCollection: TCreateCollection | null;
+  switch (selectedCollectionName) {
+    case "brand":
+      createCollection = createBrand;
+      break;
+    case "category":
+      createCollection = createCategory;
+      break;
+    case "connectivity":
+      createCollection = createConnectivity;
+      break;
+    case "powerSource":
+      createCollection = createPowerSource;
+      break;
+    case "operatingSystem":
+      createCollection = createOperatingSystem;
+      break;
+    case "tags":
+      createCollection = createTag;
+      break;
+    case "featureName":
+      createCollection = createFeatureName;
+      break;
+
+    default:
+      createCollection = null;
+      break;
+  }
   const form = useForm<TProductFormValues>({
     resolver: zodResolver(addProductFormSchema),
     defaultValues: {
@@ -110,7 +160,10 @@ const AddProductForm = () => {
       quantity: "hello world",
       unit: "hello world",
       weight: "hello world",
+      features: {},
+      featureName: "",
     },
+    mode: "onChange",
   });
 
   // Define submit handler
@@ -118,156 +171,204 @@ const AddProductForm = () => {
     console.log(values);
   }
 
+  // handle add new feature
+  const handleAddFeature = () => {
+    const allFeatures = { ...form.watch("features") };
+    const featureName = form.getValues("featureName");
+    if (featureName && featureValue) {
+      allFeatures[featureName] = featureValue;
+    }
+    form.setValue("features", allFeatures);
+    form.setValue("featureName", "");
+    setFeatureValue("");
+  };
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl flex items-center gap-2 my-4">
-            <FaArrowLeftLong size="15" />
-            Add Product
-          </h1>
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="flex justify-between items-center">
+            <h1 className="text-xl flex items-center gap-2 my-4">
+              <FaArrowLeftLong size="15" />
+              Add Product
+            </h1>
 
-          <Button type="submit">Publish</Button>
-        </div>
+            <Button type="submit">Publish</Button>
+          </div>
 
-        {/*  */}
-        <div className=" flex gap-6">
-          <section className="border p-4 rounded-md w-[65%]">
-            <h3 className="text-xl mb-6">Product Information</h3>
-            {/* product name */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter product title." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* product description */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <ReactQuill
-                      style={{ height: "100px" }}
-                      modules={modules}
-                      formats={formats}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className=" flex mt-16 gap-4">
-              {/* product brand */}
-              <FormField
-                control={form.control}
-                name="brand"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Brand</FormLabel>
-                    <SelectOrCreate
-                      field={field}
-                      form={form}
-                      collections={brands}
-                      collectionName="brand"
-                      createCollection={createBrand}
-                    />
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* product category */}
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <FormLabel>Category</FormLabel>
-                    <SelectOrCreate
-                      field={field}
-                      form={form}
-                      collections={categories}
-                      collectionName="category"
-                      createCollection={createCategory}
-                    />
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
-
-          {/* right side */}
-          <section className=" w-auto flex-grow">
-            <div className=" border p-4 rounded-md">
-              <h3 className="text-xl mb-6">Inventory</h3>
-              {/* product Quantity */}
-              <FormField
-                control={form.control}
-                name="quantity"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Quantity</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={0}
-                        placeholder="Enter product quantity."
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* product price */}
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min={1}
-                        placeholder="Enter product price."
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex gap-4">
-                {/* product weight */}
+          {/*  */}
+          <div className=" flex gap-6">
+            <div className="w-[65%]">
+              {/* product information */}
+              <section className="border p-4 rounded-md  ">
+                <h3 className="text-xl mb-6">Product Information</h3>
+                {/* product name */}
                 <FormField
                   control={form.control}
-                  name="weight"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Weight</FormLabel>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter product title." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* product description */}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <ReactQuill
+                          style={{ height: "100px" }}
+                          modules={modules}
+                          formats={formats}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className=" flex mt-16 gap-4">
+                  {/* product brand */}
+                  <FormField
+                    control={form.control}
+                    name="brand"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Brand</FormLabel>
+                        <SelectOrCreate
+                          field={field}
+                          form={form}
+                          collections={brands}
+                          collectionName="brand"
+                          createCollection={createBrand}
+                        />
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* product category */}
+                  <FormField
+                    control={form.control}
+                    name="category"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Category</FormLabel>
+                        <SelectOrCreate
+                          field={field}
+                          form={form}
+                          collections={categories}
+                          collectionName="category"
+                          createCollection={createCategory}
+                        />
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </section>
+
+              {/* Product Media */}
+              <section className="border p-4 rounded-md mt-6">
+                <h3 className="text-xl mb-6">Product Media</h3>
+              </section>
+
+              {/* Product features */}
+              <section className="border p-4 rounded-md mt-6">
+                <h3 className="text-xl mb-6">Product Features</h3>
+
+                <div className="flex items-center gap-4">
+                  {/* Add product feature*/}
+                  <FormField
+                    control={form.control}
+                    name="featureName"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Features name</FormLabel>
+                        <SelectOrCreate
+                          field={field}
+                          form={form}
+                          collections={featuresNames}
+                          collectionName="featureName"
+                          createCollection={createFeatureName}
+                        />
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label htmlFor="featureValue">Feature value</Label>
+                    <Input
+                      value={featureValue}
+                      type="text"
+                      id="featureName"
+                      placeholder="Enter value"
+                      disabled={form.watch("featureName") === ""}
+                      onChange={(e) => setFeatureValue(e.target.value)}
+                    />
+                  </div>
+                  <Button
+                    onClick={handleAddFeature}
+                    disabled={
+                      form.watch("featureName") === "" || featureValue === ""
+                    }
+                    type="button"
+                    className="mt-[22px]"
+                  >
+                    Add
+                  </Button>
+                </div>
+              </section>
+            </div>
+
+            {/* right side */}
+            <section className=" w-auto flex-grow">
+              <div className=" border p-4 rounded-md">
+                <h3 className="text-xl mb-6">Inventory</h3>
+                {/* product Quantity */}
+                <FormField
+                  control={form.control}
+                  name="quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Quantity</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={0}
+                          placeholder="Enter product quantity."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* product price */}
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Price</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
                           min={1}
-                          placeholder="Enter product weight."
+                          placeholder="Enter product price."
                           {...field}
                         />
                       </FormControl>
@@ -275,78 +376,170 @@ const AddProductForm = () => {
                     </FormItem>
                   )}
                 />
-                {/* product weight */}
+
+                <div className="flex gap-4">
+                  {/* product weight */}
+                  <FormField
+                    control={form.control}
+                    name="weight"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Weight</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min={1}
+                            placeholder="Enter product weight."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* product weight */}
+                  <FormField
+                    control={form.control}
+                    name="unit"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Unit</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter product weight unit."
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* basic information */}
+              <div className=" border p-4 rounded-md mt-6">
+                <h3 className="text-xl mb-6">Basic Information</h3>
+                {/* product dimensions */}
                 <FormField
                   control={form.control}
-                  name="unit"
+                  name="dimensions"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Unit</FormLabel>
+                      <FormLabel>Dimensions</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="Enter product weight unit."
-                          {...field}
-                        />
+                        <Input placeholder="H x W x D" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-              </div>
-            </div>
 
-            {/* basic information */}
-            <div className=" border p-4 rounded-md mt-6">
-              <h3 className="text-xl mb-6">Basic Information</h3>
-              {/* product dimensions */}
-              <FormField
-                control={form.control}
-                name="dimensions"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Dimensions</FormLabel>
-                    <FormControl>
-                      <Input placeholder="H x W x D" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <div className=" flex  gap-2 mt-4">
+                  {/* product operatingSystem */}
+                  <FormField
+                    control={form.control}
+                    name="operatingSystem"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Operating System</FormLabel>
+                        <SelectOrCreate
+                          field={field}
+                          form={form}
+                          collections={operatingSystems}
+                          collectionName="operatingSystem"
+                          createCollection={createOperatingSystem}
+                        />
 
-              <div className=" flex  gap-2 mt-4">
-                {/* product operatingSystem */}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* product Power source */}
+                  <FormField
+                    control={form.control}
+                    name="powerSource"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>Power Source</FormLabel>
+                        <SelectOrCreate
+                          field={field}
+                          form={form}
+                          collections={powerSources}
+                          collectionName="powerSource"
+                          createCollection={createPowerSource}
+                        />
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* connectivity */}
                 <FormField
                   control={form.control}
-                  name="operatingSystem"
+                  name="connectivity"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Operating System</FormLabel>
+                    <FormItem className="flex flex-col mt-4">
+                      <FormLabel>Connectivity</FormLabel>
                       <SelectOrCreate
                         field={field}
                         form={form}
-                        collections={operatingSystems}
-                        collectionName="operatingSystem"
-                        createCollection={createOperatingSystem}
+                        collections={connectivity}
+                        collectionName="connectivity"
+                        createCollection={createConnectivity}
                       />
 
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+              </div>
 
-                {/* product Power source */}
+              {/* tags */}
+              <div className=" border p-4 rounded-md mt-6">
+                <h3 className="text-xl mb-6">Related Tags</h3>
                 <FormField
                   control={form.control}
-                  name="powerSource"
+                  name="tags"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>Power Source</FormLabel>
-                      <SelectOrCreate
+                      {selectedTags.length === 0 && <FormLabel>Tags</FormLabel>}
+                      <div className="flex gap-2">
+                        {selectTags.length !== 0 &&
+                          selectedTags?.map((tag) => (
+                            <Button
+                              key={tag._id}
+                              size={"sm"}
+                              variant={"secondary"}
+                              type="button"
+                              className="flex items-center gap-2 "
+                            >
+                              {tag.name}
+
+                              <X
+                                onClick={() => {
+                                  const tagValues = form.getValues("tags");
+                                  const newTagValue = tagValues.filter(
+                                    (tagVal) => tagVal !== tag._id
+                                  );
+                                  form.setValue("tags", newTagValue);
+                                  dispatch(removeTag(tag));
+                                }}
+                                size={14}
+                              />
+                            </Button>
+                          ))}
+                      </div>
+                      <TagInput
+                        className="w-auto"
                         field={field}
                         form={form}
-                        collections={powerSources}
-                        collectionName="powerSource"
-                        createCollection={createPowerSource}
+                        collections={allTags}
+                        collectionName="tags"
+                        createCollection={createTag}
                       />
 
                       <FormMessage />
@@ -354,81 +547,24 @@ const AddProductForm = () => {
                   )}
                 />
               </div>
+            </section>
+          </div>
+        </form>
+      </Form>
 
-              {/* connectivity */}
-              <FormField
-                control={form.control}
-                name="connectivity"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col mt-4">
-                    <FormLabel>Connectivity</FormLabel>
-                    <SelectOrCreate
-                      field={field}
-                      form={form}
-                      collections={connectivity}
-                      collectionName="connectivity"
-                      createCollection={createConnectivity}
-                    />
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            {/* tags */}
-            <div className=" border p-4 rounded-md mt-6">
-              <h3 className="text-xl mb-6">Related Tags</h3>
-              <FormField
-                control={form.control}
-                name="tags"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    {selectedTags.length === 0 && <FormLabel>Tags</FormLabel>}
-                    <div className="flex gap-2">
-                      {selectTags.length !== 0 &&
-                        selectedTags?.map((tag) => (
-                          <Button
-                            key={tag._id}
-                            size={"sm"}
-                            variant={"secondary"}
-                            type="button"
-                            className="flex items-center gap-2 "
-                          >
-                            {tag.name}
-
-                            <X
-                              onClick={() => {
-                                const tagValues = form.getValues("tags");
-                                const newTagValue = tagValues.filter(
-                                  (tagVal) => tagVal !== tag._id
-                                );
-                                form.setValue("tags", newTagValue);
-                                dispatch(removeTag(tag));
-                              }}
-                              size={14}
-                            />
-                          </Button>
-                        ))}
-                    </div>
-                    <TagInput
-                      className="w-auto"
-                      field={field}
-                      form={form}
-                      collections={allTags}
-                      collectionName="tags"
-                      createCollection={createTag}
-                    />
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </section>
-        </div>
-      </form>
-    </Form>
+      <Modal
+        title={`Create ${selectedCollectionName}`}
+        description={`Add new ${selectedCollectionName} to add new products.`}
+        isOpen={isOpen}
+        onClose={() => dispatch(onClose())}
+      >
+        <CreateCollectionForm
+          form={form}
+          collectionName={selectedCollectionName}
+          createCollection={createCollection as TCreateCollection}
+        />
+      </Modal>
+    </>
   );
 };
 

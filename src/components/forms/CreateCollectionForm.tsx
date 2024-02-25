@@ -3,40 +3,15 @@ import { FC, useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
-import { MutationTrigger } from "node_modules/@reduxjs/toolkit/dist/query/react/buildHooks";
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  MutationDefinition,
-} from "@reduxjs/toolkit/query";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 import { toast } from "sonner";
 import { assignTag } from "@/redux/features/tag/tagSlice";
+import { TCreateCollection } from "@/types/rtkQuery.type";
 
 type CreateCollectionFormProps = {
   collectionName: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-  createCollection: MutationTrigger<
-    MutationDefinition<
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      any,
-      BaseQueryFn<
-        string | FetchArgs,
-        unknown,
-        FetchBaseQueryError,
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        {},
-        FetchBaseQueryMeta
-      >,
-      never,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      any,
-      "api"
-    >
-  >;
+  createCollection: TCreateCollection;
 
   form: any;
 };
@@ -58,10 +33,10 @@ const CreateCollectionForm: FC<CreateCollectionFormProps> = ({
         if (collectionName !== "tags") {
           form.setValue(collectionName, response?.data?._id);
         } else {
-          const tagValue = form.getValues("tags");
+          const tagValue = form.getValues(collectionName);
           const newTagValue = [...tagValue, response?.data?._id];
 
-          form.setValue("tags", newTagValue);
+          form.setValue(collectionName, newTagValue);
           dispatch(assignTag(response?.data));
         }
         toast.success(`${collectionName} created successfully.`, {

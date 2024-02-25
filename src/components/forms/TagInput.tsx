@@ -15,8 +15,6 @@ import {
 import { CheckIcon, PlusCircle } from "lucide-react";
 import { FC } from "react";
 import { Separator } from "../ui/separator";
-import Modal from "../ui/modal";
-import CreateCollectionForm from "./CreateCollectionForm";
 import { MutationTrigger } from "node_modules/@reduxjs/toolkit/dist/query/react/buildHooks";
 import {
   BaseQueryFn,
@@ -25,12 +23,8 @@ import {
   FetchBaseQueryMeta,
   MutationDefinition,
 } from "@reduxjs/toolkit/query";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import {
-  onClose,
-  onOpen,
-  selectIsOpen,
-} from "@/redux/features/modal/modalSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { onOpen } from "@/redux/features/modal/modalSlice";
 import { ClassValue } from "clsx";
 import { assignTag } from "@/redux/features/tag/tagSlice";
 
@@ -66,10 +60,8 @@ const TagInput: FC<TSelectOrCreateProps> = ({
   form,
   collectionName,
   className = "w-[200px]",
-  createCollection,
 }) => {
   const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(selectIsOpen);
   return (
     <>
       <Popover>
@@ -89,7 +81,7 @@ const TagInput: FC<TSelectOrCreateProps> = ({
             </Button>
           </FormControl>
         </PopoverTrigger>
-        <PopoverContent className={`${className} p-0`}>
+        <PopoverContent className={`${className} p-0 `}>
           <Command>
             <CommandInput
               placeholder={`Search ${collectionName}...`}
@@ -100,7 +92,7 @@ const TagInput: FC<TSelectOrCreateProps> = ({
               {/* add new Collection */}
               <CommandItem
                 onSelect={() => {
-                  dispatch(onOpen());
+                  dispatch(onOpen(collectionName));
                 }}
                 className="flex items-center gap-2"
               >
@@ -136,20 +128,6 @@ const TagInput: FC<TSelectOrCreateProps> = ({
           </Command>
         </PopoverContent>
       </Popover>
-
-      {/* modal */}
-      <Modal
-        title={`Create ${collectionName}`}
-        description={`Add new ${collectionName} to add new products.`}
-        isOpen={isOpen}
-        onClose={() => dispatch(onClose())}
-      >
-        <CreateCollectionForm
-          form={form}
-          collectionName={collectionName}
-          createCollection={createCollection}
-        />
-      </Modal>
     </>
   );
 };

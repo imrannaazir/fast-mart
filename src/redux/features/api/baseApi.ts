@@ -38,6 +38,7 @@ const baseApi = createApi({
     "PowerSources",
     "Connectivity",
     "Tags",
+    "FeatureNames",
   ],
   endpoints: () => ({}),
 });

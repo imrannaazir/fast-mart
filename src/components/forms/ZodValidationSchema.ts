@@ -14,6 +14,8 @@ export const addProductFormSchema = z.object({
   powerSource: z.string(),
   connectivity: z.string(),
   tags: z.array(z.string()),
+  featureName: z.string().optional(),
+  features: z.record(z.string(), z.string()),
 });
 
 export type TProductFormValues = z.infer<typeof addProductFormSchema>;
