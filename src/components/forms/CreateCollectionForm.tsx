@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
@@ -8,6 +8,22 @@ import { onClose } from "@/redux/features/modal/modalSlice";
 import { toast } from "sonner";
 import { assignTag } from "@/redux/features/tag/tagSlice";
 import { TCreateCollection } from "@/types/rtkQuery.type";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { camelCaseToWords } from "@/lib/utils";
+import {
+  keyValidationSchema,
+  nameValidationSchema,
+} from "@/schemas/createCollectionValidation";
 
 type CreateCollectionFormProps = {
   collectionName: string;
@@ -20,24 +36,45 @@ const CreateCollectionForm: FC<CreateCollectionFormProps> = ({
   createCollection,
   form,
 }) => {
-  const [name, setName] = useState("");
   const dispatch = useAppDispatch();
 
-  const handleCreateCollection = async () => {
+  const createCollectionValidationSchema = z.object({
+    name:
+      collectionName === "featureName"
+        ? keyValidationSchema
+        : nameValidationSchema,
+  });
+
+  // form definition
+  const createCollectionForm = useForm<
+    z.infer<typeof createCollectionValidationSchema>
+  >({
+    resolver: zodResolver(createCollectionValidationSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+  const handleCreateCollection = async (
+    data: z.infer<typeof createCollectionValidationSchema>
+  ) => {
+    const { name } = data;
     try {
       const toastId = toast.loading(`Creating ${collectionName}.`, {
         duration: 2000,
       });
       const response = await createCollection({ name }).unwrap();
       if (response?.data) {
-        if (collectionName !== "tags") {
-          form.setValue(collectionName, response?.data?._id);
-        } else {
-          const tagValue = form.getValues(collectionName);
-          const newTagValue = [...tagValue, response?.data?._id];
+        const tagValue = form.getValues(collectionName);
+        const newTagValue = [...tagValue, response?.data?._id];
 
+        // when creating tags
+        if (collectionName === "tags") {
           form.setValue(collectionName, newTagValue);
           dispatch(assignTag(response?.data));
+        }
+        //when creating other data except tag
+        else {
+          form.setValue(collectionName, response?.data?._id);
         }
         toast.success(`${collectionName} created successfully.`, {
           id: toastId,
@@ -54,18 +91,34 @@ const CreateCollectionForm: FC<CreateCollectionFormProps> = ({
 
   return (
     <div className="">
-      <Input
-        onChange={(e) => setName(e.target.value)}
-        type="name"
-        placeholder="name"
-      />
-      <Button
-        onClick={handleCreateCollection}
-        className="mt-4 capitalize    "
-        type="button"
-      >
-        Create {collectionName}
-      </Button>
+      <Form {...createCollectionForm}>
+        <form
+          onSubmit={createCollectionForm.handleSubmit(handleCreateCollection)}
+          className="space-y-8"
+        >
+          <FormField
+            control={createCollectionForm.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="capitalize">
+                  {camelCaseToWords(collectionName)}
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={`Enter ${camelCaseToWords(collectionName)}`}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="capitalize">
+            Create {camelCaseToWords(collectionName)}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 };

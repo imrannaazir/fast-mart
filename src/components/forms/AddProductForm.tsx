@@ -70,6 +70,14 @@ import {
 } from "@/redux/features/modal/modalSlice";
 import CreateCollectionForm from "./CreateCollectionForm";
 import { TCreateCollection } from "@/types/rtkQuery.type";
+import { camelCaseToWords } from "@/lib/utils";
+import {
+  assignFeatureName,
+  getAllFeatureNames,
+  removeFeatureName,
+  selectFeatureNames,
+  selectSelectedFeatureNames,
+} from "@/redux/features/featureName/featureNameSlice";
 
 type TCollections = { _id: string; name: string }[];
 const AddProductForm = () => {
@@ -77,6 +85,8 @@ const AddProductForm = () => {
 
   const dispatch = useAppDispatch();
   const selectedTags = useAppSelector(selectSelectedTags);
+  const allFeatureNames = useAppSelector(selectFeatureNames);
+  const selectedFeatureNames = useAppSelector(selectSelectedFeatureNames);
   const isOpen = useAppSelector(selectIsOpen);
   const allTags = useAppSelector(selectTags);
   const selectedCollectionName = useAppSelector(selectCollectionName);
@@ -109,12 +119,15 @@ const AddProductForm = () => {
   const powerSources: TCollections = powerSourceData?.data;
   const operatingSystems: TCollections = operatingSystemData?.data;
   const tags: TCollections = tagData?.data;
-  const featuresNames: TCollections = featuresNamesData?.data;
+  const featureNames: TCollections = featuresNamesData?.data;
+
+  // console.log({ selectedFeatureNames, featuresNames, allFeatureNames });
 
   // save all tags in the redux store
   useEffect(() => {
     dispatch(getAllTags({ tags, selectedTags }));
-  }, [tags]);
+    dispatch(getAllFeatureNames({ featureNames, selectedFeatureNames }));
+  }, [tags, selectedTags, featureNames, selectedFeatureNames]);
 
   let createCollection: TCreateCollection | null;
   switch (selectedCollectionName) {
@@ -177,9 +190,17 @@ const AddProductForm = () => {
   // handle add new feature
   const handleAddFeature = () => {
     const allFeatures = { ...submittedFeatures };
+
     const featureName = form.getValues("featureName");
     if (featureName && featureValue) {
-      allFeatures[featureName] = featureValue;
+      const selectedFeatureName = featureNames?.find(
+        (featureNameVal) => featureNameVal._id === featureName
+      );
+
+      if (selectedFeatureName) {
+        allFeatures[selectedFeatureName?.name] = featureValue;
+      }
+      dispatch(assignFeatureName(selectedFeatureName));
     }
     form.setValue("features", allFeatures);
     form.setValue("featureName", "");
@@ -190,20 +211,25 @@ const AddProductForm = () => {
   let featuresContent = null;
 
   featuresContent = Object.entries(submittedFeatures)?.map(([key, value]) => {
-    const featureName = featuresNames?.find(
-      (featureName) => featureName._id === key
-    );
-
+    // handle delete feature
     const handleDeleteFeature = () => {
+      const featureNameToDelete = selectedFeatureNames.find(
+        (featureName) => featureName.name === key
+      );
+      dispatch(removeFeatureName(featureNameToDelete));
+
+      console.log(key);
+
       delete submittedFeatures[key];
 
       form.setValue("features", submittedFeatures);
     };
+
     return (
       <div className="flex gap-4" key={value}>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor={key}>Feature</Label>
-          <Input disabled type="text" id={key} value={featureName?.name} />
+          <Input disabled type="text" id={key} value={key} />
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="email">Value</Label>
@@ -329,7 +355,7 @@ const AddProductForm = () => {
               <section className="border p-4 rounded-md mt-6">
                 <h3 className="text-xl mb-6">Product Features</h3>
                 {/* all features   */}
-                <div>{featuresContent}</div>
+                <div className="space-y-4">{featuresContent}</div>
 
                 <div className="flex items-center gap-4">
                   {/* Add product feature*/}
@@ -342,7 +368,7 @@ const AddProductForm = () => {
                         <SelectOrCreate
                           field={field}
                           form={form}
-                          collections={featuresNames}
+                          collections={allFeatureNames}
                           collectionName="featureName"
                           createCollection={createFeatureName}
                         />
@@ -595,8 +621,10 @@ const AddProductForm = () => {
       </Form>
 
       <Modal
-        title={`Create ${selectedCollectionName}`}
-        description={`Add new ${selectedCollectionName} to add new products.`}
+        title={`Create ${camelCaseToWords(selectedCollectionName)}`}
+        description={`Add new ${camelCaseToWords(
+          selectedCollectionName
+        )} to add new products.`}
         isOpen={isOpen}
         onClose={() => dispatch(onClose())}
       >
