@@ -26,7 +26,7 @@ import { formats, modules } from "@/constant/constant";
 import {
   TProductFormValues,
   addProductFormSchema,
-} from "./ZodValidationSchema";
+} from "../../schemas/ZodValidationSchema";
 import {
   useCreateCategoryMutation,
   useGetAllCategoriesQuery,
@@ -50,12 +50,12 @@ import {
 import TagInput from "./TagInput";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
+  clearSelectedTags,
   getAllTags,
   removeTag,
   selectSelectedTags,
   selectTags,
 } from "@/redux/features/tag/tagSlice";
-import { Trash, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   useCreateFeatureNameMutation,
@@ -73,11 +73,16 @@ import { TCreateCollection } from "@/types/rtkQuery.type";
 import { camelCaseToWords } from "@/lib/utils";
 import {
   assignFeatureName,
+  clearSelectedFeatureName,
   getAllFeatureNames,
   removeFeatureName,
   selectFeatureNames,
   selectSelectedFeatureNames,
 } from "@/redux/features/featureName/featureNameSlice";
+import AddedFeature from "./AddedFeature";
+import { X } from "lucide-react";
+import { toast } from "sonner";
+import { useCreateProductMutation } from "@/redux/features/product/productApi";
 
 type TCollections = { _id: string; name: string }[];
 const AddProductForm = () => {
@@ -91,6 +96,10 @@ const AddProductForm = () => {
   const allTags = useAppSelector(selectTags);
   const selectedCollectionName = useAppSelector(selectCollectionName);
 
+  // mutation api hook
+  const [createProduct] = useCreateProductMutation();
+
+  // query api hook
   const { data } = useGetAllBrandsQuery(undefined);
   const [createBrand] = useCreateBrandMutation();
 
@@ -120,8 +129,6 @@ const AddProductForm = () => {
   const operatingSystems: TCollections = operatingSystemData?.data;
   const tags: TCollections = tagData?.data;
   const featureNames: TCollections = featuresNamesData?.data;
-
-  // console.log({ selectedFeatureNames, featuresNames, allFeatureNames });
 
   // save all tags in the redux store
   useEffect(() => {
@@ -160,19 +167,19 @@ const AddProductForm = () => {
   const form = useForm<TProductFormValues>({
     resolver: zodResolver(addProductFormSchema),
     defaultValues: {
-      name: "hello world",
-      description: "hello world",
-      brand: "hello world",
+      name: "",
+      description: "",
+      brand: "",
       tags: [],
-      category: "hello world",
-      connectivity: "hello world",
-      dimensions: "hello world",
-      operatingSystem: "hello world",
-      powerSource: "hello world",
-      price: "hello world",
-      quantity: "hello world",
-      unit: "hello world",
-      weight: "hello world",
+      category: "",
+      connectivity: "",
+      dimensions: "",
+      operatingSystem: "",
+      powerSource: "",
+      price: "",
+      quantity: "",
+      unit: "",
+      weight: "",
       features: {},
       featureName: "",
     },
@@ -180,8 +187,29 @@ const AddProductForm = () => {
   });
 
   // Define submit handler
-  async function onSubmit(values: z.infer<typeof addProductFormSchema>) {
-    console.log(values);
+  async function onSubmit(data: z.infer<typeof addProductFormSchema>) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { featureName, price, quantity, weight, ...productData } = data;
+    const toastId = toast.loading("Creating new product.", {
+      duration: 2000,
+    });
+
+    try {
+      const response = await createProduct({
+        ...productData,
+        price: Number(price),
+        quantity: Number(quantity),
+        weight: Number(weight),
+      }).unwrap();
+      if (response.success) {
+        form.reset();
+        dispatch(clearSelectedFeatureName());
+        dispatch(clearSelectedTags());
+        toast.success("Product created successfully.", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Failed to create product.", { id: toastId });
+    }
   }
 
   //submitted features
@@ -210,44 +238,32 @@ const AddProductForm = () => {
   // features content to render
   let featuresContent = null;
 
-  featuresContent = Object.entries(submittedFeatures)?.map(([key, value]) => {
-    // handle delete feature
-    const handleDeleteFeature = () => {
-      const featureNameToDelete = selectedFeatureNames.find(
-        (featureName) => featureName.name === key
+  featuresContent = Object.entries(submittedFeatures)?.map(
+    ([key, value], index) => {
+      // handle delete feature
+      const handleDeleteFeature = () => {
+        const featureNameToDelete = selectedFeatureNames.find(
+          (featureName) => featureName.name === key
+        );
+        dispatch(removeFeatureName(featureNameToDelete));
+
+        console.log(key);
+
+        delete submittedFeatures[key];
+
+        form.setValue("features", submittedFeatures);
+      };
+
+      return (
+        <AddedFeature
+          key={index}
+          keyName={key}
+          onDelete={handleDeleteFeature}
+          value={value}
+        />
       );
-      dispatch(removeFeatureName(featureNameToDelete));
-
-      console.log(key);
-
-      delete submittedFeatures[key];
-
-      form.setValue("features", submittedFeatures);
-    };
-
-    return (
-      <div className="flex gap-4" key={value}>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor={key}>Feature</Label>
-          <Input disabled type="text" id={key} value={key} />
-        </div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label htmlFor="email">Value</Label>
-          <Input disabled type="text" id={value} value={value} />
-        </div>
-
-        <Button
-          type="button"
-          onClick={handleDeleteFeature}
-          className="mt-[22px]"
-          variant={"destructive"}
-          size={"sm"}
-        >
-          <Trash size={14} />
-        </Button>
-      </div>
-    );
-  });
+    }
+  );
 
   return (
     <>
@@ -364,7 +380,7 @@ const AddProductForm = () => {
                     name="featureName"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Features name</FormLabel>
+                        <FormLabel>Feature name</FormLabel>
                         <SelectOrCreate
                           field={field}
                           form={form}

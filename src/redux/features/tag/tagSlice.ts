@@ -46,10 +46,16 @@ const tagSlice = createSlice({
       state.selectedTags = newSelectedTag;
       state.tags.push(action.payload);
     },
+
+    // clear selected tags
+    clearSelectedTags: (state) => {
+      state.selectedTags = [];
+    },
   },
 });
 
 export default tagSlice.reducer;
-export const { assignTag, removeTag, getAllTags } = tagSlice.actions;
+export const { assignTag, removeTag, getAllTags, clearSelectedTags } =
+  tagSlice.actions;
 export const selectSelectedTags = (state: RootState) => state.tags.selectedTags;
 export const selectTags = (state: RootState) => state.tags.tags;

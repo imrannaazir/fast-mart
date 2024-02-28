@@ -45,20 +45,27 @@ const featureNameSlice = createSlice({
 
     // remove FeatureName
     removeFeatureName: (state, action) => {
-      console.log(action.payload);
-
       const newSelectedFeatureName = state?.selectedFeatureNames.filter(
         (featureName) => featureName._id !== action.payload._id
       );
       state.selectedFeatureNames = newSelectedFeatureName;
       state.featureNames.push(action.payload);
     },
+
+    // clear selected feature names
+    clearSelectedFeatureName: (state) => {
+      state.selectedFeatureNames = [];
+    },
   },
 });
 
 export default featureNameSlice.reducer;
-export const { assignFeatureName, removeFeatureName, getAllFeatureNames } =
-  featureNameSlice.actions;
+export const {
+  assignFeatureName,
+  removeFeatureName,
+  getAllFeatureNames,
+  clearSelectedFeatureName,
+} = featureNameSlice.actions;
 export const selectSelectedFeatureNames = (state: RootState) =>
   state.featureName.selectedFeatureNames;
 export const selectFeatureNames = (state: RootState) =>

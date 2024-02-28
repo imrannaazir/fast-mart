@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { cn } from "@/lib/utils";
+import { camelCaseToWords, cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { FormControl } from "../ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -79,7 +79,7 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
                 ? collections?.find(
                     (collection) => collection._id === field.value
                   )?.name
-                : `Select ${collectionName}`}
+                : `Select ${camelCaseToWords(collectionName)}`}
               <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </FormControl>
@@ -87,10 +87,12 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
         <PopoverContent className={`${className} p-0`}>
           <Command>
             <CommandInput
-              placeholder={`Search ${collectionName}...`}
+              placeholder={`Search ${camelCaseToWords(collectionName)}...`}
               className="h-9"
             />
-            <CommandEmpty>No {collectionName} found.</CommandEmpty>
+            <CommandEmpty>
+              No {camelCaseToWords(collectionName)} found.
+            </CommandEmpty>
             <CommandGroup>
               {/* add new Collection */}
               <CommandItem

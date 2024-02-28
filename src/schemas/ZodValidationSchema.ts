@@ -9,13 +9,15 @@ export const addProductFormSchema = z.object({
   quantity: z.string(),
   weight: z.string(),
   unit: z.string(),
+  compatibility: z.string().optional(),
   dimensions: z.string(),
-  operatingSystem: z.string(),
+  image: z.string().optional(),
   powerSource: z.string(),
+  operatingSystem: z.string(),
   connectivity: z.string(),
   tags: z.array(z.string()),
   features: z.record(z.string(), z.string()),
-  featureName: z.string().regex(/^[a-zA-Z_$][a-zA-Z0-9_$]*$/),
+  featureName: z.string().optional(),
 });
 
 export type TProductFormValues = z.infer<typeof addProductFormSchema>;
