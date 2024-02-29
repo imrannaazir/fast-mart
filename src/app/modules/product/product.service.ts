@@ -101,7 +101,9 @@ const getAllProduct = async (query: Record<string, unknown>) => {
       'brand createdBy category powerSource connectivity tags operatingSystem',
     ),
     query,
-  ).search(ProductSearchableFields);
+  )
+    .search(ProductSearchableFields)
+    .filter();
 
   const result = await productModelQuery.modelQuery;
   return result;
