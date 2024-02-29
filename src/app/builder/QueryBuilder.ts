@@ -60,10 +60,21 @@ class QueryBuilder<T> {
   // sort data
   sort() {
     const sort =
-      (this?.query?.sort as string).split(',').join(' ') || '-createdAt';
+      (this?.query?.sort as string)?.split(',')?.join(' ') || '-createdAt';
 
     this.modelQuery = this.modelQuery.sort(sort);
 
+    return this;
+  }
+
+  // fields selection
+  fields() {
+    console.log(this.query);
+
+    const fields =
+      (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v';
+
+    this.modelQuery = this.modelQuery.select(fields);
     return this;
   }
 }
