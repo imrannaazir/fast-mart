@@ -20,7 +20,7 @@ export type TProduct = {
   powerSource?: Types.ObjectId;
   connectivity?: Types.ObjectId;
 
-  features?: TFeature[];
+  features?: TFeature;
   tags?: [Types.ObjectId];
 
   image?: string;

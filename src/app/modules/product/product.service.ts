@@ -8,6 +8,8 @@ import PowerSource from '../powerSource/powerSource.model';
 import Connectivity from '../connectivity/connectivity.model';
 import Tag from '../tag/tag.model';
 import OperatingSystem from '../operatingSystem/operatingSystem.model';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { ProductSearchableFields } from './product.constant';
 
 // create product
 const createProduct = async (payload: TProduct) => {
@@ -77,21 +79,31 @@ const createProduct = async (payload: TProduct) => {
     });
   }
 
+  // if quantity is 0 set status out of stock
+  if (payload.quantity === 0) {
+    payload.status = 'out-of-stock';
+  }
   //  ⚠️⚠️⚠️⚠️ generate model
-  payload.model = 'brand-134';
+  payload.model = new Date().getTime().toString();
   console.log('generate model');
 
   // ⚠️⚠️⚠️ include createdBy
-
+  payload.createdBy = '65df56e972e5d352ce0326ae';
   const result = await Product.create(payload);
   return result;
 };
 
 // get all product
-const getAllProduct = async () => {
-  const result = await Product.find({}).populate(
-    'brand createdBy category powerSource connectivity tags',
-  );
+const getAllProduct = async (query: Record<string, unknown>) => {
+  // product query model
+  const productModelQuery = new QueryBuilder(
+    Product.find({}).populate(
+      'brand createdBy category powerSource connectivity tags operatingSystem',
+    ),
+    query,
+  ).search(ProductSearchableFields);
+
+  const result = await productModelQuery.modelQuery;
   return result;
 };
 const ProductService = {

@@ -17,7 +17,7 @@ const createOperatingSystem = async (payload: TOperatingSystem) => {
   }
 
   // create
-  const result = (await OperatingSystem.create(payload)).populate('brand');
+  const result = await OperatingSystem.create(payload);
   if (!result) {
     throw new AppError(
       StatusCodes.BAD_REQUEST,
