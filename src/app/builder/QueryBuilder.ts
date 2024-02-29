@@ -47,11 +47,23 @@ class QueryBuilder<T> {
   // filter data
   filter() {
     const filterObj = { ...this.query };
-    const fieldsToExclude = ['searchTerm', 'limit', 'sort', 'page', 'fields'];
+    const fieldToExclude = ['searchTerm', 'limit', 'page', 'sort', 'fields'];
 
-    fieldsToExclude.forEach(field => delete filterObj[field]);
+    // exclude fields from filter object
+    fieldToExclude.forEach(field => delete filterObj[field]);
 
     this.modelQuery = this.modelQuery.find(filterObj as FilterQuery<T>);
+
+    return this;
+  }
+
+  // sort data
+  sort() {
+    const sort =
+      (this?.query?.sort as string).split(',').join(' ') || '-createdAt';
+
+    this.modelQuery = this.modelQuery.sort(sort);
+
     return this;
   }
 }
