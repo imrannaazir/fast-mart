@@ -109,7 +109,9 @@ const getAllProduct = async (query: Record<string, unknown>) => {
     .paginate();
 
   const result = await productModelQuery.modelQuery;
-  return result;
+  const meta = await productModelQuery.countTotal();
+
+  return { result, meta };
 };
 const ProductService = {
   createProduct,
