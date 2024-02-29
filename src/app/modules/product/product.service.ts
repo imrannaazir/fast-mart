@@ -95,12 +95,20 @@ const createProduct = async (payload: TProduct) => {
 
 // get all product
 const getAllProduct = async (query: Record<string, unknown>) => {
+  const queryObj = { ...query };
+  delete queryObj['tags'];
+  const tags = (query?.tags as string)?.split(',');
+
+  if (query.tags) {
+    queryObj['tags'] = { $in: tags };
+  }
+
   // product query model
   const productModelQuery = new QueryBuilder(
     Product.find({}).populate(
       'brand createdBy category powerSource connectivity tags operatingSystem',
     ),
-    query,
+    queryObj,
   )
     .search(ProductSearchableFields)
     .filter()
