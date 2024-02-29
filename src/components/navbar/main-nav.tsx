@@ -51,9 +51,9 @@ export default function MainNav({
           <h1 className="  text-xl font-semibold">Web Name</h1>
 
           {routes.length > 0 &&
-            routes?.map((item) =>
+            routes?.map((item, i) =>
               item.children ? (
-                <div>
+                <div key={i}>
                   <Accordion className="" type="single" collapsible>
                     <AccordionItem value="item-1">
                       <AccordionTrigger className="  py-1 px-2">
@@ -63,11 +63,11 @@ export default function MainNav({
                         </p>
                       </AccordionTrigger>
                       <AccordionContent className="">
-                        {item.children.map((item) => (
+                        {item.children.map((item, i) => (
                           <Link
                             className="flex items-center font-semibold  pl-6 py-2"
                             to={item.href}
-                            key={item.href}
+                            key={i}
                           >
                             <Circle className="mr-2 h-2 w-2" />
                             <span>{item.label}</span>

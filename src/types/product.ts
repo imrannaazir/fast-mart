@@ -5,6 +5,7 @@ export type TCollection = {
 export type TFeature = Record<string, string>;
 export type TStatus = "in-stock" | "out-of-stock";
 export type TProduct = {
+  _id: string;
   name: string;
   description?: string;
   brand: TCollection;

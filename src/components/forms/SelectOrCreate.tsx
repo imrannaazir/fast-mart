@@ -106,17 +106,17 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
               <Separator className="mt-1" />
               {collections?.map((collection) => (
                 <CommandItem
-                  value={collection.name}
-                  key={collection._id}
+                  value={collection?.name}
+                  key={collection?._id}
                   onSelect={() => {
-                    form.setValue(collectionName, collection._id);
+                    form.setValue(collectionName, collection?._id);
                   }}
                 >
-                  {collection.name}
+                  {collection?.name}
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      collection._id === field.value
+                      collection?._id === field?.value
                         ? "opacity-100"
                         : "opacity-0"
                     )}

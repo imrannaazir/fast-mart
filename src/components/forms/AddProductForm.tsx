@@ -202,7 +202,7 @@ const AddProductForm = () => {
         weight: Number(weight),
       }).unwrap();
       if (response.success) {
-        form.reset();
+        // form.reset();
         dispatch(clearSelectedFeatureName());
         dispatch(clearSelectedTags());
         toast.success("Product created successfully.", { id: toastId });
