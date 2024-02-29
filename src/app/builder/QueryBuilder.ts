@@ -1,4 +1,5 @@
 import { FilterQuery, Query } from 'mongoose';
+import config from '../config';
 /*
  * make method for search
  * make method for filtering
@@ -69,12 +70,21 @@ class QueryBuilder<T> {
 
   // fields selection
   fields() {
-    console.log(this.query);
-
     const fields =
       (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v';
 
     this.modelQuery = this.modelQuery.select(fields);
+    return this;
+  }
+
+  // paginate data
+  paginate() {
+    const page = Number(this.query?.page) || 1;
+    const limit = Number(this.query?.limit) || Number(config.data_limit);
+    const skip = (page - 1) * limit;
+
+    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
+
     return this;
   }
 }
