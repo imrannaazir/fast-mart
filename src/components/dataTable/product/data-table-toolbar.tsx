@@ -5,13 +5,20 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 import {
   CheckCircledIcon,
-  CircleIcon,
-  CrossCircledIcon,
   QuestionMarkCircledIcon,
-  StopwatchIcon,
 } from "@radix-ui/react-icons";
+import {
+  addStatus,
+  clearStatus,
+  removeStatus,
+  selectFilteredStatus,
+} from "@/redux/features/filter/filterSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const ProductDataTableToolbar = () => {
+  // redux store data
+  const selectedStatus = useAppSelector(selectFilteredStatus);
+
   const statuses = [
     {
       value: "in-stock",
@@ -48,7 +55,14 @@ const ProductDataTableToolbar = () => {
 
           {/* filters */}
           <div>
-            <DataTableFacetedFilter title="Status" options={statuses} />
+            <DataTableFacetedFilter
+              selectedValues={selectedStatus}
+              clearFilter={clearStatus}
+              addFilter={addStatus}
+              removeFilter={removeStatus}
+              title="Status"
+              options={statuses}
+            />
           </div>
         </div>
       </div>

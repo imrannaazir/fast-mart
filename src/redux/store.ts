@@ -15,6 +15,7 @@ import storage from "redux-persist/lib/storage";
 import modalSlice from "./features/modal/modalSlice";
 import tagSlice from "./features/tag/tagSlice";
 import featureNameSlice from "./features/featureName/featureNameSlice";
+import filterSlice from "./features/filter/filterSlice";
 
 const persistConfig = {
   key: "auth",
@@ -29,6 +30,7 @@ const store = configureStore({
     modal: modalSlice,
     tags: tagSlice,
     featureName: featureNameSlice,
+    filter: filterSlice,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

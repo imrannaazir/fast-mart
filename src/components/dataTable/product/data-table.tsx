@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { DataTableToolbar } from "./data-table-toolbar-copy";
 import ProductDataTableToolbar from "./data-table-toolbar";
 
 interface ProductDataTableProps<TData, TValue> {
@@ -39,6 +40,7 @@ export function ProductDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
+      <DataTableToolbar table={table} />
       <ProductDataTableToolbar />
       <div className="rounded-md border">
         <Table>
