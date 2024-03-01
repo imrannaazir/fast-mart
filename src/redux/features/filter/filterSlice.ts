@@ -9,16 +9,22 @@ export type TFilter = {
 
 type TInitialState = {
   status: TFilter[];
+  searchTerm: string;
 };
 
 const initialState: TInitialState = {
   status: [],
+  searchTerm: "",
 };
 
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
+    updateSearchTerm: (state, action) => {
+      state.searchTerm = action.payload;
+    },
+
     // add status
     addStatus: (state, action) => {
       state.status.push(action.payload);
@@ -40,7 +46,9 @@ const filterSlice = createSlice({
 });
 
 export default filterSlice.reducer;
-export const { addStatus, removeStatus, clearStatus } = filterSlice.actions;
+export const { addStatus, removeStatus, clearStatus, updateSearchTerm } =
+  filterSlice.actions;
 
 // selector
 export const selectFilteredStatus = (state: RootState) => state.filter.status;
+export const selectSearchTerm = (state: RootState) => state.filter.searchTerm;

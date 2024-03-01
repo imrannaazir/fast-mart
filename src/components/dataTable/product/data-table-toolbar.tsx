@@ -12,12 +12,17 @@ import {
   clearStatus,
   removeStatus,
   selectFilteredStatus,
+  selectSearchTerm,
+  updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const ProductDataTableToolbar = () => {
+  //invoked hooks
+  const dispatch = useAppDispatch();
   // redux store data
   const selectedStatus = useAppSelector(selectFilteredStatus);
+  const searchTerm = useAppSelector(selectSearchTerm);
 
   const statuses = [
     {
@@ -39,8 +44,8 @@ const ProductDataTableToolbar = () => {
           <div className="flex items-center justify-between w-full">
             <Input
               placeholder="Filter product..."
-              value={""}
-              onChange={() => {}}
+              value={searchTerm}
+              onChange={(e) => dispatch(updateSearchTerm(e.target.value))}
               className="h-8 w-[150px] lg:w-[250px]"
             />
             <Button
