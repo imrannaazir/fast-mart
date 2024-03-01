@@ -1,6 +1,6 @@
 import baseApi from "../api/baseApi";
 
-const productApi = baseApi.injectEndpoints({
+export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // create new product
     createProduct: builder.mutation({

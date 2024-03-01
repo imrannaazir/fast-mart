@@ -7,6 +7,13 @@ export type TFilter = {
   icon?: React.ComponentType<{ className?: string }>;
 };
 
+export type TMeta = {
+  page: number | string;
+  limit: number | string;
+  total: number;
+  totalPage: number;
+};
+
 type TInitialState = {
   status: TFilter[];
   brands: TFilter[];
@@ -16,6 +23,9 @@ type TInitialState = {
   connectivity: TFilter[];
   tags: TFilter[];
   searchTerm: string;
+  page: number;
+  limit: number;
+  meta: TMeta | null;
 };
 
 const initialState: TInitialState = {
@@ -27,12 +37,32 @@ const initialState: TInitialState = {
   powerSources: [],
   tags: [],
   searchTerm: "",
+  limit: 5,
+  page: 1,
+  meta: null,
 };
 
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
+    setMeta: (state, action) => {
+      state.meta = action.payload;
+    },
+    setDataLimit: (state, action) => {
+      state.limit = action.payload;
+    },
+    goToNextPage: (state) => {
+      state.page = state.page + 1;
+    },
+    goToPrevPage: (state) => {
+      state.page = state.page - 1;
+    },
+    goToNPage: (state, action) => {
+      state.page = action.payload;
+    },
+
+    // update search term
     updateSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
     },
@@ -192,6 +222,13 @@ export const {
   addTag,
   clearTags,
   removeTag,
+
+  // pagination
+  goToNextPage,
+  goToPrevPage,
+  goToNPage,
+  setDataLimit,
+  setMeta,
 } = filterSlice.actions;
 
 // selector
@@ -206,3 +243,6 @@ export const selectOperatingSystems = (state: RootState) =>
 export const selectPowerSources = (state: RootState) =>
   state.filter.powerSources;
 export const selectTags = (state: RootState) => state.filter.tags;
+export const selectPage = (state: RootState) => state.filter.page;
+export const selectLimit = (state: RootState) => state.filter.limit;
+export const selectMeta = (state: RootState) => state.filter.meta;

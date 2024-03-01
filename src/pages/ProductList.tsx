@@ -6,16 +6,19 @@ import { TProduct } from "@/types/product";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   selectCategory,
   selectConnectivity,
   selectFilteredBrands,
   selectFilteredStatus,
+  selectLimit,
   selectOperatingSystems,
+  selectPage,
   selectPowerSources,
   selectSearchTerm,
   selectTags,
+  setMeta,
 } from "@/redux/features/filter/filterSlice";
 
 const ProductList = () => {
@@ -29,11 +32,14 @@ const ProductList = () => {
   const filteredPowerSources = useAppSelector(selectPowerSources);
   const filteredTags = useAppSelector(selectTags);
   const filteredConnectivity = useAppSelector(selectConnectivity);
+  const page = useAppSelector(selectPage);
+  const limit = useAppSelector(selectLimit);
 
   // local state
   const [skip, setSkip] = useState(true);
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   // query parameter
   const query = queryString.stringify({
@@ -45,10 +51,15 @@ const ProductList = () => {
     powerSource: filteredPowerSources?.map((filter) => filter.value),
     operatingSystem: filteredOperatingSystems?.map((filter) => filter.value),
     tags: filteredTags?.map((filter) => filter.value),
+    page,
+    limit,
   });
   const { data } = useGetAllProductQuery(query, { skip });
   const products: TProduct[] = data?.data?.data || [];
 
+  if (data?.data?.meta) {
+    dispatch(setMeta(data?.data?.meta));
+  }
   // make skip  to get all product
   useEffect(() => {
     setSkip(false);

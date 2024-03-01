@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import ProductDataTableToolbar from "./data-table-toolbar";
+import { ProductDataTablePagination } from "./product-data-table-pagination";
 
 interface ProductDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -90,6 +91,7 @@ export function ProductDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      <ProductDataTablePagination table={table} />
     </div>
   );
 }
