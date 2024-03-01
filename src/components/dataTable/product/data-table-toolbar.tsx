@@ -8,21 +8,40 @@ import {
   QuestionMarkCircledIcon,
 } from "@radix-ui/react-icons";
 import {
+  TFilter,
+  addBrand,
   addStatus,
+  clearBrand,
   clearStatus,
+  removeBrand,
   removeStatus,
+  selectFilteredBrands,
   selectFilteredStatus,
   selectSearchTerm,
   updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
+import { TCollection } from "@/types/product";
 
 const ProductDataTableToolbar = () => {
   //invoked hooks
   const dispatch = useAppDispatch();
+
+  // rtk query api hooks
+  const { data, isLoading: isBrandLoading } = useGetAllBrandsQuery(undefined);
+
   // redux store data
   const selectedStatus = useAppSelector(selectFilteredStatus);
+  const selectedBrands = useAppSelector(selectFilteredBrands);
   const searchTerm = useAppSelector(selectSearchTerm);
+
+  const brands: TFilter[] = !isBrandLoading
+    ? data?.data?.map((brand: TCollection) => ({
+        label: brand.name,
+        value: brand?._id,
+      }))
+    : [];
 
   const statuses = [
     {
@@ -36,6 +55,7 @@ const ProductDataTableToolbar = () => {
       icon: QuestionMarkCircledIcon,
     },
   ];
+
   return (
     <div className="flex items-center justify-between border p-2 rounded-md">
       <div className="flex flex-1 items-center space-x-2">
@@ -60,6 +80,7 @@ const ProductDataTableToolbar = () => {
 
           {/* filters */}
           <div>
+            {/* status filters  */}
             <DataTableFacetedFilter
               selectedValues={selectedStatus}
               clearFilter={clearStatus}
@@ -67,6 +88,15 @@ const ProductDataTableToolbar = () => {
               removeFilter={removeStatus}
               title="Status"
               options={statuses}
+            />
+            {/* brand filters  */}
+            <DataTableFacetedFilter
+              selectedValues={selectedBrands}
+              clearFilter={clearBrand}
+              addFilter={addBrand}
+              removeFilter={removeBrand}
+              title="Brands"
+              options={brands}
             />
           </div>
         </div>

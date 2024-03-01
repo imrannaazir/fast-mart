@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useAppSelector } from "@/redux/hooks";
 import {
+  selectFilteredBrands,
   selectFilteredStatus,
   selectSearchTerm,
 } from "@/redux/features/filter/filterSlice";
@@ -15,8 +16,9 @@ import {
 const ProductList = () => {
   // invoke hooks
   // redux store
-  const filteredStatus = useAppSelector(selectFilteredStatus);
   const searchTerm = useAppSelector(selectSearchTerm);
+  const filteredStatus = useAppSelector(selectFilteredStatus);
+  const filteredBrands = useAppSelector(selectFilteredBrands);
 
   // local state
   const [skip, setSkip] = useState(true);
@@ -26,6 +28,7 @@ const ProductList = () => {
   // query parameter
   const query = queryString.stringify({
     status: filteredStatus?.map((filter) => filter.value),
+    brand: filteredBrands?.map((filter) => filter.value),
     searchTerm,
   });
   const { data } = useGetAllProductQuery(query, { skip });
