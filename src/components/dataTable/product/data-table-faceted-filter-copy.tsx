@@ -65,7 +65,10 @@ export function DataTableFacetedFilter<TData, TValue>({
                 ) : (
                   options
                     .filter((option) => {
-                      console.log(typeof selectedValues);
+                      console.log(
+                        selectedValues.has(option.value),
+                        option.label
+                      );
                       return selectedValues.has(option.value);
                     })
                     .map((option) => (

@@ -6,20 +6,22 @@ import { TProduct } from "@/types/product";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
+import { useAppSelector } from "@/redux/hooks";
+import { selectFilteredStatus } from "@/redux/features/filter/filterSlice";
 
 const ProductList = () => {
   // invoke hooks
+  // redux store
+  const filteredStatus = useAppSelector(selectFilteredStatus);
+
   // local state
   const [skip, setSkip] = useState(true);
-  const [status, setStatus] = useState("in-stock");
-  const [searchTerm, setSerchTerm] = useState("");
 
   const navigate = useNavigate();
 
   // query parameter
   const query = queryString.stringify({
-    status,
-    searchTerm,
+    status: filteredStatus?.map((filter) => filter.value),
   });
   const { data } = useGetAllProductQuery(query, { skip });
   const products: TProduct[] = data?.data?.data || [];
