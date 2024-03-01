@@ -14,6 +14,7 @@ type TInitialState = {
   operatingSystems: TFilter[];
   powerSources: TFilter[];
   connectivity: TFilter[];
+  tags: TFilter[];
   searchTerm: string;
 };
 
@@ -24,6 +25,7 @@ const initialState: TInitialState = {
   connectivity: [],
   operatingSystems: [],
   powerSources: [],
+  tags: [],
   searchTerm: "",
 };
 
@@ -138,6 +140,23 @@ const filterSlice = createSlice({
     clearPowerSources: (state) => {
       state.powerSources = [];
     },
+    // add tag
+    addTag: (state, action) => {
+      state.tags.push(action.payload);
+    },
+
+    // remove tags
+    removeTag: (state, action) => {
+      const filteredTags = state.tags.filter(
+        (tag) => tag.value !== action.payload.value
+      );
+      state.tags = filteredTags;
+    },
+
+    // clear tags
+    clearTags: (state) => {
+      state.tags = [];
+    },
   },
 });
 
@@ -168,15 +187,22 @@ export const {
   addPowerSources,
   removePowerSource,
   clearPowerSources,
+
+  //tags
+  addTag,
+  clearTags,
+  removeTag,
 } = filterSlice.actions;
 
 // selector
 export const selectFilteredStatus = (state: RootState) => state.filter.status;
 export const selectSearchTerm = (state: RootState) => state.filter.searchTerm;
 export const selectFilteredBrands = (state: RootState) => state.filter.brands;
+export const selectCategory = (state: RootState) => state.filter.categories;
 export const selectConnectivity = (state: RootState) =>
   state.filter.connectivity;
 export const selectOperatingSystems = (state: RootState) =>
   state.filter.operatingSystems;
 export const selectPowerSources = (state: RootState) =>
   state.filter.powerSources;
+export const selectTags = (state: RootState) => state.filter.tags;

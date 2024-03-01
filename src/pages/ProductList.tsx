@@ -8,9 +8,14 @@ import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useAppSelector } from "@/redux/hooks";
 import {
+  selectCategory,
+  selectConnectivity,
   selectFilteredBrands,
   selectFilteredStatus,
+  selectOperatingSystems,
+  selectPowerSources,
   selectSearchTerm,
+  selectTags,
 } from "@/redux/features/filter/filterSlice";
 
 const ProductList = () => {
@@ -19,6 +24,11 @@ const ProductList = () => {
   const searchTerm = useAppSelector(selectSearchTerm);
   const filteredStatus = useAppSelector(selectFilteredStatus);
   const filteredBrands = useAppSelector(selectFilteredBrands);
+  const filteredCategories = useAppSelector(selectCategory);
+  const filteredOperatingSystems = useAppSelector(selectOperatingSystems);
+  const filteredPowerSources = useAppSelector(selectPowerSources);
+  const filteredTags = useAppSelector(selectTags);
+  const filteredConnectivity = useAppSelector(selectConnectivity);
 
   // local state
   const [skip, setSkip] = useState(true);
@@ -27,9 +37,14 @@ const ProductList = () => {
 
   // query parameter
   const query = queryString.stringify({
+    searchTerm,
     status: filteredStatus?.map((filter) => filter.value),
     brand: filteredBrands?.map((filter) => filter.value),
-    searchTerm,
+    category: filteredCategories?.map((filter) => filter.value),
+    connectivity: filteredConnectivity?.map((filter) => filter.value),
+    powerSource: filteredPowerSources?.map((filter) => filter.value),
+    operatingSystem: filteredOperatingSystems?.map((filter) => filter.value),
+    tags: filteredTags?.map((filter) => filter.value),
   });
   const { data } = useGetAllProductQuery(query, { skip });
   const products: TProduct[] = data?.data?.data || [];

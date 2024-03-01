@@ -10,36 +10,116 @@ import {
 import {
   TFilter,
   addBrand,
+  addCategory,
+  addConnectivity,
+  addOperatingSystems,
+  addPowerSources,
   addStatus,
+  addTag,
   clearBrand,
+  clearCategories,
+  clearConnectivity,
+  clearOperatingSystem,
+  clearPowerSources,
   clearStatus,
+  clearTags,
+  removeTag,
   removeBrand,
+  removeCategory,
+  removeConnectivity,
+  removeOperatingSystems,
+  removePowerSource,
   removeStatus,
+  selectCategory,
+  selectConnectivity,
   selectFilteredBrands,
   selectFilteredStatus,
+  selectOperatingSystems,
+  selectPowerSources,
   selectSearchTerm,
+  selectTags,
   updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
 import { TCollection } from "@/types/product";
+import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
+import { useGetAllConnectivityQuery } from "@/redux/features/connectivity/connectivityApi";
+import { useGetAllPowerSourcesQuery } from "@/redux/features/powerSource/powerSourceApi";
+import { useGetAllOperatingSystemsQuery } from "@/redux/features/operatingSystem/operatingSystemApi";
+import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
+// import { useGetAllFeatureNamesQuery } from "@/redux/features/featureName/featureNameApi";
 
 const ProductDataTableToolbar = () => {
   //invoked hooks
   const dispatch = useAppDispatch();
 
   // rtk query api hooks
-  const { data, isLoading: isBrandLoading } = useGetAllBrandsQuery(undefined);
+  const { data: brandsData, isLoading: isBrandLoading } =
+    useGetAllBrandsQuery(undefined);
+  const { data: categoryData, isLoading: isCategoriesLoading } =
+    useGetAllCategoriesQuery(undefined);
+  const { data: connectivityData, isLoading: isConnectivityLoading } =
+    useGetAllConnectivityQuery(undefined);
+  const { data: powerSourceData, isLoading: isPowerSourcesLoading } =
+    useGetAllPowerSourcesQuery(undefined);
+  const { data: operatingSystemData, isLoading: isOSLoading } =
+    useGetAllOperatingSystemsQuery(undefined);
+  const { data: tagData, isLoading: isTagsLoading } =
+    useGetAllTagQuery(undefined);
+  // const { data: featuresNamesData, isLoading:isFeatureNamesLoading } = useGetAllFeatureNamesQuery(undefined);
 
   // redux store data
+  const searchTerm = useAppSelector(selectSearchTerm);
   const selectedStatus = useAppSelector(selectFilteredStatus);
   const selectedBrands = useAppSelector(selectFilteredBrands);
-  const searchTerm = useAppSelector(selectSearchTerm);
+  const selectedCategories = useAppSelector(selectCategory);
+  const selectedOperatingSystems = useAppSelector(selectOperatingSystems);
+  const selectedPowerSources = useAppSelector(selectPowerSources);
+  const selectedTags = useAppSelector(selectTags);
+  const selectedConnectivity = useAppSelector(selectConnectivity);
 
+  // restructured brands
   const brands: TFilter[] = !isBrandLoading
-    ? data?.data?.map((brand: TCollection) => ({
+    ? brandsData?.data?.map((brand: TCollection) => ({
         label: brand.name,
         value: brand?._id,
+      }))
+    : [];
+
+  // restructured categories
+  const categories: TFilter[] = !isCategoriesLoading
+    ? categoryData?.data?.map((category: TCollection) => ({
+        label: category.name,
+        value: category?._id,
+      }))
+    : [];
+  // restructured connectivity
+  const connectivity: TFilter[] = !isConnectivityLoading
+    ? connectivityData?.data?.map((el: TCollection) => ({
+        label: el.name,
+        value: el?._id,
+      }))
+    : [];
+  // restructured operating system
+  const operatingSystems: TFilter[] = !isOSLoading
+    ? operatingSystemData?.data?.map((el: TCollection) => ({
+        label: el.name,
+        value: el?._id,
+      }))
+    : [];
+  // restructured operating system
+  const powerSources: TFilter[] = !isPowerSourcesLoading
+    ? powerSourceData?.data?.map((el: TCollection) => ({
+        label: el.name,
+        value: el?._id,
+      }))
+    : [];
+  // restructured tags
+  const tags: TFilter[] = !isTagsLoading
+    ? tagData?.data?.map((el: TCollection) => ({
+        label: el.name,
+        value: el?._id,
       }))
     : [];
 
@@ -97,6 +177,51 @@ const ProductDataTableToolbar = () => {
               removeFilter={removeBrand}
               title="Brands"
               options={brands}
+            />
+            {/* category filters  */}
+            <DataTableFacetedFilter
+              selectedValues={selectedCategories}
+              clearFilter={clearCategories}
+              addFilter={addCategory}
+              removeFilter={removeCategory}
+              title="Categories"
+              options={categories}
+            />
+            {/* connectivity filters  */}
+            <DataTableFacetedFilter
+              selectedValues={selectedConnectivity}
+              clearFilter={clearConnectivity}
+              addFilter={addConnectivity}
+              removeFilter={removeConnectivity}
+              title="Connectivity"
+              options={connectivity}
+            />
+            {/* Operating system filters  */}
+            <DataTableFacetedFilter
+              selectedValues={selectedOperatingSystems}
+              clearFilter={clearOperatingSystem}
+              addFilter={addOperatingSystems}
+              removeFilter={removeOperatingSystems}
+              title="OS"
+              options={operatingSystems}
+            />
+            {/* Power sources filters  */}
+            <DataTableFacetedFilter
+              selectedValues={selectedPowerSources}
+              clearFilter={clearPowerSources}
+              addFilter={addPowerSources}
+              removeFilter={removePowerSource}
+              title="Power"
+              options={powerSources}
+            />
+            {/* Tags filters  */}
+            <DataTableFacetedFilter
+              selectedValues={selectedTags}
+              clearFilter={clearTags}
+              addFilter={addTag}
+              removeFilter={removeTag}
+              title="Tags"
+              options={tags}
             />
           </div>
         </div>
