@@ -97,14 +97,14 @@ export function DataTableFacetedFilter({
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => {
-                const isSelected = selectedValues.find(
+              {options?.map((option) => {
+                const isSelected = selectedValues?.find(
                   (value) => value.value === option.value
                 );
 
                 return (
                   <CommandItem
-                    key={option.value}
+                    key={option?.value}
                     onSelect={() => {
                       if (isSelected) {
                         dispatch(removeFilter(isSelected));

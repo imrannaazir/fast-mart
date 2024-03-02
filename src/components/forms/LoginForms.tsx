@@ -12,12 +12,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useLoginMutation } from "@/redux/features/auth/authApi";
+import {
+  useLoginMutation,
+  useRegisterMutation,
+} from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { logIn } from "@/redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const formSchema = z.object({
   email: z.string().email().min(2, {
@@ -29,7 +33,11 @@ const formSchema = z.object({
 });
 
 const LoginForm = () => {
+  //local state
+  const [isLoginForm, setIsLoginForm] = useState(true);
+
   const [login, { error }] = useLoginMutation();
+  const [register, { error: registerError }] = useRegisterMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -45,17 +53,19 @@ const LoginForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const toastId = toast.loading("Logging in.", {
-      duration: 2000,
-    });
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const toastId = toast.loading(
+      isLoginForm ? "Logging in." : "Registering.",
+      {
+        duration: 2000,
+      }
+    );
 
     try {
-      const response = await login(values).unwrap();
+      const response = isLoginForm
+        ? await login(values).unwrap()
+        : await register(values).unwrap();
       if (response?.data?.accessToken) {
-        toast.success("Logged in.", {
+        toast.success(isLoginForm ? "Logged in." : "Registered.", {
           id: toastId,
         });
 
@@ -74,7 +84,7 @@ const LoginForm = () => {
     }
   }
 
-  if (error) {
+  if (error || registerError) {
     toast.error("Something went wrong.", {
       duration: 2000,
     });
@@ -82,7 +92,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <h1 className="text-3xl mb-6">Login</h1>
+      <h1 className="text-3xl mb-6">{isLoginForm ? "Login" : "Register"}</h1>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
@@ -116,8 +126,31 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Sign in</Button>
+        <Button type="submit">{isLoginForm ? "Login" : "Register"}</Button>
       </form>
+      {isLoginForm ? (
+        <p>
+          Haven't an account?{" "}
+          <Button
+            type="button"
+            onClick={() => setIsLoginForm(false)}
+            variant={"link"}
+          >
+            Register
+          </Button>
+        </p>
+      ) : (
+        <p>
+          Already have an account?{" "}
+          <Button
+            type="button"
+            onClick={() => setIsLoginForm(true)}
+            variant={"link"}
+          >
+            Login
+          </Button>
+        </p>
+      )}
     </Form>
   );
 };
