@@ -14,5 +14,8 @@ router.post(
 
 // get all product : POST
 router.get('/', ProductController.getAllProduct);
+
+// delete product : DELETE
+router.delete('/:id', ProductController.deleteProductById);
 const ProductRoutes = router;
 export default ProductRoutes;

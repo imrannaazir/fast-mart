@@ -116,14 +116,33 @@ const getAllProduct = async (query: Record<string, unknown>) => {
     .fields()
     .paginate();
 
-  const result = await productModelQuery.modelQuery;
+  const data = await productModelQuery.modelQuery;
   const meta = await productModelQuery.countTotal();
 
-  return { result, meta };
+  return { data, meta };
+};
+
+// delete product by Id
+const deleteProductById = async (productId: string) => {
+  // check is product exist
+  const isProductExist = await Product.findById(productId);
+  if (!isProductExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Product not founded.');
+  }
+
+  const result = await Product.findByIdAndDelete(productId);
+
+  if (!result) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to delete product.');
+  }
+  return {
+    deletedProductId: result?._id,
+  };
 };
 const ProductService = {
   createProduct,
   getAllProduct,
+  deleteProductById,
 };
 
 export default ProductService;
