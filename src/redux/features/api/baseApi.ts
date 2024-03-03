@@ -32,6 +32,8 @@ const baseApi = createApi({
   reducerPath: "api",
   baseQuery,
   tagTypes: [
+    "Product",
+    "Products",
     "Brands",
     "Categories",
     "OperatingSystems",
