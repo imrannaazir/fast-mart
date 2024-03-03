@@ -15,7 +15,12 @@ const AlertModal: FC<AlertModalProps> = ({
   onConfirm,
 }) => {
   return (
-    <Modal title="" description="" isOpen={isOpen} onClose={onClose}>
+    <Modal
+      title="Are you sure?"
+      description="This action can not be undo."
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <div className="pt-6 space-x-2 flex items-center justify-end w-full">
         <Button variant="outline" disabled={isLoading} onClick={onClose}>
           Cancel

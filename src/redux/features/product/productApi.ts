@@ -17,6 +17,7 @@ export const productApi = baseApi.injectEndpoints({
         url: `/product?${query}`,
         method: "GET",
       }),
+      providesTags: ["Products"],
     }),
 
     // delete product by Id
@@ -25,6 +26,7 @@ export const productApi = baseApi.injectEndpoints({
         url: `/product/${productId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Products"],
     }),
   }),
 });

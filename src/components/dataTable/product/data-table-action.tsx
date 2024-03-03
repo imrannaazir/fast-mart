@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import AlertModal from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,6 +11,7 @@ import { useDeleteProductByIdMutation } from "@/redux/features/product/productAp
 import { TProduct } from "@/types/product";
 import { Row } from "@tanstack/react-table";
 import { Copy, Eye, FilePen, MoreHorizontal, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 type DataTableAction = {
@@ -16,45 +19,59 @@ type DataTableAction = {
 };
 
 function DataTableAction({ row }: DataTableAction) {
+  // local state
+  const [isOpen, setIsOpen] = useState(false);
   // rtk query api hook
-  const [deleteProductById] = useDeleteProductByIdMutation();
+  const [deleteProductById, { isLoading }] = useDeleteProductByIdMutation();
 
   const product = row.original;
 
   const onDelete = async () => {
     try {
-      console.log(product._id);
+      const response: any = await deleteProductById(product._id);
+      if (response?.data?.success) {
+        setIsOpen(false);
+        toast.success("Product deleted successfully.", { duration: 2000 });
+      }
     } catch (error) {
       toast.error("Failed to delete the product.", { duration: 2000 });
     }
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem className="flex items-center gap-2">
-          <Eye size={14} /> View
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={onDelete}
-          className="flex items-center gap-2"
-        >
-          <Trash2 size={14} /> Delete
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex items-center gap-2">
-          <Copy size={14} /> Duplicate
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex items-center gap-2">
-          <FilePen size={14} /> Edit
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <AlertModal
+        isLoading={isLoading}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={onDelete}
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem className="flex items-center gap-2">
+            <Eye size={14} /> View
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => setIsOpen(true)}
+            className="flex items-center gap-2"
+          >
+            <Trash2 size={14} /> Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem className="flex items-center gap-2">
+            <Copy size={14} /> Duplicate
+          </DropdownMenuItem>
+          <DropdownMenuItem className="flex items-center gap-2">
+            <FilePen size={14} /> Edit
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
   );
 }
 
