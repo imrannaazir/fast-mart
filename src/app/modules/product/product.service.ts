@@ -122,6 +122,21 @@ const getAllProduct = async (query: Record<string, unknown>) => {
   return { data, meta };
 };
 
+// get single product by id
+const getSingleProductById = async (id: string) => {
+  const result = await Product.findById(id).populate({
+    path: 'tags',
+    select: '-__v',
+  });
+  if (!result) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      'Product not founded by this ID.',
+    );
+  }
+  return result;
+};
+
 // delete product by Id
 const deleteProductById = async (productId: string) => {
   // check is product exist
@@ -139,10 +154,32 @@ const deleteProductById = async (productId: string) => {
     deletedProductId: result?._id,
   };
 };
+
+//update single product by Id
+const updateProductById = async (id: string, payload: Partial<TProduct>) => {
+  // check if product is exist
+  const isProductExist = await Product.findById(id);
+  if (!isProductExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Product not founded.');
+  }
+
+  const result = await Product.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!result) {
+    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to update product.');
+  }
+
+  return result;
+};
 const ProductService = {
   createProduct,
   getAllProduct,
+  getSingleProductById,
   deleteProductById,
+  updateProductById,
 };
 
 export default ProductService;
