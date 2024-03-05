@@ -19,6 +19,8 @@ const tagSlice = createSlice({
   reducers: {
     getAllTags: (state, action) => {
       const { tags, selectedTags } = action.payload;
+      console.log({ tags, selectedTags });
+
       const newTags = (tags as TTag[])?.filter(function (array_el) {
         return (
           (selectedTags as TTag[])?.filter(function (anotherOne_el) {
@@ -36,6 +38,10 @@ const tagSlice = createSlice({
         (tag) => tag._id !== action.payload._id
       );
       state.tags = newTags;
+    },
+    //assign selected tag when update
+    assignSelectedTags: (state, action) => {
+      state.selectedTags = action.payload;
     },
 
     // remove tag
@@ -55,7 +61,12 @@ const tagSlice = createSlice({
 });
 
 export default tagSlice.reducer;
-export const { assignTag, removeTag, getAllTags, clearSelectedTags } =
-  tagSlice.actions;
+export const {
+  assignTag,
+  removeTag,
+  getAllTags,
+  clearSelectedTags,
+  assignSelectedTags,
+} = tagSlice.actions;
 export const selectSelectedTags = (state: RootState) => state.tags.selectedTags;
 export const selectTags = (state: RootState) => state.tags.tags;

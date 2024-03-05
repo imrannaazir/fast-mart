@@ -42,7 +42,7 @@ import {
 } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
-import { TCollection } from "@/types/product";
+import { TCollection } from "@/types/product.type";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { useGetAllConnectivityQuery } from "@/redux/features/connectivity/connectivityApi";
 import { useGetAllPowerSourcesQuery } from "@/redux/features/powerSource/powerSourceApi";

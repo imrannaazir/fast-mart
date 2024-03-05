@@ -25,7 +25,7 @@ import SelectOrCreate from "./SelectOrCreate";
 import { formats, modules } from "@/constant/constant";
 import {
   TProductFormValues,
-  addProductFormSchema,
+  addOrEditProductFormSchema,
 } from "../../schemas/ZodValidationSchema";
 import {
   useCreateCategoryMutation,
@@ -56,7 +56,7 @@ import {
   selectSelectedTags,
   selectTags,
 } from "@/redux/features/tag/tagSlice";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   useCreateFeatureNameMutation,
   useGetAllFeatureNamesQuery,
@@ -83,10 +83,18 @@ import AddedFeature from "./AddedFeature";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
+import { TCollection, TProductDefaultValue } from "@/types/product.type";
 
-type TCollections = { _id: string; name: string }[];
-const AddProductForm = () => {
+type AddOrEditProductFormProps = {
+  defaultValues: TProductDefaultValue;
+};
+
+const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
+  defaultValues,
+}) => {
+  //local state
   const [featureValue, setFeatureValue] = useState("");
+  // invoked hooks
 
   const dispatch = useAppDispatch();
   const selectedTags = useAppSelector(selectSelectedTags);
@@ -98,7 +106,6 @@ const AddProductForm = () => {
 
   // mutation api hook
   const [createProduct] = useCreateProductMutation();
-
   // query api hook
   const { data } = useGetAllBrandsQuery(undefined);
   const [createBrand] = useCreateBrandMutation();
@@ -122,13 +129,13 @@ const AddProductForm = () => {
   const { data: featuresNamesData } = useGetAllFeatureNamesQuery(undefined);
   const [createFeatureName] = useCreateFeatureNameMutation();
 
-  const brands: TCollections = data?.data;
-  const categories: TCollections = categoryData?.data;
-  const connectivity: TCollections = connectivityData?.data;
-  const powerSources: TCollections = powerSourceData?.data;
-  const operatingSystems: TCollections = operatingSystemData?.data;
-  const tags: TCollections = tagData?.data;
-  const featureNames: TCollections = featuresNamesData?.data;
+  const brands: TCollection[] = data?.data;
+  const categories: TCollection[] = categoryData?.data;
+  const connectivity: TCollection[] = connectivityData?.data;
+  const powerSources: TCollection[] = powerSourceData?.data;
+  const operatingSystems: TCollection[] = operatingSystemData?.data;
+  const tags: TCollection[] = tagData?.data;
+  const featureNames: TCollection[] = featuresNamesData?.data;
 
   // save all tags in the redux store
   useEffect(() => {
@@ -164,30 +171,14 @@ const AddProductForm = () => {
       createCollection = null;
       break;
   }
+
   const form = useForm<TProductFormValues>({
-    resolver: zodResolver(addProductFormSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      brand: "",
-      tags: [],
-      category: "",
-      connectivity: "",
-      dimensions: "",
-      operatingSystem: "",
-      powerSource: "",
-      price: "",
-      quantity: "",
-      unit: "",
-      weight: "",
-      features: {},
-      featureName: "",
-    },
+    resolver: zodResolver(addOrEditProductFormSchema),
+    defaultValues,
     mode: "onChange",
   });
-
   // Define submit handler
-  async function onSubmit(data: z.infer<typeof addProductFormSchema>) {
+  async function onSubmit(data: z.infer<typeof addOrEditProductFormSchema>) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { featureName, price, quantity, weight, ...productData } = data;
     const toastId = toast.loading("Creating new product.", {
@@ -246,8 +237,6 @@ const AddProductForm = () => {
           (featureName) => featureName.name === key
         );
         dispatch(removeFeatureName(featureNameToDelete));
-
-        console.log(key);
 
         delete submittedFeatures[key];
 
@@ -654,4 +643,4 @@ const AddProductForm = () => {
   );
 };
 
-export default AddProductForm;
+export default AddOrEditProductForm;

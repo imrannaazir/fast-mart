@@ -30,3 +30,21 @@ export type TProduct = {
   model?: string;
   createdBy?: TCollection;
 };
+
+export type TProductDefaultValue = {
+  name?: string;
+  description?: string;
+  brand?: string;
+  tags?: [];
+  category?: string;
+  connectivity?: string;
+  dimensions?: string;
+  operatingSystem?: string;
+  powerSource?: string;
+  price?: string;
+  quantity?: string;
+  unit?: string;
+  weight?: string;
+  features?: object;
+  featureName?: string;
+};

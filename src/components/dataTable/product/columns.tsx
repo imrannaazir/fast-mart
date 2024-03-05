@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { TProduct } from "@/types/product";
+import { TProduct } from "@/types/product.type";
 import { ColumnDef } from "@tanstack/react-table";
 import { Image } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";

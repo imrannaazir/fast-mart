@@ -8,10 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
-import { TProduct } from "@/types/product";
+import { TProduct } from "@/types/product.type";
 import { Row } from "@tanstack/react-table";
-import { Copy, Eye, FilePen, MoreHorizontal, Trash2 } from "lucide-react";
+import { Eye, FilePen, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 type DataTableAction = {
@@ -21,6 +22,9 @@ type DataTableAction = {
 function DataTableAction({ row }: DataTableAction) {
   // local state
   const [isOpen, setIsOpen] = useState(false);
+  // invoked hooks
+  const navigate = useNavigate();
+
   // rtk query api hook
   const [deleteProductById, { isLoading }] = useDeleteProductByIdMutation();
 
@@ -54,7 +58,10 @@ function DataTableAction({ row }: DataTableAction) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem className="flex items-center gap-2">
+          <DropdownMenuItem
+            onClick={() => navigate(`/product-details/${product._id}`)}
+            className="flex items-center gap-2"
+          >
             <Eye size={14} /> View
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -63,10 +70,13 @@ function DataTableAction({ row }: DataTableAction) {
           >
             <Trash2 size={14} /> Delete
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2">
+          {/* <DropdownMenuItem className="flex items-center gap-2">
             <Copy size={14} /> Duplicate
-          </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2">
+          </DropdownMenuItem> */}
+          <DropdownMenuItem
+            onClick={() => navigate(`/update-product/${product._id}`)}
+            className="flex items-center gap-2"
+          >
             <FilePen size={14} /> Edit
           </DropdownMenuItem>
         </DropdownMenuContent>

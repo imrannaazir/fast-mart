@@ -2,7 +2,7 @@ import { columns } from "@/components/dataTable/product/columns";
 import { ProductDataTable } from "@/components/dataTable/product/data-table";
 import { Button } from "@/components/ui/button";
 import { useGetAllProductQuery } from "@/redux/features/product/productApi";
-import { TProduct } from "@/types/product";
+import { TProduct } from "@/types/product.type";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import queryString from "query-string";

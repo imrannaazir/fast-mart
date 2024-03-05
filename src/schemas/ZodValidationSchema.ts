@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const addProductFormSchema = z.object({
+export const addOrEditProductFormSchema = z.object({
   name: z.string(),
   description: z.string(),
   brand: z.string(),
@@ -20,4 +20,4 @@ export const addProductFormSchema = z.object({
   featureName: z.string().optional(),
 });
 
-export type TProductFormValues = z.infer<typeof addProductFormSchema>;
+export type TProductFormValues = z.infer<typeof addOrEditProductFormSchema>;

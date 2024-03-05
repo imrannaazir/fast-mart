@@ -28,11 +28,20 @@ export const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Products"],
     }),
+
+    // get product by Id
+    getProductById: builder.query({
+      query: (productId) => ({
+        url: `/product/${productId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
 export const {
   useCreateProductMutation,
   useGetAllProductQuery,
+  useGetProductByIdQuery,
   useDeleteProductByIdMutation,
 } = productApi;

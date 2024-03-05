@@ -2,7 +2,9 @@ import App from "@/App";
 import PublicRoute from "@/components/layout/PublicRoutes";
 import AddProduct from "@/pages/AddProduct";
 import LoginPage from "@/pages/Login";
+import ProductDetails from "@/pages/ProductDetails";
 import ProductList from "@/pages/ProductList";
+import UpdateProduct from "@/pages/UpdateProduct";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
       {
         path: "product-list",
         element: <ProductList />,
+      },
+      {
+        path: "/update-product/:id",
+        element: <UpdateProduct />,
+      },
+      {
+        path: "/product-details/:id",
+        element: <ProductDetails />,
       },
     ],
   },
