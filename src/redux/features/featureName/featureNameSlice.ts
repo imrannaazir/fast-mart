@@ -26,7 +26,7 @@ const featureNameSlice = createSlice({
             (selectedFeatureNames as TFeatureName[])?.filter(function (
               selectedFeatureName
             ) {
-              return selectedFeatureName._id === featureName._id;
+              return selectedFeatureName?._id === featureName?._id;
             }).length == 0
           );
         }
@@ -38,7 +38,7 @@ const featureNameSlice = createSlice({
     assignFeatureName: (state, action) => {
       state?.selectedFeatureNames.push(action.payload);
       const newFeatureNames = state.featureNames.filter(
-        (featureName) => featureName._id !== action.payload._id
+        (featureName) => featureName?._id !== action.payload?._id
       );
       state.featureNames = newFeatureNames;
     },
@@ -46,7 +46,7 @@ const featureNameSlice = createSlice({
     // remove FeatureName
     removeFeatureName: (state, action) => {
       const newSelectedFeatureName = state?.selectedFeatureNames.filter(
-        (featureName) => featureName._id !== action.payload._id
+        (featureName) => featureName?._id !== action.payload?._id
       );
       state.selectedFeatureNames = newSelectedFeatureName;
       state.featureNames.push(action.payload);

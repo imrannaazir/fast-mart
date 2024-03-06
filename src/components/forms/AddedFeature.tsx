@@ -3,13 +3,38 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  removeFeatureName,
+  selectSelectedFeatureNames,
+} from "@/redux/features/featureName/featureNameSlice";
 
 type TAddedFeatureProps = {
   keyName: string;
   value: string;
-  onDelete: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: any;
+  submittedFeatures: Record<string, string>;
 };
-const AddedFeature: FC<TAddedFeatureProps> = ({ keyName, value, onDelete }) => {
+const AddedFeature: FC<TAddedFeatureProps> = ({
+  keyName,
+  value,
+  form,
+  submittedFeatures,
+}) => {
+  const dispatch = useAppDispatch();
+  const selectedFeatureNames = useAppSelector(selectSelectedFeatureNames);
+  // handle delete feature
+  const handleDeleteFeature = () => {
+    const featureNameToDelete = selectedFeatureNames.find(
+      (featureName) => featureName.name === keyName
+    );
+    dispatch(removeFeatureName(featureNameToDelete));
+
+    delete submittedFeatures[keyName];
+
+    form.setValue("features", submittedFeatures);
+  };
   return (
     <div className="flex gap-4">
       <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -23,7 +48,7 @@ const AddedFeature: FC<TAddedFeatureProps> = ({ keyName, value, onDelete }) => {
 
       <Button
         type="button"
-        onClick={onDelete}
+        onClick={handleDeleteFeature}
         className="mt-[22px]"
         variant={"destructive"}
         size={"sm"}

@@ -19,7 +19,6 @@ const tagSlice = createSlice({
   reducers: {
     getAllTags: (state, action) => {
       const { tags, selectedTags } = action.payload;
-      console.log({ tags, selectedTags });
 
       const newTags = (tags as TTag[])?.filter(function (array_el) {
         return (
@@ -33,11 +32,17 @@ const tagSlice = createSlice({
     },
     // assign tag
     assignTag: (state, action) => {
-      state?.selectedTags.push(action.payload);
-      const newTags = state.tags.filter(
-        (tag) => tag._id !== action.payload._id
+      const isTagAlreadyExist = state.selectedTags.find(
+        (selectedTag) => selectedTag._id === action.payload._id
       );
-      state.tags = newTags;
+
+      if (!isTagAlreadyExist) {
+        state?.selectedTags.push(action.payload);
+        const newTags = state.tags.filter(
+          (tag) => tag._id !== action.payload._id
+        );
+        state.tags = newTags;
+      }
     },
     //assign selected tag when update
     assignSelectedTags: (state, action) => {

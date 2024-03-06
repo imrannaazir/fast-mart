@@ -75,7 +75,6 @@ import {
   assignFeatureName,
   clearSelectedFeatureName,
   getAllFeatureNames,
-  removeFeatureName,
   selectFeatureNames,
   selectSelectedFeatureNames,
 } from "@/redux/features/featureName/featureNameSlice";
@@ -139,8 +138,12 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
 
   // save all tags in the redux store
   useEffect(() => {
-    dispatch(getAllTags({ tags, selectedTags }));
-    dispatch(getAllFeatureNames({ featureNames, selectedFeatureNames }));
+    if (tags && selectedTags) {
+      dispatch(getAllTags({ tags, selectedTags }));
+    }
+    if (featureNames && selectedFeatureNames) {
+      dispatch(getAllFeatureNames({ featureNames, selectedFeatureNames }));
+    }
   }, [tags, selectedTags, featureNames, selectedFeatureNames]);
 
   let createCollection: TCreateCollection | null;
@@ -228,27 +231,15 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
 
   // features content to render
   let featuresContent = null;
-
-  featuresContent = Object.entries(submittedFeatures)?.map(
+  featuresContent = Object?.entries(submittedFeatures)?.map(
     ([key, value], index) => {
-      // handle delete feature
-      const handleDeleteFeature = () => {
-        const featureNameToDelete = selectedFeatureNames.find(
-          (featureName) => featureName.name === key
-        );
-        dispatch(removeFeatureName(featureNameToDelete));
-
-        delete submittedFeatures[key];
-
-        form.setValue("features", submittedFeatures);
-      };
-
       return (
         <AddedFeature
           key={index}
           keyName={key}
-          onDelete={handleDeleteFeature}
           value={value}
+          form={form}
+          submittedFeatures={submittedFeatures}
         />
       );
     }
