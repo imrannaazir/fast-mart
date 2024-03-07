@@ -5,10 +5,11 @@ const sellApi = baseApi.injectEndpoints({
     //
     sellProduct: builder.mutation({
       query: (data) => ({
-        url: "/sell",
+        url: "/order",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Product", "Products", "Order", "Orders"],
     }),
   }),
 });

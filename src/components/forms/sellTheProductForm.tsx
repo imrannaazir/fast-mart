@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { sellProductValidationSchema } from "@/schemas/sellProductSchema";
 import { useSellProductMutation } from "@/redux/features/sell/sellApi";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -21,13 +20,20 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  onClose,
+  selectCollectionName,
+} from "@/redux/features/modal/modalSlice";
+import { TProduct } from "@/types/product.type";
 
 type TSellProductFrom = {
   productQuantity: number;
 };
 const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
   const [sellProduct] = useSellProductMutation();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const selectedProduct = useAppSelector(selectCollectionName) as TProduct;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof sellProductValidationSchema>>({
@@ -45,13 +51,15 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
     });
 
     try {
-      const response = await sellProduct(values).unwrap();
-      if (response?.data?.accessToken) {
+      const response = await sellProduct({
+        product: selectedProduct._id,
+        ...values,
+      }).unwrap();
+      if (response?.data) {
         toast.success("Sold successfully", {
           id: toastId,
         });
-
-        navigate("/", { replace: true });
+        dispatch(onClose());
       }
     } catch (error) {
       toast.error("Something went wrong.", {

@@ -1,9 +1,10 @@
 import { RootState } from "@/redux/store";
+import { TProduct } from "@/types/product.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 type TInitialState = {
   isOpen: boolean;
-  collectionName: string;
+  collectionName?: string | TProduct;
 };
 const initialState: TInitialState = {
   isOpen: false,
@@ -16,11 +17,7 @@ const modalSlice = createSlice({
   reducers: {
     onOpen: (state, action) => {
       state.isOpen = true;
-      if (action.payload) {
-        state.collectionName = action.payload;
-      } else {
-        state.collectionName = "other";
-      }
+      state.collectionName = action.payload;
     },
     onClose: (state) => {
       state.isOpen = false;

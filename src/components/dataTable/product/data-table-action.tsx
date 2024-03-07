@@ -12,6 +12,7 @@ import Modal from "@/components/ui/modal";
 import {
   onClose,
   onOpen,
+  selectCollectionName,
   selectIsOpen,
 } from "@/redux/features/modal/modalSlice";
 import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
@@ -31,6 +32,7 @@ function DataTableAction({ row }: DataTableAction) {
   // local state
   const [isOpen, setIsOpen] = useState(false);
   const isModalOpen = useAppSelector(selectIsOpen);
+  const selectedProduct = useAppSelector(selectCollectionName) as TProduct;
   // invoked hooks
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -55,11 +57,11 @@ function DataTableAction({ row }: DataTableAction) {
     <>
       <Modal
         title={`Fill the form to sell this product.`}
-        description={`Product : ${product.name}`}
+        description={`Product : ${selectedProduct.name}`}
         isOpen={isModalOpen}
         onClose={() => dispatch(onClose())}
       >
-        <SellProductForm productQuantity={product.quantity} />
+        <SellProductForm productQuantity={selectedProduct.quantity} />
       </Modal>
       <AlertModal
         isLoading={isLoading}
@@ -77,7 +79,7 @@ function DataTableAction({ row }: DataTableAction) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             disabled={product.quantity < 1}
-            onClick={() => dispatch(onOpen(undefined))}
+            onClick={() => dispatch(onOpen(product))}
             className="flex items-center gap-2"
           >
             <DollarSign size={14} /> Sell

@@ -41,6 +41,8 @@ const baseApi = createApi({
     "Connectivity",
     "Tags",
     "FeatureNames",
+    "Order",
+    "Orders",
   ],
   endpoints: () => ({}),
 });
