@@ -86,12 +86,15 @@ import { TCollection, TProductDefaultValue } from "@/types/product.type";
 
 type AddOrEditProductFormProps = {
   defaultValues: TProductDefaultValue;
+  productIdToUpdate?: string;
 };
 
 const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
   defaultValues,
+  productIdToUpdate,
 }) => {
   //local state
+  const [needUpdate, setNeedUpdate] = useState(false);
   const [featureValue, setFeatureValue] = useState("");
   // invoked hooks
 
@@ -252,10 +255,20 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
           <div className="flex justify-between items-center">
             <h1 className="text-xl flex items-center gap-2 my-4">
               <FaArrowLeftLong size="15" />
-              Add Product
+              {productIdToUpdate ? "Update product" : "Add product"}
             </h1>
 
-            <Button type="submit">Publish</Button>
+            <div className="space-x-4">
+              <Button type="submit" variant={"outline"}>
+                {" "}
+                {productIdToUpdate ? "Duplicates" : "Publish"}
+              </Button>
+              {productIdToUpdate && (
+                <Button onClick={() => setNeedUpdate(true)} type="submit">
+                  Update
+                </Button>
+              )}
+            </div>
           </div>
 
           {/*  */}

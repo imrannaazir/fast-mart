@@ -1,3 +1,4 @@
+import { TProduct } from "@/types/product.type";
 import baseApi from "../api/baseApi";
 
 export const productApi = baseApi.injectEndpoints({
@@ -26,7 +27,7 @@ export const productApi = baseApi.injectEndpoints({
         url: `/product/${productId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Products", "Product"],
     }),
 
     // get product by Id
@@ -35,8 +36,25 @@ export const productApi = baseApi.injectEndpoints({
         url: `/product/${productId}`,
         method: "GET",
       }),
+      providesTags: ["Product"],
+    }),
+    updateProduct: builder.mutation({
+      query: ({
+        productId,
+        data,
+      }: {
+        productId: string;
+        data: Partial<TProduct>;
+      }) => ({
+        url: `/product/${productId}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Product", "Products"],
     }),
   }),
+
+  // update product
 });
 
 export const {

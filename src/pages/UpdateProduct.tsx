@@ -30,7 +30,6 @@ const UpdateProduct = () => {
           return featureName;
         }
       });
-      console.log(selectedFeatureNames);
 
       selectedFeatureNames.forEach((featureName) => {
         if (featureName) {
@@ -43,6 +42,7 @@ const UpdateProduct = () => {
         dispatch(assignTag(tag));
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, isLoading, dispatch]);
 
   if (isLoading) {
@@ -60,6 +60,7 @@ const UpdateProduct = () => {
     <section className="pb-6">
       <AddOrEditProductForm
         defaultValues={defaultValues as TProductDefaultValue}
+        productIdToUpdate={id}
       />
     </section>
   );
