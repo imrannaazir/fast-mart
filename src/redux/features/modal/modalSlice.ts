@@ -16,7 +16,11 @@ const modalSlice = createSlice({
   reducers: {
     onOpen: (state, action) => {
       state.isOpen = true;
-      state.collectionName = action.payload;
+      if (action.payload) {
+        state.collectionName = action.payload;
+      } else {
+        state.collectionName = "other";
+      }
     },
     onClose: (state) => {
       state.isOpen = false;

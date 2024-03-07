@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import SellProductForm from "@/components/forms/sellTheProductForm";
 import AlertModal from "@/components/modal/alert-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,10 +8,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Modal from "@/components/ui/modal";
+import {
+  onClose,
+  onOpen,
+  selectIsOpen,
+} from "@/redux/features/modal/modalSlice";
 import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TProduct } from "@/types/product.type";
 import { Row } from "@tanstack/react-table";
-import { Eye, FilePen, MoreHorizontal, Trash2 } from "lucide-react";
+import { DollarSign, FilePen, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -22,9 +30,10 @@ type DataTableAction = {
 function DataTableAction({ row }: DataTableAction) {
   // local state
   const [isOpen, setIsOpen] = useState(false);
+  const isModalOpen = useAppSelector(selectIsOpen);
   // invoked hooks
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   // rtk query api hook
   const [deleteProductById, { isLoading }] = useDeleteProductByIdMutation();
 
@@ -44,6 +53,14 @@ function DataTableAction({ row }: DataTableAction) {
 
   return (
     <>
+      <Modal
+        title={`Fill the form to sell this product.`}
+        description={`Product : ${product.name}`}
+        isOpen={isModalOpen}
+        onClose={() => dispatch(onClose())}
+      >
+        <SellProductForm />
+      </Modal>
       <AlertModal
         isLoading={isLoading}
         isOpen={isOpen}
@@ -59,10 +76,10 @@ function DataTableAction({ row }: DataTableAction) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onClick={() => navigate(`/product-details/${product._id}`)}
+            onClick={() => dispatch(onOpen(undefined))}
             className="flex items-center gap-2"
           >
-            <Eye size={14} /> View
+            <DollarSign size={14} /> Sell
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => setIsOpen(true)}
