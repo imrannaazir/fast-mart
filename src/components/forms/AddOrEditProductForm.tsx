@@ -81,7 +81,10 @@ import {
 import AddedFeature from "./AddedFeature";
 import { X } from "lucide-react";
 import { toast } from "sonner";
-import { useCreateProductMutation } from "@/redux/features/product/productApi";
+import {
+  useCreateProductMutation,
+  useUpdateProductMutation,
+} from "@/redux/features/product/productApi";
 import { TCollection, TProductDefaultValue } from "@/types/product.type";
 
 type AddOrEditProductFormProps = {
@@ -108,6 +111,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
 
   // mutation api hook
   const [createProduct] = useCreateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
   // query api hook
   const { data } = useGetAllBrandsQuery(undefined);
   const [createBrand] = useCreateBrandMutation();
@@ -185,27 +189,60 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
   });
   // Define submit handler
   async function onSubmit(data: z.infer<typeof addOrEditProductFormSchema>) {
+    const loadingMessage =
+      productIdToUpdate && needUpdate
+        ? "Updating product."
+        : productIdToUpdate && !needUpdate
+        ? "Making a copy."
+        : "Creating new product.";
+    const successMessage =
+      productIdToUpdate && needUpdate
+        ? "Product updated."
+        : productIdToUpdate && !needUpdate
+        ? "Product duplicated."
+        : "Product created.";
+    const errorMessage =
+      productIdToUpdate && needUpdate
+        ? "Failed to update product."
+        : productIdToUpdate && !needUpdate
+        ? "Failed to duplicate product."
+        : "Failed to create product.";
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { featureName, price, quantity, weight, ...productData } = data;
-    const toastId = toast.loading("Creating new product.", {
+    const toastId = toast.loading(loadingMessage, {
       duration: 2000,
     });
 
     try {
-      const response = await createProduct({
-        ...productData,
-        price: Number(price),
-        quantity: Number(quantity),
-        weight: Number(weight),
-      }).unwrap();
+      let response;
+      if (productIdToUpdate && needUpdate) {
+        const data = {
+          ...productData,
+          price: Number(price),
+          quantity: Number(quantity),
+          weight: Number(weight),
+        };
+        response = await updateProduct({
+          productId: productIdToUpdate,
+          data,
+        }).unwrap();
+      } else {
+        response = await createProduct({
+          ...productData,
+          price: Number(price),
+          quantity: Number(quantity),
+          weight: Number(weight),
+        }).unwrap();
+      }
       if (response.success) {
         // form.reset();
         dispatch(clearSelectedFeatureName());
         dispatch(clearSelectedTags());
-        toast.success("Product created successfully.", { id: toastId });
+        toast.success(successMessage, { id: toastId });
       }
     } catch (error) {
-      toast.error("Failed to create product.", { id: toastId });
+      toast.error(errorMessage, { id: toastId });
     }
   }
 
