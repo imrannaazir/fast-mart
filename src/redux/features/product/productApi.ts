@@ -9,7 +9,7 @@ export const productApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Products", "Product"],
     }),
 
     // get all product

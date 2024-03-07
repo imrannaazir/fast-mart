@@ -16,6 +16,7 @@ import modalSlice from "./features/modal/modalSlice";
 import tagSlice from "./features/tag/tagSlice";
 import featureNameSlice from "./features/featureName/featureNameSlice";
 import filterSlice from "./features/filter/filterSlice";
+import { productReducer } from "./features/product/productSlice";
 
 const persistConfig = {
   key: "auth",
@@ -31,6 +32,7 @@ const store = configureStore({
     tags: tagSlice,
     featureName: featureNameSlice,
     filter: filterSlice,
+    product: productReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

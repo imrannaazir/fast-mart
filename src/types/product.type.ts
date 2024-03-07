@@ -48,3 +48,11 @@ export type TProductDefaultValue = {
   features?: object;
   featureName?: string;
 };
+export type TAllKeyOfProduct = keyof TProductDefaultValue;
+
+export type TAllValueOfProduct =
+  | string
+  | number
+  | string[]
+  | Record<string, string>
+  | undefined;

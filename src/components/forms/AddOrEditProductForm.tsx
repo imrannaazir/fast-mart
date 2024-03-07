@@ -85,22 +85,38 @@ import {
   useCreateProductMutation,
   useUpdateProductMutation,
 } from "@/redux/features/product/productApi";
-import { TCollection, TProductDefaultValue } from "@/types/product.type";
+import {
+  TAllKeyOfProduct,
+  TAllValueOfProduct,
+  TCollection,
+} from "@/types/product.type";
+import { useNavigate } from "react-router-dom";
+import { selectDefaultProductValues } from "@/redux/features/product/productSlice";
 
 type AddOrEditProductFormProps = {
-  defaultValues: TProductDefaultValue;
   productIdToUpdate?: string;
 };
 
 const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
-  defaultValues,
   productIdToUpdate,
 }) => {
+  const defaultProductValues = useAppSelector(selectDefaultProductValues);
+  const [defaultValues, setDefaultValues] = useState(defaultProductValues);
+
+  useEffect(() => {
+    setDefaultValues(defaultProductValues);
+    for (const [key, value] of Object.entries(defaultProductValues)) {
+      form.setValue(key as TAllKeyOfProduct, value as TAllValueOfProduct);
+    }
+  }, [defaultProductValues]);
+  console.log(defaultValues);
+
   //local state
   const [needUpdate, setNeedUpdate] = useState(false);
   const [featureValue, setFeatureValue] = useState("");
-  // invoked hooks
 
+  // invoked hooks
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const selectedTags = useAppSelector(selectSelectedTags);
   const allFeatureNames = useAppSelector(selectFeatureNames);
@@ -209,37 +225,50 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
         : "Failed to create product.";
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { featureName, price, quantity, weight, ...productData } = data;
+    const { featureName, price, quantity, weight, name, ...productData } = data;
     const toastId = toast.loading(loadingMessage, {
       duration: 2000,
     });
 
+    const payload = {
+      ...productData,
+      name:
+        productIdToUpdate &&
+        !needUpdate &&
+        defaultValues.name === form.getValues("name")
+          ? `${name} (copy)`
+          : name,
+      price: Number(price),
+      quantity: Number(quantity),
+      weight: Number(weight),
+    };
+
     try {
       let response;
       if (productIdToUpdate && needUpdate) {
-        const data = {
-          ...productData,
-          price: Number(price),
-          quantity: Number(quantity),
-          weight: Number(weight),
-        };
         response = await updateProduct({
           productId: productIdToUpdate,
-          data,
+          data: payload,
         }).unwrap();
       } else {
-        response = await createProduct({
-          ...productData,
-          price: Number(price),
-          quantity: Number(quantity),
-          weight: Number(weight),
-        }).unwrap();
+        response = await createProduct(payload).unwrap();
       }
       if (response.success) {
+        const responseProductId = response.data._id;
+        const redirectUrl =
+          responseProductId && !needUpdate && productIdToUpdate
+            ? `/update-product/${responseProductId}`
+            : !productIdToUpdate && !needUpdate
+            ? "/product-list"
+            : "";
         // form.reset();
         dispatch(clearSelectedFeatureName());
         dispatch(clearSelectedTags());
         toast.success(successMessage, { id: toastId });
+
+        if (redirectUrl) {
+          navigate(redirectUrl);
+        }
       }
     } catch (error) {
       toast.error(errorMessage, { id: toastId });

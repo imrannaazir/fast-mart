@@ -1,30 +1,18 @@
 import AddOrEditProductForm from "@/components/forms/AddOrEditProductForm";
-import { TProductDefaultValue } from "@/types/product.type";
+import { setDefaultValuesEmpty } from "@/redux/features/product/productSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const AddProductPage = () => {
-  // default values
-  const defaultValues = {
-    name: "",
-    description: "",
-    brand: "",
-    tags: [],
-    category: "",
-    connectivity: "",
-    dimensions: "",
-    operatingSystem: "",
-    powerSource: "",
-    price: "",
-    quantity: "",
-    unit: "",
-    weight: "",
-    features: {},
-    featureName: "",
-  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setDefaultValuesEmpty());
+  }, [dispatch]);
+
   return (
     <section className="pb-6">
-      <AddOrEditProductForm
-        defaultValues={defaultValues as TProductDefaultValue}
-      />
+      <AddOrEditProductForm />
     </section>
   );
 };
