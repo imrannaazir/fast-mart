@@ -59,7 +59,7 @@ function DataTableAction({ row }: DataTableAction) {
         isOpen={isModalOpen}
         onClose={() => dispatch(onClose())}
       >
-        <SellProductForm />
+        <SellProductForm productQuantity={product.quantity} />
       </Modal>
       <AlertModal
         isLoading={isLoading}
@@ -76,6 +76,7 @@ function DataTableAction({ row }: DataTableAction) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
+            disabled={product.quantity < 1}
             onClick={() => dispatch(onOpen(undefined))}
             className="flex items-center gap-2"
           >

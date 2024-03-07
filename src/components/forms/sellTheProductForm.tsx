@@ -20,15 +20,22 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
+import { FC } from "react";
 
-const SellProductForm = () => {
+type TSellProductFrom = {
+  productQuantity: number;
+};
+const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
   const [sellProduct] = useSellProductMutation();
   const navigate = useNavigate();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof sellProductValidationSchema>>({
     resolver: zodResolver(sellProductValidationSchema),
-    defaultValues: {},
+    defaultValues: {
+      buyer_name: "",
+      quantity: 1,
+    },
   });
 
   // 2. Define a submit handler.
@@ -73,6 +80,7 @@ const SellProductForm = () => {
         <div className="flex space-x-4 items-center">
           {/* quantity */}
           <FormField
+            defaultValue={1}
             control={form.control}
             name="quantity"
             render={({ field }) => (
@@ -80,6 +88,8 @@ const SellProductForm = () => {
                 <FormLabel>Quantity</FormLabel>
                 <FormControl>
                   <Input
+                    min={1}
+                    id="quantity"
                     placeholder="Enter sell quantity."
                     type="number"
                     {...field}
@@ -134,7 +144,14 @@ const SellProductForm = () => {
           />
         </div>
 
-        <Button type="submit">Sell</Button>
+        <Button
+          disabled={productQuantity < form.watch("quantity")}
+          type="submit"
+        >
+          {productQuantity < form.watch("quantity")
+            ? "Quantity exceed."
+            : "Sell"}
+        </Button>
       </form>
     </Form>
   );
