@@ -162,6 +162,9 @@ const updateProductById = async (id: string, payload: Partial<TProduct>) => {
   if (!isProductExist) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not founded.');
   }
+  if (payload.quantity && payload.quantity > 0) {
+    payload.status = 'in-stock';
+  }
 
   const result = await Product.findByIdAndUpdate(id, payload, {
     new: true,
