@@ -16,6 +16,7 @@ const orderSchema = new Schema<TOrder>(
       type: Number,
       required: true,
     },
+    totalCost: { type: Number, required: true },
     createdBy: {
       type: Schema.Types.ObjectId,
       required: true,

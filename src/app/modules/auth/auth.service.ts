@@ -3,7 +3,7 @@ import AppError from '../../errors/AppError';
 import { TUser } from '../user/user.interface';
 import User from '../user/user.model';
 import { JwtPayload } from 'jsonwebtoken';
-import { decodeToken, generateToken } from './auth.utils';
+import { verifyPassword, generateToken } from './auth.utils';
 import config from '../../config';
 import { TLoginUser } from './auth.interface';
 
@@ -58,7 +58,7 @@ const login = async (payload: TLoginUser) => {
   }
 
   // decoded password and check
-  const isMatched = await decodeToken(password, isUserExist.password);
+  const isMatched = await verifyPassword(password, isUserExist.password);
 
   if (!isMatched) {
     throw new AppError(

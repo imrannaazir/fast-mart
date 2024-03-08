@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 export type TName = {
   firstName: string;
   middleName?: string;
@@ -7,6 +9,7 @@ export type TName = {
 export type TRole = 'user';
 
 export type TUser = {
+  _id?: Types.ObjectId;
   name?: TName;
   email: string;
   password: string;
@@ -14,4 +17,6 @@ export type TUser = {
   profileImage?: string;
   phoneNumber?: string;
   passwordChangeAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 };

@@ -10,9 +10,10 @@ import Tag from '../tag/tag.model';
 import OperatingSystem from '../operatingSystem/operatingSystem.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { ProductSearchableFields } from './product.constant';
+import { Types } from 'mongoose';
 
 // create product
-const createProduct = async (payload: TProduct) => {
+const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
   /* 
   
 1. check is brand exist 
@@ -87,8 +88,7 @@ const createProduct = async (payload: TProduct) => {
   payload.model = new Date().getTime().toString();
   console.log('generate model');
 
-  // ⚠️⚠️⚠️ include createdBy
-  payload.createdBy = '65df56e972e5d352ce0326ae';
+  payload.createdBy = userId;
   const result = await Product.create(payload);
   return result;
 };

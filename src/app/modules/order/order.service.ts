@@ -2,13 +2,13 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import Product from '../product/product.model';
 import { TOrder } from './order.interface';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import Order from './order.model';
 import moment from 'moment';
 import QueryBuilder from '../../builder/QueryBuilder';
 
 // create order
-const createOrder = async (payload: TOrder) => {
+const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
   const { product, quantity } = payload;
 
   // check is product exist
@@ -26,7 +26,8 @@ const createOrder = async (payload: TOrder) => {
   }
 
   payload.soldAt = new Date(payload.soldAt);
-  payload.createdBy = '65cf7cd88aee58d20c492d43';
+  payload.createdBy = userId;
+  payload.totalCost = payload.quantity * isProductExist.price;
   //   payload.createdBy = user.userId
 
   // transaction and rollback
@@ -97,7 +98,10 @@ const getAllOrder = async (query: Record<string, unknown>) => {
             ],
           }
         : {},
-    ),
+    ).populate({
+      path: 'product',
+      select: 'name',
+    }),
     query,
   )
     .search(['buyer_name'])

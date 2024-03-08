@@ -2,10 +2,15 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import ProductService from './product.service';
+import { Types } from 'mongoose';
 
 // create product
 const createProduct = catchAsync(async (req, res) => {
-  const result = await ProductService.createProduct(req.body);
+  const userId = req.user._id;
+  const result = await ProductService.createProduct(
+    req.body,
+    userId as Types.ObjectId,
+  );
 
   sendResponse(res, {
     success: true,

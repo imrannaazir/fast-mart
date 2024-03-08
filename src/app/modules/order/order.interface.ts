@@ -5,5 +5,6 @@ export type TOrder = {
   quantity: number;
   soldAt: Date;
   product: Types.ObjectId;
+  totalCost?: number;
   createdBy?: Types.ObjectId;
 };
