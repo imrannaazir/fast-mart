@@ -3,7 +3,7 @@ import AppError from '../../errors/AppError';
 import { TUser } from '../user/user.interface';
 import User from '../user/user.model';
 import { JwtPayload } from 'jsonwebtoken';
-import { verifyPassword, generateToken } from './auth.utils';
+import { verifyPassword, generateToken, decodeToken } from './auth.utils';
 import config from '../../config';
 import { TLoginUser } from './auth.interface';
 
@@ -88,8 +88,45 @@ const login = async (payload: TLoginUser) => {
   return { accessToken, refreshToken };
 };
 
+// refresh token
+const refreshToken = async (token: string) => {
+  if (!token) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Token is not available.');
+  }
+
+  const decoded = (await decodeToken(
+    token,
+    config.jwt_refresh_secret as string,
+  )) as JwtPayload;
+
+  if (!decoded) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Token is not valid.');
+  }
+
+  const isUserExist = await User.findOne({ email: decoded.email });
+
+  if (!isUserExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Account not found.');
+  }
+
+  const JwtPayload: JwtPayload = {
+    email: isUserExist.email,
+    role: isUserExist.role,
+  };
+
+  // generate access token
+  const accessToken = await generateToken(
+    JwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_token_expires_in as string,
+  );
+
+  return { accessToken };
+};
+
 const AuthService = {
   register,
   login,
+  refreshToken,
 };
 export default AuthService;

@@ -2,12 +2,14 @@ import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import TagController from './tag.controller';
 import { createTagValidationSchema } from './tag.validation';
+import auth from '../../middlewares/auth';
 
 const router = Router();
 
 // create Tag : POST
 router.post(
   '/',
+  auth('user'),
   validateRequest(createTagValidationSchema),
   TagController.createTag,
 );

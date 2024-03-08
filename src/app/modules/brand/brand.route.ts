@@ -2,12 +2,14 @@ import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { createBrandValidationSchema } from './brand.validation';
 import BrandController from './brand.controller';
+import auth from '../../middlewares/auth';
 
 const router = Router();
 
 // create brand : POST
 router.post(
   '/',
+  auth('user'),
   validateRequest(createBrandValidationSchema),
   BrandController.createBrand,
 );

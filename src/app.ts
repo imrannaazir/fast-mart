@@ -5,11 +5,12 @@ import { Application } from 'express';
 import notFoundHandler from './app/middlewares/notFoundHandler';
 import router from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import config from './app/config';
 
 const app: Application = express();
 // parser
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: [config.client_url as string], credentials: true }));
 app.use(cookieParser());
 
 app.get('/api/v1', (req, res) => {

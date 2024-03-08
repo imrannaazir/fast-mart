@@ -23,3 +23,9 @@ export const loginValidationSchema = z.object({
     password: z.string().min(4).max(30),
   }),
 });
+
+export const refreshTokenValidationSchema = z.object({
+  cookies: z.object({
+    refreshToken: z.string(),
+  }),
+});
