@@ -8,6 +8,7 @@ import ConnectivityRoutes from '../modules/connectivity/connectivity.route';
 import TagRoutes from '../modules/tag/tag.route';
 import FeatureNameRoutes from '../modules/featureName/featureName.route';
 import OperatingSystemRoutes from '../modules/operatingSystem/operatingSystem.route';
+import OrderRoute from '../modules/order/order.route';
 
 const router = Router();
 
@@ -52,6 +53,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/feature-name',
     route: FeatureNameRoutes,
+  },
+  {
+    path: '/order',
+    route: OrderRoute,
   },
 ];
 
