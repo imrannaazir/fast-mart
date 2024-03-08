@@ -2,6 +2,7 @@ import App from "@/App";
 import PublicRoute from "@/components/layout/PublicRoutes";
 import AddProduct from "@/pages/AddProduct";
 import LoginPage from "@/pages/Login";
+import OrderList from "@/pages/OrderList";
 import ProductDetails from "@/pages/ProductDetails";
 import ProductList from "@/pages/ProductList";
 import UpdateProduct from "@/pages/UpdateProduct";
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/product-details/:id",
         element: <ProductDetails />,
+      },
+      {
+        path: "/order-list",
+        element: <OrderList />,
       },
     ],
   },

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Circle, Home } from "lucide-react";
+import { Circle, Home, ShoppingBag } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IoMdPricetag } from "react-icons/io";
 import {
@@ -38,6 +38,11 @@ export default function MainNav({
           isActive: true,
         },
       ],
+    },
+    {
+      icon: ShoppingBag,
+      label: "Orders",
+      href: "/order-list",
     },
   ];
   return (

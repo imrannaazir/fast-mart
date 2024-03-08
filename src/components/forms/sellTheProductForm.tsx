@@ -140,7 +140,11 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) => date < new Date()}
+                      disabled={(date) => {
+                        console.log(date, new Date());
+
+                        return date.getDate() !== new Date().getDate();
+                      }}
                       initialFocus
                     />
                   </PopoverContent>

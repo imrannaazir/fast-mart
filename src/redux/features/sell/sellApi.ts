@@ -11,7 +11,15 @@ const sellApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Product", "Products", "Order", "Orders"],
     }),
+
+    //get all order list
+    getAllOrder: builder.query({
+      query: (query) => ({
+        url: `/order/?${query}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useSellProductMutation } = sellApi;
+export const { useSellProductMutation, useGetAllOrderQuery } = sellApi;

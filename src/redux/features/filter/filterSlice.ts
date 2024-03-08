@@ -26,6 +26,7 @@ type TInitialState = {
   page: number;
   limit: number;
   meta: TMeta | null;
+  date: string | null;
 };
 
 const initialState: TInitialState = {
@@ -40,6 +41,7 @@ const initialState: TInitialState = {
   limit: 5,
   page: 1,
   meta: null,
+  date: null,
 };
 
 const filterSlice = createSlice({
@@ -187,6 +189,11 @@ const filterSlice = createSlice({
     clearTags: (state) => {
       state.tags = [];
     },
+
+    //set filter by date
+    setFilterByDate: (state, action) => {
+      state.date = action.payload;
+    },
   },
 });
 
@@ -229,6 +236,7 @@ export const {
   goToNPage,
   setDataLimit,
   setMeta,
+  setFilterByDate,
 } = filterSlice.actions;
 
 // selector
@@ -246,3 +254,4 @@ export const selectTags = (state: RootState) => state.filter.tags;
 export const selectPage = (state: RootState) => state.filter.page;
 export const selectLimit = (state: RootState) => state.filter.limit;
 export const selectMeta = (state: RootState) => state.filter.meta;
+export const selectFilterByDate = (state: RootState) => state.filter.date;
