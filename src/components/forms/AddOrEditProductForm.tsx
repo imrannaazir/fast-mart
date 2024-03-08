@@ -5,7 +5,6 @@ import { z } from "zod";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // import styles
 import { FaArrowLeftLong } from "react-icons/fa6";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -172,25 +171,25 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
   let createCollection: TCreateCollection | null;
   switch (selectedCollectionName) {
     case "brand":
-      createCollection = createBrand;
+      createCollection = createBrand as TCreateCollection;
       break;
     case "category":
-      createCollection = createCategory;
+      createCollection = createCategory as TCreateCollection;
       break;
     case "connectivity":
-      createCollection = createConnectivity;
+      createCollection = createConnectivity as TCreateCollection;
       break;
     case "powerSource":
-      createCollection = createPowerSource;
+      createCollection = createPowerSource as TCreateCollection;
       break;
     case "operatingSystem":
-      createCollection = createOperatingSystem;
+      createCollection = createOperatingSystem as TCreateCollection;
       break;
     case "tags":
-      createCollection = createTag;
+      createCollection = createTag as TCreateCollection;
       break;
     case "featureName":
-      createCollection = createFeatureName;
+      createCollection = createFeatureName as TCreateCollection;
       break;
 
     default:
@@ -391,7 +390,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                           form={form}
                           collections={brands}
                           collectionName="brand"
-                          createCollection={createBrand}
+                          createCollection={createBrand as TCreateCollection}
                         />
 
                         <FormMessage />
@@ -411,7 +410,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                           form={form}
                           collections={categories}
                           collectionName="category"
-                          createCollection={createCategory}
+                          createCollection={createCategory as TCreateCollection}
                         />
 
                         <FormMessage />
@@ -445,7 +444,9 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                           form={form}
                           collections={allFeatureNames}
                           collectionName="featureName"
-                          createCollection={createFeatureName}
+                          createCollection={
+                            createFeatureName as TCreateCollection
+                          }
                         />
 
                         <FormMessage />
@@ -591,7 +592,9 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                           form={form}
                           collections={operatingSystems}
                           collectionName="operatingSystem"
-                          createCollection={createOperatingSystem}
+                          createCollection={
+                            createOperatingSystem as TCreateCollection
+                          }
                         />
 
                         <FormMessage />
@@ -611,7 +614,9 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                           form={form}
                           collections={powerSources}
                           collectionName="powerSource"
-                          createCollection={createPowerSource}
+                          createCollection={
+                            createPowerSource as TCreateCollection
+                          }
                         />
 
                         <FormMessage />
@@ -632,7 +637,9 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                         form={form}
                         collections={connectivity}
                         collectionName="connectivity"
-                        createCollection={createConnectivity}
+                        createCollection={
+                          createConnectivity as TCreateCollection
+                        }
                       />
 
                       <FormMessage />
@@ -682,7 +689,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                         form={form}
                         collections={allTags}
                         collectionName="tags"
-                        createCollection={createTag}
+                        createCollection={createTag as TCreateCollection}
                       />
 
                       <FormMessage />
@@ -696,16 +703,16 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
       </Form>
 
       <Modal
-        title={`Create ${camelCaseToWords(selectedCollectionName)}`}
+        title={`Create ${camelCaseToWords(selectedCollectionName as string)}`}
         description={`Add new ${camelCaseToWords(
-          selectedCollectionName
+          selectedCollectionName as string
         )} to add new products.`}
         isOpen={isOpen}
         onClose={() => dispatch(onClose())}
       >
         <CreateCollectionForm
           form={form}
-          collectionName={selectedCollectionName}
+          collectionName={selectedCollectionName as string}
           createCollection={createCollection as TCreateCollection}
         />
       </Modal>

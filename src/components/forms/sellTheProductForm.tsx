@@ -141,8 +141,6 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
                       selected={field.value}
                       onSelect={field.onChange}
                       disabled={(date) => {
-                        console.log(date, new Date());
-
                         return date.getDate() !== new Date().getDate();
                       }}
                       initialFocus

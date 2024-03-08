@@ -34,7 +34,6 @@ const OrderList = () => {
   useEffect(() => {
     setSkip(false);
   }, [query]);
-  console.log(orders);
 
   return (
     <div>

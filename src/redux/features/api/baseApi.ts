@@ -7,9 +7,15 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { toast } from "sonner";
+import { logIn, logOut } from "../auth/authSlice";
+import { jwtDecode } from "jwt-decode";
+
+const url = import.meta.env.VITE_API_URL;
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: url,
+  credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
 
@@ -26,11 +32,42 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   FetchArgs,
   BaseQueryApi,
   DefinitionType
-> = async (args, api, extraOptions) => {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+> = async (args, api, extraOptions): Promise<any> => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let result: any = await baseQuery(args, api, extraOptions);
+  if (result?.error?.status === 404) {
+    toast.error(result?.error?.data?.errorSources[0].message);
+  }
+  if (result?.error?.status === 403) {
+    toast.error(result?.error?.data?.errorSources[0].message);
+  }
+
+  if (result?.error?.status === 401) {
+    // get refresh token
+    const res = await fetch(`${url}/auth/refresh-token`, {
+      method: "POST",
+      credentials: "include",
+    });
+    const data = await res.json();
+    const token = data?.data?.accessToken;
+
+    if (token) {
+      api.dispatch(logIn({ accessToken: token, user: jwtDecode(token) }));
+
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      api.dispatch(logOut());
+    }
+  }
+
+  // return result
+  return result;
+};
 
 const baseApi = createApi({
   reducerPath: "api",
-  baseQuery,
+  baseQuery: baseQueryWithRefreshToken,
   tagTypes: [
     "Product",
     "Products",

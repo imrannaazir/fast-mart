@@ -15,17 +15,10 @@ import {
 import { CheckIcon, PlusCircle } from "lucide-react";
 import { FC } from "react";
 import { Separator } from "../ui/separator";
-import { MutationTrigger } from "node_modules/@reduxjs/toolkit/dist/query/react/buildHooks";
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  MutationDefinition,
-} from "@reduxjs/toolkit/query";
 import { useAppDispatch } from "@/redux/hooks";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { ClassValue } from "clsx";
+import { TCreateCollection } from "@/types/rtkQuery.type";
 
 type TSelectOrCreateProps = {
   collections: { name: string; _id: string }[];
@@ -36,21 +29,7 @@ type TSelectOrCreateProps = {
   collectionName: string;
   className?: ClassValue;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
-  createCollection: MutationTrigger<
-    MutationDefinition<
-      any,
-      BaseQueryFn<
-        string | FetchArgs,
-        unknown,
-        FetchBaseQueryError,
-        {},
-        FetchBaseQueryMeta
-      >,
-      never,
-      any,
-      "api"
-    >
-  >;
+  createCollection: TCreateCollection;
 };
 
 const SelectOrCreate: FC<TSelectOrCreateProps> = ({

@@ -19,7 +19,7 @@ export type TCreateCollection = MutationTrigger<
       {},
       FetchBaseQueryMeta
     >,
-    never,
+    any,
     any,
     "api"
   >
