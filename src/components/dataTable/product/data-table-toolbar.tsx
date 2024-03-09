@@ -39,7 +39,6 @@ import {
   selectSearchTerm,
   selectTags,
   updateSearchTerm,
-  selectPriceRange,
   setPriceRange,
 } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -51,12 +50,13 @@ import { useGetAllPowerSourcesQuery } from "@/redux/features/powerSource/powerSo
 import { useGetAllOperatingSystemsQuery } from "@/redux/features/operatingSystem/operatingSystemApi";
 import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
 import { Slider } from "./price-limit-filter";
+import { useGetHighestProductPriceQuery } from "@/redux/features/product/productApi";
+import { useEffect } from "react";
 ("./price-limit-filter");
 // import { useGetAllFeatureNamesQuery } from "@/redux/features/featureName/featureNameApi";
 
 const ProductDataTableToolbar = () => {
   const dispatch = useAppDispatch();
-  const range = useAppSelector(selectPriceRange);
   const handleRangeChange = (value: number[]) => {
     dispatch(setPriceRange(value));
   };
@@ -75,7 +75,11 @@ const ProductDataTableToolbar = () => {
     useGetAllOperatingSystemsQuery(undefined);
   const { data: tagData, isLoading: isTagsLoading } =
     useGetAllTagQuery(undefined);
+  const { data: highestProductPriceData, isLoading: isHighPriceLoading } =
+    useGetHighestProductPriceQuery(undefined);
   // const { data: featuresNamesData, isLoading:isFeatureNamesLoading } = useGetAllFeatureNamesQuery(undefined);
+  const highRange = highestProductPriceData?.data?.highRange;
+  console.log(highRange);
 
   // redux store data
   const searchTerm = useAppSelector(selectSearchTerm);
@@ -144,6 +148,16 @@ const ProductDataTableToolbar = () => {
     },
   ];
 
+  useEffect(() => {
+    if (highRange) {
+      dispatch(setPriceRange([0, highRange]));
+    }
+  }, [dispatch, highRange]);
+
+  if (isHighPriceLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div className="flex items-center justify-between border p-2 rounded-md">
       <div className="flex flex-1 items-center space-x-2">
@@ -168,15 +182,17 @@ const ProductDataTableToolbar = () => {
 
           {/* filters */}
           <div className="space-x-2">
-            <Slider
-              minStepsBetweenThumbs={1}
-              max={48}
-              min={0}
-              step={1}
-              value={range}
-              onValueChange={handleRangeChange}
-              formatLabel={(value) => `${value} hrs`}
-            />
+            {highRange && (
+              <Slider
+                minStepsBetweenThumbs={1}
+                max={highRange}
+                min={0}
+                step={10}
+                value={[0, highRange]}
+                onValueChange={handleRangeChange}
+                formatLabel={(value) => `$${value} `}
+              />
+            )}
             {/* status filters  */}
             <DataTableFacetedFilter
               selectedValues={selectedStatus}

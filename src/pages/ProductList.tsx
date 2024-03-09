@@ -16,6 +16,7 @@ import {
   selectOperatingSystems,
   selectPage,
   selectPowerSources,
+  selectPriceRange,
   selectSearchTerm,
   selectTags,
   setMeta,
@@ -34,6 +35,7 @@ const ProductList = () => {
   const filteredConnectivity = useAppSelector(selectConnectivity);
   const page = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
+  const [lowPrice, highPrice] = useAppSelector(selectPriceRange);
 
   // local state
   const [skip, setSkip] = useState(true);
@@ -53,6 +55,8 @@ const ProductList = () => {
     tags: filteredTags?.map((filter) => filter.value),
     page,
     limit,
+    lowPrice,
+    highPrice,
   });
   const { data } = useGetAllProductQuery(query, { skip });
   const products: TProduct[] = data?.data?.data || [];

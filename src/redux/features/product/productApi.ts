@@ -38,6 +38,8 @@ export const productApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Product"],
     }),
+
+    // update product
     updateProduct: builder.mutation({
       query: ({ productId, data }) => ({
         url: `/product/${productId}`,
@@ -46,9 +48,15 @@ export const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Product", "Products"],
     }),
+    getHighestProductPrice: builder.query({
+      query: () => ({
+        url: "/product/highest-price",
+        method: "GET",
+      }),
+    }),
   }),
 
-  // update product
+  // get highest price
 });
 
 export const {
@@ -57,4 +65,5 @@ export const {
   useGetProductByIdQuery,
   useDeleteProductByIdMutation,
   useUpdateProductMutation,
+  useGetHighestProductPriceQuery,
 } = productApi;
