@@ -82,6 +82,17 @@ const getHighestProductPrice = catchAsync(async (req, res) => {
   });
 });
 
+// bulk delete
+const deleteBulkProduct = catchAsync(async (req, res) => {
+  const ids = req.body.ids;
+  const result = await ProductService.deleteBulkProduct(ids);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Products deleted successfully.',
+    data: result,
+  });
+});
 const ProductController = {
   createProduct,
   getAllProduct,
@@ -89,6 +100,7 @@ const ProductController = {
   getSingleProductById,
   updateProductById,
   getHighestProductPrice,
+  deleteBulkProduct,
 };
 
 export default ProductController;

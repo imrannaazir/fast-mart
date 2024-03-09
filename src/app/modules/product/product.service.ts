@@ -105,7 +105,12 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 
   // product query model
   const productModelQuery = new QueryBuilder(
-    Product.find({}).populate(
+    Product.find({
+      $and: [
+        { price: { $gte: query.lowPrice } },
+        { price: { $lte: query.highPrice } },
+      ],
+    }).populate(
       'brand createdBy category powerSource connectivity tags operatingSystem',
     ),
     queryObj,
@@ -188,6 +193,20 @@ const getHighestProductPrice = async () => {
 
   return { highRange: mostValuableProduct.price };
 };
+
+// bulk product delete
+const deleteBulkProduct = async (ids: string[]) => {
+  const result = await Product.deleteMany({ _id: { $in: ids } });
+
+  if (result.deletedCount < 1) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      'Failed to delete any product.',
+    );
+  }
+
+  return { deletedProductCount: result.deletedCount };
+};
 const ProductService = {
   createProduct,
   getAllProduct,
@@ -195,6 +214,7 @@ const ProductService = {
   deleteProductById,
   updateProductById,
   getHighestProductPrice,
+  deleteBulkProduct,
 };
 
 export default ProductService;

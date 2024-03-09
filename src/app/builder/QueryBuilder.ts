@@ -55,6 +55,8 @@ class QueryBuilder<T> {
       'sort',
       'fields',
       'date',
+      'highPrice',
+      'lowPrice',
     ];
 
     // exclude fields from filter object

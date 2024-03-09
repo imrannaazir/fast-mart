@@ -20,3 +20,9 @@ export const createProductValidationSchema = z.object({
     features: featureValidationSchema,
   }),
 });
+
+export const deleteBulkProductValidationSchema = z.object({
+  body: z.object({
+    ids: z.array(z.string()),
+  }),
+});
