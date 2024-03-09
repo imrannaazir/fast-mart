@@ -27,6 +27,7 @@ type TInitialState = {
   limit: number;
   meta: TMeta | null;
   date: string | null;
+  priceRange: [number, number];
 };
 
 const initialState: TInitialState = {
@@ -42,12 +43,18 @@ const initialState: TInitialState = {
   page: 1,
   meta: null,
   date: null,
+  priceRange: [0, 0],
 };
 
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
+    // set price range
+    setPriceRange: (state, action) => {
+      state.priceRange = action.payload;
+    },
+
     setMeta: (state, action) => {
       state.meta = action.payload;
     },
@@ -237,6 +244,7 @@ export const {
   setDataLimit,
   setMeta,
   setFilterByDate,
+  setPriceRange,
 } = filterSlice.actions;
 
 // selector
@@ -255,3 +263,4 @@ export const selectPage = (state: RootState) => state.filter.page;
 export const selectLimit = (state: RootState) => state.filter.limit;
 export const selectMeta = (state: RootState) => state.filter.meta;
 export const selectFilterByDate = (state: RootState) => state.filter.date;
+export const selectPriceRange = (state: RootState) => state.filter.priceRange;

@@ -39,6 +39,8 @@ import {
   selectSearchTerm,
   selectTags,
   updateSearchTerm,
+  selectPriceRange,
+  setPriceRange,
 } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
@@ -48,11 +50,17 @@ import { useGetAllConnectivityQuery } from "@/redux/features/connectivity/connec
 import { useGetAllPowerSourcesQuery } from "@/redux/features/powerSource/powerSourceApi";
 import { useGetAllOperatingSystemsQuery } from "@/redux/features/operatingSystem/operatingSystemApi";
 import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
+import { Slider } from "./price-limit-filter";
+("./price-limit-filter");
 // import { useGetAllFeatureNamesQuery } from "@/redux/features/featureName/featureNameApi";
 
 const ProductDataTableToolbar = () => {
-  //invoked hooks
   const dispatch = useAppDispatch();
+  const range = useAppSelector(selectPriceRange);
+  const handleRangeChange = (value: number[]) => {
+    dispatch(setPriceRange(value));
+  };
+  //invoked hooks
 
   // rtk query api hooks
   const { data: brandsData, isLoading: isBrandLoading } =
@@ -160,6 +168,15 @@ const ProductDataTableToolbar = () => {
 
           {/* filters */}
           <div className="space-x-2">
+            <Slider
+              minStepsBetweenThumbs={1}
+              max={48}
+              min={0}
+              step={1}
+              value={range}
+              onValueChange={handleRangeChange}
+              formatLabel={(value) => `${value} hrs`}
+            />
             {/* status filters  */}
             <DataTableFacetedFilter
               selectedValues={selectedStatus}
