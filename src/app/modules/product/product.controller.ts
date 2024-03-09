@@ -71,12 +71,24 @@ const updateProductById = catchAsync(async (req, res) => {
   });
 });
 
+// get highest product price
+const getHighestProductPrice = catchAsync(async (req, res) => {
+  const result = await ProductService.getHighestProductPrice();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Highest product price retrieved successfully.',
+    data: result,
+  });
+});
+
 const ProductController = {
   createProduct,
   getAllProduct,
   deleteProductById,
   getSingleProductById,
   updateProductById,
+  getHighestProductPrice,
 };
 
 export default ProductController;

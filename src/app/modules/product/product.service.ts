@@ -177,12 +177,24 @@ const updateProductById = async (id: string, payload: Partial<TProduct>) => {
 
   return result;
 };
+
+// get highest product price
+const getHighestProductPrice = async () => {
+  const mostValuableProduct = await Product.findOne({}).sort('-price');
+
+  if (!mostValuableProduct) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'No product founded.');
+  }
+
+  return { highRange: mostValuableProduct.price };
+};
 const ProductService = {
   createProduct,
   getAllProduct,
   getSingleProductById,
   deleteProductById,
   updateProductById,
+  getHighestProductPrice,
 };
 
 export default ProductService;
