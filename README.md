@@ -25,3 +25,7 @@ npm run start
 or
 yarn start
 ```
+
+### **Environment Veriables**
+
+VITE_API_URL=https://assignment-5-server-amber.vercel.app/api/v1
