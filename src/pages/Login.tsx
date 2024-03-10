@@ -5,7 +5,7 @@ const LoginPage = () => {
   return (
     <Container>
       <div className="flex">
-        <div className="flex-1 flex justify-center items-center">
+        <div className="flex-1 hidden  lg:flex justify-center items-center ">
           <img className="h-[600px]" src="/src/assets/login-image.png" alt="" />
         </div>
         {/* log in form */}
