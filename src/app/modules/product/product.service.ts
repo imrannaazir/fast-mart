@@ -86,7 +86,6 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
   }
   //  ⚠️⚠️⚠️⚠️ generate model
   payload.model = new Date().getTime().toString();
-  console.log('generate model');
 
   payload.createdBy = userId;
   const result = await Product.create(payload);
@@ -169,6 +168,8 @@ const updateProductById = async (id: string, payload: Partial<TProduct>) => {
   }
   if (payload.quantity && payload.quantity > 0) {
     payload.status = 'in-stock';
+  } else {
+    payload.status = 'out-of-stock';
   }
 
   const result = await Product.findByIdAndUpdate(id, payload, {
@@ -207,6 +208,7 @@ const deleteBulkProduct = async (ids: string[]) => {
 
   return { deletedProductCount: result.deletedCount };
 };
+
 const ProductService = {
   createProduct,
   getAllProduct,
