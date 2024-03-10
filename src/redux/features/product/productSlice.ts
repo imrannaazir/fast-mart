@@ -22,9 +22,10 @@ const defaultValues: TProductDefaultValue = {
 
 type TInitialState = {
   defaultValues: TProductDefaultValue;
+  selectedProduct: string[];
 };
 
-const initialState: TInitialState = { defaultValues };
+const initialState: TInitialState = { defaultValues, selectedProduct: [] };
 
 const productSlice = createSlice({
   name: "product",
@@ -38,12 +39,21 @@ const productSlice = createSlice({
     setDefaultValuesEmpty: (state) => {
       state.defaultValues = defaultValues;
     },
+
+    // set selected product
+    storeSelectedProduct: (state, action) => {
+      state.selectedProduct = action.payload;
+    },
   },
 });
 
 export const productReducer = productSlice.reducer;
-export const { setDefaultValues, setDefaultValuesEmpty } = productSlice.actions;
+export const { setDefaultValues, setDefaultValuesEmpty, storeSelectedProduct } =
+  productSlice.actions;
 
 // selector
 export const selectDefaultProductValues = (state: RootState) =>
   state.product.defaultValues;
+
+export const selectSelectedProducts = (state: RootState) =>
+  state.product.selectedProduct;

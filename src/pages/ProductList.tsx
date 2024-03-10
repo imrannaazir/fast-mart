@@ -58,7 +58,7 @@ const ProductList = () => {
     lowPrice,
     highPrice,
   });
-  const { data } = useGetAllProductQuery(query, { skip });
+  const { data, isLoading } = useGetAllProductQuery(query, { skip });
   const products: TProduct[] = data?.data?.data || [];
 
   if (data?.data?.meta) {
@@ -68,6 +68,10 @@ const ProductList = () => {
   useEffect(() => {
     setSkip(false);
   }, [query]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>

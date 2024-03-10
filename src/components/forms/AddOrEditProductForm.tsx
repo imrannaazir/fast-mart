@@ -108,7 +108,6 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
       form.setValue(key as TAllKeyOfProduct, value as TAllValueOfProduct);
     }
   }, [defaultProductValues]);
-  console.log(defaultValues);
 
   //local state
   const [needUpdate, setNeedUpdate] = useState(false);
@@ -337,8 +336,8 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
           </div>
 
           {/*  */}
-          <div className=" flex gap-6">
-            <div className="w-[65%]">
+          <div className=" lg:flex gap-6">
+            <div className="lg:w-[65%]">
               {/* product information */}
               <section className="border p-4 rounded-md  ">
                 <h3 className="text-xl mb-6">Product Information</h3>

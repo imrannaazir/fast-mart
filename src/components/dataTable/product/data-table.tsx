@@ -13,9 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductDataTableToolbar from "./data-table-toolbar";
 import { ProductDataTablePagination } from "./product-data-table-pagination";
+import { TProduct } from "@/types/product.type";
+import { useAppDispatch } from "@/redux/hooks";
+import { storeSelectedProduct } from "@/redux/features/product/productSlice";
 
 interface ProductDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -27,7 +30,7 @@ export function ProductDataTable<TData, TValue>({
   data,
 }: ProductDataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
-
+  const dispatch = useAppDispatch();
   const table = useReactTable({
     data,
     columns,
@@ -37,6 +40,16 @@ export function ProductDataTable<TData, TValue>({
       rowSelection,
     },
   });
+
+  const selectedProducts = table
+    .getFilteredSelectedRowModel()
+    .rows.map((selectedProduct) => {
+      return (selectedProduct.original as TProduct)._id;
+    });
+
+  useEffect(() => {
+    dispatch(storeSelectedProduct(selectedProducts));
+  }, [dispatch, selectedProducts]);
 
   return (
     <div className="space-y-4">

@@ -24,7 +24,7 @@ const OrderList = () => {
   const limit = useAppSelector(selectLimit);
   // query parameter
   const query = queryString.stringify({ date, page, limit });
-  const { data } = useGetAllOrderQuery(query, { skip });
+  const { data, isLoading } = useGetAllOrderQuery(query, { skip });
   const orders: TOrder[] = data?.data?.result || [];
 
   if (data?.data?.meta) {
@@ -35,6 +35,9 @@ const OrderList = () => {
     setSkip(false);
   }, [query]);
 
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
   return (
     <div>
       {/* header */}

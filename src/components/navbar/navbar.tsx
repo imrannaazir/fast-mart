@@ -1,6 +1,7 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import { logOut } from "@/redux/features/auth/authSlice";
+import { SheetNav } from "./SheetNav";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -22,13 +23,16 @@ const Navbar = () => {
           bg-background
           rounded-md
           flex
-          h-16
+          min-h-16
           items-center
           px-4
     
     "
         >
           {/* logo */}
+          <div className="lg:hidden">
+            <SheetNav />
+          </div>
           {/* <MainNav className="mx-4" /> */}
           <div
             className="

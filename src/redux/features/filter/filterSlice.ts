@@ -39,7 +39,7 @@ const initialState: TInitialState = {
   powerSources: [],
   tags: [],
   searchTerm: "",
-  limit: 5,
+  limit: 10,
   page: 1,
   meta: null,
   date: null,

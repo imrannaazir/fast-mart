@@ -48,15 +48,24 @@ export const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Product", "Products"],
     }),
+    // get highest price
     getHighestProductPrice: builder.query({
       query: () => ({
         url: "/product/highest-price",
         method: "GET",
       }),
     }),
-  }),
 
-  // get highest price
+    // delete bulk product
+    deleteBulkProducts: builder.mutation({
+      query: (data) => ({
+        url: "/product/bulk-delete",
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Product", "Products"],
+    }),
+  }),
 });
 
 export const {
@@ -66,4 +75,5 @@ export const {
   useDeleteProductByIdMutation,
   useUpdateProductMutation,
   useGetHighestProductPriceQuery,
+  useDeleteBulkProductsMutation,
 } = productApi;
