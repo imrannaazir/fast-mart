@@ -115,7 +115,7 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
             name="soldAt"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="mb-2">Date of birth</FormLabel>
+                <FormLabel className="mb-2">Date</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
