@@ -6,7 +6,7 @@ export type TName = {
   lastName: string;
 };
 
-export type TRole = 'user';
+export type TRole = 'user' | 'manager';
 
 export type TUser = {
   _id?: Types.ObjectId;

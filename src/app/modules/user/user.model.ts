@@ -24,7 +24,7 @@ const userSchema = new Schema<TUser>(
       required: true,
       unique: true,
     },
-    name: userNameSchema,
+    name: { type: userNameSchema, required: true },
     password: {
       type: String,
       required: true,
