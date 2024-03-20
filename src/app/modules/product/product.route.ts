@@ -12,33 +12,45 @@ const router = Router();
 // create product : POST
 router.post(
   '/',
-  auth('user'),
+  auth('user', 'manager'),
   validateRequest(createProductValidationSchema),
   ProductController.createProduct,
 );
 
 // get all product : POST
-router.get('/', ProductController.getAllProduct);
+router.get('/', auth('user', 'manager'), ProductController.getAllProduct);
 
 //get highest product price
 router.get('/highest-price', ProductController.getHighestProductPrice);
 
 //get single product : GET
-router.get('/:id', ProductController.getSingleProductById);
+router.get(
+  '/:id',
+  auth('manager', 'user'),
+  ProductController.getSingleProductById,
+);
 
 // update single product : PATCH
-router.patch('/:id', auth('user'), ProductController.updateProductById);
+router.patch(
+  '/:id',
+  auth('user', 'manager'),
+  ProductController.updateProductById,
+);
 
 // delete bulk product : DELETE
 router.delete(
   '/bulk-delete',
-  auth('user'),
+  auth('user', 'manager'),
   validateRequest(deleteBulkProductValidationSchema),
   ProductController.deleteBulkProduct,
 );
 
 // delete product : DELETE
-router.delete('/:id', auth('user'), ProductController.deleteProductById);
+router.delete(
+  '/:id',
+  auth('user', 'manager'),
+  ProductController.deleteProductById,
+);
 
 const ProductRoutes = router;
 export default ProductRoutes;

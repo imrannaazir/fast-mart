@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { createOperatingSystemValidationSchema } from './operatingSystem.validation';
-import OperatingSystemController from './operatingSystem.controller';
 import auth from '../../middlewares/auth';
+import OperatingSystemController from './operatingSystem.controller';
+import { createOperatingSystemValidationSchema } from './operatingSystem.validation';
 
 const router = Router();
 
