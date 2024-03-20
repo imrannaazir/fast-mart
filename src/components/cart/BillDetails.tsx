@@ -1,4 +1,4 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -9,9 +9,18 @@ import {
 } from "../ui/card";
 import { selectCartItems } from "@/redux/features/cart/cartSlice";
 import { formatCurrency } from "@/lib/utils";
+import Modal from "../ui/modal";
+import SellProductForm from "../forms/sellTheProductForm";
+import {
+  onClose,
+  onOpen,
+  selectIsOpen,
+} from "@/redux/features/modal/modalSlice";
 
 const BillDetails = () => {
+  const isModalOpen = useAppSelector(selectIsOpen);
   const cartItems = useAppSelector(selectCartItems);
+  const dispatch = useAppDispatch();
   const total = cartItems.reduce(
     (total, item) => total + Number(item.price * item.quantity),
     0
@@ -21,6 +30,13 @@ const BillDetails = () => {
   const vat = 0;
   return (
     <div>
+      <Modal
+        title={`Fill the form to sell.`}
+        isOpen={isModalOpen}
+        onClose={() => dispatch(onClose())}
+      >
+        <SellProductForm productQuantity={8} />
+      </Modal>
       <Card>
         <CardHeader>
           <CardTitle>Bill Details</CardTitle>
@@ -62,7 +78,9 @@ const BillDetails = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <Button className="w-full">Place Order</Button>
+          <Button onClick={() => dispatch(onOpen("cart"))} className="w-full">
+            Place Order
+          </Button>
         </CardFooter>
       </Card>
     </div>

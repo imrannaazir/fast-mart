@@ -22,7 +22,6 @@ const CarItem: FC<TCartItemProps> = ({ item }) => {
   const dispatch = useAppDispatch();
   const { data, isFetching } = useGetProductByIdQuery(item._id);
   const product: TProduct = data?.data || {};
-  console.log(data);
 
   // handle increase cart item
   const handleIncreaseCart = () => {
@@ -76,7 +75,9 @@ const CarItem: FC<TCartItemProps> = ({ item }) => {
                 <Button
                   variant={"outline"}
                   size={"icon"}
-                  disabled={!product?.quantity}
+                  disabled={
+                    !product?.quantity || item.quantity >= product.quantity
+                  }
                   onClick={handleIncreaseCart}
                 >
                   <Plus size={14} />

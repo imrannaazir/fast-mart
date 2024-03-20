@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 interface ModalProps {
   title: string;
-  description: string;
+  description?: string;
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;

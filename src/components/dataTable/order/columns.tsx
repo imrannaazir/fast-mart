@@ -54,12 +54,14 @@ export const columns: ColumnDef<TOrder>[] = [
     },
   },
   {
-    accessorKey: "_id",
-    header: "Order ID",
+    accessorKey: "buyer_contact",
+    header: "Customer Contact No",
     cell: ({ row }) => {
-      const orderId = row.getValue("_id");
+      const contactNo = row.getValue("buyer_contact");
 
-      return <div className="font-semibold">{`# ${orderId}`}</div>;
+      return (
+        <div className="font-semibold">{(contactNo as string) || "N/A"}</div>
+      );
     },
   },
   {

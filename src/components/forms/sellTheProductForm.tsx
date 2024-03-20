@@ -26,6 +26,7 @@ import {
   selectCollectionName,
 } from "@/redux/features/modal/modalSlice";
 import { TProduct } from "@/types/product.type";
+import { clearCart, selectCartItems } from "@/redux/features/cart/cartSlice";
 
 type TSellProductFrom = {
   productQuantity: number;
@@ -34,8 +35,14 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
   const [sellProduct] = useSellProductMutation();
   const dispatch = useAppDispatch();
   const selectedProduct = useAppSelector(selectCollectionName) as TProduct;
+  const cartItems = useAppSelector(selectCartItems);
 
-  // 1. Define your form.
+  const total = cartItems.reduce(
+    (total, item) => total + Number(item.price * item.quantity),
+    0
+  );
+
+  //Define your form.
   const form = useForm<z.infer<typeof sellProductValidationSchema>>({
     resolver: zodResolver(sellProductValidationSchema),
     defaultValues: {
@@ -53,8 +60,15 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
 
     try {
       const response = await sellProduct({
-        products: [{ product: selectedProduct._id, quantity: quantity }],
-        totalCost: selectedProduct.price * quantity,
+        products: selectedProduct?._id
+          ? [{ product: selectedProduct._id, quantity: quantity }]
+          : cartItems.map((product) => ({
+              product: product._id,
+              quantity: product.quantity,
+            })),
+        totalCost: selectedProduct._id
+          ? selectedProduct.price * quantity
+          : total,
         ...restValues,
       }).unwrap();
       if (response?.data) {
@@ -62,6 +76,9 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
           id: toastId,
         });
         dispatch(onClose());
+        if (!selectedProduct._id) {
+          dispatch(clearCart());
+        }
       }
     } catch (error) {
       toast.error("Something went wrong.", {
@@ -87,29 +104,47 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="buyer_contact"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Buyer's Contact Number</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Enter the buyer Contact Number"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="flex space-x-4 items-center">
           {/* quantity */}
-          <FormField
-            defaultValue={1}
-            control={form.control}
-            name="quantity"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Quantity</FormLabel>
-                <FormControl>
-                  <Input
-                    min={1}
-                    id="quantity"
-                    placeholder="Enter sell quantity."
-                    type="number"
-                    {...field}
-                  />
-                </FormControl>
+          {selectedProduct?._id && (
+            <FormField
+              defaultValue={1}
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      min={1}
+                      id="quantity"
+                      placeholder="Enter sell quantity."
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           {/* sell date */}
           <FormField
@@ -124,7 +159,7 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
                       <Button
                         variant={"outline"}
                         className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
+                          "w-[200px] pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
