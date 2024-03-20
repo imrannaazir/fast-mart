@@ -46,14 +46,16 @@ const SellProductForm: FC<TSellProductFrom> = ({ productQuantity }) => {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof sellProductValidationSchema>) {
+    const { quantity, ...restValues } = values;
     const toastId = toast.loading("Processing.", {
       duration: 2000,
     });
 
     try {
       const response = await sellProduct({
-        product: selectedProduct._id,
-        ...values,
+        products: [{ product: selectedProduct._id, quantity: quantity }],
+        totalCost: selectedProduct.price * quantity,
+        ...restValues,
       }).unwrap();
       if (response?.data) {
         toast.success("Sold successfully", {

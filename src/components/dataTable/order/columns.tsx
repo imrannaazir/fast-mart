@@ -26,6 +26,34 @@ export const columns: ColumnDef<TOrder>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: "products",
+    header: "Product",
+    cell: ({ row }) => {
+      const dummyImage =
+        "https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg";
+
+      return (
+        <div className="flex -space-x-5 rtl:space-x-reverse">
+          {row.original.products.slice(0.3).map((product) => (
+            <div key={product.product._id}>
+              <img
+                className="w-10 h-10 border-2   rounded-full border-gray-800"
+                src={product.product.image ? product.product.image : dummyImage}
+                alt=""
+              />
+            </div>
+          ))}
+
+          {row.original.products.length > 3 && (
+            <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800">
+              +99
+            </div>
+          )}
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "_id",
     header: "Order ID",
     cell: ({ row }) => {
@@ -38,13 +66,16 @@ export const columns: ColumnDef<TOrder>[] = [
     accessorKey: "buyer_name",
     header: "Customer name",
   },
+
   {
-    accessorKey: "product.name",
-    header: "Product Name",
-  },
-  {
-    accessorKey: "quantity",
     header: "Quantity",
+    cell: ({ row }) => {
+      const quantity = row.original.products.reduce(
+        (total, product) => product.quantity + total,
+        0
+      );
+      return <p>{quantity}</p>;
+    },
   },
 
   {

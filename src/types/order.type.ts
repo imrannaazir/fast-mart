@@ -1,10 +1,9 @@
+import { TProduct } from "./product.type";
+
 export type TOrder = {
   _id?: string;
   buyer_name: string;
-  product: {
-    _id: string;
-    name: string;
-  };
+  products: { product: TProduct; quantity: number }[];
   quantity: number;
   totalCost: number;
   createdBy?: string;
