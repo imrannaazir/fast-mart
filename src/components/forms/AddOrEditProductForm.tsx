@@ -312,6 +312,8 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
     }
   );
 
+  const productImage = form.watch("image");
+
   return (
     <>
       <Form {...form}>
@@ -422,6 +424,24 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
               {/* Product Media */}
               <section className="border p-4 rounded-md mt-6">
                 <h3 className="text-xl mb-6">Product Media</h3>
+                {productImage && (
+                  <div>
+                    <img src={productImage} width="500" />
+                  </div>
+                )}
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Image URL</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter a product url." {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </section>
 
               {/* Product features */}

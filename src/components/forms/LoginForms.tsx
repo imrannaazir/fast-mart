@@ -47,8 +47,6 @@ const LoginForm = () => {
         data: { accessToken: string };
       }>;
 
-      console.log(response);
-
       if (response?.error) {
         toast.error(response.error.data.errorSources[0].message, {
           id: toastId,

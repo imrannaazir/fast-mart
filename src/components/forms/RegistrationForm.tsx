@@ -42,14 +42,10 @@ const RegistrationForm = () => {
       duration: 2000,
     });
 
-    console.log(values);
-
     try {
       const response = (await register(values)) as TResponse<{
         data: { accessToken: string };
       }>;
-      console.log(response);
-
       if (response?.error) {
         toast.error(response.error?.data?.errorSources?.[0]?.message, {
           id: toastId,
