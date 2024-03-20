@@ -39,6 +39,19 @@ const login = catchAsync(async (req, res) => {
   });
 });
 
+const logout = catchAsync(async (req, res) => {
+  res.cookie('refreshToken', null, {
+    secure: config.NODE_ENV === 'development' ? true : false,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'User logged out successfully.',
+    data: null,
+  });
+});
+
 // refresh token
 const refreshToken = catchAsync(async (req, res) => {
   const token = req.cookies.refreshToken;
@@ -55,6 +68,7 @@ const AuthController = {
   register,
   login,
   refreshToken,
+  logout,
 };
 
 export default AuthController;
