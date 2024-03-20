@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import Product from '../product/product.model';
-import { TOrder } from './order.interface';
-import mongoose, { Types } from 'mongoose';
+import { TOrder, TOrderedProduct } from './order.interface';
+import { Types, startSession } from 'mongoose';
 import Order from './order.model';
 import moment from 'moment';
 import QueryBuilder from '../../builder/QueryBuilder';
@@ -10,65 +10,77 @@ import User from '../user/user.model';
 
 // create order
 const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
-  const { product, quantity } = payload;
+  const { products, ...restPayload } = payload;
 
-  // check is product exist
-  const isProductExist = await Product.findById(product);
-  if (!isProductExist) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Product not founded.');
-  }
-
-  // if order quantity is more than product quantity
-  if (quantity > isProductExist.quantity) {
-    throw new AppError(
-      StatusCodes.BAD_REQUEST,
-      'Requested quantity exceeds available stock.',
-    );
-  }
-
-  payload.soldAt = new Date(payload.soldAt);
-  payload.createdBy = userId;
-  payload.totalCost = payload.quantity * isProductExist.price;
-  //   payload.createdBy = user.userId
-
-  // transaction and rollback
-  const session = await mongoose.startSession();
+  // Start a session
+  const session = await startSession();
+  session.startTransaction();
 
   try {
-    session.startTransaction();
+    const productToOrder = await Product.find()
+      .where('_id')
+      .in(products.map(product => product.product))
+      .session(session)
+      .exec();
 
-    // create order
-    const order = await Order.create([payload], { session });
+    const orderedProduct: TOrderedProduct[] = [];
 
-    if (!order[0]) {
-      throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create order.');
-    }
+    products.forEach(item => {
+      const product = productToOrder.find(p => p._id.equals(item.product));
 
-    // update product
-    const updatedProduct = await Product.findByIdAndUpdate(
-      isProductExist._id,
-      {
-        $inc: { quantity: -order[0].quantity },
-        status:
-          isProductExist.quantity - payload.quantity === 0
-            ? 'out-of-stock'
-            : 'in-stock',
-      },
-      { session, new: true, runValidators: true },
+      if (!product) {
+        throw new AppError(
+          StatusCodes.NOT_FOUND,
+          `Product not found by Id : ${item.product}`,
+        );
+      }
+
+      if (product.quantity < item.quantity) {
+        throw new AppError(
+          StatusCodes.BAD_REQUEST,
+          `Not enough quantity available for ${product.name}`,
+        );
+      }
+
+      product.quantity -= item.quantity;
+
+      if (product.quantity === 0) {
+        product.status = 'out-of-stock';
+      }
+
+      orderedProduct.push({
+        product: product._id,
+        quantity: item.quantity,
+      });
+    });
+
+    await Promise.all(
+      productToOrder.map(updatedProduct => updatedProduct.save({ session })),
     );
 
-    if (!updatedProduct) {
-      throw new AppError(
-        StatusCodes.BAD_REQUEST,
-        'Failed to processing order.',
-      );
-    }
+    const order = new Order({
+      createdBy: userId,
+      products: orderedProduct,
+      ...restPayload,
+    });
 
+    await order.save({ session });
+
+    // Commit the transaction
     await session.commitTransaction();
-    await session.endSession();
+    session.endSession();
+
     return order;
-  } catch (error) {
-    throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create a order.');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    // Abort transaction on error
+    await session.abortTransaction();
+    session.endSession();
+
+    throw new AppError(
+      error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+      error.message,
+    );
   }
 };
 

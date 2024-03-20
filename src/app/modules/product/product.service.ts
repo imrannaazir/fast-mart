@@ -113,7 +113,7 @@ const getAllProduct = async (
   }
 
   if (isUserExist?.role === 'user') {
-    queryObj['createdBy'] = isUserExist._id;
+    queryObj.createdBy = `${isUserExist._id}`;
   }
 
   // product query model
@@ -148,10 +148,12 @@ const getSingleProductById = async (id: string, userEmail: string) => {
     throw new AppError(StatusCodes.UNAUTHORIZED, 'Account does not founded.');
   }
 
-  const result = await Product.findById(id).populate({
-    path: 'tags',
-    select: '-__v',
-  });
+  const result = await Product.findById(id)
+    .populate('brand category')
+    .populate({
+      path: 'tags',
+      select: '-__v',
+    });
   if (!result) {
     throw new AppError(
       StatusCodes.NOT_FOUND,
@@ -159,7 +161,10 @@ const getSingleProductById = async (id: string, userEmail: string) => {
     );
   }
 
-  if (isUserExist.role === 'user' && result.createdBy !== isUserExist._id) {
+  if (
+    isUserExist.role === 'user' &&
+    `${result.createdBy}` !== `${isUserExist._id}`
+  ) {
     throw new AppError(StatusCodes.FORBIDDEN, 'Access forbidden.');
   }
   return result;
@@ -216,7 +221,7 @@ const updateProductById = async (
 
   if (
     isUserExist.role === 'user' &&
-    isProductExist.createdBy !== isUserExist._id
+    `${isProductExist.createdBy}` !== `${isUserExist._id}`
   ) {
     throw new AppError(StatusCodes.FORBIDDEN, 'Access forbidden.');
   }
