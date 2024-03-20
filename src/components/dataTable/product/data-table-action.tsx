@@ -19,7 +19,13 @@ import { useDeleteProductByIdMutation } from "@/redux/features/product/productAp
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TProduct } from "@/types/product.type";
 import { Row } from "@tanstack/react-table";
-import { DollarSign, FilePen, MoreHorizontal, Trash2 } from "lucide-react";
+import {
+  DollarSign,
+  FilePen,
+  MoreHorizontal,
+  ShoppingCart,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -77,6 +83,9 @@ function DataTableAction({ row }: DataTableAction) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem className="flex items-center gap-2">
+            <ShoppingCart size={14} /> Cart
+          </DropdownMenuItem>
           <DropdownMenuItem
             disabled={product.quantity < 1}
             onClick={() => dispatch(onOpen(product))}
@@ -90,9 +99,7 @@ function DataTableAction({ row }: DataTableAction) {
           >
             <Trash2 size={14} /> Delete
           </DropdownMenuItem>
-          {/* <DropdownMenuItem className="flex items-center gap-2">
-            <Copy size={14} /> Duplicate
-          </DropdownMenuItem> */}
+
           <DropdownMenuItem
             onClick={() => navigate(`/update-product/${product._id}`)}
             className="flex items-center gap-2"

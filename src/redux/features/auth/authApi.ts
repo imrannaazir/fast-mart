@@ -9,6 +9,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Orders", "Order", "Products", "Product"],
     }),
     //register
     register: builder.mutation({
@@ -17,6 +18,7 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Orders", "Order", "Products", "Product"],
     }),
     //logout
     logout: builder.mutation({

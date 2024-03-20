@@ -18,6 +18,7 @@ const sellApi = baseApi.injectEndpoints({
         url: `/order/?${query}`,
         method: "GET",
       }),
+      providesTags: ["Orders"],
     }),
   }),
 });
