@@ -125,10 +125,7 @@ const getAllOrder = async (
             ],
           }
         : {},
-    ).populate({
-      path: 'product',
-      select: 'name',
-    }),
+    ).populate('products.product'),
     query,
   )
     .search(['buyer_name'])

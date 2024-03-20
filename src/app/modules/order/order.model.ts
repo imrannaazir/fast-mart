@@ -20,6 +20,10 @@ const orderSchema = new Schema<TOrder>(
       type: String,
       required: true,
     },
+    buyer_contact: {
+      type: String,
+      required: true,
+    },
     products: [orderedProductSchema],
 
     totalCost: { type: Number, required: true },

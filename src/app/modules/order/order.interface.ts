@@ -7,6 +7,7 @@ export type TOrderedProduct = {
 
 export type TOrder = {
   buyer_name: string;
+  buyer_contact: string;
   soldAt: Date;
   products: TOrderedProduct[];
   totalCost: number;

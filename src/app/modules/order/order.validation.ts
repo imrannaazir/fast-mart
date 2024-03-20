@@ -7,6 +7,7 @@ const orderedProduct = z.object({
 export const createOrderValidationSchema = z.object({
   body: z.object({
     buyer_name: z.string(),
+    buyer_contact: z.string(),
     soldAt: z.string(),
     products: z.array(orderedProduct),
     totalCost: z.number(),
