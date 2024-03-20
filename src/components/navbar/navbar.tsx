@@ -2,9 +2,15 @@ import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import { logOut } from "@/redux/features/auth/authSlice";
 import { SheetNav } from "./SheetNav";
+import { useLogoutMutation } from "@/redux/features/auth/authApi";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
+  const [logout] = useLogoutMutation();
+  const onLogout = async () => {
+    await logout(undefined);
+    dispatch(logOut());
+  };
   return (
     <div
       className=" 
@@ -41,7 +47,7 @@ const Navbar = () => {
           items-center
           space-x-4"
           >
-            <Button variant="outline" onClick={() => dispatch(logOut())}>
+            <Button variant="outline" onClick={onLogout}>
               Logout
             </Button>
           </div>

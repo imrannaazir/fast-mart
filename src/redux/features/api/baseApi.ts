@@ -36,11 +36,16 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let result: any = await baseQuery(args, api, extraOptions);
+
   if (result?.error?.status === 404) {
-    toast.error(result?.error?.data?.errorSources[0].message);
+    toast.error(result?.error?.data?.errorSources[0].message, {
+      duration: 2000,
+    });
   }
   if (result?.error?.status === 403) {
-    toast.error(result?.error?.data?.errorSources[0].message);
+    toast.error(result?.error?.data?.errorSources[0].message, {
+      duration: 2000,
+    });
   }
 
   if (result?.error?.status === 401) {
@@ -58,6 +63,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());
+      await fetch(`${url}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
     }
   }
 

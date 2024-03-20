@@ -30,3 +30,5 @@ export const formats = [
   "image",
   "video",
 ];
+
+export const Role = ["user", "manager"] as const;

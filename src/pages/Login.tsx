@@ -1,7 +1,10 @@
 import LoginForm from "@/components/forms/LoginForms";
+import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const [isLoginForm, setIsLoginForm] = useState(true);
   return (
     <Container>
       <div className="flex">
@@ -11,7 +14,33 @@ const LoginPage = () => {
         {/* log in form */}
         <section className="max-w-md flex-1 flex justify-center items-center min-h-screen border-l px-6">
           <div className="flex-1">
+            <h1 className="text-3xl mb-6">
+              {isLoginForm ? "Login" : "Register"}
+            </h1>
             <LoginForm />
+            {isLoginForm ? (
+              <p>
+                Haven't an account?{" "}
+                <Button
+                  type="button"
+                  onClick={() => setIsLoginForm(false)}
+                  variant={"link"}
+                >
+                  Register
+                </Button>
+              </p>
+            ) : (
+              <p>
+                Already have an account?{" "}
+                <Button
+                  type="button"
+                  onClick={() => setIsLoginForm(true)}
+                  variant={"link"}
+                >
+                  Login
+                </Button>
+              </p>
+            )}
           </div>
         </section>
       </div>
