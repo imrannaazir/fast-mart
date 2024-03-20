@@ -99,7 +99,10 @@ function DataTableAction({ row }: DataTableAction) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            disabled={isAlreadyAddedToCart ? true : false}
+            disabled={
+              (isAlreadyAddedToCart && isAlreadyAddedToCart?.quantity > 0) ||
+              product.quantity < 1
+            }
             onClick={onAddToCart}
             className="flex items-center gap-2"
           >

@@ -23,7 +23,7 @@ const UpdateProduct = () => {
 
   useEffect(() => {
     if (!isLoading && data && featureNames) {
-      const { tags, features, ...restProductData } = data.data;
+      const { tags, features, brand, category, ...restProductData } = data.data;
 
       // Save selected feature names in the redux store
       const dbSavedFeatureNames = Object.keys(features);
@@ -49,6 +49,8 @@ const UpdateProduct = () => {
       dispatch(
         setDefaultValues({
           ...restProductData,
+          category: category?._id,
+          brand: brand?._id,
           tags: tags.map((tag: TCollection) => tag._id),
           features,
         })
