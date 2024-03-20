@@ -6,6 +6,7 @@ import mongoose, { Types } from 'mongoose';
 import Order from './order.model';
 import moment from 'moment';
 import QueryBuilder from '../../builder/QueryBuilder';
+import User from '../user/user.model';
 
 // create order
 const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
@@ -72,7 +73,21 @@ const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
 };
 
 // getAllOrder
-const getAllOrder = async (query: Record<string, unknown>) => {
+const getAllOrder = async (
+  query: Record<string, unknown>,
+  userEmail: string,
+) => {
+  //check is user exist
+  const isUserExist = await User.findOne({ email: userEmail });
+
+  if (!isUserExist) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Account not founded.');
+  }
+
+  if (isUserExist.role === 'user') {
+    query.createdBy = `${isUserExist._id}`;
+  }
+
   let startTime;
   const date = query?.date;
   if (date && date === 'day') {
