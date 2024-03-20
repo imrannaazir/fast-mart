@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Modal from "@/components/ui/modal";
+import { addToCart, selectCartItems } from "@/redux/features/cart/cartSlice";
 import {
   onClose,
   onOpen,
@@ -39,6 +40,8 @@ function DataTableAction({ row }: DataTableAction) {
   const [isOpen, setIsOpen] = useState(false);
   const isModalOpen = useAppSelector(selectIsOpen);
   const selectedProduct = useAppSelector(selectCollectionName) as TProduct;
+  const cartItems = useAppSelector(selectCartItems);
+
   // invoked hooks
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -57,6 +60,18 @@ function DataTableAction({ row }: DataTableAction) {
     } catch (error) {
       toast.error("Failed to delete the product.", { duration: 2000 });
     }
+  };
+
+  // check isAlreadyAddedToCart
+  const isAlreadyAddedToCart = cartItems.find(
+    (item) => item._id === product._id
+  );
+
+  const onAddToCart = () => {
+    dispatch(
+      addToCart({ _id: product._id, price: product.price, quantity: 1 })
+    );
+    toast.success("Added to the cart.", { duration: 2000 });
   };
 
   return (
@@ -83,7 +98,11 @@ function DataTableAction({ row }: DataTableAction) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem className="flex items-center gap-2">
+          <DropdownMenuItem
+            disabled={isAlreadyAddedToCart ? true : false}
+            onClick={onAddToCart}
+            className="flex items-center gap-2"
+          >
             <ShoppingCart size={14} /> Cart
           </DropdownMenuItem>
           <DropdownMenuItem
