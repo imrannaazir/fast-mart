@@ -4,6 +4,7 @@ import { logOut } from "@/redux/features/auth/authSlice";
 import { SheetNav } from "./SheetNav";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
 import CartButton from "./CartButton";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -49,7 +50,9 @@ const Navbar = () => {
           items-center
           space-x-4"
           >
-            <CartButton />
+            <Link to="/cart">
+              <CartButton />
+            </Link>
             <Button variant="outline" onClick={onLogout}>
               Logout
             </Button>
