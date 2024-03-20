@@ -12,67 +12,60 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  useLoginMutation,
-  useRegisterMutation,
-} from "@/redux/features/auth/authApi";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { logIn } from "@/redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import {
-  loginFormSchema,
-  registrationValidationSchema,
-} from "@/schemas/auth.schema";
+import { registrationValidationSchema } from "@/schemas/auth.schema";
+import { TResponse } from "@/types/global.types";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Role } from "@/constant/constant";
 
-const LoginForm = () => {
-  //local state
-  const [isLoginForm, setIsLoginForm] = useState(true);
-
-  const formValidationSchema = isLoginForm
-    ? loginFormSchema
-    : registrationValidationSchema;
-
-  const [login, { error }] = useLoginMutation();
-  const [register, { error: registerError }] = useRegisterMutation();
+const RegistrationForm = () => {
+  const [register] = useRegisterMutation();
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formValidationSchema>>({
-    resolver: zodResolver(formValidationSchema),
-    defaultValues: {
-      email: "emon1@gmail.com",
-      password: "1234",
-    },
+  const form = useForm<z.infer<typeof registrationValidationSchema>>({
+    resolver: zodResolver(registrationValidationSchema),
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formValidationSchema>) {
-    const toastId = toast.loading(
-      isLoginForm ? "Logging in." : "Registering.",
-      {
-        duration: 2000,
-      }
-    );
+  async function onSubmit(
+    values: z.infer<typeof registrationValidationSchema>
+  ) {
+    const toastId = toast.loading("Account Creating.", {
+      duration: 2000,
+    });
+
+    console.log(values);
 
     try {
-      const response = isLoginForm
-        ? await login(values).unwrap()
-        : await register(values).unwrap();
-      if (response?.data?.accessToken) {
-        toast.success(isLoginForm ? "Logged in." : "Registered.", {
+      const response = (await register(values)) as TResponse<{
+        data: { accessToken: string };
+      }>;
+      console.log(response);
+
+      if (response?.error) {
+        toast.error(response.error?.data?.errorSources?.[0]?.message, {
+          id: toastId,
+        });
+      }
+
+      if (response?.data?.data?.accessToken) {
+        toast.success("Registered.", {
           id: toastId,
         });
 
         navigate("/", { replace: true });
         dispatch(
           logIn({
-            accessToken: response?.data?.accessToken,
-            user: jwtDecode(response?.data?.accessToken),
+            accessToken: response?.data?.data?.accessToken,
+            user: jwtDecode(response?.data?.data?.accessToken),
           })
         );
       }
@@ -83,61 +76,77 @@ const LoginForm = () => {
     }
   }
 
-  if (error || registerError) {
-    toast.error("Something went wrong.", {
-      duration: 2000,
-    });
-  }
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {isLoginForm ? null : (
-          <>
-            <FormField
-              control={form.control}
-              name="name.firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>First Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter first name." {...field} />
-                  </FormControl>
+        <FormField
+          control={form.control}
+          name="name.firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter first name." {...field} />
+              </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name.middleName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Middle Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter middle name." {...field} />
-                  </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="name.middleName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Middle Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter middle name." {...field} />
+              </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name.lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Last Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter last name." {...field} />
-                  </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="name.lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter last name." {...field} />
+              </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </>
-        )}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="role"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Role</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={Role[0]}
+                  className="flex flex-col space-y-1"
+                >
+                  {Role.map((item) => (
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem value={item} />
+                      </FormControl>
+                      <FormLabel className="font-normal">{item}</FormLabel>
+                    </FormItem>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="email"
@@ -171,33 +180,10 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">{isLoginForm ? "Login" : "Register"}</Button>
+        <Button type="submit"> Register </Button>
       </form>
-      {isLoginForm ? (
-        <p>
-          Haven't an account?{" "}
-          <Button
-            type="button"
-            onClick={() => setIsLoginForm(false)}
-            variant={"link"}
-          >
-            Register
-          </Button>
-        </p>
-      ) : (
-        <p>
-          Already have an account?{" "}
-          <Button
-            type="button"
-            onClick={() => setIsLoginForm(true)}
-            variant={"link"}
-          >
-            Login
-          </Button>
-        </p>
-      )}
     </Form>
   );
 };
 
-export default LoginForm;
+export default RegistrationForm;

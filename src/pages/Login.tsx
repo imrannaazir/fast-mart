@@ -1,4 +1,5 @@
 import LoginForm from "@/components/forms/LoginForms";
+import RegistrationForm from "@/components/forms/RegistrationForm";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/container";
 import { useState } from "react";
@@ -17,7 +18,7 @@ const LoginPage = () => {
             <h1 className="text-3xl mb-6">
               {isLoginForm ? "Login" : "Register"}
             </h1>
-            <LoginForm />
+            {isLoginForm ? <LoginForm /> : <RegistrationForm />}
             {isLoginForm ? (
               <p>
                 Haven't an account?{" "}
