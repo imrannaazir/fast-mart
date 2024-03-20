@@ -10,6 +10,7 @@ import {
 import { toast } from "sonner";
 import { logIn, logOut } from "../auth/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { clearCart } from "../cart/cartSlice";
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -63,6 +64,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logOut());
+      api.dispatch(clearCart());
       await fetch(`${url}/auth/logout`, {
         method: "POST",
         credentials: "include",
