@@ -1,6 +1,6 @@
 # **Assignment 5 - Client: Electronics Gadget Management**
 
-## Live Link: [https://assignment-5-client-eight.vercel.app)
+## Live Link: [https://assignment-6-client.vercel.app/)
 
 ### **✅To run the project in the Development mode run this command:**
 
@@ -28,4 +28,16 @@ yarn start
 
 ### **Environment Veriables**
 
-VITE_API_URL=https://assignment-5-server-amber.vercel.app/api/v1
+VITE_API_URL=https://assignment-6-inky-alpha.vercel.app/api/v1
+
+## **✅ Credentials to Login:**
+
+### Manager
+
+- email : manager@gmail.com
+- password: 1234
+
+### Manager
+
+- email : user@gmail.com
+- password: 1234

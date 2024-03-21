@@ -1,8 +1,3 @@
-import { columns } from "@/components/dataTable/product/columns";
-import { ProductDataTable } from "@/components/dataTable/product/data-table";
-import { Button } from "@/components/ui/button";
-import { useGetAllProductQuery } from "@/redux/features/product/productApi";
-import { TProduct } from "@/types/product.type";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import queryString from "query-string";
@@ -21,10 +16,14 @@ import {
   selectTags,
   setMeta,
 } from "@/redux/features/filter/filterSlice";
+import { useGetAllProductQuery } from "@/redux/features/product/productApi";
+import { TProduct } from "@/types/product.type";
+import { columns } from "@/components/dataTable/product/columns";
+import { ProductDataTable } from "@/components/dataTable/product/data-table";
+import { Button } from "@/components/ui/button";
 
 const ProductList = () => {
-  // invoke hooks
-  // redux store
+  // Redux store
   const searchTerm = useAppSelector(selectSearchTerm);
   const filteredStatus = useAppSelector(selectFilteredStatus);
   const filteredBrands = useAppSelector(selectFilteredBrands);
@@ -37,13 +36,10 @@ const ProductList = () => {
   const limit = useAppSelector(selectLimit);
   const [lowPrice, highPrice] = useAppSelector(selectPriceRange);
 
-  // local state
+  // Local state
   const [skip, setSkip] = useState(true);
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  // query parameter
+  // Query parameter
   const query = queryString.stringify({
     searchTerm,
     status: filteredStatus?.map((filter) => filter.value),
@@ -58,24 +54,39 @@ const ProductList = () => {
     lowPrice,
     highPrice,
   });
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // Fetch data
   const { data, isLoading } = useGetAllProductQuery(query, { skip });
+
+  // Products
   const products: TProduct[] = data?.data?.data || [];
 
-  if (data?.data?.meta) {
-    dispatch(setMeta(data?.data?.meta));
-  }
-  // make skip  to get all product
+  // Update meta in store
   useEffect(() => {
-    setSkip(false);
-  }, [query]);
+    if (data?.data?.meta) {
+      dispatch(setMeta(data?.data?.meta));
+    }
+  }, [data?.data?.meta, dispatch]);
 
+  // Ensure data is fetched
+  useEffect(() => {
+    if (skip) {
+      setSkip(false);
+    }
+  }, [query, skip]);
+
+  // Loading state
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
+  // Render
   return (
     <div>
-      {/* header */}
+      {/* Header */}
       <div className="flex justify-between">
         <h3 className="text-xl font-semibold">Products</h3>
         <Button onClick={() => navigate("/add-product")} size={"sm"}>
@@ -83,7 +94,7 @@ const ProductList = () => {
         </Button>
       </div>
 
-      {/* product list */}
+      {/* Product list */}
       <div className="container mx-auto py-10">
         <ProductDataTable columns={columns} data={products} />
       </div>

@@ -44,7 +44,7 @@ const CarItem: FC<TCartItemProps> = ({ item }) => {
     <div>
       <Card>
         <CardContent>
-          <div className="pt-6 flex justify-between">
+          <div className="pt-6 flex flex-col lg:flex-row justify-between">
             {/* flex no 1 */}
             <div className="flex items-center col-span-6 space-x-6   ">
               {/* <!-- cart image --> */}
@@ -97,7 +97,7 @@ const CarItem: FC<TCartItemProps> = ({ item }) => {
             </div>
 
             {/* <!-- delete button --> */}
-            <div className=" flex flex-col justify-between items-end">
+            <div className=" flex flex-row-reverse lg:flex-col justify-between items-end">
               <Button
                 variant={"destructive"}
                 size={"icon"}
