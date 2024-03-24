@@ -134,5 +134,12 @@ model OrderItem{
   product           Product @relation(fields: [productId],references: [id])
 }
 
+
+model Todo{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  
+}
+
 // npx prisma generate
 //npx prisma db push
