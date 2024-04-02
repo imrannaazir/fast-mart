@@ -95,7 +95,7 @@ const ProductList = () => {
       </div>
 
       {/* Product list */}
-      <div className="container mx-auto py-10">
+      <div className="  mx-auto py-10">
         <ProductDataTable columns={columns} data={products} />
       </div>
     </div>

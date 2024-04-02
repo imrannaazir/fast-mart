@@ -54,7 +54,7 @@ export const columns: ColumnDef<TProduct>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as string;
       return (
-        <div className="flex justify-center">
+        <div className="flex justify-center flex-nowrap w-[100px]">
           {" "}
           <Badge variant={status === "in-stock" ? "default" : "destructive"}>
             {status}

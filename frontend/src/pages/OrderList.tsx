@@ -46,7 +46,7 @@ const OrderList = () => {
       </div>
 
       {/* product list */}
-      <div className="container mx-auto py-10">
+      <div className=" mx-auto py-10 ">
         <OrderDataTable columns={columns} data={orders} />
       </div>
     </div>
