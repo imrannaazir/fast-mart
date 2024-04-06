@@ -22,17 +22,12 @@ const Navbar = () => {
   sticky
   top-0
   z-50
-  
-  
-  
   "
     >
-      <div className=" px-4  pt-6 backdrop-blur-md">
+      <div className="  backdrop-blur-md">
         <div
-          className="
-          border
-          bg-background
-          rounded-md
+          className=" 
+          bg-foreground 
           flex
           min-h-16
           items-center

@@ -83,7 +83,7 @@
 
 /* Show scrollbar on hover */
 .custom-scrollbar:hover::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
   background-color: transparent;
 }
 

@@ -4,11 +4,11 @@ import Navbar from "../navbar/navbar";
 
 const MainLayout = () => {
   return (
-    <div className="flex h-screen">
-      <LeftSidebar />
-      <div className="w-full">
-        <Navbar />
-        <div className=" pt-6 px-4">
+    <div className="w-full">
+      <Navbar />
+      <div className="flex">
+        <LeftSidebar />
+        <div className="p-4 w-full">
           <Outlet />
         </div>
       </div>

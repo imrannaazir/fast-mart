@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Circle, Home, ShoppingBag } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IoMdPricetag } from "react-icons/io";
 import {
   Accordion,
@@ -18,7 +18,7 @@ export default function MainNav({
     {
       icon: Home,
       href: `/`,
-      label: "Dashboard",
+      label: "Home",
       isActive: true,
     },
     {
@@ -45,21 +45,25 @@ export default function MainNav({
       href: "/order-list",
     },
   ];
+
+  const { pathname } = useLocation();
+
   return (
     <nav
-      className={cn(" h-full overflow-y-scroll custom-scrollbar ", className)}
+      className={cn(
+        " h-full overflow-y-scroll custom-scrollbar mt-4 ",
+        className
+      )}
       {...props}
     >
       <div className="h-full w-full flex flex-col justify-between px-2 py-6">
         {/* top */}
         <div className="flex-grow ">
-          <h1 className="  text-xl font-semibold">Web Name</h1>
-
           {routes.length > 0 &&
             routes?.map((item, i) =>
               item.children ? (
                 <div key={i}>
-                  <Accordion className="" type="single" collapsible>
+                  <Accordion className="w-[235px]" type="single" collapsible>
                     <AccordionItem value="item-1">
                       <AccordionTrigger className="  py-1 px-2">
                         <p className="flex items-center gap-2 ">
@@ -70,7 +74,10 @@ export default function MainNav({
                       <AccordionContent className="">
                         {item.children.map((item, i) => (
                           <Link
-                            className="flex items-center font-semibold  pl-6 py-2"
+                            className={cn(
+                              "flex items-center font-semibold  pl-6 py-2 rounded-md",
+                              pathname === item.href ? "bg-background" : ""
+                            )}
                             to={item.href}
                             key={i}
                           >
@@ -84,7 +91,10 @@ export default function MainNav({
                 </div>
               ) : (
                 <Link
-                  className="flex items-center font-semibold   py-2 px-2"
+                  className={cn(
+                    "flex items-center font-semibold   py-2 px-2  rounded-md",
+                    pathname === item.href ? "bg-background" : ""
+                  )}
                   to={item.href}
                   key={item.href}
                 >
@@ -94,6 +104,9 @@ export default function MainNav({
               )
             )}
         </div>
+
+        {/* end */}
+        <div>settings</div>
       </div>
     </nav>
   );
