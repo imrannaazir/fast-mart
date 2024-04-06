@@ -378,7 +378,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                   )}
                 />
 
-                <div className=" flex mt-16 gap-4">
+                <div className=" flex flex-col lg:flex-row mt-32 lg:mt-16    gap-4">
                   {/* product brand */}
                   <FormField
                     control={form.control}
@@ -450,7 +450,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                 {/* all features   */}
                 <div className="space-y-4">{featuresContent}</div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col lg:flex-row  lg:items-center gap-4">
                   {/* Add product feature*/}
                   <FormField
                     control={form.control}
@@ -598,7 +598,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                   )}
                 />
 
-                <div className=" flex  gap-2 mt-4">
+                <div className=" flex flex-col lg:flex-row  gap-2 mt-4">
                   {/* product operatingSystem */}
                   <FormField
                     control={form.control}
