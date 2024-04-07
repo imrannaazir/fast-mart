@@ -9,6 +9,7 @@ import TagRoutes from '../modules/tag/tag.route';
 import FeatureNameRoutes from '../modules/featureName/featureName.route';
 import OperatingSystemRoutes from '../modules/operatingSystem/operatingSystem.route';
 import OrderRoute from '../modules/order/order.route';
+import IconRoutes from '../modules/icon/icon.routes';
 
 const router = Router();
 
@@ -57,6 +58,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/order',
     route: OrderRoute,
+  },
+  {
+    path: '/icons',
+    route: IconRoutes,
   },
 ];
 
