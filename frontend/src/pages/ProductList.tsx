@@ -89,7 +89,7 @@ const ProductList = () => {
       {/* Header */}
       <div className="flex justify-between">
         <h3 className="text-xl font-semibold">Products</h3>
-        <Button onClick={() => navigate("/add-product")} size={"sm"}>
+        <Button onClick={() => navigate("/products/new")} size={"sm"}>
           Add product
         </Button>
       </div>

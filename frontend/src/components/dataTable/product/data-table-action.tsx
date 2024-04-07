@@ -123,7 +123,7 @@ function DataTableAction({ row }: DataTableAction) {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => navigate(`/update-product/${product._id}`)}
+            onClick={() => navigate(`/products/update/${product._id}`)}
             className="flex items-center gap-2"
           >
             <FilePen size={14} /> Edit

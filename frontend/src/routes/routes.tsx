@@ -34,24 +34,35 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "add-product",
-        element: <AddProduct />,
+        path: "products",
+        children: [
+          {
+            path: "new",
+            element: <AddProduct />,
+          },
+          {
+            path: "list",
+            element: <ProductList />,
+          },
+          {
+            path: "update/:id",
+            element: <UpdateProduct />,
+          },
+          {
+            path: "details/:id",
+            element: <ProductDetails />,
+          },
+        ],
       },
+
       {
-        path: "product-list",
-        element: <ProductList />,
-      },
-      {
-        path: "/update-product/:id",
-        element: <UpdateProduct />,
-      },
-      {
-        path: "/product-details/:id",
-        element: <ProductDetails />,
-      },
-      {
-        path: "/order-list",
-        element: <OrderList />,
+        path: "orders",
+        children: [
+          {
+            path: "list",
+            element: <OrderList />,
+          },
+        ],
       },
       {
         path: "/cart",

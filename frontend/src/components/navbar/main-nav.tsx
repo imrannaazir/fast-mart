@@ -1,5 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Circle, Home, ShoppingBag } from "lucide-react";
+import {
+  BarChart2,
+  Circle,
+  Home,
+  Settings,
+  ShoppingBag,
+  User,
+} from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { IoMdPricetag } from "react-icons/io";
 import {
@@ -19,30 +26,53 @@ export default function MainNav({
       icon: Home,
       href: `/`,
       label: "Home",
-      isActive: true,
+    },
+    {
+      icon: ShoppingBag,
+      label: "Orders",
+      children: [
+        {
+          label: "Add",
+          href: "/orders/new",
+        },
+        {
+          label: "List",
+          href: "orders/list",
+        },
+      ],
     },
     {
       icon: IoMdPricetag,
       label: "Product",
       children: [
         {
-          icon: Home,
-          href: `/add-product`,
+          href: `/products/new`,
           label: "Add",
-          isActive: true,
         },
         {
-          icon: Home,
-          href: `/product-list`,
+          href: `/products/list`,
           label: "List",
-          isActive: true,
         },
       ],
     },
     {
-      icon: ShoppingBag,
-      label: "Orders",
-      href: "/order-list",
+      icon: User,
+      label: "Customers",
+      children: [
+        {
+          href: "/customers/new",
+          label: "Add",
+        },
+        {
+          href: "/customers/list",
+          label: "List",
+        },
+      ],
+    },
+    {
+      icon: BarChart2,
+      label: "Analytics",
+      href: "/analytics",
     },
   ];
 
@@ -50,13 +80,10 @@ export default function MainNav({
 
   return (
     <nav
-      className={cn(
-        " h-full overflow-y-scroll custom-scrollbar mt-4 ",
-        className
-      )}
+      className={cn(" h-full overflow-y-scroll custom-scrollbar   ", className)}
       {...props}
     >
-      <div className="h-full w-full flex flex-col justify-between px-2 py-6">
+      <div className="h-full w-full flex flex-col justify-between px-2 pt-10 pb-6">
         {/* top */}
         <div className="flex-grow ">
           {routes.length > 0 &&
@@ -67,7 +94,7 @@ export default function MainNav({
                     <AccordionItem value="item-1">
                       <AccordionTrigger className="  py-1 px-2">
                         <p className="flex items-center gap-2 ">
-                          {<item.icon />}
+                          {<item.icon className="mr-2 h-4 w-4" />}
                           {item.label}
                         </p>
                       </AccordionTrigger>
@@ -92,7 +119,7 @@ export default function MainNav({
               ) : (
                 <Link
                   className={cn(
-                    "flex items-center font-semibold   py-2 px-2  rounded-md",
+                    "flex items-center font-semibold gap-2  py-2 px-2  rounded-md w-[235px]",
                     pathname === item.href ? "bg-background" : ""
                   )}
                   to={item.href}
@@ -106,7 +133,17 @@ export default function MainNav({
         </div>
 
         {/* end */}
-        <div>settings</div>
+        <Link
+          className={cn(
+            "flex items-center font-semibold  gap-2 py-2 px-2  rounded-md w-[235px]",
+            pathname === "/settings" ? "bg-background" : ""
+          )}
+          to={"/settings"}
+          key={"/settings"}
+        >
+          <Settings className="mr-2 h-4 w-4" />
+          <span>Settings</span>
+        </Link>
       </div>
     </nav>
   );
