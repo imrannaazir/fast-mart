@@ -1,21 +1,7 @@
 import { Schema, model } from 'mongoose';
-import { TName, TUser } from './user.interface';
-import { Role } from './user.constant';
+import { TUser } from './user.interface';
+import { Role, UserStatus } from './user.constant';
 import { hashPassword } from '../auth/auth.utils';
-
-const userNameSchema = new Schema<TName>({
-  firstName: {
-    type: String,
-    required: true,
-  },
-  middleName: {
-    type: String,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-});
 
 const userSchema = new Schema<TUser>(
   {
@@ -24,7 +10,6 @@ const userSchema = new Schema<TUser>(
       required: true,
       unique: true,
     },
-    name: { type: userNameSchema, required: true },
     password: {
       type: String,
       required: true,
@@ -33,17 +18,15 @@ const userSchema = new Schema<TUser>(
     role: {
       type: String,
       enum: Role,
-      default: 'user',
+      default: 'USER',
     },
-    profileImage: {
+    status: {
       type: String,
+      enum: UserStatus,
+      default: 'PENDING',
     },
-    phoneNumber: {
+    phone_number: {
       type: String,
-    },
-    passwordChangeAt: {
-      type: Date,
-      select: 0,
     },
   },
   {
@@ -59,7 +42,6 @@ userSchema.pre('save', async function () {
 // disallow password and password change at
 userSchema.post('save', async function (doc, next) {
   doc.set('password', undefined);
-  doc.set('passwordChangeAt', undefined);
 
   next();
 });

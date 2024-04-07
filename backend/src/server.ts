@@ -4,10 +4,12 @@ import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
 import colors from 'colors';
+import { seedSuperAdmin } from './app/DB';
 let server: Server;
 async function main() {
   try {
     await mongoose.connect(config.database_url as string);
+    await seedSuperAdmin();
     server = app.listen(config.port, () => {
       console.log(colors.green.bold(`App listening on port ${config.port} ✔️`));
     });
@@ -19,9 +21,10 @@ async function main() {
 main();
 
 // handle unhandledRejection
-process.on('unhandledRejection', () => {
+process.on('unhandledRejection', error => {
   console.log(
     colors.red.bold('😈 unhandledRejection is detected, shutting down...'),
+    error,
   );
 
   if (server) {
@@ -33,8 +36,9 @@ process.on('unhandledRejection', () => {
 });
 
 // handle uncaughtException
-process.on('uncaughtExceptionMonitor', () => {
+process.on('uncaughtExceptionMonitor', error => {
   console.log(
     colors.red.bold('😈 unhandledRejection is detected, shutting down...'),
+    error,
   );
 });

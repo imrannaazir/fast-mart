@@ -1,5 +1,5 @@
 import QueryBuilder from '../../builder/QueryBuilder';
-import { icons } from '../../constant/icons';
+import { icons } from './icons.constants';
 import Icon from './icon.model';
 
 // create icons

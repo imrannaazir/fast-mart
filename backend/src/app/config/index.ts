@@ -14,4 +14,8 @@ export default {
   jwt_refresh_token_expires_in: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN,
   data_limit: process.env.DATA_LIMIT,
   client_url: process.env.CLIENT_URL,
+  super_admin: {
+    email: process.env.SUPER_ADMIN_EMAIL,
+    password: process.env.SUPER_ADMIN_PASSWORD,
+  },
 };
