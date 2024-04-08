@@ -3,6 +3,8 @@ import AppError from '../../errors/AppError';
 import { TCategory } from './category.interface';
 import Category from './category.model';
 import { Types } from 'mongoose';
+import QueryBuilder from '../../builder/QueryBuilder';
+import { TMeta } from '../../utils/sendResponse';
 
 // create category
 const createCategory = async (
@@ -31,13 +33,19 @@ const createCategory = async (
 };
 
 // get all category
-const getAllCategory = async (): Promise<TCategory[]> => {
-  const result = Category.find({});
-  if (!result) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Categories not founded.');
-  }
+const getAllCategory = async (
+  query: Record<string, unknown>,
+): Promise<{ result: TCategory[]; meta: TMeta }> => {
+  const categoryQueryModel = new QueryBuilder(Category.find(), query)
+    .search(['title'])
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+  const result = await categoryQueryModel.modelQuery;
+  const meta = await categoryQueryModel.countTotal();
 
-  return result;
+  return { result, meta };
 };
 
 const CategoryService = {

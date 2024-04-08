@@ -7,6 +7,7 @@ import TagRoutes from '../modules/tag/tag.route';
 import OrderRoute from '../modules/order/order.route';
 import IconRoutes from '../modules/icon/icon.routes';
 import ImageRoutes from '../modules/image/image.routes';
+import CollectionRoutes from '../modules/collection/collection.routes';
 
 const router = Router();
 
@@ -31,6 +32,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/category',
     route: CategoryRoutes,
+  },
+  {
+    path: '/collections',
+    route: CollectionRoutes,
   },
 
   {
