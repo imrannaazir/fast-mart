@@ -7,7 +7,7 @@ export type TVariant = {
   updatedAt?: Date;
 };
 
-export type TOptions = {
+export type TOption = {
   _id?: Types.ObjectId;
   option_name: string;
   variantId: Types.ObjectId;
