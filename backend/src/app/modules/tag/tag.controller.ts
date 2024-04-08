@@ -17,7 +17,8 @@ const createTag = catchAsync(async (req, res) => {
 
 // get all tags
 const getAllTags = catchAsync(async (req, res) => {
-  const result = await TagService.getAllTags();
+  const query = req.query;
+  const result = await TagService.getAllTags(query);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
