@@ -1,30 +1,29 @@
 import { Types } from 'mongoose';
+import { ProductStatus, ProductUnit } from './product.constant';
 
-type TStatus = 'in-stock' | 'out-of-stock';
+export type TProductStatus = (typeof ProductStatus)[number];
+export type TProductUnit = (typeof ProductUnit)[number];
 
-export type TFeature = Record<string, string>;
 export type TProduct = {
-  name: string;
-  description?: string;
-  brand: Types.ObjectId;
-  category: Types.ObjectId;
+  id?: string;
 
+  title: string;
   price: number;
-  quantity: number;
+
+  compare_price?: number;
+  description?: string;
+  status: TProductStatus;
+  quantity?: number;
   weight?: number;
-  unit?: string;
+  unit: TProductUnit;
 
-  compatibility?: string;
-  dimensions?: string;
-  operatingSystem?: Types.ObjectId;
-  powerSource?: Types.ObjectId;
-  connectivity?: Types.ObjectId;
-
-  features?: TFeature;
+  media?: [Types.ObjectId];
+  variants?: [Types.ObjectId];
+  categories?: [Types.ObjectId];
+  collections?: [Types.ObjectId];
+  brand?: Types.ObjectId;
   tags?: [Types.ObjectId];
-
-  image?: string;
-  status: TStatus;
-  model?: string;
   createdBy?: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
 };

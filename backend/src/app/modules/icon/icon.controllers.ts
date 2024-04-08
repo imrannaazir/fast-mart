@@ -24,6 +24,7 @@ const getAllIcons = catchAsync(async (req, res) => {
     statusCode: StatusCodes.OK,
     message: 'Icons retrieved successfully.',
     data: result.data,
+    meta: result.meta,
   });
 });
 

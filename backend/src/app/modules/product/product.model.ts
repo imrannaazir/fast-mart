@@ -1,73 +1,52 @@
 import { Schema, model } from 'mongoose';
-import { Status } from './product.constant';
 import { TProduct } from './product.interface';
+import { ProductStatus, ProductUnit } from './product.constant';
 
 const productSchema = new Schema<TProduct>(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
     description: {
       type: String,
     },
-    model: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    compatibility: {
-      type: String,
-    },
-    weight: {
-      type: Number,
-    },
-    unit: {
-      type: String,
-    },
-    dimensions: {
-      type: String,
-    },
     price: {
       type: Number,
       required: true,
     },
-    quantity: {
+    compare_price: {
       type: Number,
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: Status,
-      default: 'in-stock',
-    },
-    image: {
-      type: String,
     },
     brand: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: 'brand',
     },
-    category: {
+    categories: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'category',
+      },
+    ],
+    collections: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'collection',
+      },
+    ],
+    createdBy: {
       type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'category',
+      ref: 'user',
     },
-    operatingSystem: {
-      type: Schema.Types.ObjectId,
-      ref: 'operatingSystem',
-    },
-    powerSource: {
-      type: Schema.Types.ObjectId,
-      ref: 'powerSource',
-    },
-    connectivity: {
-      type: Schema.Types.ObjectId,
-      ref: 'connectivity',
-    },
-    features: {
-      type: Object,
+    media: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'productImage',
+      },
+    ],
+    quantity: {
+      type: Number,
+      default: 0,
     },
     tags: [
       {
@@ -75,10 +54,25 @@ const productSchema = new Schema<TProduct>(
         ref: 'tag',
       },
     ],
-    createdBy: {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
+    unit: {
+      type: String,
+      enum: ProductUnit,
+      default: 'g',
+    },
+    weight: {
+      type: Number,
+    },
+    variants: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'productVariant',
+      },
+    ],
+
+    status: {
+      type: String,
+      enum: ProductStatus,
+      default: 'DRAFT',
     },
   },
   { timestamps: true },

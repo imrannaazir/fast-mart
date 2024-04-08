@@ -1,23 +1,21 @@
 import { z } from 'zod';
-const featureValidationSchema = z.record(z.string());
+import { ProductStatus, ProductUnit } from './product.constant';
 export const createProductValidationSchema = z.object({
   body: z.object({
-    name: z.string(),
+    title: z.string(),
     description: z.string().optional(),
-    brand: z.string(),
-    category: z.string(),
     price: z.number(),
-    quantity: z.number(),
+    compare_price: z.number().optional(),
+    status: z.enum(ProductStatus).optional(),
     weight: z.number().optional(),
-    unit: z.string().optional(),
-    compatibility: z.string().optional(),
-    dimensions: z.string().optional(),
-    image: z.string().optional(),
-    powerSource: z.string().optional(),
-    operatingSystem: z.string().optional(),
-    connectivity: z.string().optional(),
+    unit: z.enum(ProductUnit as [string, ...string[]]).optional(),
+    quantity: z.number(),
+    media: z.array(z.string()).optional(),
+    brand: z.string().optional(),
+    categories: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
-    features: featureValidationSchema,
+    collections: z.array(z.string()).optional(),
+    variants: z.array(z.string()).optional(),
   }),
 });
 
