@@ -8,7 +8,7 @@ import OrderRoute from '../modules/order/order.route';
 import IconRoutes from '../modules/icon/icon.routes';
 import ImageRoutes from '../modules/image/image.routes';
 import CollectionRoutes from '../modules/collection/collection.routes';
-import VariantRoutes from '../modules/variant/variant.routes';
+import VariantRoutes, { OptionRoutes } from '../modules/variant/variant.routes';
 
 const router = Router();
 
@@ -58,6 +58,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/variants',
     route: VariantRoutes,
+  },
+  {
+    path: '/options',
+    route: OptionRoutes,
   },
 ];
 
