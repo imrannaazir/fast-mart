@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 
 export type TImage = {
-  id?: string;
+  _id?: string;
   file_name: string;
   url: string;
   size: number;
@@ -10,7 +10,7 @@ export type TImage = {
 };
 
 export type TProductImage = {
-  id?: Types.ObjectId;
+  _id?: Types.ObjectId;
   productId: Types.ObjectId;
   imageId: Types.ObjectId;
 };
