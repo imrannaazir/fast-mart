@@ -9,7 +9,7 @@ const router = Router();
 // create brand : POST
 router.post(
   '/',
-  auth('user'),
+  auth('ADMIN', 'SUPER_ADMIN'),
   validateRequest(createBrandValidationSchema),
   BrandController.createBrand,
 );

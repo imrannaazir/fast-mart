@@ -22,7 +22,7 @@ const getAllBrands = catchAsync(async (req, res) => {
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: 'Brand retrieved successfully.',
+    message: 'Brands retrieved successfully.',
     data: result,
   });
 });
