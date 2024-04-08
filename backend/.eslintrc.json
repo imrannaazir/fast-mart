@@ -16,10 +16,10 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-unused-vars": "error",
-    "prefer-const": "error",
-    "no-undef": "error",
     "no-unused-expressions": "error",
-    "no-console": "warn"
+    "prefer-const": "error",
+    "no-console": "warn",
+    "no-undef": "error"
   },
   "globals": {
     "process": "readonly"
