@@ -19,14 +19,14 @@ const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
   try {
     const productToOrder = await Product.find()
       .where('_id')
-      .in(products.map(product => product.product))
+      .in(products.map((product) => product.product))
       .session(session)
       .exec();
 
     const orderedProduct: TOrderedProduct[] = [];
 
-    products.forEach(item => {
-      const product = productToOrder.find(p => p._id.equals(item.product));
+    products.forEach((item) => {
+      const product = productToOrder.find((p) => p._id.equals(item.product));
 
       if (!product) {
         throw new AppError(
@@ -55,7 +55,7 @@ const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
     });
 
     await Promise.all(
-      productToOrder.map(updatedProduct => updatedProduct.save({ session })),
+      productToOrder.map((updatedProduct) => updatedProduct.save({ session })),
     );
 
     const order = new Order({

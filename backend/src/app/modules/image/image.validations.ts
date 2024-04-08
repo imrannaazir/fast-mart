@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { TImage } from './image.interface';
 
 export const createImageValidationSchema = z.object({
   body: z.object({

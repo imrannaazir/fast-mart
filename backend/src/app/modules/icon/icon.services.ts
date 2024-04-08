@@ -6,7 +6,7 @@ import { TMeta } from '../../utils/sendResponse';
 
 // create icons
 const createIcons = async (): Promise<TIcon[]> => {
-  const iconNames = icons.map(iconName => ({ name: iconName }));
+  const iconNames = icons.map((iconName) => ({ name: iconName }));
   const result = await Icon.insertMany(iconNames);
   return result;
 };

@@ -21,7 +21,7 @@ async function main() {
 main();
 
 // handle unhandledRejection
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error) => {
   console.log(
     colors.red.bold('😈 unhandledRejection is detected, shutting down...'),
     error,
@@ -36,7 +36,7 @@ process.on('unhandledRejection', error => {
 });
 
 // handle uncaughtException
-process.on('uncaughtExceptionMonitor', error => {
+process.on('uncaughtExceptionMonitor', (error) => {
   console.log(
     colors.red.bold('😈 unhandledRejection is detected, shutting down...'),
     error,

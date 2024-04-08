@@ -5,7 +5,7 @@ export type TProductStatus = (typeof ProductStatus)[number];
 export type TProductUnit = (typeof ProductUnit)[number];
 
 export type TProduct = {
-  id?: string;
+  id?: Types.ObjectId;
 
   title: string;
   price: number;

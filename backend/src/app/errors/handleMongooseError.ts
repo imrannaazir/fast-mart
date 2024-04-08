@@ -8,7 +8,7 @@ const handleMongooseError = (
   const message = error.message;
   const statusCode = StatusCodes.BAD_REQUEST;
   const errorSources: TErrorSource[] = Object.values(error.errors).map(
-    issue => ({
+    (issue) => ({
       message: issue.message,
       path: issue.path,
     }),

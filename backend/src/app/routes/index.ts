@@ -46,7 +46,7 @@ const routerModules: TRouteModule[] = [
   },
 ];
 
-routerModules.forEach(routerModule => {
+routerModules.forEach((routerModule) => {
   router.use(routerModule.path, routerModule.route);
 });
 export default router;

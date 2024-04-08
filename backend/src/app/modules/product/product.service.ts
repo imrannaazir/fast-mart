@@ -37,7 +37,7 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
 
   //  check is tags exist
   if (payload.tags && payload.tags.length > 0) {
-    payload.tags.forEach(async tag => {
+    payload.tags.forEach(async (tag) => {
       const isTagExist = await Tag.findById(tag);
       if (!isTagExist) {
         throw new AppError(
