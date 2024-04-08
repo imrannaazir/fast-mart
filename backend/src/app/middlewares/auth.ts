@@ -32,7 +32,7 @@ const auth = (...requiredRole: TRole[]) => {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'Account not founded.');
     }
 
-    if (requiredRole && !requiredRole.includes(decoded.role)) {
+    if (requiredRole.length > 0 && !requiredRole.includes(decoded.role)) {
       throw new AppError(StatusCodes.FORBIDDEN, 'Access denied.');
     }
 

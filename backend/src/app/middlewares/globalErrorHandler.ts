@@ -19,6 +19,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     4. handle cast error
     5. handle error that instance of AppError
     */
+
   const success = false;
   let statusCode = 500;
   let message = error.message || 'Internal server error.';

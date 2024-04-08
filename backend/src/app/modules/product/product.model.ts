@@ -25,13 +25,13 @@ const productSchema = new Schema<TProduct>(
     categories: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'category',
+        ref: 'productCategory',
       },
     ],
     collections: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'collection',
+        ref: 'productCollection',
       },
     ],
     createdBy: {
@@ -51,7 +51,7 @@ const productSchema = new Schema<TProduct>(
     tags: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'tag',
+        ref: 'productTag',
       },
     ],
     unit: {

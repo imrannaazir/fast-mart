@@ -1,9 +1,17 @@
 import { z } from 'zod';
 
-export const createImageValidationSchema = z.object({
+const imageValidationSchema = z.object({
+  file_name: z.string(),
+  size: z.number(),
+  url: z.string(),
+});
+
+export const createSingleImageValidationSchema = z.object({
+  body: imageValidationSchema,
+});
+
+export const createManyImageValidationSchema = z.object({
   body: z.object({
-    file_name: z.string(),
-    size: z.number(),
-    url: z.string(),
+    images: z.array(imageValidationSchema),
   }),
 });
