@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TBrand } from './brand.interfac';
+import { TBrand } from './brand.interface';
 import Brand from './brand.model';
 
 const createBrand = async (payload: TBrand) => {

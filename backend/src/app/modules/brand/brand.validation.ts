@@ -4,6 +4,7 @@ export const createBrandValidationSchema = z.object({
   body: z.object({
     name: z.string(),
     description: z.string().optional(),
-    image: z.string().optional(),
+    logo: z.string().optional(),
+    cover_photo: z.string().optional(),
   }),
 });
