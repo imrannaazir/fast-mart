@@ -1,5 +1,16 @@
+import { Types } from 'mongoose';
+
 export type TCategory = {
-  name: string;
+  _id: Types.ObjectId;
+  title: string;
   description?: string;
-  image?: string;
+  createdBy: Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type TProductCategory = {
+  _id?: Types.ObjectId;
+  productId: Types.ObjectId;
+  categoryId: Types.ObjectId;
 };
