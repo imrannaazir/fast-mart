@@ -23,8 +23,7 @@ const createProduct = catchAsync(async (req, res) => {
 // get all product
 const getAllProduct = catchAsync(async (req, res) => {
   const query = req.query;
-  const userEmail = req.user.email;
-  const result = await ProductService.getAllProduct(query, userEmail);
+  const result = await ProductService.getAllProduct(query);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,

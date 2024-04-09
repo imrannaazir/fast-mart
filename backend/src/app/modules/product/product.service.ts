@@ -36,9 +36,11 @@ const createProduct = async (
   payload.createdBy = userId;
 
   // check is brand is exist
-  const isBrandExist = await Brand.findById(payload.brand);
-  if (!isBrandExist) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Brand not founded.');
+  if (payload.brand) {
+    const isBrandExist = await Brand.findById(payload.brand);
+    if (!isBrandExist) {
+      throw new AppError(StatusCodes.NOT_FOUND, 'Brand not founded.');
+    }
   }
 
   // check categories are exist
@@ -190,37 +192,41 @@ const createProduct = async (
 };
 
 // get all product
-const getAllProduct = async (
-  query: Record<string, unknown>,
-  userEmail: string,
-) => {
-  // check is user exist
-  const isUserExist = await User.findOne({ email: userEmail });
-  if (!userEmail) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'Account does not exist.');
-  }
-
+const getAllProduct = async (query: Record<string, unknown>) => {
   const queryObj = { ...query };
-  delete queryObj['tags'];
+  ['tags', 'categories', 'collections', ''].forEach((item) => {
+    delete queryObj[item];
+  });
+  // convert into filterable
   const tags = (query?.tags as string)?.split(',');
+  const collections = (query?.collections as string)?.split(',');
+  const categories = (query?.categories as string)?.split(',');
 
   if (query.tags) {
     queryObj['tags'] = { $in: tags };
   }
-
-  if (isUserExist?.role === 'user') {
-    queryObj.createdBy = `${isUserExist._id}`;
+  if (query.collections) {
+    queryObj['collections'] = { $in: collections };
+  }
+  if (query.categories) {
+    queryObj['categories'] = { $in: categories };
   }
 
-  // product query model
-  const productModelQuery = new QueryBuilder(
-    Product.find({
+  // price range filterable query
+  let priceRangeFilter = {};
+  if (query.lowPrice && query.highPrice) {
+    priceRangeFilter = {
       $and: [
         { price: { $gte: query.lowPrice } },
         { price: { $lte: query.highPrice } },
       ],
-    }).populate(
-      'brand createdBy category powerSource connectivity tags operatingSystem',
+    };
+  }
+
+  // product query model
+  const productModelQuery = new QueryBuilder(
+    Product.find(priceRangeFilter).populate(
+      'brand createdBy categories tags collections media variants',
     ),
     queryObj,
   )
@@ -231,6 +237,7 @@ const getAllProduct = async (
     .paginate();
 
   const data = await productModelQuery.modelQuery;
+
   const meta = await productModelQuery.countTotal();
 
   return { data, meta };
