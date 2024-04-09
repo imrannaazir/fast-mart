@@ -35,8 +35,7 @@ const getAllProduct = catchAsync(async (req, res) => {
 // get single product by id
 const getSingleProductById = catchAsync(async (req, res) => {
   const id = req.params.id;
-  const userEmail = req.user.email;
-  const result = await ProductService.getSingleProductById(id, userEmail);
+  const result = await ProductService.getSingleProductById(id);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -48,8 +47,7 @@ const getSingleProductById = catchAsync(async (req, res) => {
 // delete product by Id
 const deleteProductById = catchAsync(async (req, res) => {
   const productId = req.params.id;
-  const userEmail = req.user.email;
-  const result = await ProductService.deleteProductById(productId, userEmail);
+  const result = await ProductService.deleteProductById(productId);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.OK,
@@ -61,10 +59,9 @@ const deleteProductById = catchAsync(async (req, res) => {
 // update product by id
 const updateProductById = catchAsync(async (req, res) => {
   const id = req.params.id;
-  const userEmail = req.user.email;
   const payload = req.body;
 
-  const result = await ProductService.updateProductById(id, payload, userEmail);
+  const result = await ProductService.updateProductById(id, payload);
 
   sendResponse(res, {
     success: true,

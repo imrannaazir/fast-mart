@@ -1,11 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TProduct } from './product.interface';
+import { TInputVariant, TProduct } from './product.interface';
 import Product from './product.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { ProductSearchableFields } from './product.constant';
 import mongoose, { Types } from 'mongoose';
-import User from '../user/user.model';
 import Brand from '../brand/brand.model';
 import Category from '../category/category.model';
 import { Collection } from '../collection/collection.models';
@@ -16,6 +15,7 @@ import {
   Variant,
 } from '../variant/variant.model';
 import Tag from '../tag/tag.model';
+import { TMeta } from '../../utils/sendResponse';
 
 // create product
 const createProduct = async (
@@ -103,16 +103,19 @@ const createProduct = async (
   if (payload.variants && payload.variants.length) {
     const notExistingVariantIds: string[] = [];
     for (const variant of payload.variants) {
-      const isVariantExist = await Variant.findById(variant?.variantId);
+      const isVariantExist = await Variant.findById(
+        (variant as TInputVariant)?.variantId,
+      );
       if (!isVariantExist) {
-        notExistingVariantIds.push(`${variant.variantId}`);
+        notExistingVariantIds.push(`${(variant as TInputVariant)?.variantId}`);
       } else {
+        const options = (variant as TInputVariant)?.options;
         // check options are exist
         const notExistingOptionIds: string[] = [];
-        for (const optionId of variant.options) {
+        for (const optionId of options) {
           const isOptionExist = await Option.findOne({
             _id: optionId,
-            variantId: variant.variantId,
+            variantId: (variant as TInputVariant)?.variantId,
           });
 
           if (!isOptionExist) {
@@ -192,7 +195,9 @@ const createProduct = async (
 };
 
 // get all product
-const getAllProduct = async (query: Record<string, unknown>) => {
+const getAllProduct = async (
+  query: Record<string, unknown>,
+): Promise<{ data: TProduct[]; meta: TMeta }> => {
   const queryObj = { ...query };
   ['tags', 'categories', 'collections', ''].forEach((item) => {
     delete queryObj[item];
@@ -244,19 +249,11 @@ const getAllProduct = async (query: Record<string, unknown>) => {
 };
 
 // get single product by id
-const getSingleProductById = async (id: string, userEmail: string) => {
-  // check is user exist
-  const isUserExist = await User.findOne({ email: userEmail });
-  if (!isUserExist) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'Account does not founded.');
-  }
+const getSingleProductById = async (id: string): Promise<TProduct> => {
+  const result = await Product.findById(id).populate(
+    'brand createdBy media collections categories variants tags',
+  );
 
-  const result = await Product.findById(id)
-    .populate('brand category')
-    .populate({
-      path: 'tags',
-      select: '-__v',
-    });
   if (!result) {
     throw new AppError(
       StatusCodes.NOT_FOUND,
@@ -264,34 +261,17 @@ const getSingleProductById = async (id: string, userEmail: string) => {
     );
   }
 
-  if (
-    isUserExist.role === 'user' &&
-    `${result.createdBy}` !== `${isUserExist._id}`
-  ) {
-    throw new AppError(StatusCodes.FORBIDDEN, 'Access forbidden.');
-  }
   return result;
 };
 
 // delete product by Id
-const deleteProductById = async (productId: string, userEmail: string) => {
-  // check is user exist
-  const isUserExist = await User.findOne({ email: userEmail });
-  if (!isUserExist) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'Account does not founded.');
-  }
-
+const deleteProductById = async (
+  productId: string,
+): Promise<{ deletedProductId: Types.ObjectId }> => {
   // check is product exist
   const isProductExist = await Product.findById(productId);
   if (!isProductExist) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not founded.');
-  }
-
-  if (
-    isUserExist.role === 'user' &&
-    isProductExist.createdBy !== isUserExist._id
-  ) {
-    throw new AppError(StatusCodes.FORBIDDEN, 'Access forbidden.');
   }
 
   const result = await Product.findByIdAndDelete(productId);
@@ -308,31 +288,11 @@ const deleteProductById = async (productId: string, userEmail: string) => {
 const updateProductById = async (
   id: string,
   payload: Partial<TProduct>,
-  userEmail: string,
-) => {
-  // check is user exist
-  const isUserExist = await User.findOne({ email: userEmail });
-  if (!isUserExist) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'Account does not founded.');
-  }
-
+): Promise<TProduct> => {
   // check if product is exist
   const isProductExist = await Product.findById(id);
   if (!isProductExist) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not founded.');
-  }
-
-  if (
-    isUserExist.role === 'user' &&
-    `${isProductExist.createdBy}` !== `${isUserExist._id}`
-  ) {
-    throw new AppError(StatusCodes.FORBIDDEN, 'Access forbidden.');
-  }
-
-  if (payload.quantity && payload.quantity > 0) {
-    payload.status = 'in-stock';
-  } else {
-    payload.status = 'out-of-stock';
   }
 
   const result = await Product.findByIdAndUpdate(id, payload, {
@@ -348,7 +308,7 @@ const updateProductById = async (
 };
 
 // get highest product price
-const getHighestProductPrice = async () => {
+const getHighestProductPrice = async (): Promise<{ highRange: number }> => {
   const mostValuableProduct = await Product.findOne({}).sort('-price');
 
   if (!mostValuableProduct) {
@@ -359,7 +319,9 @@ const getHighestProductPrice = async () => {
 };
 
 // bulk product delete
-const deleteBulkProduct = async (ids: string[]) => {
+const deleteBulkProduct = async (
+  ids: string[],
+): Promise<{ deletedProductCount: number }> => {
   const result = await Product.deleteMany({ _id: { $in: ids } });
 
   if (result.deletedCount < 1) {

@@ -3,6 +3,10 @@ import { ProductStatus, ProductUnit } from './product.constant';
 
 export type TProductStatus = (typeof ProductStatus)[number];
 export type TProductUnit = (typeof ProductUnit)[number];
+export type TInputVariant = {
+  variantId: Types.ObjectId;
+  options: [Types.ObjectId];
+};
 
 export type TProduct = {
   _id?: Types.ObjectId;
@@ -18,9 +22,7 @@ export type TProduct = {
   unit: TProductUnit;
 
   media?: [Types.ObjectId];
-  variants?:
-    | [{ variantId: Types.ObjectId; options: [Types.ObjectId] }]
-    | Types.ObjectId[];
+  variants?: [TInputVariant] | Types.ObjectId[];
   categories?: [Types.ObjectId];
   collections?: [Types.ObjectId];
   brand?: Types.ObjectId;
