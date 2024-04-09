@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { ProductStatus, ProductUnit } from './product.constant';
 
 const variantValidationSchema = z.object({
-  variant: z.string(),
+  variantId: z.string(),
   options: z.array(z.string()),
 });
 

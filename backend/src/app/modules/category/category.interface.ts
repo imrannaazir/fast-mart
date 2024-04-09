@@ -8,9 +8,3 @@ export type TCategory = {
   createdAt: Date;
   updatedAt: Date;
 };
-
-export type TProductCategory = {
-  _id?: Types.ObjectId;
-  productId: Types.ObjectId;
-  categoryId: Types.ObjectId;
-};

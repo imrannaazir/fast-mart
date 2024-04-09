@@ -25,13 +25,13 @@ const productSchema = new Schema<TProduct>(
     categories: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'productCategory',
+        ref: 'category',
       },
     ],
     collections: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'productCollection',
+        ref: 'collection',
       },
     ],
     createdBy: {
@@ -41,7 +41,7 @@ const productSchema = new Schema<TProduct>(
     media: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'productImage',
+        ref: 'image',
       },
     ],
     quantity: {
@@ -51,7 +51,7 @@ const productSchema = new Schema<TProduct>(
     tags: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'productTag',
+        ref: 'tag',
       },
     ],
     unit: {
@@ -65,7 +65,7 @@ const productSchema = new Schema<TProduct>(
     variants: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'productVariant',
+        ref: 'productVariantOption',
       },
     ],
 

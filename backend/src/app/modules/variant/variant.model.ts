@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose';
-import {
-  TVariant,
-  TOption,
-  TProductVariant,
-  TProductVariantOption,
-} from './variant.interfaces';
+import { TVariant, TOption, TProductVariantOption } from './variant.interfaces';
 
 // variant schema
 const variantSchema = new Schema<TVariant>(
@@ -30,22 +25,6 @@ const optionSchema = new Schema<TOption>({
   },
 });
 
-// product variant schema
-const productVariantSchema = new Schema<TProductVariant>({
-  productId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'product',
-  },
-  productVariantOptions: [
-    {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'productVariantOptions',
-    },
-  ],
-});
-
 // product variant option schema
 const productVariantOptionSchema = new Schema<TProductVariantOption>({
   variantId: {
@@ -65,10 +44,6 @@ const productVariantOptionSchema = new Schema<TProductVariantOption>({
 // models
 export const Variant = model<TVariant>('variant', variantSchema);
 export const Option = model<TOption>('option', optionSchema);
-export const ProductVariant = model<TProductVariant>(
-  'productVariant',
-  productVariantSchema,
-);
 export const ProductVariantOption = model<TProductVariantOption>(
   'productVariantOption',
   productVariantOptionSchema,

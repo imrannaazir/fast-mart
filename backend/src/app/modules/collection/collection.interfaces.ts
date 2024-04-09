@@ -10,9 +10,3 @@ export type TCollection = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
-export type TProductCollection = {
-  _id?: Types.ObjectId;
-  productId: Types.ObjectId;
-  collectionId: Types.ObjectId;
-};

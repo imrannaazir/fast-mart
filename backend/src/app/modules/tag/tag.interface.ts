@@ -6,8 +6,3 @@ export type TTag = {
   createdAt?: Date;
   updatedAt?: Date;
 };
-
-export type TProductTag = {
-  productId: Types.ObjectId;
-  tagId: Types.ObjectId;
-};

@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TCollection, TProductCollection } from './collection.interfaces';
+import { TCollection } from './collection.interfaces';
 
 //  collection schema
 const collectionSchema = new Schema<TCollection>(
@@ -30,24 +30,5 @@ const collectionSchema = new Schema<TCollection>(
   },
 );
 
-// product collection schema
-const productCollectionSchema = new Schema<TProductCollection>({
-  collectionId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'collection',
-  },
-  productId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: 'product',
-  },
-});
-
 // model
 export const Collection = model<TCollection>('collection', collectionSchema);
-
-export const ProductCollection = model<TProductCollection>(
-  'ProductCollection',
-  productCollectionSchema,
-);

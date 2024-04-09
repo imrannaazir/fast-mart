@@ -4,29 +4,36 @@ import { TProduct } from './product.interface';
 import Product from './product.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { ProductSearchableFields } from './product.constant';
-import { Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import User from '../user/user.model';
 import Brand from '../brand/brand.model';
 import Category from '../category/category.model';
 import { Collection } from '../collection/collection.models';
 import { Image } from '../image/image.model';
-import { Option, Variant } from '../variant/variant.model';
+import {
+  Option,
+  ProductVariantOption,
+  Variant,
+} from '../variant/variant.model';
+import Tag from '../tag/tag.model';
 
 // create product
-const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
+const createProduct = async (
+  payload: TProduct,
+  userId: Types.ObjectId,
+): Promise<TProduct> => {
   /* 
-
 1. check is brand exist 
 2. check are categories  exist
 3. check are collections  exist
 4. check are media  exist
 5. check is variants are exist
 6. check is tags
-0. check is price is smaller then compare price  
+7. check is price is smaller then compare price
+*/
 
-  */
-
-  // console.log({ payload, userId });
+  // insert  userId into payload
+  payload.createdBy = userId;
 
   // check is brand is exist
   const isBrandExist = await Brand.findById(payload.brand);
@@ -94,16 +101,16 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
   if (payload.variants && payload.variants.length) {
     const notExistingVariantIds: string[] = [];
     for (const variant of payload.variants) {
-      const isVariantExist = await Variant.findById(variant?.variant);
+      const isVariantExist = await Variant.findById(variant?.variantId);
       if (!isVariantExist) {
-        notExistingVariantIds.push(`${variant.variant}`);
+        notExistingVariantIds.push(`${variant.variantId}`);
       } else {
         // check options are exist
         const notExistingOptionIds: string[] = [];
         for (const optionId of variant.options) {
           const isOptionExist = await Option.findOne({
             _id: optionId,
-            variantId: variant.variant,
+            variantId: variant.variantId,
           });
 
           if (!isOptionExist) {
@@ -128,6 +135,23 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
     }
   }
 
+  // check are tags exist
+  if (payload.tags && payload.tags.length) {
+    const notExistingTagIds: string[] = [];
+    for (const tagId of payload.tags) {
+      const isTagExist = await Tag.findById(tagId);
+      if (!isTagExist) {
+        notExistingTagIds.push(`${tagId}`);
+      }
+    }
+    if (notExistingTagIds.length) {
+      throw new AppError(
+        StatusCodes.NOT_FOUND,
+        `Tag not founded by id: ${notExistingTagIds.join(',')}`,
+      );
+    }
+  }
+
   // check compare price is getter than price
   if (payload.compare_price && payload.compare_price <= payload.price) {
     throw new AppError(
@@ -135,38 +159,34 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
       'Compare price should be getter than price.',
     );
   }
-  /* 
- 
 
-  // check category is exist
-  const isCategoryExist = await Category.findById(payload.);
-  if (!isCategoryExist) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Category not founded.');
-  }
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    let variants;
+    if (payload.variants) {
+      variants = await ProductVariantOption.insertMany(payload.variants, {
+        session,
+      });
 
-  //  check is tags exist
-  if (payload.tags && payload.tags.length > 0) {
-    payload.tags.forEach(async (tag) => {
-      const isTagExist = await Tag.findById(tag);
-      if (!isTagExist) {
-        throw new AppError(
-          StatusCodes.NOT_FOUND,
-          `Tag not founded by id : ${tag}`,
-        );
+      // insert product variant options into payload
+      if (variants.length) {
+        payload.variants = variants.map((variant) => variant._id);
       }
-    });
-  }
+    }
 
-  // if quantity is 0 set status out of stock
-  if (payload.quantity === 0) {
-    payload.status = 'out-of-stock';
-  }
-  //  ⚠️⚠️⚠️⚠️ generate model
-  payload.model = new Date().getTime().toString();
+    // create product
+    const product = await Product.create([payload], { session });
 
-  payload.createdBy = userId;
-  const result = await Product.create(payload);
-  return result; */
+    await session.commitTransaction();
+    await session.endSession();
+    return product[0];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw new AppError(StatusCodes.INTERNAL_SERVER_ERROR, error?.message);
+  }
 };
 
 // get all product

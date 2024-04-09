@@ -18,7 +18,9 @@ export type TProduct = {
   unit: TProductUnit;
 
   media?: [Types.ObjectId];
-  variants?: [{ variant: Types.ObjectId; options: [Types.ObjectId] }];
+  variants?:
+    | [{ variantId: Types.ObjectId; options: [Types.ObjectId] }]
+    | Types.ObjectId[];
   categories?: [Types.ObjectId];
   collections?: [Types.ObjectId];
   brand?: Types.ObjectId;
