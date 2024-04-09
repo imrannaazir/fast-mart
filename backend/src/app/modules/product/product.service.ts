@@ -1,27 +1,32 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import Brand from '../brand/brand.model';
 import { TProduct } from './product.interface';
 import Product from './product.model';
-import Category from '../category/category.model';
-import Tag from '../tag/tag.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { ProductSearchableFields } from './product.constant';
 import { Types } from 'mongoose';
 import User from '../user/user.model';
+import Brand from '../brand/brand.model';
+import Category from '../category/category.model';
+import { Collection } from '../collection/collection.models';
+import { Image } from '../image/image.model';
+import { Option, Variant } from '../variant/variant.model';
 
 // create product
 const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
   /* 
-  
+
 1. check is brand exist 
-2. check is category  exist
-3. check is operatingSystem  exist
-4. check is powerSource  exist
-5. check is connectivity exist
+2. check are categories  exist
+3. check are collections  exist
+4. check are media  exist
+5. check is variants are exist
 6. check is tags
+0. check is price is smaller then compare price  
 
   */
+
+  // console.log({ payload, userId });
 
   // check is brand is exist
   const isBrandExist = await Brand.findById(payload.brand);
@@ -29,8 +34,112 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'Brand not founded.');
   }
 
+  // check categories are exist
+  if (payload.categories && payload.categories.length > 0) {
+    const notExistingCategoryIds: string[] = [];
+    for (const categoryId of payload.categories) {
+      const isCategoryExist = await Category.findById(categoryId);
+
+      if (!isCategoryExist) {
+        notExistingCategoryIds.push(`${categoryId}`);
+      }
+    }
+
+    if (notExistingCategoryIds.length > 0) {
+      throw new AppError(
+        StatusCodes.NOT_FOUND,
+        `Category not founded by id: ${notExistingCategoryIds.join(',')}`,
+      );
+    }
+  }
+
+  // check collections are exist
+  if (payload.collections && payload.collections.length > 0) {
+    const notExistingCollectionIds: string[] = [];
+    for (const collectionId of payload.collections) {
+      const isCollectionExist = await Collection.findById(collectionId);
+
+      if (!isCollectionExist) {
+        notExistingCollectionIds.push(`${collectionId}`);
+      }
+    }
+    if (notExistingCollectionIds.length > 0) {
+      throw new AppError(
+        StatusCodes.NOT_FOUND,
+        `Collection not founded by id: ${notExistingCollectionIds.join(',')}`,
+      );
+    }
+  }
+
+  // check are images exist
+  if (payload.media && payload.media.length) {
+    const notExistingImageIds: string[] = [];
+
+    for (const imageId of payload.media) {
+      const isImageExist = await Image.findById(imageId);
+      if (!isImageExist) {
+        notExistingImageIds.push(`${imageId}`);
+      }
+    }
+
+    if (notExistingImageIds.length) {
+      throw new AppError(
+        StatusCodes.NOT_FOUND,
+        `Image not founded by id: ${notExistingImageIds.join(',')}`,
+      );
+    }
+  }
+
+  // check are variants and options  exist
+  if (payload.variants && payload.variants.length) {
+    const notExistingVariantIds: string[] = [];
+    for (const variant of payload.variants) {
+      const isVariantExist = await Variant.findById(variant?.variant);
+      if (!isVariantExist) {
+        notExistingVariantIds.push(`${variant.variant}`);
+      } else {
+        // check options are exist
+        const notExistingOptionIds: string[] = [];
+        for (const optionId of variant.options) {
+          const isOptionExist = await Option.findOne({
+            _id: optionId,
+            variantId: variant.variant,
+          });
+
+          if (!isOptionExist) {
+            notExistingOptionIds.push(`${optionId}`);
+          }
+        }
+
+        if (notExistingOptionIds.length) {
+          throw new AppError(
+            StatusCodes.NOT_FOUND,
+            `Option not founded by id: ${notExistingOptionIds.join(',')}`,
+          );
+        }
+      }
+    }
+
+    if (notExistingVariantIds.length) {
+      throw new AppError(
+        StatusCodes.NOT_FOUND,
+        `Variant not founded by id: ${notExistingVariantIds.join(',')}`,
+      );
+    }
+  }
+
+  // check compare price is getter than price
+  if (payload.compare_price && payload.compare_price <= payload.price) {
+    throw new AppError(
+      StatusCodes.BAD_REQUEST,
+      'Compare price should be getter than price.',
+    );
+  }
+  /* 
+ 
+
   // check category is exist
-  const isCategoryExist = await Category.findById(payload.category);
+  const isCategoryExist = await Category.findById(payload.);
   if (!isCategoryExist) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Category not founded.');
   }
@@ -57,7 +166,7 @@ const createProduct = async (payload: TProduct, userId: Types.ObjectId) => {
 
   payload.createdBy = userId;
   const result = await Product.create(payload);
-  return result;
+  return result; */
 };
 
 // get all product

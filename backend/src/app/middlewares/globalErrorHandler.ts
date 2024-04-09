@@ -4,7 +4,6 @@ import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 import handleZodError from '../errors/handleZodError';
 import config from '../config';
-import colors from 'colors';
 import handleMongooseError from '../errors/handleMongooseError';
 import handleDuplicateKeyError from '../errors/handleDuplicateKeyError';
 import handleCastError from '../errors/handleCastError';

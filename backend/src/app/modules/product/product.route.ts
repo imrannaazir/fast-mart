@@ -12,13 +12,13 @@ const router = Router();
 // create product : POST
 router.post(
   '/',
-  auth('user', 'manager'),
+  auth('ADMIN', 'SUPER_ADMIN'),
   validateRequest(createProductValidationSchema),
   ProductController.createProduct,
 );
 
 // get all product : POST
-router.get('/', auth('user', 'manager'), ProductController.getAllProduct);
+router.get('/', ProductController.getAllProduct);
 
 //get highest product price
 router.get('/highest-price', ProductController.getHighestProductPrice);
@@ -26,21 +26,21 @@ router.get('/highest-price', ProductController.getHighestProductPrice);
 //get single product : GET
 router.get(
   '/:id',
-  auth('manager', 'user'),
+
   ProductController.getSingleProductById,
 );
 
 // update single product : PATCH
 router.patch(
   '/:id',
-  auth('user', 'manager'),
+  auth('ADMIN', 'SUPER_ADMIN'),
   ProductController.updateProductById,
 );
 
 // delete bulk product : DELETE
 router.delete(
   '/bulk-delete',
-  auth('user', 'manager'),
+  auth('ADMIN', 'SUPER_ADMIN'),
   validateRequest(deleteBulkProductValidationSchema),
   ProductController.deleteBulkProduct,
 );
@@ -48,7 +48,7 @@ router.delete(
 // delete product : DELETE
 router.delete(
   '/:id',
-  auth('user', 'manager'),
+  auth('ADMIN', 'SUPER_ADMIN'),
   ProductController.deleteProductById,
 );
 

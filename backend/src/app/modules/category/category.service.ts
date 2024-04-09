@@ -14,17 +14,19 @@ const createCategory = async (
   // check is already a category by provided name
   payload.createdBy = userId;
   const isAlreadyCategoryByName = await Category.findOne({
-    name: payload.title,
+    title: payload.title,
   });
+
   if (isAlreadyCategoryByName) {
     throw new AppError(
       StatusCodes.CONFLICT,
-      'There is already a category by this name.',
+      'There is already a category by this title.',
     );
   }
 
   // create
   const result = await Category.create(payload);
+
   if (!result) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create category.');
   }
