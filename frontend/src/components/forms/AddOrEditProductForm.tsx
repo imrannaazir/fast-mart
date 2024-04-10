@@ -55,7 +55,6 @@ import {
 import CreateCollectionForm from "./CreateCollectionForm";
 import { TCreateCollection } from "@/types/rtkQuery.type";
 import { camelCaseToWords } from "@/lib/utils";
-import { clearSelectedFeatureName } from "@/redux/features/featureName/featureNameSlice";
 
 import { X } from "lucide-react";
 import { toast } from "sonner";
@@ -184,7 +183,6 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
             ? "/product-list"
             : "";
         // form.reset();
-        dispatch(clearSelectedFeatureName());
         dispatch(clearSelectedTags());
         toast.success(successMessage, { id: toastId });
 

@@ -3,9 +3,7 @@ import { Button } from "../ui/button";
 import { logOut } from "@/redux/features/auth/authSlice";
 import { SheetNav } from "./SheetNav";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
-import CartButton from "./CartButton";
 import { Link } from "react-router-dom";
-import { clearCart } from "@/redux/features/cart/cartSlice";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +12,6 @@ const Navbar = () => {
   const onLogout = async () => {
     await logout(undefined);
     dispatch(logOut());
-    dispatch(clearCart());
   };
   return (
     <div
@@ -47,9 +44,6 @@ const Navbar = () => {
           items-center
           space-x-4"
           >
-            <Link to="/cart">
-              <CartButton />
-            </Link>
             <Button variant="outline" onClick={onLogout}>
               Logout
             </Button>

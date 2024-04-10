@@ -21,6 +21,7 @@ export default function MainNav({
   let sidebarNavRoute: ReactNode;
   if (routes && routes.length) {
     sidebarNavRoute = routes?.map((item, i) => {
+      // if there is children of the route
       if (item?.children && item.children.length) {
         return (
           <div key={i}>
@@ -53,7 +54,9 @@ export default function MainNav({
             </Accordion>
           </div>
         );
-      } else if (!item?.children && item?.href) {
+      }
+      // if there is not children of the route
+      else if (!item?.children && item?.href) {
         return (
           <NavLink
             className={cn(

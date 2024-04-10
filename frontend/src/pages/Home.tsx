@@ -1,3 +1,4 @@
+import ImageUpload from "@/components/ui/image-upload";
 import Icon from "@/components/ui/lucide-icon";
 import { useGetAllIconsQuery } from "@/redux/features/icon/icon.api";
 const HomePage = () => {
@@ -6,10 +7,9 @@ const HomePage = () => {
     return <p>Loading..</p>;
   }
 
-  console.log(data);
-
   return (
     <div>
+      <ImageUpload />
       <div>
         {data?.data?.map((icon) => (
           <Icon name={icon.name} />

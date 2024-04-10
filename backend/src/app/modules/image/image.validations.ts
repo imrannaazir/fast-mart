@@ -4,6 +4,7 @@ const imageValidationSchema = z.object({
   file_name: z.string(),
   size: z.number(),
   url: z.string(),
+  format: z.string(),
 });
 
 export const createSingleImageValidationSchema = z.object({

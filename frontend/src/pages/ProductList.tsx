@@ -96,7 +96,7 @@ const ProductList = () => {
 
       {/* Product list */}
       <div className="  mx-auto py-10">
-        <ProductDataTable columns={columns} data={products} />
+        {/* <ProductDataTable columns={columns} data={products} /> */}
       </div>
     </div>
   );

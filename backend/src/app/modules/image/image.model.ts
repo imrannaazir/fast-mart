@@ -15,6 +15,10 @@ const imageSchema = new Schema<TImage>(
       type: Number,
       required: true,
     },
+    format: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true },
 );

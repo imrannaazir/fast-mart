@@ -14,30 +14,21 @@ import {
 import storage from "redux-persist/lib/storage";
 import modalSlice from "./features/modal/modalSlice";
 import tagSlice from "./features/tag/tagSlice";
-import featureNameSlice from "./features/featureName/featureNameSlice";
 import filterSlice from "./features/filter/filterSlice";
 import { productReducer } from "./features/product/productSlice";
-import { cartReducer } from "./features/cart/cartSlice";
 
 const persistConfig = {
   key: "auth",
   storage,
 };
-const cartPersistConfig = {
-  key: "cart",
-  storage,
-};
 const persistedAuthReducer = persistReducer(persistConfig, authSlice);
-const persistedCartReducer = persistReducer(cartPersistConfig, cartReducer);
 
 const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
-    cart: persistedCartReducer,
     modal: modalSlice,
     tags: tagSlice,
-    featureName: featureNameSlice,
     filter: filterSlice,
     product: productReducer,
   },
