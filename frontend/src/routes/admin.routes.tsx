@@ -24,13 +24,18 @@ import VariantListPage from "@/pages/VariantList";
 
 const paths: TPath[] = [
   {
-    icon: <Home />,
+    icon: <Home className="mr-2 h-4 w-4" />,
     index: true,
+    element: <HomePage />,
+  },
+  {
+    icon: <Home className="mr-2 h-4 w-4" />,
+    path: "home",
     element: <HomePage />,
     label: "Home",
   },
   {
-    icon: <ShoppingBag />,
+    icon: <ShoppingBag className="mr-2 h-4 w-4" />,
     label: "Orders",
     path: "orders",
     children: [
@@ -47,7 +52,7 @@ const paths: TPath[] = [
     ],
   },
   {
-    icon: <IoMdPricetag />,
+    icon: <IoMdPricetag className="mr-2 h-4 w-4" />,
     label: "Product",
     path: "products",
     children: [
@@ -72,7 +77,7 @@ const paths: TPath[] = [
     ],
   },
   {
-    icon: <User />,
+    icon: <User className="mr-2 h-4 w-4" />,
     label: "Customers",
     path: "customers",
     children: [
@@ -89,7 +94,7 @@ const paths: TPath[] = [
     ],
   },
   {
-    icon: <Images />,
+    icon: <Images className="mr-2 h-4 w-4" />,
     label: "Contents",
     path: "contents",
     children: [
@@ -145,7 +150,7 @@ const paths: TPath[] = [
     ],
   },
   {
-    icon: <BarChart2 />,
+    icon: <BarChart2 className="mr-2 h-4 w-4" />,
     label: "Analytics",
     path: "analytics",
     element: <AnalyticsPage />,
