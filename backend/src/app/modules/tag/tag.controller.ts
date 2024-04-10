@@ -23,7 +23,8 @@ const getAllTags = catchAsync(async (req, res) => {
     success: true,
     statusCode: StatusCodes.OK,
     message: 'Tags retrieved successfully.',
-    data: result,
+    data: result.result,
+    meta: result.meta,
   });
 });
 const TagController = {

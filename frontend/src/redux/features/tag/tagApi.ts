@@ -7,6 +7,10 @@ const tagApi = baseApi.injectEndpoints({
         url: "/tag",
         method: "GET",
       }),
+      transformErrorResponse: (response) => {
+        console.log({ response });
+        return {};
+      },
       providesTags: ["Tags"],
     }),
 

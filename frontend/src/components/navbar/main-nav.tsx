@@ -3,6 +3,7 @@ import {
   BarChart2,
   Circle,
   Home,
+  Images,
   Settings,
   ShoppingBag,
   User,
@@ -30,27 +31,29 @@ export default function MainNav({
     {
       icon: ShoppingBag,
       label: "Orders",
+      href: "/orders",
       children: [
         {
           label: "Add",
-          href: "/orders/new",
+          href: "new",
         },
         {
           label: "List",
-          href: "orders/list",
+          href: "list",
         },
       ],
     },
     {
       icon: IoMdPricetag,
       label: "Product",
+      href: "products",
       children: [
         {
-          href: `/products/new`,
+          href: `new`,
           label: "Add",
         },
         {
-          href: `/products/list`,
+          href: `list`,
           label: "List",
         },
       ],
@@ -58,14 +61,42 @@ export default function MainNav({
     {
       icon: User,
       label: "Customers",
+      href: "/customers",
       children: [
         {
-          href: "/customers/new",
+          href: "new",
           label: "Add",
         },
         {
-          href: "/customers/list",
+          href: "list",
           label: "List",
+        },
+      ],
+    },
+    {
+      icon: Images,
+      label: "Contents",
+      href: "/contents",
+      children: [
+        {
+          label: "Images",
+          href: "images",
+        },
+        {
+          label: "Collections",
+          href: "collections",
+        },
+        {
+          label: "Categories",
+          href: "categories",
+        },
+        {
+          label: "Brands",
+          href: "brands",
+        },
+        {
+          label: "Variants",
+          href: "variants",
         },
       ],
     },

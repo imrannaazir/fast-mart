@@ -30,18 +30,7 @@ import {
   useCreateCategoryMutation,
   useGetAllCategoriesQuery,
 } from "@/redux/features/category/categoryApi";
-import {
-  useCreateConnectivityMutation,
-  useGetAllConnectivityQuery,
-} from "@/redux/features/connectivity/connectivityApi";
-import {
-  useCreatePowerSourcesMutation,
-  useGetAllPowerSourcesQuery,
-} from "@/redux/features/powerSource/powerSourceApi";
-import {
-  useCreateOperatingSystemsMutation,
-  useGetAllOperatingSystemsQuery,
-} from "@/redux/features/operatingSystem/operatingSystemApi";
+
 import {
   useCreateTagMutation,
   useGetAllTagQuery,
@@ -56,11 +45,7 @@ import {
   selectTags,
 } from "@/redux/features/tag/tagSlice";
 import { FC, useEffect, useState } from "react";
-import {
-  useCreateFeatureNameMutation,
-  useGetAllFeatureNamesQuery,
-} from "@/redux/features/featureName/featureNameApi";
-import { Label } from "../ui/label";
+
 import Modal from "../ui/modal";
 import {
   onClose,
@@ -70,27 +55,16 @@ import {
 import CreateCollectionForm from "./CreateCollectionForm";
 import { TCreateCollection } from "@/types/rtkQuery.type";
 import { camelCaseToWords } from "@/lib/utils";
-import {
-  assignFeatureName,
-  clearSelectedFeatureName,
-  getAllFeatureNames,
-  selectFeatureNames,
-  selectSelectedFeatureNames,
-} from "@/redux/features/featureName/featureNameSlice";
-import AddedFeature from "./AddedFeature";
+import { clearSelectedFeatureName } from "@/redux/features/featureName/featureNameSlice";
+
 import { X } from "lucide-react";
 import { toast } from "sonner";
 import {
   useCreateProductMutation,
   useUpdateProductMutation,
 } from "@/redux/features/product/productApi";
-import {
-  TAllKeyOfProduct,
-  TAllValueOfProduct,
-  TCollection,
-} from "@/types/product.type";
+import { TCollection } from "@/types/product.type";
 import { useNavigate } from "react-router-dom";
-import { selectDefaultProductValues } from "@/redux/features/product/productSlice";
 
 type AddOrEditProductFormProps = {
   productIdToUpdate?: string;
@@ -99,26 +73,13 @@ type AddOrEditProductFormProps = {
 const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
   productIdToUpdate,
 }) => {
-  const defaultProductValues = useAppSelector(selectDefaultProductValues);
-  const [defaultValues, setDefaultValues] = useState(defaultProductValues);
-
-  useEffect(() => {
-    setDefaultValues(defaultProductValues);
-    for (const [key, value] of Object.entries(defaultProductValues)) {
-      form.setValue(key as TAllKeyOfProduct, value as TAllValueOfProduct);
-    }
-  }, [defaultProductValues]);
-
   //local state
   const [needUpdate, setNeedUpdate] = useState(false);
-  const [featureValue, setFeatureValue] = useState("");
 
   // invoked hooks
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const selectedTags = useAppSelector(selectSelectedTags);
-  const allFeatureNames = useAppSelector(selectFeatureNames);
-  const selectedFeatureNames = useAppSelector(selectSelectedFeatureNames);
   const isOpen = useAppSelector(selectIsOpen);
   const allTags = useAppSelector(selectTags);
   const selectedCollectionName = useAppSelector(selectCollectionName);
@@ -133,39 +94,19 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
   const { data: categoryData } = useGetAllCategoriesQuery(undefined);
   const [createCategory] = useCreateCategoryMutation();
 
-  const { data: connectivityData } = useGetAllConnectivityQuery(undefined);
-  const [createConnectivity] = useCreateConnectivityMutation();
-
-  const { data: powerSourceData } = useGetAllPowerSourcesQuery(undefined);
-  const [createPowerSource] = useCreatePowerSourcesMutation();
-
-  const { data: operatingSystemData } =
-    useGetAllOperatingSystemsQuery(undefined);
-  const [createOperatingSystem] = useCreateOperatingSystemsMutation();
-
   const { data: tagData } = useGetAllTagQuery(undefined);
   const [createTag] = useCreateTagMutation();
 
-  const { data: featuresNamesData } = useGetAllFeatureNamesQuery(undefined);
-  const [createFeatureName] = useCreateFeatureNameMutation();
-
   const brands: TCollection[] = data?.data;
   const categories: TCollection[] = categoryData?.data;
-  const connectivity: TCollection[] = connectivityData?.data;
-  const powerSources: TCollection[] = powerSourceData?.data;
-  const operatingSystems: TCollection[] = operatingSystemData?.data;
   const tags: TCollection[] = tagData?.data;
-  const featureNames: TCollection[] = featuresNamesData?.data;
 
   // save all tags in the redux store
   useEffect(() => {
     if (tags && selectedTags) {
       dispatch(getAllTags({ tags, selectedTags }));
     }
-    if (featureNames && selectedFeatureNames) {
-      dispatch(getAllFeatureNames({ featureNames, selectedFeatureNames }));
-    }
-  }, [tags, selectedTags, featureNames, selectedFeatureNames]);
+  }, [tags, selectedTags]);
 
   let createCollection: TCreateCollection | null;
   switch (selectedCollectionName) {
@@ -175,20 +116,9 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
     case "category":
       createCollection = createCategory as TCreateCollection;
       break;
-    case "connectivity":
-      createCollection = createConnectivity as TCreateCollection;
-      break;
-    case "powerSource":
-      createCollection = createPowerSource as TCreateCollection;
-      break;
-    case "operatingSystem":
-      createCollection = createOperatingSystem as TCreateCollection;
-      break;
+
     case "tags":
       createCollection = createTag as TCreateCollection;
-      break;
-    case "featureName":
-      createCollection = createFeatureName as TCreateCollection;
       break;
 
     default:
@@ -198,7 +128,6 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
 
   const form = useForm<TProductFormValues>({
     resolver: zodResolver(addOrEditProductFormSchema),
-    defaultValues,
     mode: "onChange",
   });
   // Define submit handler
@@ -223,19 +152,14 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
         : "Failed to create product.";
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { featureName, price, quantity, weight, name, ...productData } = data;
+    const { price, quantity, weight, title, ...productData } = data;
     const toastId = toast.loading(loadingMessage, {
       duration: 2000,
     });
 
     const payload = {
       ...productData,
-      name:
-        productIdToUpdate &&
-        !needUpdate &&
-        defaultValues.name === form.getValues("name")
-          ? `${name} (copy)`
-          : name,
+
       price: Number(price),
       quantity: Number(quantity),
       weight: Number(weight),
@@ -273,47 +197,6 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
     }
   }
 
-  //submitted features
-  const submittedFeatures = form.watch("features");
-
-  // handle add new feature
-  const handleAddFeature = () => {
-    const allFeatures = { ...submittedFeatures };
-
-    const featureName = form.getValues("featureName");
-    if (featureName && featureValue) {
-      const selectedFeatureName = featureNames?.find(
-        (featureNameVal) => featureNameVal._id === featureName
-      );
-
-      if (selectedFeatureName) {
-        allFeatures[selectedFeatureName?.name] = featureValue;
-      }
-      dispatch(assignFeatureName(selectedFeatureName));
-    }
-    form.setValue("features", allFeatures);
-    form.setValue("featureName", "");
-    setFeatureValue("");
-  };
-
-  // features content to render
-  let featuresContent = null;
-  featuresContent = Object?.entries(submittedFeatures)?.map(
-    ([key, value], index) => {
-      return (
-        <AddedFeature
-          key={index}
-          keyName={key}
-          value={value}
-          form={form}
-          submittedFeatures={submittedFeatures}
-        />
-      );
-    }
-  );
-
-  const productImage = form.watch("image");
-
   return (
     <>
       <Form {...form}>
@@ -346,10 +229,10 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                 {/* product name */}
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Name</FormLabel>
+                      <FormLabel>Title</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter product title." {...field} />
                       </FormControl>
@@ -380,7 +263,7 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
 
                 <div className=" flex flex-col lg:flex-row mt-32 lg:mt-16    gap-4">
                   {/* product brand */}
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="brand"
                     render={({ field }) => (
@@ -397,10 +280,10 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   {/* product category */}
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="category"
                     render={({ field }) => (
@@ -417,18 +300,14 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </div>
               </section>
 
               {/* Product Media */}
               <section className="border p-4 rounded-md mt-6">
                 <h3 className="text-xl mb-6">Product Media</h3>
-                {productImage && (
-                  <div>
-                    <img src={productImage} width="500" />
-                  </div>
-                )}
+
                 <FormField
                   control={form.control}
                   name="image"
@@ -442,58 +321,6 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                     </FormItem>
                   )}
                 />
-              </section>
-
-              {/* Product features */}
-              <section className="border p-4 rounded-md mt-6">
-                <h3 className="text-xl mb-6">Product Features</h3>
-                {/* all features   */}
-                <div className="space-y-4">{featuresContent}</div>
-
-                <div className="flex flex-col lg:flex-row  lg:items-center gap-4">
-                  {/* Add product feature*/}
-                  <FormField
-                    control={form.control}
-                    name="featureName"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Feature name</FormLabel>
-                        <SelectOrCreate
-                          field={field}
-                          form={form}
-                          collections={allFeatureNames}
-                          collectionName="featureName"
-                          createCollection={
-                            createFeatureName as TCreateCollection
-                          }
-                        />
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="featureValue">Feature value</Label>
-                    <Input
-                      value={featureValue}
-                      type="text"
-                      id="featureName"
-                      placeholder="Enter value"
-                      disabled={form.watch("featureName") === ""}
-                      onChange={(e) => setFeatureValue(e.target.value)}
-                    />
-                  </div>
-                  <Button
-                    onClick={handleAddFeature}
-                    disabled={
-                      form.watch("featureName") === "" || featureValue === ""
-                    }
-                    type="button"
-                    className="mt-[22px]"
-                  >
-                    Add
-                  </Button>
-                </div>
               </section>
             </div>
 
@@ -578,93 +405,6 @@ const AddOrEditProductForm: FC<AddOrEditProductFormProps> = ({
                     )}
                   />
                 </div>
-              </div>
-
-              {/* basic information */}
-              <div className=" border p-4 rounded-md mt-6">
-                <h3 className="text-xl mb-6">Basic Information</h3>
-                {/* product dimensions */}
-                <FormField
-                  control={form.control}
-                  name="dimensions"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Dimensions</FormLabel>
-                      <FormControl>
-                        <Input placeholder="H x W x D" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className=" flex flex-col lg:flex-row  gap-2 mt-4">
-                  {/* product operatingSystem */}
-                  <FormField
-                    control={form.control}
-                    name="operatingSystem"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Operating System</FormLabel>
-                        <SelectOrCreate
-                          field={field}
-                          form={form}
-                          collections={operatingSystems}
-                          collectionName="operatingSystem"
-                          createCollection={
-                            createOperatingSystem as TCreateCollection
-                          }
-                        />
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* product Power source */}
-                  <FormField
-                    control={form.control}
-                    name="powerSource"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col">
-                        <FormLabel>Power Source</FormLabel>
-                        <SelectOrCreate
-                          field={field}
-                          form={form}
-                          collections={powerSources}
-                          collectionName="powerSource"
-                          createCollection={
-                            createPowerSource as TCreateCollection
-                          }
-                        />
-
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* connectivity */}
-                <FormField
-                  control={form.control}
-                  name="connectivity"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col mt-4">
-                      <FormLabel>Connectivity</FormLabel>
-                      <SelectOrCreate
-                        field={field}
-                        form={form}
-                        collections={connectivity}
-                        collectionName="connectivity"
-                        createCollection={
-                          createConnectivity as TCreateCollection
-                        }
-                      />
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
               </div>
 
               {/* tags */}
