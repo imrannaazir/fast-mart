@@ -3,7 +3,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { TImage } from "@/types/contents.type";
 import { Link } from "lucide-react";
 import { toast } from "sonner";
-import Moment from "react-moment";
 import moment from "moment";
 
 export const columns: ColumnDef<TImage>[] = [
@@ -30,14 +29,13 @@ export const columns: ColumnDef<TImage>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   // image url column
 
   {
     header: "File Name",
     cell: ({ row }) => {
       const fileName = row.original.file_name;
-      const [name, extension] = fileName.split(".");
+      const format = row?.original?.format;
       const imageUrl = row.original.url;
       return (
         <div className="flex justify-start gap-2">
@@ -47,10 +45,8 @@ export const columns: ColumnDef<TImage>[] = [
             alt=""
           />
           <div>
-            <p>{name}</p>
-            <h3 className=" uppercase font-semibold text-gray-500">
-              {extension}
-            </h3>
+            <p className="font-semibold text-gray-700">{fileName}</p>
+            <h3 className=" uppercase font-semibold text-gray-500">{format}</h3>
           </div>
         </div>
       );
@@ -62,13 +58,15 @@ export const columns: ColumnDef<TImage>[] = [
     cell: ({ row }) => {
       const date = row.original.createdAt;
       const now = moment(date).format("MMMM Do YYYY");
-      // return <Moment date={dateToFormat} format="YYYY-MM-DD HH:mm:ss" />;
       return <p>{now}</p>;
     },
   },
   {
-    accessorKey: "size",
     header: "Size",
+    cell: ({ row }) => {
+      const size = row.original.size.toFixed(2);
+      return <p>{size} KB</p>;
+    },
   },
   {
     accessorKey: "url",

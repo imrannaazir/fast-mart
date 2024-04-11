@@ -3,6 +3,7 @@ export type TImage = {
   file_name: string;
   url: string;
   size: number;
+  format: string;
   createdAt?: string;
   updatedAt?: string;
 };

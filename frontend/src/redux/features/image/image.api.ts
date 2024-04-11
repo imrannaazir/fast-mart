@@ -26,6 +26,7 @@ const imageApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+
       invalidatesTags: ["Images"],
     }),
   }),

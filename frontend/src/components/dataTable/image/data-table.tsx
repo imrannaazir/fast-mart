@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import { OrderDataTablePagination } from "./data-table-pagination";
 import TableSkeleton from "@/components/ui/table-skeleton";
+import ImageDataTableToolbar from "./data-table-toolbar";
 
 interface ImageDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,10 +43,10 @@ export function ImageDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      {/* <ImageDataTableToolbar /> */}
+      <ImageDataTableToolbar />
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {

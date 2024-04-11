@@ -1,19 +1,37 @@
-import { useAppDispatch } from "@/redux/hooks";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { setFilterByDate } from "@/redux/features/filter/filterSlice";
-// import { useGetAllFeatureNamesQuery } from "@/redux/features/featureName/featureNameApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-const ProductDataTableToolbar = () => {
+import { DataTableFacetedFilter } from "../product/data-table-faceted-filter";
+import {
+  CheckCircledIcon,
+  QuestionMarkCircledIcon,
+} from "@radix-ui/react-icons";
+import {
+  addStatus,
+  clearStatus,
+  removeStatus,
+  selectFilteredStatus,
+} from "@/redux/features/filter/filterSlice";
+import DateTableSort from "../data-table-sort";
+
+const ImageDataTableToolbar = () => {
   //invoked hooks
   const dispatch = useAppDispatch();
 
+  const selectedStatus = useAppSelector(selectFilteredStatus);
+  const sortByItems = [
+    {
+      value: "createdAt",
+      label: "Date",
+    },
+    {
+      value: "file_name",
+      label: "File name",
+    },
+    {
+      value: "size",
+      label: "File size",
+    },
+  ];
   // redux store data
 
   return (
@@ -21,20 +39,16 @@ const ProductDataTableToolbar = () => {
       <div className="flex flex-1 items-center space-x-2">
         <div className="space-y-2 w-full">
           {/* filters */}
-          <div className="space-x-2">
-            <Select onValueChange={(value) => dispatch(setFilterByDate(value))}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter By" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="day">Daily </SelectItem>
-                  <SelectItem value="week">Weekly</SelectItem>
-                  <SelectItem value="month">Monthly</SelectItem>
-                  <SelectItem value="yearly">Yearly</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+          <div className="flex justify-between space-x-2">
+            <DataTableFacetedFilter
+              selectedValues={selectedStatus}
+              clearFilter={clearStatus}
+              addFilter={addStatus}
+              removeFilter={removeStatus}
+              title="Status"
+              options={sortByItems}
+            />
+            <DateTableSort sortByItems={sortByItems} />
           </div>
         </div>
       </div>
@@ -42,4 +56,4 @@ const ProductDataTableToolbar = () => {
   );
 };
 
-export default ProductDataTableToolbar;
+export default ImageDataTableToolbar;

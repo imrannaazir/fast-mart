@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import OrderDataTableToolbar from "./data-table-toolbar";
-import { OrderDataTablePagination } from "./product-data-table-pagination";
+import { OrderDataTablePagination } from "../data-table-pagination";
 
 interface OrderDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

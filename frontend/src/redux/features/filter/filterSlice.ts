@@ -15,46 +15,45 @@ export type TMeta = {
 };
 
 type TInitialState = {
+  orderBy: string;
+  sortBy: string;
   status: TFilter[];
   brands: TFilter[];
   categories: TFilter[];
-  operatingSystems: TFilter[];
-  powerSources: TFilter[];
-  connectivity: TFilter[];
   tags: TFilter[];
   searchTerm: string;
   page: number;
   limit: number;
   meta: TMeta | null;
   date: string | null;
-  priceRange: [number, number];
 };
 
 const initialState: TInitialState = {
+  orderBy: "",
+  sortBy: "",
   status: [],
   brands: [],
   categories: [],
-  connectivity: [],
-  operatingSystems: [],
-  powerSources: [],
   tags: [],
   searchTerm: "",
   limit: 10,
   page: 1,
   meta: null,
   date: null,
-  priceRange: [0, 0],
 };
 
 const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    // set price range
-    setPriceRange: (state, action) => {
-      state.priceRange = action.payload;
+    //set order by
+    setOrderBy: (state, action) => {
+      state.orderBy = action.payload;
     },
-
+    //set sort by
+    setSortBy: (state, action) => {
+      state.sortBy = action.payload;
+    },
     setMeta: (state, action) => {
       state.meta = action.payload;
     },
@@ -128,57 +127,7 @@ const filterSlice = createSlice({
     clearCategories: (state) => {
       state.categories = [];
     },
-    // add connectivity
-    addConnectivity: (state, action) => {
-      state.connectivity.push(action.payload);
-    },
 
-    // remove connectivity
-    removeConnectivity: (state, action) => {
-      const filteredConnectivity = state.connectivity.filter(
-        (connectivityEl) => connectivityEl.value !== action.payload.value
-      );
-      state.connectivity = filteredConnectivity;
-    },
-
-    // clear connectivity
-    clearConnectivity: (state) => {
-      state.connectivity = [];
-    },
-    // add operating system
-    addOperatingSystems: (state, action) => {
-      state.operatingSystems.push(action.payload);
-    },
-
-    // remove operating system
-    removeOperatingSystems: (state, action) => {
-      const filteredOperatingSystems = state.operatingSystems.filter(
-        (os) => os.value !== action.payload.value
-      );
-      state.operatingSystems = filteredOperatingSystems;
-    },
-
-    // clear operating system
-    clearOperatingSystem: (state) => {
-      state.operatingSystems = [];
-    },
-    // add power source
-    addPowerSources: (state, action) => {
-      state.powerSources.push(action.payload);
-    },
-
-    // remove power sources
-    removePowerSource: (state, action) => {
-      const filteredPowerSources = state.powerSources.filter(
-        (powerSource) => powerSource.value !== action.payload.value
-      );
-      state.powerSources = filteredPowerSources;
-    },
-
-    // clear power sources
-    clearPowerSources: (state) => {
-      state.powerSources = [];
-    },
     // add tag
     addTag: (state, action) => {
       state.tags.push(action.payload);
@@ -206,6 +155,10 @@ const filterSlice = createSlice({
 
 export default filterSlice.reducer;
 export const {
+  //sort
+  setOrderBy,
+  setSortBy,
+
   updateSearchTerm,
   // status
   addStatus,
@@ -219,18 +172,6 @@ export const {
   addCategory,
   removeCategory,
   clearCategories,
-  // connectivity
-  addConnectivity,
-  removeConnectivity,
-  clearConnectivity,
-  // operatingSystems
-  addOperatingSystems,
-  removeOperatingSystems,
-  clearOperatingSystem,
-  // powerSources
-  addPowerSources,
-  removePowerSource,
-  clearPowerSources,
 
   //tags
   addTag,
@@ -244,7 +185,6 @@ export const {
   setDataLimit,
   setMeta,
   setFilterByDate,
-  setPriceRange,
 } = filterSlice.actions;
 
 // selector
@@ -252,15 +192,11 @@ export const selectFilteredStatus = (state: RootState) => state.filter.status;
 export const selectSearchTerm = (state: RootState) => state.filter.searchTerm;
 export const selectFilteredBrands = (state: RootState) => state.filter.brands;
 export const selectCategory = (state: RootState) => state.filter.categories;
-export const selectConnectivity = (state: RootState) =>
-  state.filter.connectivity;
-export const selectOperatingSystems = (state: RootState) =>
-  state.filter.operatingSystems;
-export const selectPowerSources = (state: RootState) =>
-  state.filter.powerSources;
+
 export const selectTags = (state: RootState) => state.filter.tags;
 export const selectPage = (state: RootState) => state.filter.page;
 export const selectLimit = (state: RootState) => state.filter.limit;
 export const selectMeta = (state: RootState) => state.filter.meta;
 export const selectFilterByDate = (state: RootState) => state.filter.date;
-export const selectPriceRange = (state: RootState) => state.filter.priceRange;
+export const selectSortBy = (state: RootState) => state.filter.sortBy;
+export const selectOrderBy = (state: RootState) => state.filter.orderBy;

@@ -2,11 +2,11 @@ import { columns } from "@/components/dataTable/image/columns";
 import { ImageDataTable } from "@/components/dataTable/image/data-table";
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
-import TableSkeleton from "@/components/ui/table-skeleton";
 import {
-  selectFilterByDate,
   selectLimit,
+  selectOrderBy,
   selectPage,
+  selectSortBy,
   setMeta,
 } from "@/redux/features/filter/filterSlice";
 import {
@@ -23,22 +23,26 @@ import { toast } from "sonner";
 const OrderList = () => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-  const APIKey = import.meta.env.VITE_CLOUDINARY_API_KEY;
-  const APISecret = import.meta.env.VITE_CLOUDINARY_API_SECRET;
   const UploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   // local state
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<File | null>(null);
   const [isImageUploading, setIsImageUploading] = useState(false);
 
   const [skip, setSkip] = useState(true);
 
   const [uploadSingleImage] = useUploadSingleImageMutation();
   const dispatch = useAppDispatch();
-  const date = useAppSelector(selectFilterByDate);
   const page = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
+  const sortBy = useAppSelector(selectSortBy);
+  const orderBy = useAppSelector(selectOrderBy);
+
+  let sort = "-createdAt";
+  if (sortBy) {
+    sort = orderBy === "desc" ? `-${sortBy}` : sortBy;
+  }
   // query parameter
-  const query = queryString.stringify({ date, page, limit });
+  const query = queryString.stringify({ page, limit, sort });
   const { data, isFetching } = useGetAllImagesQuery(query, { skip });
 
   useEffect(() => {
@@ -70,10 +74,12 @@ const OrderList = () => {
               size: data.bytes / 1000,
               url: data.secure_url,
               format: data.format,
-            });
-            if (res?.data?.success) {
+            }).unwrap();
+
+            if (res.success) {
               toast.success("Image uploaded.", { duration: 2000 });
             }
+
             setImage(null);
             setIsImageUploading(false);
           }
@@ -84,6 +90,10 @@ const OrderList = () => {
       }
     })();
   }, [image, cloudName, UploadPreset, uploadSingleImage]);
+
+  useEffect(() => {
+    dispatch(setMeta(data?.meta));
+  }, [data?.meta, dispatch]);
 
   const images = (data?.data || []) as TImage[];
   return (
@@ -102,7 +112,12 @@ const OrderList = () => {
               disabled={isImageUploading}
               type="file"
               className="hidden"
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={(e) => {
+                const selectedFile = e.target.files && e.target.files[0];
+                if (selectedFile) {
+                  setImage(selectedFile);
+                }
+              }}
               accept="image/*"
             />
             <label htmlFor="hidden-input" className="cursor-pointer">

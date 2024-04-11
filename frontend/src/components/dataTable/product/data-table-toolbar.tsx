@@ -11,31 +11,19 @@ import {
   TFilter,
   addBrand,
   addCategory,
-  addConnectivity,
-  addOperatingSystems,
-  addPowerSources,
   addStatus,
   addTag,
   clearBrand,
   clearCategories,
-  clearConnectivity,
-  clearOperatingSystem,
-  clearPowerSources,
   clearStatus,
   clearTags,
   removeTag,
   removeBrand,
   removeCategory,
-  removeConnectivity,
-  removeOperatingSystems,
-  removePowerSource,
   removeStatus,
   selectCategory,
-  selectConnectivity,
   selectFilteredBrands,
   selectFilteredStatus,
-  selectOperatingSystems,
-  selectPowerSources,
   selectSearchTerm,
   selectTags,
   updateSearchTerm,
@@ -45,9 +33,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
 import { TCollection } from "@/types/product.type";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
-import { useGetAllConnectivityQuery } from "@/redux/features/connectivity/connectivityApi";
-import { useGetAllPowerSourcesQuery } from "@/redux/features/powerSource/powerSourceApi";
-import { useGetAllOperatingSystemsQuery } from "@/redux/features/operatingSystem/operatingSystemApi";
+
 import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
 import { Slider } from "./price-limit-filter";
 import {
@@ -75,12 +61,6 @@ const ProductDataTableToolbar = () => {
     useGetAllBrandsQuery(undefined);
   const { data: categoryData, isLoading: isCategoriesLoading } =
     useGetAllCategoriesQuery(undefined);
-  const { data: connectivityData, isLoading: isConnectivityLoading } =
-    useGetAllConnectivityQuery(undefined);
-  const { data: powerSourceData, isLoading: isPowerSourcesLoading } =
-    useGetAllPowerSourcesQuery(undefined);
-  const { data: operatingSystemData, isLoading: isOSLoading } =
-    useGetAllOperatingSystemsQuery(undefined);
   const { data: tagData, isLoading: isTagsLoading } =
     useGetAllTagQuery(undefined);
   const { data: highestProductPriceData, isLoading: isHighPriceLoading } =
@@ -91,10 +71,7 @@ const ProductDataTableToolbar = () => {
   const selectedStatus = useAppSelector(selectFilteredStatus);
   const selectedBrands = useAppSelector(selectFilteredBrands);
   const selectedCategories = useAppSelector(selectCategory);
-  const selectedOperatingSystems = useAppSelector(selectOperatingSystems);
-  const selectedPowerSources = useAppSelector(selectPowerSources);
   const selectedTags = useAppSelector(selectTags);
-  const selectedConnectivity = useAppSelector(selectConnectivity);
   const selectedProducts = useAppSelector(selectSelectedProducts);
 
   // restructured brands
@@ -114,27 +91,7 @@ const ProductDataTableToolbar = () => {
     : [];
 
   // restructured connectivity
-  const connectivity: TFilter[] = !isConnectivityLoading
-    ? connectivityData?.data?.map((el: TCollection) => ({
-        label: el.name,
-        value: el?._id,
-      }))
-    : [];
 
-  // restructured operating system
-  const operatingSystems: TFilter[] = !isOSLoading
-    ? operatingSystemData?.data?.map((el: TCollection) => ({
-        label: el.name,
-        value: el?._id,
-      }))
-    : [];
-  // restructured operating system
-  const powerSources: TFilter[] = !isPowerSourcesLoading
-    ? powerSourceData?.data?.map((el: TCollection) => ({
-        label: el.name,
-        value: el?._id,
-      }))
-    : [];
   // restructured tags
   const tags: TFilter[] = !isTagsLoading
     ? tagData?.data?.map((el: TCollection) => ({
@@ -261,33 +218,7 @@ const ProductDataTableToolbar = () => {
                   title="Categories"
                   options={categories}
                 />
-                {/* connectivity filters  */}
-                <DataTableFacetedFilter
-                  selectedValues={selectedConnectivity}
-                  clearFilter={clearConnectivity}
-                  addFilter={addConnectivity}
-                  removeFilter={removeConnectivity}
-                  title="Connectivity"
-                  options={connectivity}
-                />
-                {/* Operating system filters  */}
-                <DataTableFacetedFilter
-                  selectedValues={selectedOperatingSystems}
-                  clearFilter={clearOperatingSystem}
-                  addFilter={addOperatingSystems}
-                  removeFilter={removeOperatingSystems}
-                  title="OS"
-                  options={operatingSystems}
-                />
-                {/* Power sources filters  */}
-                <DataTableFacetedFilter
-                  selectedValues={selectedPowerSources}
-                  clearFilter={clearPowerSources}
-                  addFilter={addPowerSources}
-                  removeFilter={removePowerSource}
-                  title="Power"
-                  options={powerSources}
-                />
+
                 {/* Tags filters  */}
                 <DataTableFacetedFilter
                   selectedValues={selectedTags}
