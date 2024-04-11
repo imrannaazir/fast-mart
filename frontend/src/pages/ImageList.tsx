@@ -2,6 +2,7 @@ import { columns } from "@/components/dataTable/image/columns";
 import { ImageDataTable } from "@/components/dataTable/image/data-table";
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
+import TableSkeleton from "@/components/ui/table-skeleton";
 import {
   selectFilterByDate,
   selectLimit,
@@ -84,10 +85,6 @@ const OrderList = () => {
     })();
   }, [image, cloudName, UploadPreset, uploadSingleImage]);
 
-  if (isFetching) {
-    return <p>Loading...</p>;
-  }
-
   const images = (data?.data || []) as TImage[];
   return (
     <Page
@@ -116,7 +113,11 @@ const OrderList = () => {
       }
     >
       <div className=" mx-auto">
-        <ImageDataTable columns={columns} data={images} />
+        <ImageDataTable
+          columns={columns}
+          data={images}
+          isLoading={isFetching || isImageUploading}
+        />
       </div>
     </Page>
   );
