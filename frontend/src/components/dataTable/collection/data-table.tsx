@@ -8,7 +8,7 @@ import {
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 import TableSkeleton from "@/components/ui/table-skeleton";
-import ImageDataTableToolbar from "../data-table-toolbar";
+import CollectionDataTableToolbar from "../data-table-toolbar";
 import DataTableHeader from "../data-table-header";
 import { useDeleteManyImagesMutation } from "@/redux/features/image/image.api";
 import { toast } from "sonner";
@@ -16,17 +16,17 @@ import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 import { DataTablePagination } from "../data-table-pagination";
 
-interface ImageDataTableProps<TData, TValue> {
+interface CollectionDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isLoading: boolean;
 }
 
-export function ImageDataTable<TData, TValue>({
+export function CollectionDataTable<TData, TValue>({
   columns,
   data,
   isLoading,
-}: ImageDataTableProps<TData, TValue>) {
+}: CollectionDataTableProps<TData, TValue>) {
   const dispatch = useAppDispatch();
   const [deleteManyImage] = useDeleteManyImagesMutation();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -77,7 +77,7 @@ export function ImageDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <ImageDataTableToolbar sortByItems={sortByItems} />
+      <CollectionDataTableToolbar sortByItems={sortByItems} />
       <div className="rounded-md border">
         <Table>
           <DataTableHeader table={table} fn={onDelete} isLoading={isDeleting} />

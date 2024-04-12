@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/popover";
 
 import { Separator } from "../ui/separator";
-import { TFormInputItem } from "@/types";
+import { TLabelValuePair } from "@/types";
 import { FC } from "react";
 import { setOrderBy, setSortBy } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch } from "@/redux/hooks";
@@ -26,7 +26,7 @@ const FormSchema = z.object({
 });
 
 type TDataTableSortProps = {
-  sortByItems: TFormInputItem[];
+  sortByItems: TLabelValuePair[];
 };
 
 const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {

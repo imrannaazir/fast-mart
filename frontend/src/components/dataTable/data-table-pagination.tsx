@@ -29,7 +29,7 @@ interface OrderDataTablePaginationProps<TData> {
   table: Table<TData>;
 }
 
-export function OrderDataTablePagination<TData>({
+export function DataTablePagination<TData>({
   table,
 }: OrderDataTablePaginationProps<TData>) {
   const dispatch = useAppDispatch();

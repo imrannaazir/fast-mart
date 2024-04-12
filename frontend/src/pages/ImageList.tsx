@@ -21,7 +21,7 @@ import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-const OrderList = () => {
+const ImageListPage = () => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const UploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -140,4 +140,4 @@ const OrderList = () => {
   );
 };
 
-export default OrderList;
+export default ImageListPage;

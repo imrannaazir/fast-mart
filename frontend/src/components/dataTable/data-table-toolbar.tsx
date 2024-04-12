@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-import { DataTableFacetedFilter } from "../product/data-table-faceted-filter";
+import { DataTableFacetedFilter } from "./product/data-table-faceted-filter";
 
 import {
   addStatus,
@@ -9,30 +9,25 @@ import {
   selectFilteredStatus,
   updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
-import DateTableSort from "../data-table-sort";
+import DateTableSort from "./data-table-sort";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import debounce from "@/lib/debounce";
-import { ChangeEvent } from "react";
+import { ChangeEvent, FC } from "react";
+import { TLabelValuePair } from "@/types";
 
-const ImageDataTableToolbar = () => {
+type TImageDataTableToolbar = {
+  sortByItems: TLabelValuePair[];
+  filterByStatuses?: TLabelValuePair[];
+};
+
+const ImageDataTableToolbar: FC<TImageDataTableToolbar> = ({
+  sortByItems,
+  filterByStatuses,
+}) => {
   //invoked hooks
   const dispatch = useAppDispatch();
   const selectedStatus = useAppSelector(selectFilteredStatus);
-  const sortByItems = [
-    {
-      value: "createdAt",
-      label: "Date",
-    },
-    {
-      value: "file_name",
-      label: "File name",
-    },
-    {
-      value: "size",
-      label: "File size",
-    },
-  ];
 
   const onSetSearchTerm = (...args: unknown[]) => {
     const searchTerm = (args[0] as ChangeEvent<HTMLInputElement>).target.value;
@@ -62,14 +57,16 @@ const ImageDataTableToolbar = () => {
             </div>
             <DateTableSort sortByItems={sortByItems} />
           </div>
-          <DataTableFacetedFilter
-            selectedValues={selectedStatus}
-            clearFilter={clearStatus}
-            addFilter={addStatus}
-            removeFilter={removeStatus}
-            title="Status"
-            options={sortByItems}
-          />
+          {filterByStatuses && (
+            <DataTableFacetedFilter
+              selectedValues={selectedStatus}
+              clearFilter={clearStatus}
+              addFilter={addStatus}
+              removeFilter={removeStatus}
+              title="Status"
+              options={sortByItems}
+            />
+          )}
         </div>
       </div>
     </div>

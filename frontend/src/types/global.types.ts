@@ -24,4 +24,9 @@ export type TResponse<T> = {
   meta?: TMeta;
 };
 
+export type TLabelValuePair = {
+  value: string;
+  label: string;
+};
+
 export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
