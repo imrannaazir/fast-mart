@@ -54,8 +54,8 @@ const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {
         <Popover>
           <PopoverTrigger asChild>
             <FormControl>
-              <Button variant={"outline"} role="combobox">
-                <ArrowDownUp className="h-4 w-4 shrink-0" />
+              <Button variant={"outline"} size={"sm"} role="combobox">
+                <ArrowDownUp className="h-3 w-3 shrink-0" />
               </Button>
             </FormControl>
           </PopoverTrigger>

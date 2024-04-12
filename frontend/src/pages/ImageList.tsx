@@ -6,6 +6,7 @@ import {
   selectLimit,
   selectOrderBy,
   selectPage,
+  selectSearchTerm,
   selectSortBy,
   setMeta,
 } from "@/redux/features/filter/filterSlice";
@@ -36,13 +37,14 @@ const OrderList = () => {
   const limit = useAppSelector(selectLimit);
   const sortBy = useAppSelector(selectSortBy);
   const orderBy = useAppSelector(selectOrderBy);
+  const searchTerm = useAppSelector(selectSearchTerm);
 
   let sort = "-createdAt";
   if (sortBy) {
     sort = orderBy === "desc" ? `-${sortBy}` : sortBy;
   }
   // query parameter
-  const query = queryString.stringify({ page, limit, sort });
+  const query = queryString.stringify({ page, limit, sort, searchTerm });
   const { data, isFetching } = useGetAllImagesQuery(query, { skip });
 
   useEffect(() => {
