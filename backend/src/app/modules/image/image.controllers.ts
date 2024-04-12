@@ -45,10 +45,24 @@ const getAllImages = catchAsync(async (req, res) => {
   });
 });
 
+// delete many images
+const deleteManyImages = catchAsync(async (req, res) => {
+  const ids = req.body.ids;
+  const result = await ImageServices.deleteManyImages(ids);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Images deleted successfully.',
+    data: result,
+  });
+});
+
 const ImageControllers = {
   createSingleImage,
   createManyImage,
   getAllImages,
+  deleteManyImages,
 };
 
 export default ImageControllers;

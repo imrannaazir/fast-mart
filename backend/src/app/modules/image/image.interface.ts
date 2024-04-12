@@ -9,3 +9,8 @@ export type TImage = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type TDeleteImageReturnType = {
+  acknowledged: boolean;
+  deletedCount: number;
+};

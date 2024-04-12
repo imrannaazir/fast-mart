@@ -5,18 +5,16 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 import { OrderDataTablePagination } from "./data-table-pagination";
 import TableSkeleton from "@/components/ui/table-skeleton";
 import ImageDataTableToolbar from "./data-table-toolbar";
+import DataTableHeader from "../data-table-header";
+import { useDeleteManyImagesMutation } from "@/redux/features/image/image.api";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/redux/hooks";
+import { onClose } from "@/redux/features/modal/modalSlice";
 
 interface ImageDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,6 +27,9 @@ export function ImageDataTable<TData, TValue>({
   data,
   isLoading,
 }: ImageDataTableProps<TData, TValue>) {
+  const dispatch = useAppDispatch();
+  const [deleteManyImage] = useDeleteManyImagesMutation();
+  const [isDeleting, setIsDeleting] = useState(false);
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -41,29 +42,30 @@ export function ImageDataTable<TData, TValue>({
     },
   });
 
+  // delete images
+  const onDelete = async (ids: string[]) => {
+    setIsDeleting(true);
+    try {
+      const res = await deleteManyImage({ ids }).unwrap();
+      if (res.success) {
+        toast.success("Deleted successfully.", { duration: 2000 });
+        dispatch(onClose());
+        setIsDeleting(false);
+        setRowSelection({});
+      }
+    } catch (error) {
+      toast.error(`Failed to delete.`, { duration: 2000 });
+      dispatch(onClose());
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <ImageDataTableToolbar />
       <div className="rounded-md border">
         <Table>
-          <TableHeader className="">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
+          <DataTableHeader table={table} fn={onDelete} isLoading={isDeleting} />
           {isLoading ? (
             <TableSkeleton columnNo={5} rowNo={10} />
           ) : (

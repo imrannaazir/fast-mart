@@ -16,3 +16,9 @@ export const createManyImageValidationSchema = z.object({
     images: z.array(imageValidationSchema),
   }),
 });
+
+export const deleteManyImagesValidationSchema = z.object({
+  body: z.object({
+    ids: z.array(z.string()),
+  }),
+});

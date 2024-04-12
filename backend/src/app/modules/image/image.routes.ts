@@ -4,6 +4,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import {
   createManyImageValidationSchema,
   createSingleImageValidationSchema,
+  deleteManyImagesValidationSchema,
 } from './image.validations';
 import ImageControllers from './image.controllers';
 
@@ -28,5 +29,12 @@ router.post(
 // get all images : GET
 router.get('/', ImageControllers.getAllImages);
 
+// delete many images : DELETE
+router.delete(
+  '/',
+  auth('SUPER_ADMIN', 'ADMIN'),
+  validateRequest(deleteManyImagesValidationSchema),
+  ImageControllers.deleteManyImages,
+);
 const ImageRoutes = router;
 export default ImageRoutes;

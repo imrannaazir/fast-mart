@@ -29,7 +29,21 @@ const imageApi = baseApi.injectEndpoints({
 
       invalidatesTags: ["Images"],
     }),
+
+    // delete images
+    deleteManyImages: builder.mutation({
+      query: (data: { ids: string[] }) => ({
+        url: "/images",
+        method: "DELETE",
+        body: data,
+      }),
+      invalidatesTags: ["Images"],
+    }),
   }),
 });
 
-export const { useGetAllImagesQuery, useUploadSingleImageMutation } = imageApi;
+export const {
+  useGetAllImagesQuery,
+  useUploadSingleImageMutation,
+  useDeleteManyImagesMutation,
+} = imageApi;
