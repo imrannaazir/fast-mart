@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-import { DataTableFacetedFilter } from "./product/data-table-faceted-filter";
+import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 
 import {
   addStatus,

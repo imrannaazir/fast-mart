@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
+import { DataTableFacetedFilter } from "../data-table-faceted-filter";
 
 import {
   CheckCircledIcon,

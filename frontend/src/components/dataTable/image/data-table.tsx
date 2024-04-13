@@ -13,8 +13,11 @@ import DataTableHeader from "../data-table-header";
 import { useDeleteManyImagesMutation } from "@/redux/features/image/image.api";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
-import { onClose } from "@/redux/features/modal/modalSlice";
 import { DataTablePagination } from "../data-table-pagination";
+import {
+  setIsLoading,
+  setIsOpen,
+} from "@/redux/features/modal/alertModal.slice";
 
 interface ImageDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,7 +32,6 @@ export function ImageDataTable<TData, TValue>({
 }: ImageDataTableProps<TData, TValue>) {
   const dispatch = useAppDispatch();
   const [deleteManyImage] = useDeleteManyImagesMutation();
-  const [isDeleting, setIsDeleting] = useState(false);
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -44,19 +46,22 @@ export function ImageDataTable<TData, TValue>({
 
   // delete images
   const onDelete = async (ids: string[]) => {
-    setIsDeleting(true);
+    dispatch(setIsLoading(true));
     try {
       const res = await deleteManyImage({ ids }).unwrap();
       if (res.success) {
         toast.success("Deleted successfully.", { duration: 2000 });
-        dispatch(onClose());
-        setIsDeleting(false);
+        // dispatch(onClose());
+        dispatch(setIsOpen(false));
+        dispatch(setIsLoading(false));
         setRowSelection({});
       }
     } catch (error) {
       toast.error(`Failed to delete.`, { duration: 2000 });
-      dispatch(onClose());
-      setIsDeleting(false);
+
+      // dispatch(onClose());
+      dispatch(setIsOpen(false));
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -80,12 +85,7 @@ export function ImageDataTable<TData, TValue>({
       <ImageDataTableToolbar sortByItems={sortByItems} />
       <div className="rounded-md border">
         <Table>
-          <DataTableHeader
-            table={table}
-            fn={onDelete}
-            isLoading={isDeleting}
-            extraColumn={2}
-          />
+          <DataTableHeader table={table} fn={onDelete} />
           {isLoading ? (
             <TableSkeleton columnNo={5} rowNo={10} />
           ) : (

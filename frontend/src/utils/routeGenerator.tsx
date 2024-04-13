@@ -2,8 +2,6 @@ import { TPath } from "@/types";
 import { RouteObject } from "react-router-dom";
 
 const routeGenerator = (paths: TPath[]) => {
-  console.log({ paths });
-
   const routes = paths.map((item) => {
     if (item.path) {
       const browserRoute: RouteObject = { path: item.path };

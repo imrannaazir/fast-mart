@@ -1,19 +1,25 @@
-import { FC } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import Modal from "../ui/modal";
-type AlertModalProps = {
-  isOpen: boolean;
-  isLoading: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-};
+import {
+  selectIsLoading,
+  selectIsOpen,
+  selectOnConfirm,
+  setIsOpen,
+  setOnConfirm,
+} from "@/redux/features/modal/alertModal.slice";
 
-const AlertModal: FC<AlertModalProps> = ({
-  isLoading,
-  isOpen,
-  onClose,
-  onConfirm,
-}) => {
+const AlertModal = () => {
+  const isOpen = useAppSelector(selectIsOpen);
+  const isLoading = useAppSelector(selectIsLoading);
+  const onConfirm = useAppSelector(selectOnConfirm);
+  const dispatch = useAppDispatch();
+
+  const onClose = () => {
+    dispatch(setOnConfirm(() => {}));
+    dispatch(setIsOpen(false));
+  };
+
   return (
     <Modal
       title="Are you sure?"

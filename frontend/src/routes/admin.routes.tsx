@@ -112,7 +112,7 @@ const paths: TPath[] = [
         element: <ImageListPage />,
       },
       {
-        path: "add-collection",
+        path: "add-collection/:id",
         element: <AddCollectionPage />,
       },
       {

@@ -42,9 +42,11 @@ export function CollectionDataTable<TData, TValue>({
     },
   });
 
-  // delete images
+  // delete collections
   const onDelete = async (ids: string[]) => {
-    setIsDeleting(true);
+    console.log(ids);
+
+    /*  setIsDeleting(true);
     try {
       const res = await deleteManyImage({ ids }).unwrap();
       if (res.success) {
@@ -57,7 +59,7 @@ export function CollectionDataTable<TData, TValue>({
       toast.error(`Failed to delete.`, { duration: 2000 });
       dispatch(onClose());
       setIsDeleting(false);
-    }
+    } */
   };
 
   const sortByItems = [
@@ -80,12 +82,7 @@ export function CollectionDataTable<TData, TValue>({
       <CollectionDataTableToolbar sortByItems={sortByItems} />
       <div className="rounded-md border">
         <Table>
-          <DataTableHeader
-            table={table}
-            fn={onDelete}
-            isLoading={isDeleting}
-            extraColumn={3}
-          />
+          <DataTableHeader table={table} fn={onDelete} isLoading={isDeleting} />
           {isLoading ? (
             <TableSkeleton columnNo={5} rowNo={10} />
           ) : (

@@ -4,18 +4,19 @@ import authSlice from "./features/auth/authSlice";
 import {
   persistReducer,
   persistStore,
-  FLUSH,
+  /*  FLUSH,
   PAUSE,
   PERSIST,
   PURGE,
   REGISTER,
-  REHYDRATE,
+  REHYDRATE, */
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import modalSlice from "./features/modal/modalSlice";
 import tagSlice from "./features/tag/tagSlice";
 import filterSlice from "./features/filter/filterSlice";
 import { productReducer } from "./features/product/productSlice";
+import { alertModalReducer } from "./features/modal/alertModal.slice";
 
 const persistConfig = {
   key: "auth",
@@ -31,12 +32,16 @@ const store = configureStore({
     tags: tagSlice,
     filter: filterSlice,
     product: productReducer,
+    alertModal: alertModalReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({
-      serializableCheck: {
+      serializableCheck: false,
+      /* 
+      {
         ignoredActions: [FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE],
       },
+      */
     }).concat(baseApi.middleware),
 });
 

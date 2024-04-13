@@ -1,10 +1,9 @@
 import { RootState } from "@/redux/store";
-import { TProduct } from "@/types/product.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 type TInitialState = {
   isOpen: boolean;
-  collectionName?: string | TProduct;
+  collectionName?: string;
 };
 const initialState: TInitialState = {
   isOpen: false,

@@ -1,10 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "lucide-react";
-import { toast } from "sonner";
 import moment from "moment";
 import { TCollection } from "@/types/collection";
 import Icon from "@/components/ui/lucide-icon";
+import CollectionDataTableAction from "./data-table-action";
 
 export const columns: ColumnDef<TCollection>[] = [
   // select column
@@ -37,9 +36,11 @@ export const columns: ColumnDef<TCollection>[] = [
     cell: ({ row }) => {
       const title = row.original.title;
       // const format = row?.original?.image?.url;
-      const imageUrl = row.original?.image?.url;
+      const imageUrl =
+        row.original?.image?.url ||
+        "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
       return (
-        <div className="flex justify-start gap-2">
+        <div className="flex justify-start gap-2 items-center">
           <img
             className="w-10 h-10 border-2   rounded-md border-gray-100"
             src={imageUrl}
@@ -47,7 +48,6 @@ export const columns: ColumnDef<TCollection>[] = [
           />
           <div>
             <p className="font-semibold text-gray-700">{title}</p>
-            <h3 className=" uppercase font-semibold text-gray-500">/</h3>
           </div>
         </div>
       );
@@ -75,20 +75,10 @@ export const columns: ColumnDef<TCollection>[] = [
     accessorKey: "noOfProducts",
   },
   {
-    accessorKey: "url",
-    header: "Link",
+    id: "action",
+    header: "Action",
     cell: ({ row }) => {
-      // const url = row.original.url;
-      const onCopy = () => {
-        // window.navigator.clipboard.writeText(url);
-        toast.success("Link copied.", { duration: 2000 });
-      };
-      return (
-        <Link
-          className="w-8 h-8 p-2 shadow-sm border-2 text-gray-700 rounded-md cursor-pointer"
-          onClick={onCopy}
-        />
-      );
+      return <CollectionDataTableAction row={row} />;
     },
   },
 ];
