@@ -1,12 +1,12 @@
-import { Types } from 'mongoose';
+import { PipelineStage, Types } from 'mongoose';
 import { TCollection } from './collection.interfaces';
 import { Collection } from './collection.models';
 import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
-import QueryBuilder from '../../builder/QueryBuilder';
 import { TMeta } from '../../utils/sendResponse';
 import { Image } from '../image/image.model';
 import Icon from '../icon/icon.model';
+import config from '../../config';
 
 // create collection
 const createCollection = async (
@@ -47,18 +47,92 @@ const createCollection = async (
 const getAllCollections = async (
   query: Record<string, unknown>,
 ): Promise<{ result: TCollection[]; meta: TMeta }> => {
-  const collectionModelQuery = new QueryBuilder(
-    Collection.find().populate('image icon'),
-    query,
-  )
-    .search(['title'])
-    .filter()
-    .sort()
-    .fields()
-    .paginate();
+  const page = Number(query?.page) || 1;
+  const limit = Number(query?.limit) || Number(config.data_limit);
+  const skip = (page - 1) * limit;
 
-  const result = await collectionModelQuery.modelQuery;
-  const meta = await collectionModelQuery.countTotal();
+  // searching condition
+  const searchCondition = query.searchTerm
+    ? { title: { $regex: query.searchTerm, $options: 'i' } }
+    : {};
+
+  const collectionPipeline: PipelineStage[] = [
+    //search
+    {
+      $match: searchCondition,
+    },
+    // lookup pipeline collections
+    {
+      $lookup: {
+        from: 'products', // table name would be plural
+        localField: '_id',
+        foreignField: 'collections',
+        as: 'products',
+      },
+    },
+    // lookup pipeline for image
+    {
+      $lookup: {
+        from: 'images', // table name would be plural
+        localField: 'image',
+        foreignField: '_id',
+        as: 'image',
+      },
+    },
+    // lookup pipeline for icon
+    {
+      $lookup: {
+        from: 'icons', // table name would be plural
+        localField: 'icon',
+        foreignField: '_id',
+        as: 'icon',
+      },
+    },
+    // add field pipeline
+    {
+      $addFields: {
+        noOfProducts: {
+          $size: '$products',
+        },
+        image: {
+          $arrayElemAt: ['$image', 0],
+        },
+        icon: {
+          $arrayElemAt: ['$icon', 0],
+        },
+      },
+    },
+    // project pipeline
+    {
+      $project: {
+        products: 0,
+      },
+    },
+
+    //sorting
+    {
+      $sort: {
+        [`${query.sort}`]: query.order === 'asc' ? 1 : -1,
+      },
+    },
+
+    //pagination
+    {
+      $skip: skip,
+    },
+    {
+      $limit: limit,
+    },
+  ];
+
+  const result = await Collection.aggregate(collectionPipeline);
+  const total = result.length;
+  const meta: TMeta = {
+    limit,
+    page,
+    total,
+    totalPage: Math.ceil(total / limit),
+  };
 
   return { result, meta };
 };

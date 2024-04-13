@@ -62,16 +62,16 @@ export function CollectionDataTable<TData, TValue>({
 
   const sortByItems = [
     {
-      value: "createdAt",
-      label: "Date",
+      value: "title",
+      label: "Collection title",
     },
     {
-      value: "file_name",
-      label: "File name",
+      value: "updatedAt",
+      label: "Updated",
     },
     {
-      value: "size",
-      label: "File size",
+      value: "noOfProducts",
+      label: "Products Number",
     },
   ];
 

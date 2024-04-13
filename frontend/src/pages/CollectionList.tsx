@@ -23,16 +23,12 @@ const CollectionListPage = () => {
   const dispatch = useAppDispatch();
   const page = useAppSelector(selectPage);
   const limit = useAppSelector(selectLimit);
-  const sortBy = useAppSelector(selectSortBy);
-  const orderBy = useAppSelector(selectOrderBy);
+  const sort = useAppSelector(selectSortBy) || "createdAt";
+  const order = useAppSelector(selectOrderBy) || "desc";
   const searchTerm = useAppSelector(selectSearchTerm);
 
-  let sort = "-createdAt";
-  if (sortBy) {
-    sort = orderBy === "desc" ? `-${sortBy}` : sortBy;
-  }
   // query parameter
-  const query = queryString.stringify({ page, limit, sort, searchTerm });
+  const query = queryString.stringify({ page, limit, sort, searchTerm, order });
   const { data, isFetching } = useGetAllCollectionsQuery(query, { skip });
 
   useEffect(() => {

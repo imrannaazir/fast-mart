@@ -8,6 +8,7 @@ const collectionSchema = new Schema<TCollection>(
       type: String,
       unique: true,
       required: true,
+      text: true,
     },
     description: {
       type: String,

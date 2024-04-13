@@ -10,6 +10,7 @@ export type TCollection = {
   description?: string;
   icon?: TIcon;
   image?: TImage;
+  noOfProducts: number;
   createdBy: string;
   _id: string;
   createdAt?: string;

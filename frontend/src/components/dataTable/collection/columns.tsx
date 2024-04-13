@@ -58,8 +58,6 @@ export const columns: ColumnDef<TCollection>[] = [
     cell: ({ row }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const iconName: any = row?.original?.icon?.name || "ban";
-      console.log(iconName);
-
       return <Icon className="text-gray-600 w-4 h-4" name={iconName} />;
     },
   },
@@ -73,11 +71,8 @@ export const columns: ColumnDef<TCollection>[] = [
     },
   },
   {
-    header: "Size",
-    cell: ({ row }) => {
-      // const size = row.original.size.toFixed(2);
-      return <p>{0} KB</p>;
-    },
+    header: "Products",
+    accessorKey: "noOfProducts",
   },
   {
     accessorKey: "url",

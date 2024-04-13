@@ -1,4 +1,4 @@
-export type TCollection = {
+/* export type TCollection1 = {
   _id: string;
   name: string;
 };
@@ -56,3 +56,4 @@ export type TAllValueOfProduct =
   | string[]
   | Record<string, string>
   | undefined;
+ */
