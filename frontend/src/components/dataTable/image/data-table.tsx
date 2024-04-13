@@ -80,7 +80,12 @@ export function ImageDataTable<TData, TValue>({
       <ImageDataTableToolbar sortByItems={sortByItems} />
       <div className="rounded-md border">
         <Table>
-          <DataTableHeader table={table} fn={onDelete} isLoading={isDeleting} />
+          <DataTableHeader
+            table={table}
+            fn={onDelete}
+            isLoading={isDeleting}
+            extraColumn={2}
+          />
           {isLoading ? (
             <TableSkeleton columnNo={5} rowNo={10} />
           ) : (

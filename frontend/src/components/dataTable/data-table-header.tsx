@@ -9,11 +9,13 @@ import {
   onOpen,
   selectIsOpen,
 } from "@/redux/features/modal/modalSlice";
+import { cn } from "@/lib/utils";
 
 type TDataTableHeaderProps<TData> = {
   table: Table<TData>;
   fn: (arg: string[]) => void;
   isLoading: boolean;
+  extraColumn: number;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,11 +23,20 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({
   table,
   fn,
   isLoading,
+  extraColumn,
 }) => {
   const dispatch = useAppDispatch();
   const isOpen = useAppSelector(selectIsOpen);
   const selectedRows = table.getSelectedRowModel().rows;
+  const isSelected = selectedRows.length ? true : false;
   const idsToDelete = selectedRows.map((item) => item.original._id);
+
+  // generate extra column length array
+  const columnArr: number[] = [];
+
+  for (let i = 0; i < extraColumn; i++) {
+    columnArr.push(i);
+  }
 
   return (
     <>
@@ -36,9 +47,57 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({
         onConfirm={() => fn(idsToDelete)}
       />
 
-      <TableHeader className="">
-        {table.getHeaderGroups().map((headerGroup) =>
-          selectedRows.length ? (
+      <TableHeader className=" ">
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id} className="  relative">
+            {headerGroup.headers.map((header, i) => {
+              return (
+                <TableHead
+                  className={cn(
+                    i === 0
+                      ? "opacity-100"
+                      : isSelected
+                      ? "opacity-0"
+                      : "opacity-100"
+                  )}
+                  key={header.id}
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </TableHead>
+              );
+            })}
+            <div className={cn(isSelected ? "block" : "hidden")}>
+              <div className="absolute top-3 left-20">{`${selectedRows.length} selected`}</div>
+              <div className="absolute top-1.5 right-2">
+                {" "}
+                <Button
+                  onClick={() => dispatch(onOpen(true))}
+                  className="py-1"
+                  variant={"destructive"}
+                  size={"sm"}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </TableRow>
+        ))}
+      </TableHeader>
+    </>
+  );
+};
+
+export default DataTableHeader;
+
+/* 
+
+
+ selectedRows.length ? (
             <TableRow key={headerGroup.id} className="">
               <TableHead key={headerGroup.headers[0].id}>
                 {headerGroup.headers[0].isPlaceholder
@@ -49,8 +108,9 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({
                     )}
               </TableHead>
               <TableHead>{`${selectedRows.length} selected`}</TableHead>
-              <TableHead></TableHead>
-              <TableHead></TableHead>
+              {columnArr.map((item) => (
+                <TableHead key={item}></TableHead>
+              ))}
               <TableHead className="text-end">
                 <Button
                   onClick={() => dispatch(onOpen(true))}
@@ -62,26 +122,4 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({
                 </Button>
               </TableHead>
             </TableRow>
-          ) : (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          )
-        )}
-      </TableHeader>
-    </>
-  );
-};
-
-export default DataTableHeader;
+          ) : (*/
