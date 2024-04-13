@@ -86,6 +86,8 @@ const baseApi = createApi({
     "Order",
     "Orders",
     "Images",
+    "Collection",
+    "Collections",
   ],
   endpoints: () => ({}),
 });

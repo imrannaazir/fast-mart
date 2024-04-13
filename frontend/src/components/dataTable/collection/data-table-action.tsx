@@ -16,17 +16,37 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
 import {
+  setIsLoading,
   setIsOpen,
   setOnConfirm,
 } from "@/redux/features/modal/alertModal.slice";
+import { useDeleteSingleCollectionMutation } from "@/redux/features/collection/collection.api";
+import { toast } from "sonner";
 
 const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
+  const [deleteSingleCollection] = useDeleteSingleCollectionMutation();
   const collectionId = row.original._id;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // on confirm
-  const onConfirm = () => {};
+  const onConfirm = async () => {
+    dispatch(setIsLoading(true));
+    try {
+      const res = await deleteSingleCollection(collectionId).unwrap();
+      if (res.success) {
+        toast.success("Deleted successfully.", { duration: 2000 });
+        dispatch(setIsOpen(false));
+        dispatch(setIsLoading(false));
+      }
+    } catch (error) {
+      toast.error(`Failed to delete.`, { duration: 2000 });
+
+      // dispatch(onClose());
+      dispatch(setIsOpen(false));
+      dispatch(setIsLoading(false));
+    }
+  };
   // on update
   const onUpdate = () => {
     navigate(`/contents/add-collection/${collectionId}`);
@@ -59,8 +79,9 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[200px] absolute -right-5">
         <DropdownMenuGroup>
-          {collectionActions.map((action) => (
+          {collectionActions.map((action, i) => (
             <DropdownMenuItem
+              key={i}
               onClick={action.fn}
               className={cn(action.className)}
             >

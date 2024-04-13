@@ -4,7 +4,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import {
   createManyImageValidationSchema,
   createSingleImageValidationSchema,
-  deleteManyImagesValidationSchema,
+  deleteManyValidationSchema,
 } from './image.validations';
 import ImageControllers from './image.controllers';
 
@@ -33,7 +33,7 @@ router.get('/', ImageControllers.getAllImages);
 router.delete(
   '/',
   auth('SUPER_ADMIN', 'ADMIN'),
-  validateRequest(deleteManyImagesValidationSchema),
+  validateRequest(deleteManyValidationSchema),
   ImageControllers.deleteManyImages,
 );
 const ImageRoutes = router;

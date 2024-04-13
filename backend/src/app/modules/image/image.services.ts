@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
-import { TDeleteImageReturnType, TImage } from './image.interface';
+import { TDeleteManyReturnType, TImage } from './image.interface';
 import { Image } from './image.model';
 
 // create image
@@ -38,7 +38,7 @@ const getAllImages = async (
 // delete many image
 const deleteManyImages = async (
   ids: string[],
-): Promise<TDeleteImageReturnType> => {
+): Promise<TDeleteManyReturnType> => {
   if (ids.length < 1) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Please send image ids.');
   }

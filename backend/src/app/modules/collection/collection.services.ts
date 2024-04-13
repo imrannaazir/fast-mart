@@ -7,6 +7,7 @@ import { TMeta } from '../../utils/sendResponse';
 import { Image } from '../image/image.model';
 import Icon from '../icon/icon.model';
 import config from '../../config';
+import { TDeleteManyReturnType } from '../image/image.interface';
 
 // create collection
 const createCollection = async (
@@ -137,5 +138,57 @@ const getAllCollections = async (
   return { result, meta };
 };
 
-const CollectionServices = { createCollection, getAllCollections };
+// delete single collection
+const deleteSingleCollection = async (
+  id: string,
+): Promise<TCollection | null> => {
+  // check is the collection is exist
+  const isCollectionExist = await Collection.findById(id);
+  if (!isCollectionExist) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      `Collection not founded by id: ${id}`,
+    );
+  }
+
+  const result = await Collection.findByIdAndDelete(id);
+
+  return result;
+};
+
+// delete many collection
+const deleteManyCollection = async (
+  ids: string[],
+): Promise<TDeleteManyReturnType> => {
+  // check are collections exist
+  const notExistingCollections: string[] = [];
+
+  for (const id of ids) {
+    const isCollectionExist = await Collection.findById(id);
+    console.log(isCollectionExist);
+
+    if (!isCollectionExist) {
+      notExistingCollections.push(id);
+    }
+  }
+
+  if (notExistingCollections.length) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      `Collections not founded by id : ${notExistingCollections.join(',')}`,
+    );
+  }
+
+  console.log({ ids, notExistingCollections });
+  const result = await Collection.deleteMany({ _id: { $in: ids } });
+  console.log({ result });
+
+  return result;
+};
+const CollectionServices = {
+  createCollection,
+  getAllCollections,
+  deleteSingleCollection,
+  deleteManyCollection,
+};
 export default CollectionServices;
