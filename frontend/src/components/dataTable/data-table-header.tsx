@@ -54,7 +54,7 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({
               return (
                 <TableHead
                   className={cn(
-                    i === 0
+                    i < 2
                       ? "opacity-100"
                       : isSelected
                       ? "opacity-0"
@@ -62,17 +62,27 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({
                   )}
                   key={header.id}
                 >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                  {isSelected && i === 1 ? (
+                    <div
+                      className={cn(
+                        i === 1 && isSelected ? "opacity-100" : "opacity-0"
                       )}
+                    >{`${selectedRows.length} selected`}</div>
+                  ) : (
+                    <div>
+                      {" "}
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </div>
+                  )}
                 </TableHead>
               );
             })}
             <div className={cn(isSelected ? "block" : "hidden")}>
-              <div className="absolute top-3 left-20">{`${selectedRows.length} selected`}</div>
               <div className="absolute top-1.5 right-2">
                 {" "}
                 <Button
