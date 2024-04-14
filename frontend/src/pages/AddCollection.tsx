@@ -48,7 +48,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 const AddCollectionPage = () => {
   const dispatch = useAppDispatch();
   const searchTerm = useAppSelector(selectSearchTerm);
-  console.log(searchTerm);
+  const [iconName, setIconName] = useState("");
 
   const [skip, setSkip] = useState(true);
   const [page, setPage] = useState(1);
@@ -75,6 +75,10 @@ const AddCollectionPage = () => {
   useEffect(() => {
     setSkip(false);
   }, [query]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
 
   const onSetSearchTerm = (...args: unknown[]) => {
     const searchTerm = (args[0] as ChangeEvent<HTMLInputElement>).target.value;
@@ -130,12 +134,19 @@ const AddCollectionPage = () => {
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
-                          <Input
+                          <Button
                             value={"Select icon"}
-                            placeholder=""
+                            variant={"outline"}
                             role="combobox"
-                            className={cn("w-full text-start")}
-                          />
+                            className={cn("w-full justify-start")}
+                          >
+                            {iconName ? (
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              <Icon name={iconName as any} />
+                            ) : (
+                              "Select icon"
+                            )}
+                          </Button>
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="w-[--radix-popover-trigger-width] max-h-[--radix-popover-content-available-height] mb-4">
@@ -165,7 +176,12 @@ const AddCollectionPage = () => {
                                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     icons.map((icon: any) => {
                                       return (
-                                        <CommandItem className="  ">
+                                        <CommandItem
+                                          onSelect={() => {
+                                            form.setValue("icon", icon._id);
+                                            setIconName(icon.name);
+                                          }}
+                                        >
                                           <TooltipProvider>
                                             <Tooltip>
                                               <TooltipTrigger asChild>
