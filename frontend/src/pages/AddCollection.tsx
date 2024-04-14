@@ -44,12 +44,20 @@ import {
   updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import UploadSingleImage from "@/components/ui/image-upload";
+import LoadingButton from "@/components/ui/loading-button";
+import { TImage } from "@/types/contents.type";
+import { Trash } from "lucide-react";
+import { toast } from "sonner";
+import { useCreateCollectionMutation } from "@/redux/features/collection/collection.api";
+import { useNavigate } from "react-router-dom";
 
 const AddCollectionPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const searchTerm = useAppSelector(selectSearchTerm);
   const [iconName, setIconName] = useState("");
-
+  const [image, setImage] = useState<TImage | null>(null);
   const [skip, setSkip] = useState(true);
   const [page, setPage] = useState(1);
   const query = queryString.stringify({
@@ -60,14 +68,28 @@ const AddCollectionPage = () => {
   });
 
   const { data, isFetching } = useGetAllIconsQuery(query, { skip });
+  const [createCollection] = useCreateCollectionMutation();
 
   const form = useForm<z.infer<typeof createCollectionValidationSchema>>({
     resolver: zodResolver(createCollectionValidationSchema),
   });
 
   // on submit handler
-  const onSubmit = (data: z.infer<typeof createCollectionValidationSchema>) => {
-    console.log(data);
+  const onSubmit = async (
+    data: z.infer<typeof createCollectionValidationSchema>
+  ) => {
+    const toastId = toast.loading("Creating.", { duration: 2000 });
+    try {
+      const response = await createCollection(data).unwrap();
+
+      if (response.success) {
+        toast.success("Created.", { id: toastId });
+        navigate("/contents/collections");
+        form.reset();
+      }
+    } catch (error) {
+      toast.error("Failed to create.", { id: toastId });
+    }
   };
 
   const icons: TIcon[] = data?.data || [];
@@ -79,6 +101,12 @@ const AddCollectionPage = () => {
   useEffect(() => {
     setPage(1);
   }, [searchTerm]);
+
+  useEffect(() => {
+    if (image?._id) {
+      form.setValue("image", image._id);
+    }
+  }, [form, image]);
 
   const onSetSearchTerm = (...args: unknown[]) => {
     const searchTerm = (args[0] as ChangeEvent<HTMLInputElement>).target.value;
@@ -92,7 +120,7 @@ const AddCollectionPage = () => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Page title="Create Collection" action={<Action />}>
           {/* form content */}
-          <div>
+          <div className="flex gap-4">
             <div className="w-[66%]">
               {/* title */}
               <FormField
@@ -129,8 +157,9 @@ const AddCollectionPage = () => {
               <FormField
                 control={form.control}
                 name="icon"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
+                    <FormLabel>Icon</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -252,6 +281,52 @@ const AddCollectionPage = () => {
                         </Command>
                       </PopoverContent>
                     </Popover>
+                  </FormItem>
+                )}
+              />
+            </div>
+            {/* right side */}
+            <div className=" flex-grow  ">
+              <FormField
+                control={form.control}
+                name="image"
+                render={() => (
+                  <FormItem className="relative">
+                    <FormLabel>Image</FormLabel>
+                    <UploadSingleImage
+                      isDisable={image?._id ? true : false}
+                      setUploadedImage={setImage}
+                      loader={
+                        <div className="mt-2 border-2 border-dashed h-[200px] rounded-md flex items-center justify-center">
+                          <LoadingButton />
+                        </div>
+                      }
+                    >
+                      <div className=" mt-2 border-2 border-dashed h-[200px] rounded-md flex items-center justify-center">
+                        {image?.url ? (
+                          <>
+                            <img className="max-h-[180px]" src={image.url} />
+                          </>
+                        ) : (
+                          <p className="btn-primary">Upload image</p>
+                        )}
+                      </div>
+                    </UploadSingleImage>
+
+                    {/* button to remove uploaded image */}
+                    <Button
+                      onClick={() => {
+                        form.setValue("image", "");
+                        setImage(null);
+                      }}
+                      variant={"destructive"}
+                      size={"icon"}
+                      className={cn(
+                        image?._id ? "absolute right-2 top-10" : "hidden"
+                      )}
+                    >
+                      <Trash className="w-4 h-4" />
+                    </Button>
                   </FormItem>
                 )}
               />

@@ -150,6 +150,21 @@ const filterSlice = createSlice({
     setFilterByDate: (state, action) => {
       state.date = action.payload;
     },
+
+    //reset filters
+    resetFilters: (state) => {
+      state.orderBy = "";
+      state.sortBy = "";
+      state.status = [];
+      state.brands = [];
+      state.categories = [];
+      state.tags = [];
+      state.searchTerm = "";
+      state.limit = 10;
+      state.page = 1;
+      state.meta = null;
+      state.date = null;
+    },
   },
 });
 
@@ -185,6 +200,7 @@ export const {
   setDataLimit,
   setMeta,
   setFilterByDate,
+  resetFilters,
 } = filterSlice.actions;
 
 // selector

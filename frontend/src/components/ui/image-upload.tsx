@@ -1,15 +1,27 @@
 import { useUploadSingleImageMutation } from "@/redux/features/image/image.api";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { TImage } from "@/types/contents.type";
+import {
+  Dispatch,
+  FC,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "sonner";
 
 type TUploadSingleImageProps = {
   children: ReactNode;
   loader: ReactNode;
+  setUploadedImage?: Dispatch<SetStateAction<TImage | null>>;
+  isDisable?: boolean;
 };
 
 const UploadSingleImage: FC<TUploadSingleImageProps> = ({
   children,
   loader,
+  setUploadedImage,
+  isDisable = false,
 }) => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -48,6 +60,9 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
 
             if (res.success) {
               toast.success("Image uploaded.", { duration: 2000 });
+              if (setUploadedImage) {
+                setUploadedImage(res.data);
+              }
             }
 
             setImage(null);
@@ -59,14 +74,14 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
         }
       }
     })();
-  }, [image, cloudName, UploadPreset, uploadSingleImage]);
+  }, [image, cloudName, UploadPreset, uploadSingleImage, setUploadedImage]);
   return isImageUploading ? (
     loader
   ) : (
     <>
       <input
         id="hidden-input"
-        disabled={isImageUploading}
+        disabled={isImageUploading || isDisable}
         type="file"
         className="hidden"
         onChange={(e) => {

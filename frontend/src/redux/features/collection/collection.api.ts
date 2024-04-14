@@ -4,6 +4,14 @@ import { TCollection } from "@/types/collection";
 
 const collectionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createCollection: builder.mutation({
+      query: (data) => ({
+        url: "/collections",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Collections"],
+    }),
     // get all collections
     getAllCollections: builder.query({
       query: (params) => ({
@@ -40,6 +48,7 @@ const collectionApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCreateCollectionMutation,
   useGetAllCollectionsQuery,
   useDeleteManyCollectionsMutation,
   useDeleteSingleCollectionMutation,
