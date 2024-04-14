@@ -9,8 +9,6 @@ interface IconProps extends Omit<LucideProps, "ref"> {
 }
 
 const Icon = ({ name, ...props }: IconProps) => {
-  console.log(name);
-
   const LucideIcon = lazy(dynamicIconImports[name]);
 
   return (
