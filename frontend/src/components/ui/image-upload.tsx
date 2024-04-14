@@ -1,4 +1,91 @@
-import { useState } from "react";
+import { useUploadSingleImageMutation } from "@/redux/features/image/image.api";
+import { FC, ReactNode, useEffect, useState } from "react";
+import { toast } from "sonner";
+
+type TUploadSingleImageProps = {
+  children: ReactNode;
+  loader: ReactNode;
+};
+
+const UploadSingleImage: FC<TUploadSingleImageProps> = ({
+  children,
+  loader,
+}) => {
+  // invoke hooks
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const UploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+  // local state
+  const [image, setImage] = useState<File | null>(null);
+  const [isImageUploading, setIsImageUploading] = useState(false);
+  const [uploadSingleImage] = useUploadSingleImageMutation();
+
+  useEffect(() => {
+    (async () => {
+      if (image) {
+        setIsImageUploading(true);
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("cloud_name", cloudName);
+        formData.append("upload_preset", UploadPreset);
+        formData.append("folder", "e-commerce");
+
+        try {
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          const data = await response.json();
+          if (data.secure_url) {
+            const res = await uploadSingleImage({
+              file_name: data.original_filename,
+              size: data.bytes / 1000,
+              url: data.secure_url,
+              format: data.format,
+            }).unwrap();
+
+            if (res.success) {
+              toast.success("Image uploaded.", { duration: 2000 });
+            }
+
+            setImage(null);
+            setIsImageUploading(false);
+          }
+        } catch (error) {
+          toast.error("Failed to upload", { duration: 2000 });
+          setIsImageUploading(false);
+        }
+      }
+    })();
+  }, [image, cloudName, UploadPreset, uploadSingleImage]);
+  return isImageUploading ? (
+    loader
+  ) : (
+    <>
+      <input
+        id="hidden-input"
+        disabled={isImageUploading}
+        type="file"
+        className="hidden"
+        onChange={(e) => {
+          const selectedFile = e.target.files && e.target.files[0];
+          if (selectedFile) {
+            setImage(selectedFile);
+          }
+        }}
+        accept="image/*"
+      />
+      <label htmlFor="hidden-input" className="cursor-pointer">
+        {children}
+      </label>
+    </>
+  );
+};
+export default UploadSingleImage;
+
+/* import { useState } from "react";
 import { Image } from "cloudinary-react";
 
 const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -112,3 +199,4 @@ const ImageUpload = () => {
 };
 
 export default ImageUpload;
+ */

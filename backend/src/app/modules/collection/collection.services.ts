@@ -165,7 +165,6 @@ const deleteManyCollection = async (
 
   for (const id of ids) {
     const isCollectionExist = await Collection.findById(id);
-    console.log(isCollectionExist);
 
     if (!isCollectionExist) {
       notExistingCollections.push(id);
@@ -179,9 +178,7 @@ const deleteManyCollection = async (
     );
   }
 
-  console.log({ ids, notExistingCollections });
   const result = await Collection.deleteMany({ _id: { $in: ids } });
-  console.log({ result });
 
   return result;
 };

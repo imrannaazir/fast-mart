@@ -1,6 +1,7 @@
 import { columns } from "@/components/dataTable/collection/columns";
 import { CollectionDataTable } from "@/components/dataTable/collection/data-table";
 import Page from "@/components/layout/Page";
+import { Button } from "@/components/ui/button";
 import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
 import {
   selectLimit,
@@ -14,6 +15,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const CollectionListPage = () => {
   // invoke hooks
@@ -40,7 +42,7 @@ const CollectionListPage = () => {
   }, [data?.meta, dispatch]);
   const collections = data?.data || [];
   return (
-    <Page title="Collections">
+    <Page title="Collections" action={<CollectionAction />}>
       <div className=" mx-auto">
         <CollectionDataTable
           columns={columns}
@@ -49,6 +51,14 @@ const CollectionListPage = () => {
         />
       </div>
     </Page>
+  );
+};
+
+const CollectionAction = () => {
+  return (
+    <Link to="/contents/add-collection/new">
+      <Button size={"sm"}>Create collection</Button>;
+    </Link>
   );
 };
 
