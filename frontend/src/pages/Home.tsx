@@ -1,5 +1,6 @@
 import ImageUpload from "@/components/ui/image-upload";
 import Icon from "@/components/ui/lucide-icon";
+import { icons } from "@/constant/constant";
 import { useGetAllIconsQuery } from "@/redux/features/icon/icon.api";
 const HomePage = () => {
   const { data, isFetching } = useGetAllIconsQuery(undefined);
@@ -11,8 +12,8 @@ const HomePage = () => {
     <div>
       <ImageUpload />
       <div>
-        {data?.data?.map((icon) => (
-          <Icon name={icon.name} />
+        {icons.map((icon) => (
+          <Icon name={icon} />
         ))}
       </div>
     </div>

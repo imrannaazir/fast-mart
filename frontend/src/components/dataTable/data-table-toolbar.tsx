@@ -10,11 +10,11 @@ import {
   updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
 import DateTableSort from "./data-table-sort";
-import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import debounce from "@/lib/debounce";
 import { ChangeEvent, FC } from "react";
 import { TLabelValuePair } from "@/types";
+import SearchInput from "../ui/search-input";
 
 type TImageDataTableToolbar = {
   sortByItems: TLabelValuePair[];
@@ -43,18 +43,13 @@ const ImageDataTableToolbar: FC<TImageDataTableToolbar> = ({
           {/* filters */}
           <div className="flex justify-between items-center space-x-2">
             {/* search  */}
-            <div className="  flex-grow">
-              <form>
-                <div className="relative">
-                  <Input
-                    className="pl-8 h-9"
-                    placeholder="Search"
-                    onChange={debouncedSearchTerm}
-                  />
-                  <Search className="absolute left-2 top-2.5 w-4 h-4 text-muted-foreground" />
-                </div>
-              </form>
-            </div>
+            <SearchInput>
+              <Input
+                className="pl-8 h-9"
+                placeholder="Search"
+                onChange={debouncedSearchTerm}
+              />
+            </SearchInput>
             <DateTableSort sortByItems={sortByItems} />
           </div>
           {filterByStatuses && (
