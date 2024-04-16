@@ -31,6 +31,7 @@ const CategoryListPage = () => {
 
   // query parameter
   const query = queryString.stringify({ page, limit, sort, searchTerm, order });
+
   const { data, isFetching } = useGetAllCategoriesQuery(query, { skip });
 
   useEffect(() => {

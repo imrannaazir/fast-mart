@@ -39,3 +39,15 @@ export type TCategory = {
   updatedAt?: string;
   __v?: number;
 };
+
+export type TBrand = {
+  _id?: string;
+  name: string;
+  description?: string;
+  logo?: TImage;
+  cover_photo?: TImage;
+  noOfProducts?: number;
+  createdBy?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};

@@ -1,8 +1,8 @@
-import { columns } from "@/components/dataTable/collection/columns";
-import { CollectionDataTable } from "@/components/dataTable/collection/data-table";
+import { columns } from "@/components/dataTable/brand/columns";
+import { BrandDataTable } from "@/components/dataTable/brand/data-table";
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
-import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
+import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
 import {
   selectLimit,
   selectOrderBy,
@@ -13,6 +13,7 @@ import {
 } from "@/redux/features/filter/filterSlice";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { TBrand } from "@/types";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -31,7 +32,7 @@ const BrandListPage = () => {
 
   // query parameter
   const query = queryString.stringify({ page, limit, sort, searchTerm, order });
-  const { data, isFetching } = useGetAllCollectionsQuery(query, { skip });
+  const { data, isFetching } = useGetAllBrandsQuery(query, { skip });
 
   useEffect(() => {
     setSkip(false);
@@ -40,13 +41,13 @@ const BrandListPage = () => {
   useEffect(() => {
     dispatch(setMeta(data?.meta));
   }, [data?.meta, dispatch]);
-  const collections = data?.data || [];
+  const brands = data?.data || ([] as TBrand[]);
   return (
-    <Page title="Collections" action={<CollectionAction />}>
+    <Page title="Brands" action={<CollectionAction />}>
       <div className=" mx-auto">
-        <CollectionDataTable
+        <BrandDataTable
           columns={columns}
-          data={collections}
+          data={brands as TBrand[]}
           isLoading={isFetching}
         />
       </div>

@@ -27,7 +27,7 @@ const routerModules: TRouteModule[] = [
     route: ProductRoutes,
   },
   {
-    path: '/brand',
+    path: '/brands',
     route: BrandRoutes,
   },
   {
