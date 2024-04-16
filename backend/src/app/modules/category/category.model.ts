@@ -9,8 +9,17 @@ const categorySchema = new Schema<TCategory>(
       required: true,
       unique: true,
     },
+    collection: {
+      type: Schema.Types.ObjectId,
+      ref: 'category',
+      required: true,
+    },
     description: {
       type: String,
+    },
+    image: {
+      type: Schema.Types.ObjectId,
+      ref: 'image',
     },
     createdBy: {
       type: Schema.Types.ObjectId,

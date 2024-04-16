@@ -5,12 +5,29 @@ import Category from './category.model';
 import { Types } from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { TMeta } from '../../utils/sendResponse';
+import { Collection } from '../collection/collection.models';
+import { Image } from '../image/image.model';
 
 // create category
 const createCategory = async (
   payload: TCategory,
   userId: Types.ObjectId,
 ): Promise<TCategory> => {
+  // check is collection id valid
+  const isCollectionExist = await Collection.findById(payload.collection);
+
+  if (!isCollectionExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Collection not founded.');
+  }
+
+  // check is image id is valid
+  if (payload.image) {
+    const isImageExist = await Image.findById(payload.image);
+    if (!isImageExist) {
+      throw new AppError(StatusCodes.NOT_FOUND, 'Image not founded.');
+    }
+  }
+
   // check is already a category by provided name
   payload.createdBy = userId;
   const isAlreadyCategoryByName = await Category.findOne({
