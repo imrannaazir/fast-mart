@@ -33,6 +33,7 @@ export type TCategory = {
   description?: string;
   image?: TImage;
   collection: TCollection;
+  noOfProducts?: number;
   createdBy?: string;
   createdAt?: string;
   updatedAt?: string;

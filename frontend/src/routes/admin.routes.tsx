@@ -130,7 +130,7 @@ const paths: TPath[] = [
         element: <CategoryListPage />,
       },
       {
-        path: "add-brand",
+        path: "add-brand/:id",
         element: <AddBrandsPage />,
       },
       {

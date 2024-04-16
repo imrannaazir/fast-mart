@@ -7,6 +7,7 @@ export type TCategory = {
   description?: string;
   image?: Types.ObjectId;
   createdBy: Types.ObjectId;
+  noOfProducts?: number;
   createdAt: Date;
   updatedAt: Date;
 };

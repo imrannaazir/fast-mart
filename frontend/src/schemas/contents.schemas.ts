@@ -13,3 +13,10 @@ export const createCategoryValidationSchema = z.object({
   image: z.string().optional(),
   description: z.string().optional(),
 });
+
+export const createBrandValidationSchema = z.object({
+  name: z.string({ required_error: "Name is required." }),
+  description: z.string().optional(),
+  logo: z.string().optional(),
+  cover_photo: z.string().optional(),
+});

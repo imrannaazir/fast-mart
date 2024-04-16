@@ -6,6 +6,7 @@ export type TBrand = {
   description?: string;
   logo?: Types.ObjectId;
   cover_photo?: Types.ObjectId;
+  noOfProducts?: number;
   createdBy?: Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
