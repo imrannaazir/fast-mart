@@ -11,7 +11,7 @@ const categorySchema = new Schema<TCategory>(
     },
     collection: {
       type: Schema.Types.ObjectId,
-      ref: 'category',
+      ref: 'collection',
       required: true,
     },
     description: {

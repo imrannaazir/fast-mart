@@ -28,7 +28,8 @@ const getAllCategory = catchAsync(async (req, res) => {
     success: true,
     statusCode: StatusCodes.OK,
     message: 'Categories retrieved successfully.',
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 const CategoryController = {
