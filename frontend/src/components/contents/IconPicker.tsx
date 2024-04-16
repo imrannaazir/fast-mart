@@ -27,11 +27,11 @@ import {
   selectSearchTerm,
   updateSearchTerm,
 } from "@/redux/features/filter/filterSlice";
-import { TIcon } from "@/types/collection";
 import { cn } from "@/lib/utils";
 import { UseFormSetValue } from "react-hook-form";
 import { z } from "zod";
 import { createCollectionValidationSchema } from "@/schemas/contents.schemas";
+import { TIcon } from "@/types";
 
 type TIconPickerProps = {
   setValue: UseFormSetValue<z.infer<typeof createCollectionValidationSchema>>;

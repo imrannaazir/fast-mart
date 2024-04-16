@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsis } from "react-icons/fa6";
 import { Row } from "@tanstack/react-table";
-import { TCollection } from "@/types";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
@@ -22,10 +21,11 @@ import {
 } from "@/redux/features/modal/alertModal.slice";
 import { useDeleteSingleCollectionMutation } from "@/redux/features/collection/collection.api";
 import { toast } from "sonner";
+import { TCategory } from "@/types";
 
-const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
+const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
   const [deleteSingleCollection] = useDeleteSingleCollectionMutation();
-  const collectionId = row.original._id;
+  const categoryId = row.original._id;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
   const onConfirm = async () => {
     dispatch(setIsLoading(true));
     try {
-      const res = await deleteSingleCollection(collectionId).unwrap();
+      const res = await deleteSingleCollection(categoryId).unwrap();
       if (res.success) {
         toast.success("Deleted successfully.", { duration: 2000 });
         dispatch(setIsOpen(false));
@@ -49,7 +49,7 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
   };
   // on update
   const onUpdate = () => {
-    navigate(`/contents/add-collection/${collectionId}`);
+    navigate(`/contents/add-collection/${categoryId}`);
   };
 
   // on delete
@@ -95,4 +95,4 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
   );
 };
 
-export default CollectionDataTableAction;
+export default CategoryDataTableAction;

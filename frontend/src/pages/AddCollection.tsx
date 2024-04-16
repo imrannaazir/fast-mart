@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import IconPicker from "@/components/contents/IconPicker";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import UploadCollectionImage from "@/components/contents/UploadCollectionImage";
+import ImagePicker from "@/components/contents/ImagePicker";
 
 const AddCollectionPage = () => {
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ const AddCollectionPage = () => {
                 render={() => (
                   <FormItem className="relative">
                     <FormLabel>Image</FormLabel>
-                    <UploadCollectionImage setValue={form.setValue} />
+                    <ImagePicker setValue={form.setValue} />
                   </FormItem>
                 )}
               />

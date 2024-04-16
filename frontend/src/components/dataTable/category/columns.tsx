@@ -1,11 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import moment from "moment";
-import Icon from "@/components/ui/lucide-icon";
 import CollectionDataTableAction from "./data-table-action";
-import { TCollection } from "@/types";
+import { TCategory } from "@/types";
 
-export const columns: ColumnDef<TCollection>[] = [
+export const columns: ColumnDef<TCategory>[] = [
   // select column
   {
     id: "select",
@@ -53,14 +52,15 @@ export const columns: ColumnDef<TCollection>[] = [
       );
     },
   },
+
   {
-    header: "Icon",
+    header: "Collection",
     cell: ({ row }) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const iconName: any = row?.original?.icon?.name || "ban";
-      return <Icon className="text-gray-600 w-4 h-4" name={iconName} />;
+      const collectionName = row.original.collection?.title || "N/A";
+      return <p>{collectionName}</p>;
     },
   },
+
   {
     accessorKey: "createdAt",
     header: "Date Added",

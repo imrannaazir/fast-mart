@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useState } from "react";
 import UploadSingleImage from "../ui/image-upload";
 import { TImage } from "@/types/contents.type";
@@ -6,16 +7,12 @@ import { Button } from "../ui/button";
 import { Trash } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { UseFormSetValue } from "react-hook-form";
-import { z } from "zod";
-import { createCollectionValidationSchema } from "@/schemas/contents.schemas";
 
-type TUploadCollectionImageProps = {
-  setValue: UseFormSetValue<z.infer<typeof createCollectionValidationSchema>>;
+type TImagePickerProps = {
+  setValue: UseFormSetValue<any>;
 };
 
-const UploadCollectionImage: FC<TUploadCollectionImageProps> = ({
-  setValue,
-}) => {
+const ImagePicker: FC<TImagePickerProps> = ({ setValue }) => {
   const [image, setImage] = useState<TImage | null>(null);
   useEffect(() => {
     if (image?._id) {
@@ -60,4 +57,4 @@ const UploadCollectionImage: FC<TUploadCollectionImageProps> = ({
   );
 };
 
-export default UploadCollectionImage;
+export default ImagePicker;

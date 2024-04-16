@@ -121,7 +121,7 @@ const paths: TPath[] = [
         element: <CollectionListPage />,
       },
       {
-        path: "add-category",
+        path: "add-category/:id",
         element: <AddCategoryPage />,
       },
       {

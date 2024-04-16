@@ -1,12 +1,19 @@
+import { TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
+import { TCategory } from "@/types/contents.type";
 
 const categoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     //get all category
     getAllCategories: builder.query({
-      query: () => ({
+      query: (params) => ({
         url: "/category",
         method: "GET",
+        params: params,
+      }),
+      transformResponse: (response: TResponseRedux<TCategory[]>) => ({
+        data: response.data,
+        meta: response.meta,
       }),
       providesTags: ["Categories"],
     }),

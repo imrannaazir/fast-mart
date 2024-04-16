@@ -19,9 +19,10 @@ import { useAppDispatch } from "@/redux/hooks";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { ClassValue } from "clsx";
 import { TCreateCollection } from "@/types/rtkQuery.type";
+import Icon from "../ui/lucide-icon";
 
 type TSelectOrCreateProps = {
-  collections: { name: string; _id: string }[];
+  collections: { name: string; _id: string; iconName?: any }[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   field: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,7 +38,7 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
   field,
   form,
   collectionName,
-  className = "w-[200px]",
+  className,
 }) => {
   const dispatch = useAppDispatch();
   return (
@@ -63,7 +64,9 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
             </Button>
           </FormControl>
         </PopoverTrigger>
-        <PopoverContent className={`${className} p-0`}>
+        <PopoverContent
+          className={`${className} p-0 w-[--radix-popover-trigger-width] max-h-[--radix-popover-content-available-height] mb-4`}
+        >
           <Command>
             <CommandInput
               placeholder={`Search ${camelCaseToWords(collectionName)}...`}
@@ -85,12 +88,16 @@ const SelectOrCreate: FC<TSelectOrCreateProps> = ({
               <Separator className="mt-1" />
               {collections?.map((collection) => (
                 <CommandItem
+                  className="flex items-center gap-1"
                   value={collection?.name}
                   key={collection?._id}
                   onSelect={() => {
                     form.setValue(collectionName, collection?._id);
                   }}
                 >
+                  {collection?.iconName && (
+                    <Icon className="w-3 h-3" name={collection.iconName} />
+                  )}
                   {collection?.name}
                   <CheckIcon
                     className={cn(
