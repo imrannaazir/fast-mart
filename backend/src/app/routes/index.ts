@@ -31,7 +31,7 @@ const routerModules: TRouteModule[] = [
     route: BrandRoutes,
   },
   {
-    path: '/category',
+    path: '/categories',
     route: CategoryRoutes,
   },
   {

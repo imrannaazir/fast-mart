@@ -7,6 +7,7 @@ import { TMeta } from '../../utils/sendResponse';
 import { Collection } from '../collection/collection.models';
 import { Image } from '../image/image.model';
 import config from '../../config';
+import { TDeleteManyReturnType } from '../image/image.interface';
 
 // create category
 const createCategory = async (
@@ -172,9 +173,46 @@ const getAllCategory = async (
   return { meta, result };
 };
 
+// delete single category
+const deleteSingleCategory = async (id: string): Promise<TCategory | null> => {
+  // check is category exist
+  const isCategoryExist = await Category.findById(id);
+  if (!isCategoryExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, `Category not founded.`);
+  }
+
+  const result = await Category.findByIdAndDelete(id);
+  return result;
+};
+
+// delete many categories
+const deleteManyCategories = async (
+  ids: string[],
+): Promise<TDeleteManyReturnType> => {
+  // check is categories exist
+  const notExistingCategoryIds: string[] = [];
+  for (const id of ids) {
+    const isCategoryExist = await Category.findById(id);
+    if (!isCategoryExist) {
+      notExistingCategoryIds.push(id);
+    }
+  }
+
+  if (notExistingCategoryIds.length) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      `Category not found by id : ${notExistingCategoryIds.join(',')}`,
+    );
+  }
+
+  const result = await Category.deleteMany({ _id: { $in: ids } });
+  return result;
+};
 const CategoryService = {
   createCategory,
   getAllCategory,
+  deleteSingleCategory,
+  deleteManyCategories,
 };
 
 export default CategoryService;

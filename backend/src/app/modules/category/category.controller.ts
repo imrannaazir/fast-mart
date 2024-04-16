@@ -32,9 +32,36 @@ const getAllCategory = catchAsync(async (req, res) => {
     data: result.result,
   });
 });
+
+// delete single  category
+const deleteSingleCategory = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const result = await CategoryService.deleteSingleCategory(id);
+  sendResponse(res, {
+    success: true,
+    message: 'Category deleted successfully.',
+    statusCode: StatusCodes.OK,
+    data: result,
+  });
+});
+
+// delete many category
+const deleteManyCategories = catchAsync(async (req, res) => {
+  const ids = req.body.ids;
+  const result = await CategoryService.deleteManyCategories(ids);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Categories deleted successfully.',
+    data: result,
+  });
+});
 const CategoryController = {
   createCategory,
   getAllCategory,
+  deleteManyCategories,
+  deleteSingleCategory,
 };
 
 export default CategoryController;

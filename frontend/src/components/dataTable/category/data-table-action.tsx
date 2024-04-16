@@ -19,12 +19,12 @@ import {
   setIsOpen,
   setOnConfirm,
 } from "@/redux/features/modal/alertModal.slice";
-import { useDeleteSingleCollectionMutation } from "@/redux/features/collection/collection.api";
 import { toast } from "sonner";
 import { TCategory } from "@/types";
+import { useDeleteSingleCategoryMutation } from "@/redux/features/category/categoryApi";
 
 const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
-  const [deleteSingleCollection] = useDeleteSingleCollectionMutation();
+  const [deleteSingleCategory] = useDeleteSingleCategoryMutation();
   const categoryId = row.original._id;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
   const onConfirm = async () => {
     dispatch(setIsLoading(true));
     try {
-      const res = await deleteSingleCollection(categoryId).unwrap();
+      const res = await deleteSingleCategory(categoryId).unwrap();
       if (res.success) {
         toast.success("Deleted successfully.", { duration: 2000 });
         dispatch(setIsOpen(false));
@@ -42,7 +42,6 @@ const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
     } catch (error) {
       toast.error(`Failed to delete.`, { duration: 2000 });
 
-      // dispatch(onClose());
       dispatch(setIsOpen(false));
       dispatch(setIsLoading(false));
     }

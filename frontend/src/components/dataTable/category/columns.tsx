@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import moment from "moment";
-import CollectionDataTableAction from "./data-table-action";
 import { TCategory } from "@/types";
+import CategoryDataTableAction from "./data-table-action";
 
 export const columns: ColumnDef<TCategory>[] = [
   // select column
@@ -78,7 +78,7 @@ export const columns: ColumnDef<TCategory>[] = [
     id: "action",
     header: "Action",
     cell: ({ row }) => {
-      return <CollectionDataTableAction row={row} />;
+      return <CategoryDataTableAction row={row} />;
     },
   },
 ];

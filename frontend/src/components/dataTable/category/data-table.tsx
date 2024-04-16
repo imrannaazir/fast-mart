@@ -16,8 +16,8 @@ import {
   setIsLoading,
   setIsOpen,
 } from "@/redux/features/modal/alertModal.slice";
-import { useDeleteManyCollectionsMutation } from "@/redux/features/collection/collection.api";
 import { toast } from "sonner";
+import { useDeleteManyCategoriesMutation } from "@/redux/features/category/categoryApi";
 
 interface CategoryDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,7 +31,7 @@ export function CategoryDataTable<TData, TValue>({
   isLoading,
 }: CategoryDataTableProps<TData, TValue>) {
   const dispatch = useAppDispatch();
-  const [deleteManyCollection] = useDeleteManyCollectionsMutation();
+  const [deleteManyCategories] = useDeleteManyCategoriesMutation();
   const [rowSelection, setRowSelection] = useState({});
 
   const table = useReactTable({
@@ -44,12 +44,12 @@ export function CategoryDataTable<TData, TValue>({
     },
   });
 
-  // delete collections
+  // delete category
   const onDelete = async (ids: string[]) => {
     dispatch(setIsLoading(true));
 
     try {
-      const res = await deleteManyCollection({ ids }).unwrap();
+      const res = await deleteManyCategories({ ids }).unwrap();
       if (res.success) {
         toast.success("Deleted successfully.", { duration: 2000 });
         dispatch(setIsOpen(false));
