@@ -11,6 +11,9 @@ const brandSchema = new Schema<TBrand>(
     description: {
       type: String,
     },
+    slogan: {
+      type: String,
+    },
     logo: {
       type: Schema.Types.ObjectId,
       ref: 'image',

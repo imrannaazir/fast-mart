@@ -5,6 +5,7 @@ import Brand from './brand.model';
 import mongoose, { PipelineStage } from 'mongoose';
 import { TMeta } from '../../utils/sendResponse';
 import config from '../../config';
+import { TDeleteManyReturnType } from '../image/image.interface';
 
 const createBrand = async (payload: TBrand): Promise<TBrand> => {
   // create brand
@@ -119,8 +120,46 @@ const getAllBrands = async (
   return { result, meta };
 };
 
+// delete single brand
+const deleteSingleBrand = async (id: string): Promise<TBrand | null> => {
+  // check is brand is exist
+  const isBrandExist = await Brand.findById(id);
+
+  if (!isBrandExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Brand not founded.');
+  }
+  const result = await Brand.findByIdAndDelete(id);
+  return result;
+};
+
+// delete many brands
+const deleteManyBrand = async (
+  ids: string[],
+): Promise<TDeleteManyReturnType> => {
+  // check are brands exist
+  const notExistingBrands: string[] = [];
+
+  for (const id of ids) {
+    const isBrandExist = await Brand.findById(id);
+    if (!isBrandExist) {
+      notExistingBrands.push(id);
+    }
+  }
+
+  if (notExistingBrands.length) {
+    throw new AppError(
+      StatusCodes.NOT_FOUND,
+      `Brands not founded by id : ${notExistingBrands.join(',')}`,
+    );
+  }
+
+  const result = await Brand.deleteMany({ _id: { $in: ids } });
+  return result;
+};
 const BrandService = {
   createBrand,
   getAllBrands,
+  deleteManyBrand,
+  deleteSingleBrand,
 };
 export default BrandService;

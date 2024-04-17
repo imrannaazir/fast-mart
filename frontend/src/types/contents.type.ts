@@ -45,6 +45,7 @@ export type TBrand = {
   name: string;
   description?: string;
   logo?: TImage;
+  slogan?: string;
   cover_photo?: TImage;
   noOfProducts?: number;
   createdBy?: string;

@@ -16,6 +16,7 @@ export const createCategoryValidationSchema = z.object({
 
 export const createBrandValidationSchema = z.object({
   name: z.string({ required_error: "Name is required." }),
+  slogan: z.string().optional(),
   description: z.string().optional(),
   logo: z.string().optional(),
   cover_photo: z.string().optional(),

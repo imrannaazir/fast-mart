@@ -133,7 +133,7 @@ const AddCollectionPage = () => {
                 render={() => (
                   <FormItem className="relative">
                     <FormLabel>Image</FormLabel>
-                    <ImagePicker setValue={form.setValue} />
+                    <ImagePicker setValue={form.setValue} fieldName="image" />
                   </FormItem>
                 )}
               />

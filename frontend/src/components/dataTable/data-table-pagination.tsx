@@ -24,6 +24,7 @@ import {
   selectPage,
   setDataLimit,
 } from "@/redux/features/filter/filterSlice";
+import { cn } from "@/lib/utils";
 
 interface OrderDataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -38,7 +39,13 @@ export function DataTablePagination<TData>({
   const limit = useAppSelector(selectLimit);
 
   return (
-    <div className="flex items-center justify-between px-2">
+    <div
+      className={cn(
+        meta?.total !== undefined && meta.total > limit
+          ? "flex items-center justify-between px-2"
+          : "hidden"
+      )}
+    >
       <div className="hidden md:flex-1 text-sm text-muted-foreground">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.

@@ -1,5 +1,5 @@
 const HomePage = () => {
-  return <div> This is home page</div>;
+  return <div>{/* <UploadSingleImage fieldName="" /> */}</div>;
 };
 
 export default HomePage;

@@ -27,9 +27,37 @@ const getAllBrands = catchAsync(async (req, res) => {
     meta: result.meta,
   });
 });
+
+// delete single brand
+const deleteSingleBrand = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const result = await BrandService.deleteSingleBrand(id);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Brand deleted successfully.',
+    data: result,
+  });
+});
+
+//delete many brands
+const deleteManyBrand = catchAsync(async (req, res) => {
+  const ids = req.body.ids;
+
+  const result = await BrandService.deleteManyBrand(ids);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Brands deleted successfully.',
+    data: result,
+  });
+});
 const BrandController = {
   createBrand,
   getAllBrands,
+  deleteSingleBrand,
+  deleteManyBrand,
 };
 
 export default BrandController;
