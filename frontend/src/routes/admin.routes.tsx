@@ -142,11 +142,6 @@ const paths: TPath[] = [
         path: "add-variant",
         element: <AddVariantPage />,
       },
-      {
-        label: "Variants",
-        path: "variants",
-        element: <VariantListPage />,
-      },
     ],
   },
   {

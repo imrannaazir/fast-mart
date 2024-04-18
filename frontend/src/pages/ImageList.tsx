@@ -59,9 +59,11 @@ const ImageListPage = () => {
 
 const ImageAction = () => {
   return (
-    <UploadSingleImage loader={<LoadingButton />}>
-      <div className="btn-primary">Upload Image</div>
-    </UploadSingleImage>
+    <div>
+      <UploadSingleImage fieldName="image" loader={<LoadingButton />}>
+        <div className="btn-primary">Upload Image</div>
+      </UploadSingleImage>
+    </div>
   );
 };
 

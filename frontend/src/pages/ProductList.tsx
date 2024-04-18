@@ -1,90 +1,72 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import queryString from "query-string";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { columns } from "@/components/dataTable/product/columns";
+import Page from "@/components/layout/Page";
+import { Button } from "@/components/ui/button";
 import {
-  selectCategory,
-  selectFilteredBrands,
-  selectFilteredStatus,
   selectLimit,
+  selectOrderBy,
   selectPage,
   selectSearchTerm,
-  selectTags,
+  selectSortBy,
   setMeta,
 } from "@/redux/features/filter/filterSlice";
+
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import queryString from "query-string";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useGetAllProductQuery } from "@/redux/features/product/productApi";
-import { TProduct } from "@/types/product.type";
-import { Button } from "@/components/ui/button";
+import { ProductDataTable } from "@/components/dataTable/product/data-table";
 
-const ProductList = () => {
-  // Redux store
-  const searchTerm = useAppSelector(selectSearchTerm);
-  const filteredStatus = useAppSelector(selectFilteredStatus);
-  const filteredBrands = useAppSelector(selectFilteredBrands);
-  const filteredCategories = useAppSelector(selectCategory);
-  const filteredTags = useAppSelector(selectTags);
-  const page = useAppSelector(selectPage);
-  const limit = useAppSelector(selectLimit);
+const ProductListPage = () => {
+  // invoke hooks
 
-  // Local state
   const [skip, setSkip] = useState(true);
 
-  // Query parameter
+  const dispatch = useAppDispatch();
+  const page = useAppSelector(selectPage);
+  const limit = useAppSelector(selectLimit);
+  const sort = useAppSelector(selectSortBy) || "createdAt";
+  const order = useAppSelector(selectOrderBy);
+  const searchTerm = useAppSelector(selectSearchTerm);
+
+  // query parameter
   const query = queryString.stringify({
-    searchTerm,
-    status: filteredStatus?.map((filter) => filter.value),
-    brand: filteredBrands?.map((filter) => filter.value),
-    category: filteredCategories?.map((filter) => filter.value),
-    tags: filteredTags?.map((filter) => filter.value),
     page,
     limit,
+    sort: order === "asc" ? `${sort}` : `-${sort}`,
+    searchTerm,
   });
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const { data, isFetching } = useGetAllProductQuery(query, { skip });
 
-  // Fetch data
-  const { data, isLoading } = useGetAllProductQuery(query, { skip });
-
-  // Products
-  const products: TProduct[] = data?.data?.data || [];
-
-  // Update meta in store
   useEffect(() => {
-    if (data?.data?.meta) {
-      dispatch(setMeta(data?.data?.meta));
-    }
-  }, [data?.data?.meta, dispatch]);
+    setSkip(false);
+  }, [query]);
 
-  // Ensure data is fetched
   useEffect(() => {
-    if (skip) {
-      setSkip(false);
-    }
-  }, [query, skip]);
+    dispatch(setMeta(data?.meta));
+  }, [data?.meta, dispatch]);
+  const products = data?.data || [];
 
-  // Loading state
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  // Render
   return (
-    <div>
-      {/* Header */}
-      <div className="flex justify-between">
-        <h3 className="text-xl font-semibold">Products</h3>
-        <Button onClick={() => navigate("/products/new")} size={"sm"}>
-          Add product
-        </Button>
+    <Page title="Products" action={<ProductAction />}>
+      <div className=" mx-auto">
+        <ProductDataTable
+          columns={columns}
+          data={products}
+          isLoading={isFetching}
+        />
       </div>
-
-      {/* Product list */}
-      <div className="  mx-auto py-10">
-        {/* <ProductDataTable columns={columns} data={products} /> */}
-      </div>
-    </div>
+    </Page>
   );
 };
 
-export default ProductList;
+const ProductAction = () => {
+  return (
+    <Link to="/products/new">
+      <Button size={"sm"}>Add product</Button>;
+    </Link>
+  );
+};
+
+export default ProductListPage;

@@ -59,12 +59,12 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
   };
   const collectionActions = [
     {
-      title: "Edit Product",
+      title: "Edit collection",
       icon: <BiEdit className="mr-2 h-4 w-4" />,
       fn: onUpdate,
     },
     {
-      title: "Delete Product",
+      title: "Delete collection",
       icon: <IoTrashOutline className="mr-2 h-4 w-4" />,
       fn: onDelete,
       className: "text-red-500",

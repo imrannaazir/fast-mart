@@ -37,7 +37,7 @@ const ImageDataTableToolbar: FC<TImageDataTableToolbar> = ({
   const debouncedSearchTerm = debounce(onSetSearchTerm, 1000);
 
   return (
-    <div className="flex items-center justify-between border p-2 rounded-md">
+    <div className="flex items-center justify-between border p-2 rounded-md bg-background/50">
       <div className="flex flex-1 items-center space-x-2">
         <div className="space-y-2 w-full">
           {/* filters */}

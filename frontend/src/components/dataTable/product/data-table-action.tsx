@@ -1,137 +1,97 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import SellProductForm from "@/components/forms/sellTheProductForm";
-import AlertModal from "@/components/modal/alert-modal";
+import { BiEdit } from "react-icons/bi";
+import { IoTrashOutline } from "react-icons/io5";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Modal from "@/components/ui/modal";
-import { addToCart, selectCartItems } from "@/redux/features/cart/cartSlice";
-import {
-  onClose,
-  onOpen,
-  selectCollectionName,
-  selectIsOpen,
-} from "@/redux/features/modal/modalSlice";
-import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { TProduct } from "@/types/product.type";
+import { FaEllipsis } from "react-icons/fa6";
 import { Row } from "@tanstack/react-table";
-import {
-  DollarSign,
-  FilePen,
-  MoreHorizontal,
-  ShoppingCart,
-  Trash2,
-} from "lucide-react";
-import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/redux/hooks";
+import {
+  setIsLoading,
+  setIsOpen,
+  setOnConfirm,
+} from "@/redux/features/modal/alertModal.slice";
 import { toast } from "sonner";
+import { TProduct } from "@/types/product.type";
+import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
 
-type DataTableAction = {
-  row: Row<TProduct>;
-};
-
-function DataTableAction({ row }: DataTableAction) {
-  // local state
-  const [isOpen, setIsOpen] = useState(false);
-  const isModalOpen = useAppSelector(selectIsOpen);
-  const selectedProduct = useAppSelector(selectCollectionName) as TProduct;
-  const cartItems = useAppSelector(selectCartItems);
-
-  // invoked hooks
-  const navigate = useNavigate();
+const CategoryDataTableAction = ({ row }: { row: Row<TProduct> }) => {
+  const [deleteSingleProduct] = useDeleteProductByIdMutation();
+  const productId = row.original._id;
   const dispatch = useAppDispatch();
-  // rtk query api hook
-  const [deleteProductById, { isLoading }] = useDeleteProductByIdMutation();
+  const navigate = useNavigate();
 
-  const product = row.original;
-
-  const onDelete = async () => {
+  // on confirm
+  const onConfirm = async () => {
+    dispatch(setIsLoading(true));
     try {
-      const response: any = await deleteProductById(product._id);
-      if (response?.data?.success) {
-        setIsOpen(false);
-        toast.success("Product deleted successfully.", { duration: 2000 });
+      const res = await deleteSingleProduct(productId).unwrap();
+      if (res.success) {
+        toast.success("Deleted successfully.", { duration: 2000 });
+        dispatch(setIsOpen(false));
+        dispatch(setIsLoading(false));
       }
     } catch (error) {
-      toast.error("Failed to delete the product.", { duration: 2000 });
+      toast.error(`Failed to delete.`, { duration: 2000 });
+
+      dispatch(setIsOpen(false));
+      dispatch(setIsLoading(false));
     }
   };
-
-  // check isAlreadyAddedToCart
-  const isAlreadyAddedToCart = cartItems.find(
-    (item) => item._id === product._id
-  );
-
-  const onAddToCart = () => {
-    dispatch(
-      addToCart({ _id: product._id, price: product.price, quantity: 1 })
-    );
-    toast.success("Added to the cart.", { duration: 2000 });
+  // on update
+  const onUpdate = () => {
+    navigate(`/products/${productId}`);
   };
 
+  // on delete
+  const onDelete = () => {
+    dispatch(setOnConfirm(onConfirm));
+    dispatch(setIsOpen(true));
+  };
+  const collectionActions = [
+    {
+      title: "Edit Product",
+      icon: <BiEdit className="mr-2 h-4 w-4" />,
+      fn: onUpdate,
+    },
+    {
+      title: "Delete Product",
+      icon: <IoTrashOutline className="mr-2 h-4 w-4" />,
+      fn: onDelete,
+      className: "text-red-500",
+    },
+  ];
   return (
-    <>
-      <Modal
-        title={`Fill the form to sell this product.`}
-        description={`Product : ${selectedProduct.name}`}
-        isOpen={isModalOpen}
-        onClose={() => dispatch(onClose())}
-      >
-        <SellProductForm productQuantity={selectedProduct.quantity} />
-      </Modal>
-      <AlertModal
-        isLoading={isLoading}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        onConfirm={onDelete}
-      />
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem
-            disabled={
-              (isAlreadyAddedToCart && isAlreadyAddedToCart?.quantity > 0) ||
-              product.quantity < 1
-            }
-            onClick={onAddToCart}
-            className="flex items-center gap-2"
-          >
-            <ShoppingCart size={14} /> Cart
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            disabled={product.quantity < 1}
-            onClick={() => dispatch(onOpen(product))}
-            className="flex items-center gap-2"
-          >
-            <DollarSign size={14} /> Sell
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => setIsOpen(true)}
-            className="flex items-center gap-2"
-          >
-            <Trash2 size={14} /> Delete
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={() => navigate(`/products/update/${product._id}`)}
-            className="flex items-center gap-2"
-          >
-            <FilePen size={14} /> Edit
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" className="relative" size={"icon"}>
+          <FaEllipsis />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-[200px] absolute -right-5">
+        <DropdownMenuGroup>
+          {collectionActions.map((action, i) => (
+            <DropdownMenuItem
+              key={i}
+              onClick={action.fn}
+              className={cn(action.className)}
+            >
+              {action.icon}
+              <span>{action.title}</span>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
-}
+};
 
-export default DataTableAction;
+export default CategoryDataTableAction;

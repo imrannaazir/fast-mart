@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateBrandMutation } from "@/redux/features/brand/brandApi";
 import UploadSingleImage from "@/components/ui/image-upload";
+import PageSection from "@/components/ui/page-section";
 
 const AddBrandPage = () => {
   const navigate = useNavigate();
@@ -55,86 +56,92 @@ const AddBrandPage = () => {
           {/* form content */}
           <div className="flex gap-4">
             <div className="w-[66%]">
-              {/* name */}
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. Fresh" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* slogan */}
-              <FormField
-                control={form.control}
-                name="slogan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Slogan</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g. Let's make it healthy"
+              <PageSection>
+                {/* name */}
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. Fresh" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* slogan */}
+                <FormField
+                  control={form.control}
+                  name="slogan"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Slogan</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Let's make it healthy"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* description */}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <ReactQuill
+                        style={{ height: "200px", marginBottom: "50px" }}
+                        formats={formats}
+                        modules={modules}
                         {...field}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* description */}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <ReactQuill
-                      style={{ height: "200px", marginBottom: "50px" }}
-                      formats={formats}
-                      modules={modules}
-                      {...field}
-                    />
-                  </FormItem>
-                )}
-              />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
             </div>
             {/* right side */}
-            <div className=" flex-grow  ">
-              {/* logo */}
-              <FormField
-                control={form.control}
-                name="logo"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Logo</FormLabel>
-                    <UploadSingleImage
-                      setValue={form.setValue}
-                      className="w-[200px]"
-                      fieldName="logo"
-                    />
-                  </FormItem>
-                )}
-              />
-              {/* Cover image*/}
-              <FormField
-                control={form.control}
-                name="cover_photo"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Cover image</FormLabel>
-                    <UploadSingleImage
-                      setValue={form.setValue}
-                      fieldName="cover_image"
-                    />
-                  </FormItem>
-                )}
-              />
+            <div className=" flex-grow  space-y-6">
+              <PageSection>
+                {/* logo */}
+                <FormField
+                  control={form.control}
+                  name="logo"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Logo</FormLabel>
+                      <UploadSingleImage
+                        setValue={form.setValue}
+                        className="w-[200px]"
+                        fieldName="logo"
+                      />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
+              <PageSection>
+                {/* Cover image*/}
+                <FormField
+                  control={form.control}
+                  name="cover_photo"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Cover image</FormLabel>
+                      <UploadSingleImage
+                        setValue={form.setValue}
+                        fieldName="cover_image"
+                      />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
             </div>
           </div>
         </Page>

@@ -1,59 +1,56 @@
-/* export type TCollection1 = {
-  _id: string;
+import { ProductStatus, ProductUnit } from "@/constant/product.constant";
+import { TBrand, TCategory, TCollection, TImage } from "./contents.type";
+export type TProductStatus = (typeof ProductStatus)[number];
+export type TProductUnit = (typeof ProductUnit)[number];
+export type TTag = {
+  _id?: string;
   name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
-export type TFeature = Record<string, string>;
-export type TStatus = "in-stock" | "out-of-stock";
+
+export type TProductVariant = {
+  _id: string;
+  variantId: TVariant;
+  options: TOption[];
+  __v: number;
+};
+
+export type TVariant = {
+  _id: string;
+  variant_name: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+export type TOption = {
+  _id: string;
+  option_name: string;
+  variantId: string;
+  __v: number;
+};
+
 export type TProduct = {
-  _id: string;
-  name: string;
-  description?: string;
-  brand: TCollection;
-  category: TCollection;
+  _id?: string;
 
+  title: string;
   price: number;
-  quantity: number;
-  weight?: number;
-  unit?: string;
 
-  compatibility?: string;
-  dimensions?: string;
-  operatingSystem?: TCollection;
-  powerSource?: TCollection;
-  connectivity?: TCollection;
-
-  features?: TFeature[];
-  tags?: [TCollection];
-
-  image?: string;
-  status: TStatus;
-  model?: string;
-  createdBy?: TCollection;
-};
-
-export type TProductDefaultValue = {
-  name?: string;
+  compare_price?: number;
   description?: string;
-  brand?: string;
-  tags?: [];
-  category?: string;
-  connectivity?: string;
-  dimensions?: string;
-  operatingSystem?: string;
-  powerSource?: string;
-  price?: string;
-  quantity?: string;
-  unit?: string;
-  weight?: string;
-  features?: object;
-  featureName?: string;
-};
-export type TAllKeyOfProduct = keyof TProductDefaultValue;
+  status: TProductStatus;
+  quantity?: number;
+  weight?: number;
+  unit: TProductUnit;
 
-export type TAllValueOfProduct =
-  | string
-  | number
-  | string[]
-  | Record<string, string>
-  | undefined;
- */
+  media?: TImage[];
+  variants?: TProductVariant[];
+  categories?: TCategory[];
+  collections?: TCollection[];
+  brand?: TBrand;
+  tags?: TTag[];
+  createdBy?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+};

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useUploadSingleImageMutation } from "@/redux/features/image/image.api";
-import { FC, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "./button";
 import { LucideImagePlus, Trash } from "lucide-react";
@@ -10,17 +10,20 @@ import { ClassValue } from "clsx";
 
 type TUploadSingleImageProps = {
   isDisable?: boolean;
-  fieldName: string;
+  fieldName?: string;
   className?: ClassValue;
+  children?: ReactNode;
+  loader?: ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setValue: UseFormSetValue<any>;
+  setValue?: UseFormSetValue<any>;
 };
 
 const UploadSingleImage: FC<TUploadSingleImageProps> = ({
   fieldName,
   setValue,
   className,
-  isDisable = false,
+  children,
+  loader,
 }) => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -30,6 +33,7 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
   const [imageUrl, setImageUrl] = useState("");
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [uploadSingleImage] = useUploadSingleImageMutation();
+  console.log({ children });
 
   useEffect(() => {
     (async () => {
@@ -60,7 +64,9 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
 
             if (res.success) {
               toast.success("Image uploaded.", { duration: 2000 });
-              setValue(fieldName, res.data._id);
+              if (setValue && fieldName) {
+                setValue(fieldName, res.data._id);
+              }
               setImageUrl(res.data.url);
             }
 
@@ -76,11 +82,38 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
       }
     })();
   }, [UploadPreset, cloudName, fieldName, image, setValue, uploadSingleImage]);
+
+  let UploadingButton: ReactNode = null;
+
+  if (children) {
+    if (loader && isImageUploading) {
+      UploadingButton = loader;
+    } else {
+      UploadingButton = children;
+    }
+  } else if (!children && !loader) {
+    UploadingButton = (
+      <div
+        className={cn(
+          "mt-2 border-2 border-dashed h-[200px] rounded-md flex items-center justify-center"
+        )}
+      >
+        {isImageUploading ? (
+          <AiOutlineLoading3Quarters className="w-6 h-6 animate-spin duration-500" />
+        ) : imageUrl ? (
+          <img className="max-h-[180px]" src={imageUrl} />
+        ) : (
+          <LucideImagePlus className="w-10 h-10 text-gray-500" />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className={cn("relative  w-full", className)}>
       <input
         id={fieldName}
-        disabled={isImageUploading || isDisable}
+        disabled={isImageUploading}
         type="file"
         className="hidden"
         onChange={(e) => {
@@ -92,31 +125,24 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
         accept="image/*"
       />
       <label htmlFor={fieldName} className="cursor-pointer">
-        <div
-          className={cn(
-            "mt-2 border-2 border-dashed h-[200px] rounded-md flex items-center justify-center"
-          )}
-        >
-          {isImageUploading ? (
-            <AiOutlineLoading3Quarters className="w-6 h-6 animate-spin duration-500" />
-          ) : imageUrl ? (
-            <img className="max-h-[180px]" src={imageUrl} />
-          ) : (
-            <LucideImagePlus className="w-10 h-10 text-gray-500" />
-          )}
-        </div>
+        {UploadingButton}
       </label>
 
       <Button
         type="reset"
         onClick={() => {
-          setValue("image", "");
+          if (setValue && fieldName) {
+            setValue(fieldName, "");
+          }
           setImageUrl("");
           // setImage(null);
         }}
         variant={"destructive"}
         size={"icon"}
-        className={cn(!imageUrl ? "hidden" : "absolute left-2 top-2")}
+        className={cn(
+          !imageUrl ? "hidden" : "absolute left-2 top-2",
+          !setValue && "hidden"
+        )}
       >
         <Trash className="w-4 h-4" />
       </Button>

@@ -23,10 +23,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ImagePicker from "@/components/contents/ImagePicker";
 import SelectOrCreate from "@/components/forms/SelectOrCreate";
 import { TCreateCollection } from "@/types/rtkQuery.type";
 import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi";
+import UploadSingleImage from "@/components/ui/image-upload";
+import PageSection from "@/components/ui/page-section";
 
 const AddCollectionPage = () => {
   const navigate = useNavigate();
@@ -70,73 +71,80 @@ const AddCollectionPage = () => {
         <Page title="Create Category" action={<Action />}>
           {/* form content */}
           <div className="flex gap-4">
-            <div className="w-[66%]">
-              {/* title */}
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g. Packaged, Fresh Fruits"
+            <div className="w-[66%] ">
+              <PageSection>
+                {/* title */}
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Packaged, Fresh Fruits"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* collection */}
+                <FormField
+                  control={form.control}
+                  name="collection"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col  mt-2">
+                      <FormLabel>Collection</FormLabel>
+                      <SelectOrCreate
+                        field={field}
+                        form={form}
+                        collections={collections}
+                        collectionName="collection"
+                        createCollection={createCollection as TCreateCollection}
+                      />
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* description */}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <ReactQuill
+                        style={{ height: "200px", marginBottom: "50px" }}
+                        formats={formats}
+                        modules={modules}
                         {...field}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* collection */}
-              <FormField
-                control={form.control}
-                name="collection"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col  mt-2">
-                    <FormLabel>Collection</FormLabel>
-                    <SelectOrCreate
-                      field={field}
-                      form={form}
-                      collections={collections}
-                      collectionName="collection"
-                      createCollection={createCollection as TCreateCollection}
-                    />
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* description */}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <ReactQuill
-                      style={{ height: "200px", marginBottom: "50px" }}
-                      formats={formats}
-                      modules={modules}
-                      {...field}
-                    />
-                  </FormItem>
-                )}
-              />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>{" "}
             </div>
             {/* right side */}
             <div className=" flex-grow  ">
-              <FormField
-                control={form.control}
-                name="image"
-                render={() => (
-                  <FormItem className="relative">
-                    <FormLabel>Image</FormLabel>
-                    <ImagePicker setValue={form.setValue} fieldName="image" />
-                  </FormItem>
-                )}
-              />
+              <PageSection>
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={() => (
+                    <FormItem className="relative">
+                      <FormLabel>Image</FormLabel>
+                      <UploadSingleImage
+                        fieldName="image"
+                        setValue={form.setValue}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
             </div>
           </div>
         </Page>

@@ -5,7 +5,7 @@ export const productApi = baseApi.injectEndpoints({
     // create new product
     createProduct: builder.mutation({
       query: (data) => ({
-        url: "/product",
+        url: "/products",
         method: "POST",
         body: data,
       }),
@@ -15,7 +15,7 @@ export const productApi = baseApi.injectEndpoints({
     // get all product
     getAllProduct: builder.query({
       query: (query) => ({
-        url: `/product?${query}`,
+        url: `/products?${query}`,
         method: "GET",
       }),
       providesTags: ["Products"],
@@ -24,7 +24,7 @@ export const productApi = baseApi.injectEndpoints({
     // delete product by Id
     deleteProductById: builder.mutation({
       query: (productId) => ({
-        url: `/product/${productId}`,
+        url: `/products/${productId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Products", "Product"],
@@ -33,7 +33,7 @@ export const productApi = baseApi.injectEndpoints({
     // get product by Id
     getProductById: builder.query({
       query: (productId) => ({
-        url: `/product/${productId}`,
+        url: `/products/${productId}`,
         method: "GET",
       }),
       providesTags: ["Product"],
@@ -42,7 +42,7 @@ export const productApi = baseApi.injectEndpoints({
     // update product
     updateProduct: builder.mutation({
       query: ({ productId, data }) => ({
-        url: `/product/${productId}`,
+        url: `/products/${productId}`,
         method: "PATCH",
         body: data,
       }),
@@ -51,7 +51,7 @@ export const productApi = baseApi.injectEndpoints({
     // get highest price
     getHighestProductPrice: builder.query({
       query: () => ({
-        url: "/product/highest-price",
+        url: "/products/highest-price",
         method: "GET",
       }),
     }),
@@ -59,7 +59,7 @@ export const productApi = baseApi.injectEndpoints({
     // delete bulk product
     deleteBulkProducts: builder.mutation({
       query: (data) => ({
-        url: "/product/bulk-delete",
+        url: "/products/bulk-delete",
         method: "DELETE",
         body: data,
       }),

@@ -21,7 +21,8 @@ import { useNavigate } from "react-router-dom";
 import IconPicker from "@/components/contents/IconPicker";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ImagePicker from "@/components/contents/ImagePicker";
+import UploadSingleImage from "@/components/ui/image-upload";
+import PageSection from "@/components/ui/page-section";
 
 const AddCollectionPage = () => {
   const navigate = useNavigate();
@@ -57,61 +58,71 @@ const AddCollectionPage = () => {
           {/* form content */}
           <div className="flex gap-4">
             <div className="w-[66%]">
-              {/* title */}
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. Fruits, Vegetables" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* description */}
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <ReactQuill
-                      style={{ height: "200px", marginBottom: "50px" }}
-                      formats={formats}
-                      modules={modules}
-                      {...field}
-                    />
-                  </FormItem>
-                )}
-              />
+              <PageSection>
+                {/* title */}
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Fruits, Vegetables"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* description */}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <ReactQuill
+                        style={{ height: "200px", marginBottom: "50px" }}
+                        formats={formats}
+                        modules={modules}
+                        {...field}
+                      />
+                    </FormItem>
+                  )}
+                />
 
-              {/* icon */}
-              <FormField
-                control={form.control}
-                name="icon"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Icon</FormLabel>
-                    <IconPicker setValue={form.setValue} />
-                  </FormItem>
-                )}
-              />
+                {/* icon */}
+                <FormField
+                  control={form.control}
+                  name="icon"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Icon</FormLabel>
+                      <IconPicker setValue={form.setValue} />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>{" "}
             </div>
             {/* right side */}
             <div className=" flex-grow  ">
-              <FormField
-                control={form.control}
-                name="image"
-                render={() => (
-                  <FormItem className="relative">
-                    <FormLabel>Image</FormLabel>
-                    <ImagePicker setValue={form.setValue} />
-                  </FormItem>
-                )}
-              />
+              <PageSection>
+                <FormField
+                  control={form.control}
+                  name="image"
+                  render={() => (
+                    <FormItem className="relative">
+                      <FormLabel>Image</FormLabel>
+                      <UploadSingleImage
+                        fieldName="image"
+                        setValue={form.setValue}
+                      />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
             </div>
           </div>
         </Page>
