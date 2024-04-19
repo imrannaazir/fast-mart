@@ -23,6 +23,16 @@ import {
   createProductValidationSchema,
 } from "@/schemas/product.schema";
 import TextEditor from "@/components/ui/text-editor";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
+import { ProductStatus, ProductUnit } from "@/constant/product.constant";
+import AddVariant from "@/components/forms/AddVariant";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
@@ -48,7 +58,6 @@ const AddProductPage = () => {
       toast.error("Failed to create.", { id: toastId });
     }
   };
-  console.log(form.watch("media"));
 
   return (
     <Form {...form}>
@@ -57,7 +66,8 @@ const AddProductPage = () => {
           {/* form content */}
           <div className="flex gap-4">
             <div className="w-[66%] space-y-6">
-              <PageSection>
+              {/* basic info */}
+              <PageSection className="space-y-4">
                 {/* title */}
                 <FormField
                   control={form.control}
@@ -90,6 +100,8 @@ const AddProductPage = () => {
                   )}
                 />
               </PageSection>
+
+              {/* media */}
               <PageSection>
                 <FormField
                   control={form.control}
@@ -107,22 +119,148 @@ const AddProductPage = () => {
                   )}
                 />
               </PageSection>
+
+              {/* Pricing */}
+              <PageSection>
+                <Label>Pricing</Label>
+                <div className="flex space-x-4 mt-2">
+                  <FormField
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-[400]">Price</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="0.00" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="compare_price"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-[400]">
+                          Compare price
+                        </FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="0.00" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </PageSection>
+
+              {/* Inventory */}
+              <PageSection>
+                <Label>Inventory</Label>
+                <FormField
+                  control={form.control}
+                  name="quantity"
+                  render={({ field }) => (
+                    <FormItem className="w-[200px]">
+                      <FormLabel className="font-[200]">Quantity</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="0" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
+
+              {/* Shipping */}
+              <PageSection>
+                <Label>Shipping</Label>
+                <div className="flex space-x-4">
+                  <FormField
+                    control={form.control}
+                    name="weight"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-[200]">Weight</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="0.0" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="unit"
+                    render={({ field }) => (
+                      <FormItem className="w-[200px]">
+                        <FormLabel className="font-[200]">Unit</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select unit" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {ProductUnit.map((item) => (
+                              <SelectItem value={item}>{item}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </PageSection>
+
+              {/* Variants */}
+              <PageSection>
+                <Label>Variants</Label>
+
+                <FormField
+                  control={form.control}
+                  name="variants"
+                  render={() => (
+                    <FormItem>
+                      <AddVariant form={form} />
+                    </FormItem>
+                  )}
+                />
+              </PageSection>
             </div>
             {/* right side */}
             <div className=" flex-grow  ">
+              {/* status */}
               <PageSection>
                 <FormField
                   control={form.control}
-                  name="media"
+                  name="status"
                   render={({ field }) => (
-                    <FormItem className="relative">
-                      <FormLabel>Media </FormLabel>
-                      <UploadSingleImage
-                        type="multi"
-                        fieldName="media"
-                        setValue={form.setValue}
-                        fieldValue={field.value || []}
-                      />
+                    <FormItem>
+                      <FormLabel>Status</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a status" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {ProductStatus.map((item) => (
+                            <SelectItem value={item}>{item}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      <FormMessage />
                     </FormItem>
                   )}
                 />

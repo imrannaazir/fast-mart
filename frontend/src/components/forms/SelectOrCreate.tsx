@@ -24,9 +24,9 @@ import Icon from "../ui/lucide-icon";
 type TSelectOrCreateProps = {
   collections: { name: string; _id: string; iconName?: any }[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  field: any;
+  field?: any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: any;
+  form?: any;
   collectionName: string;
   className?: ClassValue;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types

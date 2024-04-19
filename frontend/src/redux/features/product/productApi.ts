@@ -1,4 +1,6 @@
+import { TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
+import { TOption, TVariant } from "@/types/product.type";
 
 export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -65,6 +67,28 @@ export const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Product", "Products"],
     }),
+
+    // get all variants
+    getAllVariants: builder.query({
+      query: () => ({
+        url: "/variants",
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TVariant[]>) => ({
+        data: response.data,
+      }),
+    }),
+
+    // get all options
+    getAllOptions: builder.query({
+      query: (variantId) => ({
+        url: `/options?variantId=${variantId}`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TOption[]>) => ({
+        data: response.data,
+      }),
+    }),
   }),
 });
 
@@ -76,4 +100,6 @@ export const {
   useUpdateProductMutation,
   useGetHighestProductPriceQuery,
   useDeleteBulkProductsMutation,
+  useGetAllVariantsQuery,
+  useGetAllOptionsQuery,
 } = productApi;

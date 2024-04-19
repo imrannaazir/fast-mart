@@ -19,16 +19,16 @@ export type TProductVariant = {
 export type TVariant = {
   _id: string;
   variant_name: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
 };
 
 export type TOption = {
   _id: string;
   option_name: string;
-  variantId: string;
-  __v: number;
+  variantId?: string;
+  __v?: number;
 };
 
 export type TProduct = {

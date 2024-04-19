@@ -16,7 +16,7 @@ import { UseFormSetValue } from "react-hook-form";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { ClassValue } from "clsx";
 
-type TUploadSingleImageProps = {
+type TUploadImageProps = {
   isDisable?: boolean;
   fieldName: string;
   className?: ClassValue;
@@ -30,7 +30,7 @@ type TUploadSingleImageProps = {
 
 type TImageUrl = { _id: string; url: string };
 
-const UploadSingleImage: FC<TUploadSingleImageProps> = ({
+const UploadImage: FC<TUploadImageProps> = ({
   fieldName,
   setValue,
   className,
@@ -48,7 +48,7 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
     type === "multi" ? [] : ""
   );
   const [isImageUploading, setIsImageUploading] = useState(false);
-  const [uploadSingleImage] = useUploadSingleImageMutation();
+  const [UploadImage] = useUploadSingleImageMutation();
 
   // handle remove image
   const handleRemoveImage = (_id: string) => {
@@ -63,6 +63,7 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
       setValue(fieldName, filteredFieldValue);
     }
   };
+  console.log({ imageUrl });
 
   useEffect(() => {
     (async () => {
@@ -84,7 +85,7 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
           );
           const data = await response.json();
           if (data.secure_url) {
-            const res = await uploadSingleImage({
+            const res = await UploadImage({
               file_name: data.original_filename,
               size: data.bytes / 1000,
               url: data.secure_url,
@@ -104,14 +105,11 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
                   ...imageUrl,
                   { _id: res.data._id as string, url: res.data.url as string },
                 ]);
-              } else if (
-                setValue &&
-                fieldName &&
-                type === "single" &&
-                typeof fieldValue === "string"
-              ) {
-                setValue(fieldName, res.data._id);
+              } else {
                 setImageUrl(res.data.url);
+                if (setValue) {
+                  setValue(fieldName, res.data._id);
+                }
               }
             }
 
@@ -135,7 +133,7 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
     imageUrl,
     setValue,
     type,
-    uploadSingleImage,
+    UploadImage,
   ]);
 
   let UploadingButton: ReactNode = null;
@@ -203,26 +201,23 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
     ) : (
       uploadArea
     );
-  } else if (
-    !children &&
-    !loader &&
-    type === "single" &&
-    typeof imageUrl === "string"
-  ) {
+  } else {
     UploadingButton = (
-      <div
-        className={cn(
-          "mt-2 border-2 border-dashed h-[200px] rounded-md flex items-center justify-center"
-        )}
-      >
-        {isImageUploading ? (
-          <AiOutlineLoading3Quarters className="w-6 h-6 animate-spin duration-500" />
-        ) : imageUrl ? (
-          <img className="max-h-[180px]" src={imageUrl} />
-        ) : (
-          <LucideImagePlus className="w-10 h-10 text-gray-500" />
-        )}
-      </div>
+      <label htmlFor={fieldName} className="cursor-pointer">
+        <div
+          className={cn(
+            "mt-2 border-2 border-dashed h-[200px] rounded-md flex items-center justify-center"
+          )}
+        >
+          {isImageUploading ? (
+            <AiOutlineLoading3Quarters className="w-6 h-6 animate-spin duration-500" />
+          ) : imageUrl ? (
+            <img className="max-h-[180px]" src={imageUrl as string} />
+          ) : (
+            <LucideImagePlus className="w-10 h-10 text-gray-500" />
+          )}
+        </div>
+      </label>
     );
   }
 
@@ -266,4 +261,4 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
     </div>
   );
 };
-export default UploadSingleImage;
+export default UploadImage;
