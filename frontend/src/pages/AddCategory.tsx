@@ -11,9 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { formats, modules } from "@/constant/constant";
 import { createCategoryValidationSchema } from "@/schemas/contents.schemas";
-import ReactQuill from "react-quill";
 import { z } from "zod";
 import { toast } from "sonner";
 import {
@@ -28,6 +26,7 @@ import { TCreateCollection } from "@/types/rtkQuery.type";
 import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
+import TextEditor from "@/components/ui/text-editor";
 
 const AddCollectionPage = () => {
   const navigate = useNavigate();
@@ -117,11 +116,9 @@ const AddCollectionPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Description</FormLabel>
-                      <ReactQuill
-                        style={{ height: "200px", marginBottom: "50px" }}
-                        formats={formats}
-                        modules={modules}
-                        {...field}
+                      <TextEditor
+                        setValue={form.setValue}
+                        value={field.value || ""}
                       />
                     </FormItem>
                   )}
@@ -138,6 +135,7 @@ const AddCollectionPage = () => {
                     <FormItem className="relative">
                       <FormLabel>Image</FormLabel>
                       <UploadSingleImage
+                        fieldValue={""}
                         fieldName="image"
                         setValue={form.setValue}
                       />

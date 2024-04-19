@@ -3,7 +3,7 @@ import HomePage from "@/pages/Home";
 import OrderList from "@/pages/OrderList";
 import ProductDetails from "@/pages/ProductDetails";
 import ProductList from "@/pages/ProductList";
-import UpdateProduct from "@/pages/UpdateProduct";
+// import UpdateProduct from "@/pages/UpdateProduct";
 import { BarChart2, Home, Images, ShoppingBag, User } from "lucide-react";
 import { IoMdPricetag } from "react-icons/io";
 import AddOrderPage from "@/pages/AddOrderPage";
@@ -20,7 +20,6 @@ import CategoryListPage from "@/pages/CategoryList";
 import BrandListPage from "@/pages/BrandList";
 import AddBrandsPage from "@/pages/AddBrand";
 import AddVariantPage from "@/pages/AddVariant";
-import VariantListPage from "@/pages/VariantList";
 
 const paths: TPath[] = [
   {
@@ -66,10 +65,10 @@ const paths: TPath[] = [
         label: "List",
         element: <ProductList />,
       },
-      {
+      /* {
         path: "update/:id",
         element: <UpdateProduct />,
-      },
+      }, */
       {
         path: ":id",
         element: <ProductDetails />,

@@ -15,6 +15,7 @@ const Page: FC<TPageProps> = ({ action, children, title }) => {
       <div className="flex justify-between">
         <h3 className="text-xl font-bold flex items-center gap-2">
           <button
+            type="reset"
             onClick={() => navigate(-1)}
             className="hover:bg-muted p-1 rounded-md"
           >

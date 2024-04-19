@@ -1,6 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { useUploadSingleImageMutation } from "@/redux/features/image/image.api";
-import { FC, ReactNode, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { toast } from "sonner";
 import { Button } from "./button";
 import { LucideImagePlus, Trash } from "lucide-react";
@@ -10,13 +18,17 @@ import { ClassValue } from "clsx";
 
 type TUploadSingleImageProps = {
   isDisable?: boolean;
-  fieldName?: string;
+  fieldName: string;
   className?: ClassValue;
   children?: ReactNode;
   loader?: ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValue?: UseFormSetValue<any>;
+  fieldValue: string | string[];
+  type?: "single" | "multi";
 };
+
+type TImageUrl = { _id: string; url: string };
 
 const UploadSingleImage: FC<TUploadSingleImageProps> = ({
   fieldName,
@@ -24,16 +36,33 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
   className,
   children,
   loader,
+  fieldValue,
+  type,
 }) => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const UploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   // local state
   const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string | TImageUrl[]>(
+    type === "multi" ? [] : ""
+  );
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [uploadSingleImage] = useUploadSingleImageMutation();
-  console.log({ children });
+
+  // handle remove image
+  const handleRemoveImage = (_id: string) => {
+    const filteredImageUrls = (imageUrl as TImageUrl[]).filter(
+      (imageUrl) => imageUrl._id !== _id
+    );
+    const filteredFieldValue = (fieldValue as string[]).filter(
+      (value) => value !== _id
+    );
+    setImageUrl(filteredImageUrls);
+    if (setValue) {
+      setValue(fieldName, filteredFieldValue);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -64,10 +93,26 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
 
             if (res.success) {
               toast.success("Image uploaded.", { duration: 2000 });
-              if (setValue && fieldName) {
+              if (
+                setValue &&
+                fieldName &&
+                type === "multi" &&
+                typeof fieldValue === "object"
+              ) {
+                setValue(fieldName, [...fieldValue, res.data._id]);
+                (setImageUrl as Dispatch<SetStateAction<any>>)([
+                  ...imageUrl,
+                  { _id: res.data._id as string, url: res.data.url as string },
+                ]);
+              } else if (
+                setValue &&
+                fieldName &&
+                type === "single" &&
+                typeof fieldValue === "string"
+              ) {
                 setValue(fieldName, res.data._id);
+                setImageUrl(res.data.url);
               }
-              setImageUrl(res.data.url);
             }
 
             setImage(null);
@@ -81,7 +126,17 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
         }
       }
     })();
-  }, [UploadPreset, cloudName, fieldName, image, setValue, uploadSingleImage]);
+  }, [
+    UploadPreset,
+    cloudName,
+    fieldName,
+    fieldValue,
+    image,
+    imageUrl,
+    setValue,
+    type,
+    uploadSingleImage,
+  ]);
 
   let UploadingButton: ReactNode = null;
 
@@ -91,7 +146,69 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
     } else {
       UploadingButton = children;
     }
-  } else if (!children && !loader) {
+  } else if (
+    !children &&
+    !loader &&
+    type === "multi" &&
+    typeof imageUrl !== "string"
+  ) {
+    const uploadArea = (
+      <label htmlFor={fieldName} className="cursor-pointer">
+        <div
+          className={cn(
+            " border-2 border-dashed h-[200px] rounded-md flex items-center justify-center"
+          )}
+        >
+          {isImageUploading ? (
+            <AiOutlineLoading3Quarters className="w-6 h-6 animate-spin duration-500" />
+          ) : (
+            <LucideImagePlus className="w-10 h-10 text-gray-500" />
+          )}
+        </div>
+      </label>
+    );
+    UploadingButton = imageUrl.length ? (
+      <div
+        className={cn(
+          "grid  gap-2 items-center",
+          imageUrl.length > 1 ? "grid-cols-4" : "grid-cols-2"
+        )}
+      >
+        {imageUrl.map((img, i) => (
+          <div
+            key={img._id}
+            className={cn(
+              "h-[200px] border rounded-md p-4 flex items-center justify-center relative",
+              imageUrl.length > 1 &&
+                i === 0 &&
+                "col-span-2 row-span-2 h-[400px] "
+            )}
+          >
+            <img src={img.url} />
+
+            <Button
+              type="reset"
+              onClick={() => handleRemoveImage(img._id)}
+              size={"icon"}
+              variant={"destructive"}
+              className="absolute right-2 top-2"
+            >
+              <Trash className="w-4 h-4" />
+            </Button>
+          </div>
+        ))}
+
+        {uploadArea}
+      </div>
+    ) : (
+      uploadArea
+    );
+  } else if (
+    !children &&
+    !loader &&
+    type === "single" &&
+    typeof imageUrl === "string"
+  ) {
     UploadingButton = (
       <div
         className={cn(
@@ -124,9 +241,8 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
         }}
         accept="image/*"
       />
-      <label htmlFor={fieldName} className="cursor-pointer">
-        {UploadingButton}
-      </label>
+
+      {UploadingButton}
 
       <Button
         type="reset"
@@ -141,7 +257,8 @@ const UploadSingleImage: FC<TUploadSingleImageProps> = ({
         size={"icon"}
         className={cn(
           !imageUrl ? "hidden" : "absolute left-2 top-2",
-          !setValue && "hidden"
+          !setValue && "hidden",
+          type === "multi" && "hidden"
         )}
       >
         <Trash className="w-4 h-4" />

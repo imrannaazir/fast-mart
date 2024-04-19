@@ -23,7 +23,7 @@ const routerModules: TRouteModule[] = [
     route: AuthRoutes,
   },
   {
-    path: '/product',
+    path: '/products',
     route: ProductRoutes,
   },
   {
@@ -40,11 +40,11 @@ const routerModules: TRouteModule[] = [
   },
 
   {
-    path: '/tag',
+    path: '/tags',
     route: TagRoutes,
   },
   {
-    path: '/order',
+    path: '/orders',
     route: OrderRoute,
   },
   {

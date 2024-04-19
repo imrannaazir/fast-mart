@@ -230,9 +230,14 @@ const getAllProduct = async (
 
   // product query model
   const productModelQuery = new QueryBuilder(
-    Product.find(priceRangeFilter).populate(
-      'brand createdBy categories tags collections media variants',
-    ),
+    Product.find(priceRangeFilter)
+      .populate('brand createdBy categories tags collections media')
+      .populate({
+        path: 'variants',
+        populate: {
+          path: 'variantId options',
+        },
+      }),
     queryObj,
   )
     .search(ProductSearchableFields)

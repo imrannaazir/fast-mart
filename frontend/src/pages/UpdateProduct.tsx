@@ -1,4 +1,4 @@
-import AddOrEditProductForm from "@/components/forms/AddOrEditProductForm";
+/* import AddOrEditProductForm from "@/components/forms/AddOrEditProductForm";
 import { useGetProductByIdQuery } from "@/redux/features/product/productApi";
 import { setDefaultValues } from "@/redux/features/product/productSlice";
 import { assignTag } from "@/redux/features/tag/tagSlice";
@@ -52,3 +52,4 @@ const UpdateProduct = () => {
 };
 
 export default UpdateProduct;
+ */

@@ -11,9 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { formats, modules } from "@/constant/constant";
 import { createBrandValidationSchema } from "@/schemas/contents.schemas";
-import ReactQuill from "react-quill";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateBrandMutation } from "@/redux/features/brand/brandApi";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
+import TextEditor from "@/components/ui/text-editor";
 
 const AddBrandPage = () => {
   const navigate = useNavigate();
@@ -96,11 +95,9 @@ const AddBrandPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Description</FormLabel>
-                      <ReactQuill
-                        style={{ height: "200px", marginBottom: "50px" }}
-                        formats={formats}
-                        modules={modules}
-                        {...field}
+                      <TextEditor
+                        setValue={form.setValue}
+                        value={field.value || ""}
                       />
                     </FormItem>
                   )}
@@ -118,6 +115,7 @@ const AddBrandPage = () => {
                     <FormItem>
                       <FormLabel>Logo</FormLabel>
                       <UploadSingleImage
+                        fieldValue={""}
                         setValue={form.setValue}
                         className="w-[200px]"
                         fieldName="logo"
@@ -135,6 +133,7 @@ const AddBrandPage = () => {
                     <FormItem>
                       <FormLabel>Cover image</FormLabel>
                       <UploadSingleImage
+                        fieldValue={""}
                         setValue={form.setValue}
                         fieldName="cover_image"
                       />
