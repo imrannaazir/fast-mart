@@ -1,32 +1,47 @@
 import { RootState } from "@/redux/store";
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { ReactNode } from "react";
 
 type TInitialState = {
+  title: string;
+  description?: string;
   isOpen: boolean;
-  collectionName?: string;
+  children?: React.ReactNode;
 };
 const initialState: TInitialState = {
   isOpen: false,
-  collectionName: "",
+  title: "",
+  description: "",
+  children: null,
 };
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    onOpen: (state, action) => {
+    onOpen: (
+      state,
+      action: PayloadAction<{
+        title: string;
+        description: string;
+        children: ReactNode;
+      }>
+    ) => {
+      const { children, description, title } = action.payload;
       state.isOpen = true;
-      state.collectionName = action.payload;
+      state.title = title;
+      state.description = description;
+      state.children = children;
     },
     onClose: (state) => {
       state.isOpen = false;
-      state.collectionName = "";
+      state.title = "";
+      state.description = "";
+      state.children = null;
     },
   },
 });
 
 export default modalSlice.reducer;
 export const { onClose, onOpen } = modalSlice.actions;
-export const selectIsOpen = (state: RootState) => state.modal.isOpen;
-export const selectCollectionName = (state: RootState) =>
-  state.modal.collectionName;
+export const selectModal = (state: RootState) => state.modal;

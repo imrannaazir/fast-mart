@@ -4,6 +4,15 @@ import { TOption, TVariant } from "@/types/product.type";
 
 export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    //create variant
+    crateVariant: builder.mutation({
+      query: (data) => ({
+        url: "/variants",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Variants"],
+    }),
     // create new product
     createProduct: builder.mutation({
       query: (data) => ({
@@ -74,6 +83,7 @@ export const productApi = baseApi.injectEndpoints({
         url: "/variants",
         method: "GET",
       }),
+      providesTags: ["Variants"],
       transformResponse: (response: TResponseRedux<TVariant[]>) => ({
         data: response.data,
       }),
@@ -93,6 +103,7 @@ export const productApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCrateVariantMutation,
   useCreateProductMutation,
   useGetAllProductQuery,
   useGetProductByIdQuery,

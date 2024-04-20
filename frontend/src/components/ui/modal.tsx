@@ -5,24 +5,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-interface ModalProps {
-  title: string;
-  description?: string;
-  isOpen: boolean;
-  onClose: () => void;
-  children?: React.ReactNode;
-}
+import { onClose, selectModal } from "@/redux/features/modal/modalSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
-const Modal: React.FC<ModalProps> = ({
-  title,
-  description,
-  isOpen,
-  onClose,
-  children,
-}) => {
+const Modal = () => {
+  const { isOpen, title, description, children } = useAppSelector(selectModal);
+  const dispatch = useAppDispatch();
   const onChange = (open: boolean) => {
     if (!open) {
-      onClose();
+      dispatch(onClose());
     }
   };
 

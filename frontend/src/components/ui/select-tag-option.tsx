@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Check, CheckIcon, ChevronsUpDown } from "lucide-react";
+import { Check, CheckIcon, ChevronsUpDown, PlusCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import { Label } from "./label";
 type TSelectTagOption = {
   options: TLabelValuePair[];
   setValue: (value: string | string[]) => void;
+  onAdd: () => void;
   value: string | string[];
   type?: "single" | "multi";
   isDisable?: boolean;
@@ -35,6 +36,7 @@ const SelectTagOption: FC<TSelectTagOption> = ({
   type = "single",
   isDisable = false,
   label,
+  onAdd,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -83,10 +85,18 @@ const SelectTagOption: FC<TSelectTagOption> = ({
           <Command>
             <CommandInput placeholder="Search options" />
             <CommandList>
-              <CommandEmpty className="bg-red-500">
-                <Button>Add new</Button>
-              </CommandEmpty>
+              <CommandEmpty> No result</CommandEmpty>
               <CommandGroup>
+                <CommandItem>
+                  <button
+                    className="flex space-x-2 items-center w-full"
+                    type="reset"
+                    onClick={onAdd}
+                  >
+                    <PlusCircle className="mr-2 h-4 w-4 text-gray-500" />
+                    Add{" "}
+                  </button>
+                </CommandItem>
                 {options.map((option) => {
                   let isSelected = false;
 

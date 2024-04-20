@@ -63,7 +63,6 @@ const UploadImage: FC<TUploadImageProps> = ({
       setValue(fieldName, filteredFieldValue);
     }
   };
-  console.log({ imageUrl });
 
   useEffect(() => {
     (async () => {
@@ -117,8 +116,6 @@ const UploadImage: FC<TUploadImageProps> = ({
             setIsImageUploading(false);
           }
         } catch (error) {
-          console.log(error);
-
           toast.error("Failed to upload", { duration: 2000 });
           setIsImageUploading(false);
         }

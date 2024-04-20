@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
-import AddVariant from "@/components/forms/AddVariant";
+import AddVariant from "@/components/forms/product/AddVariant";
 
 const AddProductPage = () => {
   const navigate = useNavigate();

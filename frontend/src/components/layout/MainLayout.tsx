@@ -5,6 +5,7 @@ import AlertModal from "../modal/alert-modal";
 import { useAppDispatch } from "@/redux/hooks";
 import { useEffect } from "react";
 import { resetFilters } from "@/redux/features/filter/filterSlice";
+import Modal from "../ui/modal";
 
 const MainLayout = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const MainLayout = () => {
   return (
     <>
       <AlertModal />
+      <Modal />
       <div className="w-full">
         <Navbar />
         <div className="flex">

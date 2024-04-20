@@ -7,6 +7,7 @@ const variantSchema = new Schema<TVariant>(
     variant_name: {
       type: String,
       required: true,
+      unique: true,
     },
   },
   { timestamps: true },
