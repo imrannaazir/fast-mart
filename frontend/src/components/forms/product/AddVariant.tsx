@@ -12,6 +12,8 @@ import { onOpen } from "@/redux/features/modal/modalSlice";
 import CreateVariant from "./CreateVariant";
 import CreateOption from "./CreateOption";
 import { Button } from "@/components/ui/button";
+import ProductVariantPreview from "./ProductVariantPreview";
+import { cn } from "@/lib/utils";
 
 type TAddVariantProps = {
   form: UseFormReturn<TProductFormValues>;
@@ -31,7 +33,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   const { data: variantsData, isFetching: isVariantFetching } =
     useGetAllVariantsQuery(undefined);
   const { data: optionsData, isFetching: isOptionFetching } =
-    useGetAllOptionsQuery(variantId, { skip });
+    useGetAllOptionsQuery(`variantId=${variantId}`, { skip });
 
   /* 
 * filter variants : if already crated a variant with the variant name filter out that variant
@@ -116,40 +118,54 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   }, [variantId]);
 
   return (
-    <div className="flex space-x-4 items-center">
-      {/* select variant name */}
-      <SelectTagOption
-        onAdd={handleOnVariantAdd}
-        isDisable={optionsValue?.length > 0}
-        label="Variant"
-        value={variantId || ""}
-        options={variants || []}
-        setValue={handleSetValue}
-        type="single"
-        isLoading={isVariantFetching}
-      />
+    <>
+      <div className={cn("space-y-4", !productVariants.length && "hidden")}>
+        {productVariants?.length &&
+          productVariants?.map((variant) => (
+            <ProductVariantPreview
+              key={variant.variantId}
+              productVariant={variant}
+              form={form}
+            />
+          ))}
+      </div>
+      <div className="flex space-x-4 items-center">
+        {/* PREVIEW  */}
 
-      {/* select variant option */}
-      <SelectTagOption
-        onAdd={handleOnOptionAdd}
-        label="Options"
-        isDisable={!variantId}
-        value={optionsValue || []}
-        options={options}
-        setValue={handleSetValue}
-        type="multi"
-        isLoading={isOptionFetching}
-      />
+        {/* select variant name */}
+        <SelectTagOption
+          onAdd={handleOnVariantAdd}
+          isDisable={optionsValue?.length > 0}
+          label="Variant"
+          value={variantId || ""}
+          options={variants || []}
+          setValue={handleSetValue}
+          type="single"
+          isLoading={isVariantFetching}
+        />
 
-      <Button
-        type="reset"
-        className="mt-6"
-        disabled={!optionsValue?.length}
-        onClick={handleAddProductVariant}
-      >
-        Add
-      </Button>
-    </div>
+        {/* select variant option */}
+        <SelectTagOption
+          onAdd={handleOnOptionAdd}
+          label="Options"
+          isDisable={!variantId}
+          value={optionsValue || []}
+          options={options}
+          setValue={handleSetValue}
+          type="multi"
+          isLoading={isOptionFetching}
+        />
+
+        <Button
+          type="reset"
+          className="mt-6"
+          disabled={!optionsValue?.length}
+          onClick={handleAddProductVariant}
+        >
+          Add
+        </Button>
+      </div>
+    </>
   );
 };
 

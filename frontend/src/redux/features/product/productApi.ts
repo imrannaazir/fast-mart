@@ -101,9 +101,10 @@ export const productApi = baseApi.injectEndpoints({
 
     // get all options
     getAllOptions: builder.query({
-      query: (variantId) => ({
-        url: `/options?variantId=${variantId}`,
+      query: (params) => ({
+        url: `/options`,
         method: "GET",
+        params: params,
       }),
       transformResponse: (response: TResponseRedux<TOption[]>) => ({
         data: response.data,
