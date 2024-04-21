@@ -6,33 +6,39 @@ import { UseFormSetValue, useForm } from "react-hook-form";
 import { Button } from "../../ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "../../ui/loading-button";
-import { useCrateVariantMutation } from "@/redux/features/product/productApi";
+import { useCreateOptionMutation } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
 import { FC } from "react";
 import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 
-type TCreateVariant = {
+type TCreateOption = {
   setValue: UseFormSetValue<TProductFormValues>;
+  variantId: string;
+  selectedOptions: string[];
 };
 
-const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
+const CreateOption: FC<TCreateOption> = ({
+  setValue,
+  variantId,
+  selectedOptions,
+}) => {
   const dispatch = useAppDispatch();
-  const [createVariant, { isLoading }] = useCrateVariantMutation();
-  const variantSchema = z.object({
-    variant_name: z.string({ required_error: "Variant name is required." }),
+  const [CreateOption, { isLoading }] = useCreateOptionMutation();
+  const optionSchema = z.object({
+    option_name: z.string({ required_error: "Option name is required." }),
   });
-  const variantForm = useForm<z.infer<typeof variantSchema>>({
-    resolver: zodResolver(variantSchema),
+  const optionForm = useForm<z.infer<typeof optionSchema>>({
+    resolver: zodResolver(optionSchema),
   });
-  const handleVariantSubmit = async (values: z.infer<typeof variantSchema>) => {
+  const handleOptionSubmit = async (values: z.infer<typeof optionSchema>) => {
     const toastId = toast.loading("Crating.", { duration: 2000 });
     try {
-      const response = await createVariant(values).unwrap();
+      const response = await CreateOption({ ...values, variantId }).unwrap();
       if (response.success) {
         toast.success("created", { id: toastId });
-        setValue("variant.variant._id", response?.data?._id);
+        setValue("variant.options", [...selectedOptions, response?.data?._id]);
         dispatch(onClose());
       }
 
@@ -46,17 +52,17 @@ const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
     }
   };
   return (
-    <Form {...variantForm}>
+    <Form {...optionForm}>
       <form
         className="space-y-4"
-        onSubmit={variantForm.handleSubmit(handleVariantSubmit)}
+        onSubmit={optionForm.handleSubmit(handleOptionSubmit)}
       >
         <FormField
-          control={variantForm.control}
-          name="variant_name"
+          control={optionForm.control}
+          name="option_name"
           render={({ field }) => (
             <FormItem>
-              <Input placeholder="Enter variant name" {...field} />
+              <Input placeholder="Enter option name" {...field} />
               <FormMessage />
             </FormItem>
           )}
@@ -73,4 +79,4 @@ const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
   );
 };
 
-export default CreateVariant;
+export default CreateOption;

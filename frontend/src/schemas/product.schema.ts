@@ -1,11 +1,8 @@
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
 import { z } from "zod";
 
-const variantValidationSchema = z.object({
-  variant: z.object({
-    variant_name: z.string(),
-    _id: z.string(),
-  }),
+const productVariantValidationSchema = z.object({
+  variantId: z.string(),
   options: z.array(z.string()),
 });
 
@@ -23,8 +20,8 @@ export const createProductValidationSchema = z.object({
   categories: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),
   collections: z.array(z.string()).optional(),
-  variants: z.array(variantValidationSchema).optional(),
-  variant: variantValidationSchema,
+  variants: z.array(productVariantValidationSchema).optional(),
+  variant: productVariantValidationSchema,
 });
 
 export type TProductFormValues = z.infer<typeof createProductValidationSchema>;

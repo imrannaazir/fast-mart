@@ -13,6 +13,16 @@ export const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Variants"],
     }),
+
+    // create option
+    createOption: builder.mutation({
+      query: (data) => ({
+        url: "/options",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Options"],
+    }),
     // create new product
     createProduct: builder.mutation({
       query: (data) => ({
@@ -98,6 +108,7 @@ export const productApi = baseApi.injectEndpoints({
       transformResponse: (response: TResponseRedux<TOption[]>) => ({
         data: response.data,
       }),
+      providesTags: ["Options"],
     }),
   }),
 });
@@ -113,4 +124,5 @@ export const {
   useDeleteBulkProductsMutation,
   useGetAllVariantsQuery,
   useGetAllOptionsQuery,
+  useCreateOptionMutation,
 } = productApi;

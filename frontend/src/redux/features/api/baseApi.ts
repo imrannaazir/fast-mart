@@ -89,6 +89,7 @@ const baseApi = createApi({
     "Collection",
     "Collections",
     "Variants",
+    "Options",
   ],
   endpoints: () => ({}),
 });

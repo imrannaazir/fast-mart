@@ -1,5 +1,11 @@
 import { FC, useState } from "react";
-import { Check, CheckIcon, ChevronsUpDown, PlusCircle } from "lucide-react";
+import {
+  Check,
+  CheckIcon,
+  ChevronsUpDown,
+  Loader2,
+  PlusCircle,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -27,6 +33,7 @@ type TSelectTagOption = {
   type?: "single" | "multi";
   isDisable?: boolean;
   label: string;
+  isLoading?: boolean;
 };
 
 const SelectTagOption: FC<TSelectTagOption> = ({
@@ -35,6 +42,7 @@ const SelectTagOption: FC<TSelectTagOption> = ({
   value,
   type = "single",
   isDisable = false,
+  isLoading = false,
   label,
   onAdd,
 }) => {
@@ -87,6 +95,7 @@ const SelectTagOption: FC<TSelectTagOption> = ({
             <CommandList>
               <CommandEmpty> No result</CommandEmpty>
               <CommandGroup>
+                {/*add new option button  */}
                 <CommandItem>
                   <button
                     className="flex space-x-2 items-center w-full"
@@ -97,71 +106,85 @@ const SelectTagOption: FC<TSelectTagOption> = ({
                     Add{" "}
                   </button>
                 </CommandItem>
-                {options.map((option) => {
-                  let isSelected = false;
+                {/* loader  */}
+                <CommandItem
+                  className={cn(
+                    isLoading
+                      ? " flex items-center gap-2 justify-center"
+                      : "hidden"
+                  )}
+                >
+                  Loading <Loader2 className="  h-4 w-4 animate-spin" />
+                </CommandItem>
 
-                  if (type === "multi") {
-                    isSelected = (value as string[])?.find(
-                      (item) => item === option.value
-                    )
-                      ? true
-                      : false;
-                  } else {
-                    isSelected = option.value === value ? true : false;
-                  }
-                  return (
-                    <CommandItem
-                      key={option.value}
-                      onSelect={() => {
-                        if (isSelected) {
-                          if (type === "single") {
-                            setOpen(false);
+                {/* mapping options */}
+                <div className={cn(isLoading ? "hidden" : "block")}>
+                  {options.map((option) => {
+                    let isSelected = false;
+
+                    if (type === "multi") {
+                      isSelected = (value as string[])?.find(
+                        (item) => item === option.value
+                      )
+                        ? true
+                        : false;
+                    } else {
+                      isSelected = option.value === value ? true : false;
+                    }
+                    return (
+                      <CommandItem
+                        key={option.value}
+                        onSelect={() => {
+                          if (isSelected) {
+                            if (type === "single") {
+                              setOpen(false);
+                            } else {
+                              const filteredOption = (value as string[]).filter(
+                                (item) => item !== option.value
+                              );
+                              setValue(filteredOption);
+                            }
                           } else {
-                            const filteredOption = (value as string[]).filter(
-                              (item) => item !== option.value
-                            );
-                            setValue(filteredOption);
+                            if (type === "multi") {
+                              value.length
+                                ? setValue([...value, option.value])
+                                : setValue([option.value]);
+                            } else {
+                              setValue(option.value);
+                              setOpen(false);
+                            }
                           }
-                        } else {
-                          if (type === "multi") {
-                            value.length
-                              ? setValue([...value, option.value])
-                              : setValue([option.value]);
-                          } else {
-                            setValue(option.value);
-                            setOpen(false);
-                          }
-                        }
-                      }}
-                    >
-                      {type === "single" ? (
-                        <div className="flex items-center">
-                          <Check
-                            className={cn(
-                              "mr-2 h-3 w-3 text-gray-500",
-                              isSelected ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          {option.label}
-                        </div>
-                      ) : (
-                        <div className="flex items-center">
-                          <div
-                            className={cn(
-                              "mr-2 flex h-4 w-4 items-center rounded-sm border border-primary ",
-                              isSelected
-                                ? "bg-primary text-primary-foreground"
-                                : "opacity-50 [&_svg]:invisible"
-                            )}
-                          >
-                            <CheckIcon />
+                        }}
+                      >
+                        {type === "single" ? (
+                          <div className="flex items-center">
+                            <Check
+                              className={cn(
+                                "mr-2 h-3 w-3 text-gray-500",
+                                isSelected ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                            {option.label}
                           </div>
-                          {option.label}
-                        </div>
-                      )}
-                    </CommandItem>
-                  );
-                })}
+                        ) : (
+                          <div className="flex items-center">
+                            <div
+                              className={cn(
+                                "mr-2 flex h-4 w-4 items-center rounded-sm border border-primary ",
+                                isSelected
+                                  ? "bg-primary text-primary-foreground"
+                                  : "opacity-50 [&_svg]:invisible"
+                              )}
+                            >
+                              <CheckIcon />
+                            </div>
+                            {option.label}
+                          </div>
+                        )}
+                      </CommandItem>
+                    );
+                  })}
+                </div>
               </CommandGroup>
             </CommandList>
           </Command>
