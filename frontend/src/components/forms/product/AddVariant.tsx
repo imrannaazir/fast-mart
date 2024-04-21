@@ -4,7 +4,6 @@ import {
 } from "@/redux/features/product/productApi";
 import { FC, useEffect, useState } from "react";
 
-import SelectTagOption from "../../ui/select-tag-option";
 import { UseFormReturn } from "react-hook-form";
 import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
@@ -14,6 +13,7 @@ import CreateOption from "./CreateOption";
 import { Button } from "@/components/ui/button";
 import ProductVariantPreview from "./ProductVariantPreview";
 import { cn } from "@/lib/utils";
+import OptionSelector from "@/components/ui/option-selector";
 
 type TAddVariantProps = {
   form: UseFormReturn<TProductFormValues>;
@@ -119,7 +119,9 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
 
   return (
     <>
-      <div className={cn("space-y-4", !productVariants.length && "hidden")}>
+      <div
+        className={cn("space-y-4 mb-4", !productVariants.length && "hidden")}
+      >
         {productVariants?.length &&
           productVariants?.map((variant) => (
             <ProductVariantPreview
@@ -133,10 +135,10 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
         {/* PREVIEW  */}
 
         {/* select variant name */}
-        <SelectTagOption
+        <OptionSelector
           onAdd={handleOnVariantAdd}
           isDisable={optionsValue?.length > 0}
-          label="Variant"
+          label="Name"
           value={variantId || ""}
           options={variants || []}
           setValue={handleSetValue}
@@ -145,7 +147,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
         />
 
         {/* select variant option */}
-        <SelectTagOption
+        <OptionSelector
           onAdd={handleOnOptionAdd}
           label="Options"
           isDisable={!variantId}

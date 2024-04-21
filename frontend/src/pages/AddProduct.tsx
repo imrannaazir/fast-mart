@@ -30,9 +30,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
 import AddVariant from "@/components/forms/product/AddVariant";
+import SelectCollections from "@/components/forms/product/SelectCollections";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
@@ -121,8 +121,7 @@ const AddProductPage = () => {
               </PageSection>
 
               {/* Pricing */}
-              <PageSection>
-                <Label>Pricing</Label>
+              <PageSection title="Pricing">
                 <div className="flex space-x-4 mt-2">
                   <FormField
                     control={form.control}
@@ -156,8 +155,7 @@ const AddProductPage = () => {
               </PageSection>
 
               {/* Inventory */}
-              <PageSection>
-                <Label>Inventory</Label>
+              <PageSection title="Inventory">
                 <FormField
                   control={form.control}
                   name="quantity"
@@ -174,8 +172,7 @@ const AddProductPage = () => {
               </PageSection>
 
               {/* Shipping */}
-              <PageSection>
-                <Label>Shipping</Label>
+              <PageSection title="Shipping">
                 <div className="flex space-x-4">
                   <FormField
                     control={form.control}
@@ -220,14 +217,12 @@ const AddProductPage = () => {
               </PageSection>
 
               {/* Variants */}
-              <PageSection>
-                <Label>Variants</Label>
-
+              <PageSection title="Variants">
                 <FormField
                   control={form.control}
                   name="variants"
                   render={() => (
-                    <FormItem>
+                    <FormItem className="mt-2">
                       <AddVariant form={form} />
                     </FormItem>
                   )}
@@ -235,7 +230,7 @@ const AddProductPage = () => {
               </PageSection>
             </div>
             {/* right side */}
-            <div className=" flex-grow  ">
+            <div className=" flex-grow space-y-6 ">
               {/* status */}
               <PageSection>
                 <FormField
@@ -264,6 +259,13 @@ const AddProductPage = () => {
                     </FormItem>
                   )}
                 />
+              </PageSection>
+
+              <PageSection
+                title="Product organization
+"
+              >
+                <SelectCollections form={form} />
               </PageSection>
             </div>
           </div>

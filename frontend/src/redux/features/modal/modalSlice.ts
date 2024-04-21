@@ -7,12 +7,14 @@ type TInitialState = {
   description?: string;
   isOpen: boolean;
   children?: React.ReactNode;
+  className?: string;
 };
 const initialState: TInitialState = {
   isOpen: false,
   title: "",
   description: "",
   children: null,
+  className: "",
 };
 
 const modalSlice = createSlice({
@@ -25,19 +27,22 @@ const modalSlice = createSlice({
         title: string;
         description: string;
         children: ReactNode;
+        className?: string;
       }>
     ) => {
-      const { children, description, title } = action.payload;
+      const { children, description, title, className } = action.payload;
       state.isOpen = true;
       state.title = title;
       state.description = description;
       state.children = children;
+      state.className = className;
     },
     onClose: (state) => {
       state.isOpen = false;
       state.title = "";
       state.description = "";
       state.children = null;
+      state.className = "";
     },
   },
 });

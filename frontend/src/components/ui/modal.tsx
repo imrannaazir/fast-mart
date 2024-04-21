@@ -5,11 +5,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { onClose, selectModal } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const Modal = () => {
-  const { isOpen, title, description, children } = useAppSelector(selectModal);
+  const { isOpen, title, description, children, className } =
+    useAppSelector(selectModal);
   const dispatch = useAppDispatch();
   const onChange = (open: boolean) => {
     if (!open) {
@@ -19,7 +21,7 @@ const Modal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
+      <DialogContent className={cn(className)}>
         <DialogHeader>
           <DialogTitle className="capitalize">{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

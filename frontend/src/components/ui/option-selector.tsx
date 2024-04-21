@@ -25,7 +25,7 @@ import {
 import { TLabelValuePair } from "@/types";
 import { Badge } from "./badge";
 import { Label } from "./label";
-type TSelectTagOption = {
+type TOptionSelector = {
   options: TLabelValuePair[];
   setValue: (value: string | string[]) => void;
   onAdd: () => void;
@@ -34,9 +34,10 @@ type TSelectTagOption = {
   isDisable?: boolean;
   label: string;
   isLoading?: boolean;
+  width?: "w-[200px]" | "w-full";
 };
 
-const SelectTagOption: FC<TSelectTagOption> = ({
+const OptionSelector: FC<TOptionSelector> = ({
   options,
   setValue,
   value,
@@ -45,6 +46,7 @@ const SelectTagOption: FC<TSelectTagOption> = ({
   isLoading = false,
   label,
   onAdd,
+  width = "w-[200px]",
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -58,7 +60,7 @@ const SelectTagOption: FC<TSelectTagOption> = ({
               disabled={isDisable}
               variant={"outline"}
               role="combobox"
-              className="w-[200px] justify-between"
+              className={cn(" justify-between", width)}
             >
               {value && type === "single" ? (
                 options.find((option) => option.value === value)?.label
@@ -89,7 +91,7 @@ const SelectTagOption: FC<TSelectTagOption> = ({
             </Button>
           }
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0" align="start">
+        <PopoverContent className={cn(" p-0", width)} align="start">
           <Command>
             <CommandInput placeholder="Search options" />
             <CommandList>
@@ -194,4 +196,4 @@ const SelectTagOption: FC<TSelectTagOption> = ({
   );
 };
 
-export default SelectTagOption;
+export default OptionSelector;

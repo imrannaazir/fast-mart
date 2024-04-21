@@ -32,7 +32,7 @@ const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
       const response = await createVariant(values).unwrap();
       if (response.success) {
         toast.success("created", { id: toastId });
-        setValue("variant.variant._id", response?.data?._id);
+        setValue("variant.variantId", response?.data?._id);
         dispatch(onClose());
       }
 
