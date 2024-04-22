@@ -120,7 +120,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   return (
     <>
       <div
-        className={cn("space-y-4 mb-4", !productVariants.length && "hidden")}
+        className={cn("space-y-4 mb-4 ", !productVariants.length && "hidden")}
       >
         {productVariants?.length &&
           productVariants?.map((variant) => (

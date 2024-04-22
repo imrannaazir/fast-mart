@@ -25,6 +25,7 @@ import {
 import { TLabelValuePair } from "@/types";
 import { Badge } from "./badge";
 import { Label } from "./label";
+import { ClassValue } from "clsx";
 type TOptionSelector = {
   options: TLabelValuePair[];
   setValue: (value: string | string[]) => void;
@@ -35,6 +36,7 @@ type TOptionSelector = {
   label: string;
   isLoading?: boolean;
   width?: "w-[200px]" | "w-full";
+  className?: ClassValue;
 };
 
 const OptionSelector: FC<TOptionSelector> = ({
@@ -47,11 +49,12 @@ const OptionSelector: FC<TOptionSelector> = ({
   label,
   onAdd,
   width = "w-[200px]",
+  className,
 }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className={cn("flex flex-col space-y-2", className)}>
       <Label className="font-extralight">{label}</Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>

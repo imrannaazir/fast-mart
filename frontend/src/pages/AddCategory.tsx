@@ -19,7 +19,7 @@ import {
   useGetAllCollectionsQuery,
 } from "@/redux/features/collection/collection.api";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SelectOrCreate from "@/components/forms/SelectOrCreate";
 import { TCreateCollection } from "@/types/rtkQuery.type";
@@ -27,9 +27,22 @@ import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
+import { TProductFormValues } from "@/schemas/product.schema";
+import { FC } from "react";
+import { useAppDispatch } from "@/redux/hooks";
+import { onClose } from "@/redux/features/modal/modalSlice";
 
-const AddCollectionPage = () => {
+type TAddCategoryPageProps = {
+  isInModal?: boolean;
+  productForm?: UseFormReturn<TProductFormValues>;
+};
+
+const AddCategoryPage: FC<TAddCategoryPageProps> = ({
+  isInModal,
+  productForm,
+}) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [createCollection] = useCreateCollectionMutation();
   const [createCategory] = useCreateCategoryMutation();
@@ -49,8 +62,16 @@ const AddCollectionPage = () => {
 
       if (response.success) {
         toast.success("Created.", { id: toastId });
-        navigate("/contents/categories");
         form.reset();
+        if (isInModal && productForm) {
+          productForm.setValue("categories", [
+            ...(productForm.watch("categories") || []),
+            response?.data?._id,
+          ]);
+          dispatch(onClose());
+        } else {
+          navigate("/contents/categories");
+        }
       }
     } catch (error) {
       toast.error("Failed to create.", { id: toastId });
@@ -67,8 +88,11 @@ const AddCollectionPage = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create Category" action={<Action />}>
+        <Page title="Create Category" action={<Action />} isInModal={isInModal}>
           {/* form content */}
+          <div className="flex justify-end my-4">
+            <Action />
+          </div>
           <div className="flex gap-4">
             <div className="w-[66%] ">
               <PageSection>
@@ -155,4 +179,4 @@ const Action = () => {
   return <Button size={"sm"}>Save</Button>;
 };
 
-export default AddCollectionPage;
+export default AddCategoryPage;

@@ -33,6 +33,9 @@ import {
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
 import AddVariant from "@/components/forms/product/AddVariant";
 import SelectCollections from "@/components/forms/product/SelectCollections";
+import SelectCategories from "@/components/forms/product/SelectCategories";
+import SelectBrand from "@/components/forms/product/SelectBrand";
+import SelectTags from "@/components/forms/product/SelectTags";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
@@ -45,6 +48,8 @@ const AddProductPage = () => {
 
   // on submit handler
   const onSubmit = async (data: TProductFormValues) => {
+    console.log({ data });
+
     const toastId = toast.loading("Creating.", { duration: 2000 });
     try {
       const response = await createProduct(data).unwrap();
@@ -266,6 +271,9 @@ const AddProductPage = () => {
 "
               >
                 <SelectCollections form={form} />
+                <SelectCategories form={form} />
+                <SelectBrand form={form} />
+                <SelectTags form={form} />
               </PageSection>
             </div>
           </div>

@@ -15,14 +15,22 @@ import { createBrandValidationSchema } from "@/schemas/contents.schemas";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateBrandMutation } from "@/redux/features/brand/brandApi";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
-
-const AddBrandPage = () => {
+import { FC } from "react";
+import { TProductFormValues } from "@/schemas/product.schema";
+import { useAppDispatch } from "@/redux/hooks";
+import { onClose } from "@/redux/features/modal/modalSlice";
+type TAddBrandPageProps = {
+  isInModal?: boolean;
+  productForm?: UseFormReturn<TProductFormValues>;
+};
+const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [createBrand] = useCreateBrandMutation();
 
@@ -40,8 +48,13 @@ const AddBrandPage = () => {
 
       if (response.success) {
         toast.success("Created.", { id: toastId });
-        navigate("/contents/brands");
         form.reset();
+        if (isInModal && productForm) {
+          productForm?.setValue("brand", response.data._id);
+          dispatch(onClose());
+        } else {
+          navigate("/contents/brands");
+        }
       }
     } catch (error) {
       toast.error("Failed to create.", { id: toastId });
@@ -51,8 +64,11 @@ const AddBrandPage = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create brand" action={<Action />}>
+        <Page title="Create brand" action={<Action />} isInModal={isInModal}>
           {/* form content */}
+          <div className="flex my-4 justify-end">
+            <Action />
+          </div>
           <div className="flex gap-4">
             <div className="w-[66%]">
               <PageSection>

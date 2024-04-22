@@ -1,23 +1,25 @@
+import { TTag } from "@/types/product.type";
 import baseApi from "../api/baseApi";
+import { TResponseRedux } from "@/types";
 
 const tagApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllTag: builder.query({
       query: () => ({
-        url: "/tag",
+        url: "/tags",
         method: "GET",
       }),
-      transformErrorResponse: (response) => {
-        console.log({ response });
-        return {};
-      },
+      transformResponse: (response: TResponseRedux<TTag[]>) => ({
+        data: response.data,
+        meta: response.meta,
+      }),
       providesTags: ["Tags"],
     }),
 
     // create new brand
     createTag: builder.mutation({
       query: (data) => ({
-        url: "/tag",
+        url: "/tags",
         method: "POST",
         body: data,
       }),

@@ -9,7 +9,7 @@ const brandApi = baseApi.injectEndpoints({
         method: "GET",
         params: params,
       }),
-      transformResponse: (response: TResponseRedux<TBrand>) => ({
+      transformResponse: (response: TResponseRedux<TBrand[]>) => ({
         data: response.data,
         meta: response.meta,
       }),

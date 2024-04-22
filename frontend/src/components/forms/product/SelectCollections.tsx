@@ -51,6 +51,7 @@ const SelectCollections: FC<TSelectCollectionsProps> = ({ form }) => {
       isLoading={isFetching}
       type="multi"
       width="w-full"
+      className="mt-2"
     />
   );
 };
