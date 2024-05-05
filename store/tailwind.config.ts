@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { light_colors } from "./constant/colors.constant";
 
 const config: Config = {
   content: [
@@ -9,9 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#ffffff",
-        foreground: "#000000",
-        primary: "#0da487",
+        background: light_colors.background,
+        foreground: light_colors.foreground,
+        primary: light_colors.primary,
+        secondary: light_colors.secondary,
       },
     },
   },
