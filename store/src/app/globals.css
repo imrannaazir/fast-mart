@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer {
+  .button {
+    min-width: 150px;
+    max-width: 250px;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   /* Aylen */
   .button.button--aylen {
     -webkit-transition: color 0.3s;
@@ -23,15 +31,15 @@
     transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
   }
   .button--aylen::before {
-    background: #ffffff;
+    background: #ffffff5b;
   }
   .button--aylen::after {
-    background: #4a5568;
+    /* background: #a0aec0; */
   }
   .button--aylen:hover::before,
   .button--aylen:hover::after {
-    -webkit-transform: translate3d(0, 100%, 0);
-    transform: translate3d(0, 100%, 0);
+    -webkit-transform: translate3d(0, 200%, 0);
+    transform: translate3d(0, 200%, 0);
   }
   .button--aylen:hover::after {
     -webkit-transition-delay: 0.175s;
