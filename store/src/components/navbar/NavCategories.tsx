@@ -20,7 +20,7 @@ const NavCategories = () => {
       <Dropdown
         menu={{}}
         dropdownRender={() => (
-          <div className="px-4 py-5   mt-3" style={contentStyle}>
+          <div className="px-4 py-5   mt-3 relative" style={contentStyle}>
             <DropdownCategories />
           </div>
         )}
