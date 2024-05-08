@@ -4,6 +4,7 @@ const assets = {
     love: require("./svg/Love.svg"),
     cart: require("./svg/Cart.svg"),
     user: require("./svg/User.svg"),
+    bars: require("./svg/Bars.svg"),
   },
 };
 

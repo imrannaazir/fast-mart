@@ -35,7 +35,7 @@ const HeaderNavbarIcons = () => {
       <Dropdown
         menu={{}}
         dropdownRender={() => (
-          <div className="px-4 py-5 max-w-[320px]" style={contentStyle}>
+          <div className="px-4 py-5 max-w-[320px] mt-3" style={contentStyle}>
             <DropdownCart />
           </div>
         )}
@@ -49,7 +49,7 @@ const HeaderNavbarIcons = () => {
       <Dropdown
         menu={{}}
         dropdownRender={() => (
-          <div className="px-6 py-4 max-w-[320px]" style={contentStyle}>
+          <div className="px-6 py-4 max-w-[320px] mt-3" style={contentStyle}>
             <DropdownUser />
           </div>
         )}
