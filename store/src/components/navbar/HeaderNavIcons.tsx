@@ -5,6 +5,7 @@ import { Badge, Dropdown, theme } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import DropdownCart from "./DropdownCart";
+import DropdownUser from "./DropdownUser";
 const { useToken } = theme;
 
 const HeaderNavbarIcons = () => {
@@ -45,7 +46,17 @@ const HeaderNavbarIcons = () => {
         </Badge>
       </Dropdown>
       <Divider />
-      <Image src={assets.svg.user} height={24} width={24} alt="user" />
+      <Dropdown
+        menu={{}}
+        dropdownRender={() => (
+          <div className="px-6 py-4 max-w-[320px]" style={contentStyle}>
+            <DropdownUser />
+          </div>
+        )}
+        placement="bottomRight"
+      >
+        <Image src={assets.svg.user} height={24} width={24} alt="user" />
+      </Dropdown>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import CartItem from "./CartItem";
 
 const DropdownCart = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6">
       {Array.from({ length: 2 }).map((_item, i) => (
         <CartItem key={i} />
       ))}
