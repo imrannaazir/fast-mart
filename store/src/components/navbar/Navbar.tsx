@@ -1,12 +1,16 @@
 import { FaWhatsapp } from "react-icons/fa";
 import NavCategories from "./NavCategories";
+import NavigationLinks from "./NavigationLinks";
 
 const Navbar = () => {
   return (
     <div className="flex items-center justify-between">
-      {/* Categories */}
-      <NavCategories />
-      {/* nav links */}
+      <div className="flex items-center gap-4">
+        {/* Categories */}
+        <NavCategories />
+        {/* nav links */}
+        <NavigationLinks />
+      </div>
       {/* cta  */}
       <div className="flex items-center gap-1">
         <FaWhatsapp size={40} className="text-primary" />
