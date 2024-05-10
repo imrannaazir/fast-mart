@@ -1,14 +1,12 @@
 import assets from "@/assets";
-import { Divider } from "antd";
 import Image from "next/image";
-import { BsTelephone } from "react-icons/bs";
-import { FaRegEnvelope } from "react-icons/fa";
+import { BsEnvelope, BsTelephone } from "react-icons/bs";
 
 const FooterContactUs = () => {
   return (
     <div>
       <h3 className="text-xl font-semibold text-foreground/90">Contact Us</h3>
-      <div className="space-y-4 mt-6">
+      <div className="space-y-4 mt-4">
         {/* hot line */}
         <div>
           <p className="flex items-center gap-2 ">
@@ -22,14 +20,14 @@ const FooterContactUs = () => {
         {/* divider  */}
         <div className="border-t-[1px] border-gray-500 border-dashed ml-6"></div>
 
-        {/* hot line */}
+        {/* email address */}
         <div>
           <p className="flex items-center gap-2 ">
-            <BsTelephone />
-            <span className="text-sm ">Hotline 24/7 :</span>
+            <BsEnvelope />
+            <span className="text-sm ">Email Address :</span>
           </p>
           <h4 className="font-semibold text-foreground/90 pl-6">
-            +91 888 104 2340
+            fastkart@hotmail.com
           </h4>
         </div>
 
