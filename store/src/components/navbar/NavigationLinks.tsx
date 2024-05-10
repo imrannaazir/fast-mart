@@ -1,5 +1,4 @@
 import { AiOutlineHome } from "react-icons/ai";
-import { HiOutlineShoppingBag } from "react-icons/hi";
 import { TbBrandAngular, TbMessageQuestion } from "react-icons/tb";
 import { ClassValue } from "clsx";
 import { LuBadgeInfo } from "react-icons/lu";
@@ -15,12 +14,12 @@ const NavigationLinks = () => {
       path: "/",
       icon: <AiOutlineHome className={iconClassName} />,
     },
-    {
+    /*  {
       id: 2,
       label: "Shop",
       path: "/categories",
       icon: <HiOutlineShoppingBag className={iconClassName} />,
-    },
+    }, */
     {
       id: 3,
       label: "Brands",
