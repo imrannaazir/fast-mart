@@ -4,7 +4,7 @@ import NavigationLinks from "./NavigationLinks";
 
 const Navbar = () => {
   return (
-    <div className="flex items-center justify-between">
+    <div className=" items-center justify-between hidden lg:flex">
       <div className="flex items-center gap-4">
         {/* Categories */}
         <NavCategories />

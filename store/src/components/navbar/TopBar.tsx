@@ -27,7 +27,7 @@ const TopBar = () => {
     },
   ];
   return (
-    <div className="bg-primary py-2  ">
+    <div className="bg-primary py-2 hidden md:block ">
       <Container>
         <Carousel
           autoplay={true}

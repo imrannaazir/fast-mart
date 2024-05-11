@@ -9,7 +9,7 @@ const HeaderSearch = () => {
     console.log(info?.source, value);
 
   return (
-    <div className="max-w-[550px] w-full">
+    <div className="max-w-[550px] w-full hidden lg:block">
       <Search
         placeholder="I'm searching for ..."
         onSearch={onSearch}

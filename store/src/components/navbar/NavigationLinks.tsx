@@ -5,6 +5,8 @@ import { LuBadgeInfo } from "react-icons/lu";
 import { PiTruck } from "react-icons/pi";
 import NavigationLinkItem from "./NavigationLinkItem";
 import DropdownNavigationLink from "./DropdownNavigationLink";
+import Link from "next/link";
+import { Menu } from "antd";
 const NavigationLinks = () => {
   const iconClassName: ClassValue = "w-4 h-4";
   const navigationLinks = [
@@ -73,16 +75,36 @@ const NavigationLinks = () => {
     },
   ];
 
+  const mobileMenuLinks = navigationLinks.map((link) => ({
+    label: <Link href={link.path}>{link.label}</Link>,
+    key: link.id,
+    icon: link.icon,
+    children: link.children
+      ? link.children.map((child) => ({
+          label: <Link href={child.path}>{child.label}</Link>,
+          key: child.id,
+        }))
+      : null,
+  }));
+
   return (
-    <div className="flex items-center gap-6 text-lg ">
-      {navigationLinks.map((link) =>
-        link.children ? (
-          <DropdownNavigationLink link={link} key={link.id} />
-        ) : (
-          <NavigationLinkItem link={link} key={link.id} />
-        )
-      )}
-    </div>
+    <>
+      <div className=" items-center gap-6 text-lg hidden lg:flex">
+        {navigationLinks.map((link) =>
+          link.children ? (
+            <DropdownNavigationLink link={link} key={link.id} />
+          ) : (
+            <NavigationLinkItem link={link} key={link.id} />
+          )
+        )}
+      </div>
+      <Menu
+        className="lg:hidden"
+        style={{ width: 256 }}
+        mode="inline"
+        items={mobileMenuLinks}
+      />
+    </>
   );
 };
 

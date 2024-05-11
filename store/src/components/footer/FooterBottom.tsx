@@ -31,7 +31,7 @@ const FooterBottom = () => {
     },
   ];
   return (
-    <div className="flex justify-between items-center pb-10">
+    <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 justify-between items-center pb-10">
       <p> &copy; 2024 Fastmart All rights reserved</p>
       <Image
         src={assets.images.payment}

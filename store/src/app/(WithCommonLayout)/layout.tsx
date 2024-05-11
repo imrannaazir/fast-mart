@@ -1,5 +1,6 @@
 import Footer from "@/components/footer/Footer";
 import Header from "@/components/navbar/Header";
+import MobileMenu from "@/components/navbar/MobileMenu";
 import Navbar from "@/components/navbar/Navbar";
 import TopBar from "@/components/navbar/TopBar";
 import Container from "@/components/ui/Container";
@@ -23,9 +24,7 @@ const CommonLayout: FC<TCommonLayoutProps> = ({ children }) => {
         <Footer />
       </div>
       {/* mobile menu */}
-      <div className="md:hidden h-[64px] fixed bottom-0 w-full  bg-primary">
-        Mobile menu
-      </div>
+      <MobileMenu />
     </div>
   );
 };

@@ -6,8 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import DropdownCart from "./DropdownCart";
 import DropdownUser from "./DropdownUser";
+import { ClassValue } from "clsx";
+import { cn } from "@/libs/utils";
 const { useToken } = theme;
-
+const commonStyles: ClassValue = "hidden md:block";
 const HeaderNavbarIcons = () => {
   const { token } = useToken();
 
@@ -19,7 +21,7 @@ const HeaderNavbarIcons = () => {
 
   return (
     <div className="flex items-center gap-4">
-      <Link href="/contact-us">
+      <Link className={commonStyles} href="/contact-us">
         <Image
           src={assets.svg.telephone}
           height={24}
@@ -28,14 +30,18 @@ const HeaderNavbarIcons = () => {
         />
       </Link>
       <Divider />
-      <Link href="/wishlist">
+      <Link className={commonStyles} href="/wishlist">
         <Image src={assets.svg.love} height={24} width={24} alt="love" />
       </Link>
       <Divider />
       <Dropdown
+        className={commonStyles}
         menu={{}}
         dropdownRender={() => (
-          <div className="px-4 py-5 max-w-[320px] mt-3" style={contentStyle}>
+          <div
+            className={cn("px-4 py-5 max-w-[320px] mt-3")}
+            style={contentStyle}
+          >
             <DropdownCart />
           </div>
         )}
@@ -62,7 +68,7 @@ const HeaderNavbarIcons = () => {
 };
 
 const Divider = () => {
-  return <div className="w-[1.5px] bg-gray-400 h-6"></div>;
+  return <div className={cn("w-[1.5px] bg-gray-400 h-6", commonStyles)}></div>;
 };
 
 export default HeaderNavbarIcons;

@@ -110,7 +110,7 @@ const MainFooter = () => {
     },
   ];
   return (
-    <div className="grid grid-cols-5 py-4">
+    <div className="grid grid-cols-1 lg:grid-cols-5 py-4 gap-6 lg:gap-0">
       <CompanyDescription />
       {footerLinks.map((group) => (
         <div key={group.id}>

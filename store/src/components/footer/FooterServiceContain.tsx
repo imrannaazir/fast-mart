@@ -1,4 +1,5 @@
 import assets from "@/assets";
+import { cn } from "@/libs/utils";
 import { Divider } from "antd";
 import Image from "next/image";
 
@@ -26,18 +27,24 @@ const FooterServiceContain = () => {
     },
   ];
   return (
-    <div className="flex justify-between items-center py-10  ">
+    <div className="flex flex-col lg:flex-row  justify-between items-center py-10  ">
       {serviceContainContent.map((item, i) => {
         return (
           <>
-            <div className="flex items-center gap-4  " key={item.id}>
+            <div
+              className="flex flex-col lg:flex-row  items-center lg:gap-4  "
+              key={item.id}
+            >
               <Image src={item.icon} height={38} width={38} alt={item.label} />
               <p className="font-medium">{item.label}</p>
             </div>
+            <Divider className="lg:hidden" />
             <Divider
-              className={
-                serviceContainContent.length <= i + 1 ? "hidden" : "block"
-              }
+              className={cn(
+                serviceContainContent.length <= i + 1
+                  ? "hidden"
+                  : "hidden lg:block "
+              )}
               type="vertical"
               dashed
               style={{
