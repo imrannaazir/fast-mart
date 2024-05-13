@@ -3,9 +3,6 @@ import { BiHome } from "react-icons/bi";
 import CategoryDrawer from "./CategoryDrawer";
 import Image from "next/image";
 import assets from "@/assets";
-import { PiHeartLight } from "react-icons/pi";
-import { BsBag, BsBagFill, BsHeartHalf } from "react-icons/bs";
-import { SlMagnifier } from "react-icons/sl";
 
 const MobileMenu = () => {
   return (
@@ -19,17 +16,22 @@ const MobileMenu = () => {
       <CategoryDrawer />
       {/* search */}
       <Link href={"/"} className="flex items-center justify-center flex-col">
-        <SlMagnifier className="w-5 h-5" />
+        <Image
+          src={assets.svg.magnifying_glass}
+          alt="wishlist"
+          width={20}
+          height={20}
+        />
         <span>Search</span>
       </Link>
       {/* wishlist */}
       <Link href={"/"} className="flex items-center justify-center flex-col">
-        <BsHeartHalf className="w-5 h-5" />
+        <Image src={assets.svg.hearth} alt="wishlist" width={20} height={20} />
         <span>My Wishlist</span>
       </Link>
       {/* cart */}
       <Link href={"/"} className="flex items-center justify-center flex-col">
-        <BsBagFill fontWeight={900} />
+        <Image src={assets.svg.bag} alt="wishlist" width={20} height={20} />
         <span>Cart</span>
       </Link>
     </div>

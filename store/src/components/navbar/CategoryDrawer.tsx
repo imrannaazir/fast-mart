@@ -23,7 +23,7 @@ const CategoryDrawer: React.FC = () => {
         onClick={showDrawer}
         className="flex items-center justify-center flex-col"
       >
-        <PiSquaresFour className="w-6 h-6" />
+        <PiSquaresFour className="w-5 h-5" />
         <span>Category</span>
       </button>
 
