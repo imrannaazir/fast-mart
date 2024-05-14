@@ -1,9 +1,9 @@
-import { AppButton } from "@/components/ui/AppButton";
+import HomePageHero from "./components/Hero";
 
 const HomePage = () => {
   return (
     <div>
-      <AppButton>Hello world</AppButton>
+      <HomePageHero />
     </div>
   );
 };

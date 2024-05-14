@@ -1,6 +1,15 @@
 const assets = {
   images: {
     payment: require("./image/payment.png"),
+    banners: {
+      eggs: require("./image/eggs-banner.jpg"),
+      fresh_fruits: require("./image/fresh-fruits.jpg"),
+      fruits: require("./image/fruits-banner.jpg"),
+      meats: require("./image/meats-banner.jpg"),
+      nuts: require("./image/nuts-banner.jpg"),
+      snacks: require("./image/snacks-banner.jpg"),
+      vegetables: require("./image/vegetable-banner.jpg"),
+    },
   },
   svg: {
     telephone: require("./svg/Telephone.svg"),

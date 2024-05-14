@@ -18,7 +18,6 @@ const CommonLayout: FC<TCommonLayoutProps> = ({ children }) => {
         <Container>
           <Header />
           <Navbar />
-          <p>navbar</p>
           {children}
         </Container>
         <Footer />
