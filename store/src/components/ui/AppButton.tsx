@@ -4,22 +4,25 @@ import { cn } from "@/libs/utils";
 import { FaArrowRight } from "react-icons/fa";
 
 const appButtonVariants = cva(
-  "button button--aylen tracking-widest   relative  overflow-hidden  inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  " tracking-widest   relative  overflow-hidden  inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
-        default: "bg-secondary text-background hover:bg-secondary/90",
-        secondary: "bg-primary text-background hover:bg-primary/90",
+        primary:
+          "bg-secondary text-background hover:bg-secondary/90 button button--aylen",
+        secondary:
+          "bg-primary text-background hover:bg-primary/90 button button--aylen",
+        ghost: "bg-transparent text-background ",
       },
       size: {
         default: "h-10 pl-4 pr-2 py-2",
         sm: "h-9 rounded-md pl-3 pr-2",
-        lg: "h-11 rounded-md pl-8 pr-6",
+        lg: "h-12 rounded-md pl-8 pr-6 font-bold text-[16px]",
         icon: "h-10 w-10",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "primary",
       size: "default",
     },
   }
