@@ -12,11 +12,11 @@ const appButtonVariants = cva(
           "bg-secondary text-background hover:bg-secondary/90 button button--aylen",
         secondary:
           "bg-primary text-background hover:bg-primary/90 button button--aylen",
-        ghost: "bg-transparent text-background ",
+        ghost: "bg-transparent text-background pl-0",
       },
       size: {
         default: "h-10 pl-4 pr-2 py-2",
-        sm: "h-9 rounded-md pl-3 pr-2",
+        sm: "h-9 rounded-md text-base text-foreground/70",
         lg: "h-12 rounded-md pl-8 pr-6 font-bold text-[16px]",
         icon: "h-10 w-10",
       },

@@ -85,7 +85,7 @@ const HomePageHero = () => {
     },
   ];
   return (
-    <div className="grid grid-cols-12 grid-rows-12 gap-4 mt-10">
+    <div className="grid grid-cols-12  gap-4 mt-10">
       {heroCovers.map((cover, i) => (
         <AppCard
           cover={cover}

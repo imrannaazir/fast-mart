@@ -58,7 +58,7 @@ const offerAmountVariants = cva("", {
     variant: {
       primary:
         " text-secondary bg-gradient-to-r from-secondary/10 to-transparent rounded-full",
-      secondary: " ",
+      secondary: "text-secondary text-[28px] font-semibold",
       accent: " ",
     },
     size: {
@@ -76,7 +76,7 @@ const headingVariants = cva("", {
   variants: {
     variant: {
       primary: " text-primary",
-      secondary: " ",
+      secondary: "text-primary text-[24px] font-bold ",
       accent: " ",
     },
     size: {
@@ -110,15 +110,15 @@ const subheadingVariants = cva("", {
 });
 
 // Create variant configurations for sub heading
-const descriptionVariants = cva("", {
+const descriptionVariants = cva("text-gray-400", {
   variants: {
     variant: {
-      primary: " text-gray-500",
-      secondary: " ",
-      accent: " ",
+      primary: " ",
+      secondary: "text-sm w-[70%] ",
+      accent: " text-sm",
     },
     size: {
-      lg: "text-sm font-semibold w-[75%] mb-6",
+      lg: "text-sm font-medium w-[75%] mb-6",
       sm: " ",
     },
   },
@@ -168,7 +168,9 @@ const AppCard: FC<TAppCardProps> = ({
           {cover.subHeading}
         </h3>
         {/* heading */}
-        <h2 className={cn(headingVariants({ variant, size }))}>DAILY NEEDS</h2>
+        <h2 className={cn(headingVariants({ variant, size }))}>
+          {cover.heading}
+        </h2>
         {/* description */}
         <p className={cn(descriptionVariants({ variant, size }))}>
           {cover.description}
