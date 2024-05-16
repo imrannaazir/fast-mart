@@ -34,6 +34,25 @@ const appCardVariants = cva(
 );
 
 // Create variant configurations for top heading
+const cardDescriptionVariants = cva("", {
+  variants: {
+    variant: {
+      primary: " ",
+      secondary: " ",
+      accent: " backdrop-blur-sm bg-white/50 rounded-r-full py-2 pl-4",
+    },
+    size: {
+      lg: "  ",
+      sm: " ",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+    size: "lg",
+  },
+});
+
+// Create variant configurations for top heading
 const topHeadingVariants = cva("", {
   variants: {
     variant: {
@@ -53,12 +72,12 @@ const topHeadingVariants = cva("", {
 });
 
 // Create variant configurations for offer amount
-const offerAmountVariants = cva("", {
+const offerAmountVariants = cva("text-secondary", {
   variants: {
     variant: {
       primary:
-        " text-secondary bg-gradient-to-r from-secondary/10 to-transparent rounded-full",
-      secondary: "text-secondary text-[28px] font-semibold",
+        "  bg-gradient-to-r from-secondary/10 to-transparent rounded-full",
+      secondary: "  text-[28px] font-semibold",
       accent: " ",
     },
     size: {
@@ -77,7 +96,7 @@ const headingVariants = cva("", {
     variant: {
       primary: " text-primary",
       secondary: "text-primary text-[24px] font-bold ",
-      accent: " ",
+      accent: "font-semibold ",
     },
     size: {
       lg: " text-[36px] font-extrabold",
@@ -151,34 +170,44 @@ const AppCard: FC<TAppCardProps> = ({
         className=" rounded-md w-full h-full object-cover"
       />
 
-      {/* description */}
-      <div className="absolute w-[75%] p-[5%]">
-        {/* top heading */}
-        <div className="flex  items-center">
-          <h5 className={cn(topHeadingVariants({ variant, size }))}>
-            {cover.topHeader}
-          </h5>
-          {/* offer amount */}
-          <span className={cn(offerAmountVariants({ variant, size }))}>
-            {cover.offerAmount}
-          </span>
-        </div>
-        {/* sub heading */}
-        <h3 className={cn(subheadingVariants({ variant, size }))}>
-          {cover.subHeading}
-        </h3>
-        {/* heading */}
-        <h2 className={cn(headingVariants({ variant, size }))}>
-          {cover.heading}
-        </h2>
+      <div
+        className={cn(
+          "absolute w-[75%] p-[5%]",
+          variant === "accent" && "pl-0"
+        )}
+      >
         {/* description */}
-        <p className={cn(descriptionVariants({ variant, size }))}>
-          {cover.description}
-        </p>
+        <div className={cn(cardDescriptionVariants({ variant, size }))}>
+          {/* top heading */}
+          <div className="flex  items-center">
+            <h5 className={cn(topHeadingVariants({ variant, size }))}>
+              {cover.topHeader}
+            </h5>
+            {/* offer amount */}
+            <span className={cn(offerAmountVariants({ variant, size }))}>
+              {cover.offerAmount}
+            </span>
+          </div>
+          {/* sub heading */}
+          <h3 className={cn(subheadingVariants({ variant, size }))}>
+            {cover.subHeading}
+          </h3>
+          {/* heading */}
+          <h2 className={cn(headingVariants({ variant, size }))}>
+            {cover.heading}
+          </h2>
+          {/* description */}
+          <p className={cn(descriptionVariants({ variant, size }))}>
+            {cover.description}
+          </p>
+        </div>
         {/* button */}
         <Link href={cover.path}>
           <AppButton
-            className={variant === "secondary" ? "text-foreground" : ""}
+            className={cn(
+              variant === "secondary" ? "text-foreground" : "text-white",
+              variant === "accent" ? "mt-7 ml-6 text-sm" : ""
+            )}
             size={size}
             variant={variant === "primary" ? "primary" : "ghost"}
           >
