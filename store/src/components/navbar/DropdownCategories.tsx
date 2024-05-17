@@ -1,15 +1,34 @@
 import Link from "next/link";
 import DropdownCategoryItem from "./DropdownCategoryItem";
+import { FC } from "react";
+import { cn } from "@/libs/utils";
 
-const DropdownCategories = () => {
+type TDropDownCategoriesProps = {
+  type?: "mega" | "simple";
+};
+const DropdownCategories: FC<TDropDownCategoriesProps> = ({
+  type = "mega",
+}) => {
   return (
     <div className="space-y-4 w-[300px]  ">
       {Array.from({ length: 9 }).map((_item, i) => (
         <div key={i} className="group">
-          <DropdownCategoryItem />
+          <DropdownCategoryItem type={type} />
           {/* drop down */}
-          <div className="min-w-full h-full opacity-0 group-hover:opacity-100  group-hover:block absolute top-0 -right-[400px] group-hover:-right-[300px] transition-all duration-300">
-            <div className="rounded-md shadow-lg   w-full h-full ml-9 bg-background px-4 py-5">
+          <div
+            className={cn(
+              type === "mega"
+                ? " min-w-full h-full opacity-0 group-hover:opacity-100  group-hover:block absolute top-0 -right-[400px] group-hover:-right-[300px] transition-all duration-300"
+                : "hidden"
+            )}
+          >
+            <div
+              className={cn(
+                type === "mega"
+                  ? " rounded-md shadow-lg   w-full h-full ml-9 bg-background px-4 py-5"
+                  : "hidden"
+              )}
+            >
               <h3 className="text-base font-semibold">
                 Vegetables & Fresh Fruits
               </h3>

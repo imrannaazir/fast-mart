@@ -26,6 +26,7 @@ const assets = {
     apple_store: require("./svg/AppleStore.svg"),
     hearth: require("./svg/Heart.svg"),
     magnifying_glass: require("./svg/MagnifyingGlass.svg"),
+    leaf: require("./svg/Leaf.svg"),
   },
 };
 

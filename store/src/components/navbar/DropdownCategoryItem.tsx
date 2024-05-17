@@ -1,7 +1,14 @@
+import { cn } from "@/libs/utils";
+import { FC } from "react";
 import { LiaAngleRightSolid } from "react-icons/lia";
 import { LuCarrot } from "react-icons/lu";
 
-const DropdownCategoryItem = () => {
+type TDropDownCategoryItemProps = {
+  type?: "mega" | "simple";
+};
+const DropdownCategoryItem: FC<TDropDownCategoryItemProps> = ({
+  type = "mega",
+}) => {
   return (
     <div className="flex items-center group justify-between ">
       <div className="flex items-center   text-gray-500 gap-3">
@@ -14,7 +21,9 @@ const DropdownCategoryItem = () => {
           </span>
         </button>
       </div>
-      <LiaAngleRightSolid className=" text-lg" />
+      <LiaAngleRightSolid
+        className={cn(type === "mega" ? " text-lg" : "hidden")}
+      />
     </div>
   );
 };
