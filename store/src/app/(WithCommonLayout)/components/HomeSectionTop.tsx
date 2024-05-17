@@ -1,14 +1,21 @@
 import assets from "@/assets";
+import { cn } from "@/libs/utils";
+import { ClassValue } from "clsx";
 import Image from "next/image";
 import { FC } from "react";
 type THomeSectionTop = {
   heading: string;
   description: string;
+  className?: ClassValue;
 };
 
-const HomeSectionTop: FC<THomeSectionTop> = ({ heading, description }) => {
+const HomeSectionTop: FC<THomeSectionTop> = ({
+  heading,
+  description,
+  className,
+}) => {
   return (
-    <div>
+    <div className={cn(className)}>
       {/* heading */}
       <h2 className="text-[26px] font-bold">{heading}</h2>
       {/* divider */}
@@ -19,7 +26,7 @@ const HomeSectionTop: FC<THomeSectionTop> = ({ heading, description }) => {
         <span />
       </div>
       {/* description */}
-      <p className="text-sm text-gray-500 font-semibold">{description}</p>
+      <p className="text-sm text-gray-500 ">{description}</p>
     </div>
   );
 };

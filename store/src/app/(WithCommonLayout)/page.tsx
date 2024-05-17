@@ -13,7 +13,6 @@ const HomePage = () => {
         leftSideContent={<HomeLeftSideCategoriesBar />}
         rightSideContent={<HomeProductsByCategory />}
       />
-      <div className="h-[200vh]"></div>
     </div>
   );
 };

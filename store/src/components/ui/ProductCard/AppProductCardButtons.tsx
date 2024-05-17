@@ -3,20 +3,20 @@ import { Divider, Tooltip } from "antd";
 import Image from "next/image";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuRefreshCw } from "react-icons/lu";
-import { light_colors } from "../../../constant/colors.constant";
+import { light_colors } from "../../../../constant/colors.constant";
 
 const AppProductButtons = () => {
   const buttons = [
     {
       id: 1,
       label: "View",
-      icon: <IoEyeOutline />,
+      icon: <IoEyeOutline size={18} />,
       onClickHandler: () => {},
     },
     {
       id: 2,
       label: "Compare",
-      icon: <LuRefreshCw />,
+      icon: <LuRefreshCw size={16} />,
       onClickHandler: () => {},
     },
     {
@@ -29,7 +29,7 @@ const AppProductButtons = () => {
     },
   ];
   return (
-    <div className="absolute hidden z-10 bg-white py-2 px-6 rounded-xl shadow-md bottom-10   group-hover:bottom-1  group-hover:flex transition-all duration-300">
+    <div className="absolute  z-10 bg-white py-3 px-6 rounded-xl shadow-md -bottom-4   group-hover:bottom-1 opacity-0 group-hover:opacity-100 flex gap-1 transition-all duration-300">
       {buttons.map((button, i) => (
         <>
           {i !== 0 && <Divider type="vertical" />}
