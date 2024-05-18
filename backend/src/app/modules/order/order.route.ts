@@ -9,12 +9,12 @@ const router = Router();
 // create order
 router.post(
   '/',
-  auth('user', 'manager'),
+  auth('USER', 'ADMIN'),
   validateRequest(createOrderValidationSchema),
   OrderController.createOrder,
 );
 
 // get all order
-router.get('/', auth('user', 'manager'), OrderController.getAllOrder);
+router.get('/', auth('ADMIN', 'USER'), OrderController.getAllOrder);
 const OrderRoute = router;
 export default OrderRoute;

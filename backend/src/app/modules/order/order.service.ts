@@ -35,17 +35,17 @@ const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {
         );
       }
 
-      if (product.quantity < item.quantity) {
+      if ((product.quantity as number) < item.quantity) {
         throw new AppError(
           StatusCodes.BAD_REQUEST,
-          `Not enough quantity available for ${product.name}`,
+          `Not enough quantity available for ${product.title}`,
         );
       }
 
-      product.quantity -= item.quantity;
+      (product.quantity as number) -= item.quantity;
 
       if (product.quantity === 0) {
-        product.status = 'out-of-stock';
+        product.status = 'ARCHIVED';
       }
 
       orderedProduct.push({
@@ -96,7 +96,7 @@ const getAllOrder = async (
     throw new AppError(StatusCodes.UNAUTHORIZED, 'Account not founded.');
   }
 
-  if (isUserExist.role === 'user') {
+  if (isUserExist.role === 'USER') {
     query.createdBy = `${isUserExist._id}`;
   }
 
