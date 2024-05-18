@@ -14,15 +14,10 @@ import { Input } from "@/components/ui/input";
 import { createCategoryValidationSchema } from "@/schemas/contents.schemas";
 import { z } from "zod";
 import { toast } from "sonner";
-import {
-  useCreateCollectionMutation,
-  useGetAllCollectionsQuery,
-} from "@/redux/features/collection/collection.api";
+import {} from "@/redux/features/collection/collection.api";
 import { useNavigate } from "react-router-dom";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SelectOrCreate from "@/components/forms/SelectOrCreate";
-import { TCreateCollection } from "@/types/rtkQuery.type";
 import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
@@ -31,6 +26,7 @@ import { TProductFormValues } from "@/schemas/product.schema";
 import { FC } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
+import SelectCategories from "@/components/forms/product/SelectCategories";
 
 type TAddCategoryPageProps = {
   isInModal?: boolean;
@@ -44,9 +40,7 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [createCollection] = useCreateCollectionMutation();
   const [createCategory] = useCreateCategoryMutation();
-  const { data: collectionData } = useGetAllCollectionsQuery(undefined);
 
   const form = useForm<z.infer<typeof createCategoryValidationSchema>>({
     resolver: zodResolver(createCategoryValidationSchema),
@@ -78,13 +72,6 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({
     }
   };
 
-  const collections =
-    collectionData?.data?.map((collection) => ({
-      name: collection.title,
-      _id: collection._id,
-      iconName: collection.icon?.name,
-    })) || [];
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -115,24 +102,7 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({
                 />
 
                 {/* collection */}
-                <FormField
-                  control={form.control}
-                  name="collection"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col  mt-2">
-                      <FormLabel>Collection</FormLabel>
-                      <SelectOrCreate
-                        field={field}
-                        form={form}
-                        collections={collections}
-                        collectionName="collection"
-                        createCollection={createCollection as TCreateCollection}
-                      />
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <SelectCategories form={form} />
                 {/* description */}
                 <FormField
                   control={form.control}

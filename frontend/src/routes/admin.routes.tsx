@@ -1,6 +1,5 @@
 import AddProduct from "@/pages/AddProduct";
 import HomePage from "@/pages/Home";
-import OrderList from "@/pages/OrderList";
 import ProductDetails from "@/pages/ProductDetails";
 import ProductList from "@/pages/ProductList";
 // import UpdateProduct from "@/pages/UpdateProduct";
@@ -42,11 +41,6 @@ const paths: TPath[] = [
         label: "Add",
         path: "new",
         element: <AddOrderPage />,
-      },
-      {
-        label: "List",
-        path: "list",
-        element: <OrderList />,
       },
     ],
   },

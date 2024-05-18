@@ -1,6 +1,5 @@
-import { TResponseRedux } from "@/types";
+import { TIcon, TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
-import { TIcon } from "@/types/collection";
 
 const iconApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

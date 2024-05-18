@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import OptionSelector from "@/components/ui/option-selector";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import AddCategoryPage from "@/pages/AddCategory";
 
 type TSelectCategoriesProps = {
-  form: UseFormReturn<TProductFormValues>;
+  form: UseFormReturn<any>;
 };
 
 const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {

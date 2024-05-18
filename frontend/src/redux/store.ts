@@ -15,7 +15,6 @@ import storage from "redux-persist/lib/storage";
 import modalSlice from "./features/modal/modalSlice";
 import tagSlice from "./features/tag/tagSlice";
 import filterSlice from "./features/filter/filterSlice";
-import { productReducer } from "./features/product/productSlice";
 import { alertModalReducer } from "./features/modal/alertModal.slice";
 
 const persistConfig = {
@@ -31,7 +30,6 @@ const store = configureStore({
     modal: modalSlice,
     tags: tagSlice,
     filter: filterSlice,
-    product: productReducer,
     alertModal: alertModalReducer,
   },
   middleware: (getDefaultMiddlewares) =>

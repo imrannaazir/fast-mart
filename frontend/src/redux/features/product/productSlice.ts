@@ -1,4 +1,4 @@
-import { RootState } from "@/redux/store";
+/* import { RootState } from "@/redux/store";
 import { TProductDefaultValue } from "@/types/product.type";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
@@ -57,3 +57,4 @@ export const selectDefaultProductValues = (state: RootState) =>
 
 export const selectSelectedProducts = (state: RootState) =>
   state.product.selectedProduct;
+ */

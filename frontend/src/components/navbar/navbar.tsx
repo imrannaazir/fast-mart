@@ -3,7 +3,6 @@ import { Button } from "../ui/button";
 import { logOut } from "@/redux/features/auth/authSlice";
 import { SheetNav } from "./SheetNav";
 import { useLogoutMutation } from "@/redux/features/auth/authApi";
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
