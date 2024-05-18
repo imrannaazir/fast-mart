@@ -49,11 +49,18 @@
   }
 
   /* carouselStyles css */
-  .custom-carousel .slick-dots li button {
-    background: #ccc; /* Inactive dot color */
+  .custom-carousel {
+    font-size: 100px;
+    position: relative;
+    background-color: gray;
+  }
+  .slick-dots {
+    position: absolute;
+    background-color: brown;
+    top: 170px;
   }
 
-  .custom-carousel .slick-dots li.slick-active button {
+  .slick-active li button {
     background: #ff0000; /* Active dot color */
   }
 

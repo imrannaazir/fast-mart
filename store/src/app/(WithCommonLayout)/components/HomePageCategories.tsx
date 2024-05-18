@@ -1,36 +1,45 @@
 "use client";
-import { Carousel } from "antd";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-const contentStyle: React.CSSProperties = {
-  margin: 0,
-  height: "160px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#364d79",
-};
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "../../../styles/slider.css";
 
-const HomePageCategories: React.FC = () => {
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+// import required modules
+import { Pagination, Autoplay } from "swiper/modules";
+import HomePageCategoryCard from "./HomePageCategoryCard";
+
+export default function App() {
+  const pagination = {
+    clickable: true,
+    renderBullet: function (index: number, className: string) {
+      return '<span class="' + className + '">' + "</span>";
+    },
   };
 
   return (
-    <Carousel afterChange={onChange} className="custom-carousel">
-      <div>
-        <h3 style={contentStyle}>1</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>2</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>3</h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>4</h3>
-      </div>
-    </Carousel>
+    <div className="mt-6">
+      <Swiper
+        loop={true}
+        slidesPerView={5}
+        centeredSlides={true}
+        spaceBetween={0}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        pagination={pagination}
+        modules={[Autoplay, Pagination]}
+        className="mySwiper"
+      >
+        {Array.from({ length: 8 }).map((_item, i) => (
+          <SwiperSlide key={i}>
+            <HomePageCategoryCard />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
-};
-
-export default HomePageCategories;
+}
