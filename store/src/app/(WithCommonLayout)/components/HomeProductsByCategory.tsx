@@ -1,5 +1,6 @@
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import HomeSectionTop from "./HomeSectionTop";
+import HomePageCategories from "./HomePageCategories";
 
 const HomeProductsByCategory = () => {
   return (
@@ -18,14 +19,11 @@ const HomeProductsByCategory = () => {
       {/* Bowse By Categories */}
       {/* top header  */}
       <HomeSectionTop
+        className="mt-6"
         heading="Bowse By Categories"
         description="Top Categories Of The Week"
       />
-      <div className="grid grid-cols-4 gap-3 mt-6">
-        {Array.from({ length: 8 }).map((_product, i) => (
-          <AppProductCard key={i} />
-        ))}
-      </div>
+      <HomePageCategories />
     </div>
   );
 };

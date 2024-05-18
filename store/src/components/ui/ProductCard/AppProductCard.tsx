@@ -5,7 +5,7 @@ import ProductCardAddToCartButton from "./ProductCardAddToCartButton";
 
 const AppProductCard = () => {
   return (
-    <div className="p-3 border rounded-lg group  text-sm">
+    <div className="p-3 border rounded-lg group  text-sm shadow-sm">
       {/* image */}
       <div className="relative mx-auto flex w-[80%] py-3 items-center justify-center  ">
         {/* buttons */}

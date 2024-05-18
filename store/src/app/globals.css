@@ -47,6 +47,23 @@
     -webkit-transition-delay: 0.175s;
     transition-delay: 0.175s;
   }
+
+  /* carouselStyles css */
+  .custom-carousel .slick-dots li button {
+    background: #ccc; /* Inactive dot color */
+  }
+
+  .custom-carousel .slick-dots li.slick-active button {
+    background: #ff0000; /* Active dot color */
+  }
+
+  .custom-carousel .slick-dots li button:before {
+    color: transparent;
+  }
+
+  .custom-carousel .slick-dots li.slick-active button:before {
+    color: transparent;
+  }
 }
 
 * {
