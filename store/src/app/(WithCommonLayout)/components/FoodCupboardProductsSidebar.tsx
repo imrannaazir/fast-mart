@@ -5,7 +5,7 @@ import assets from "@/assets";
 const FoodCupBoardProductsSidebar = () => {
   const cover: THeroCoverProps = {
     topHeader: "Seafood",
-    description: "every hour",
+    description: null,
     heading: "PRODUCTS",
     id: 1,
     offerAmount: null,
