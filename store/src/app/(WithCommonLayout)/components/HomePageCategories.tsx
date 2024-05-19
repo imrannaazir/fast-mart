@@ -11,7 +11,7 @@ import "../../../styles/slider.css";
 import { Pagination, Autoplay } from "swiper/modules";
 import HomePageCategoryCard from "./HomePageCategoryCard";
 
-export default function App() {
+export default function HomePageCategories() {
   const pagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {

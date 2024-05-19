@@ -31,3 +31,30 @@
   background: #0da578;
   transition: width 0.3s ease;
 }
+
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+  position: absolute;
+  top: 50%;
+  margin-top: -22px;
+  z-index: 10;
+  cursor: pointer;
+  background-size: 27px 44px;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.swiper-container:hover .custom-swiper-button-prev,
+.swiper-container:hover .custom-swiper-button-next {
+  opacity: 1;
+}
+
+.custom-swiper-button-prev {
+  left: 10px;
+}
+
+.custom-swiper-button-next {
+  right: 10px;
+}

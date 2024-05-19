@@ -25,7 +25,7 @@ const HomePageOfferCards = () => {
     },
   ];
   return (
-    <div className=" w-full grid grid-cols-2 gap-6 my-6">
+    <div className=" w-full grid grid-cols-2 gap-6 mt-6">
       {cards.map((card) => (
         <AppCard
           cover={card}

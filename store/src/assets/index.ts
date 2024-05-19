@@ -14,6 +14,7 @@ const assets = {
       vegetables: require("./image/vegetable-banner.jpg"),
       chicken: require("./image/chicken.jpg"),
       mushrooms: require("./image/mushrooms.jpg"),
+      seafood: require("./image/seafood.jpg"),
     },
   },
   svg: {
