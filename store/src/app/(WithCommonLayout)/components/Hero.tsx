@@ -7,7 +7,7 @@ export type THeroCoverProps = {
   offerAmount: string | null;
   subHeading: string | null;
   heading: string;
-  description: string;
+  description: string | null;
   path: string;
 };
 const HomePageHero = () => {
@@ -92,7 +92,7 @@ const HomePageHero = () => {
           variant={
             i === 0 ? "primary" : i > 0 && i < 3 ? "secondary" : "accent"
           }
-          size={i === 0 ? "lg" : "sm"}
+          size={i === 0 ? "lg" : i > 0 && i < 3 ? "sm" : "lg"}
           className={
             i === 0
               ? "col-span-8 row-span-2"

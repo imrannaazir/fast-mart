@@ -17,12 +17,12 @@ const appCardVariants = cva(
   {
     variants: {
       variant: {
-        primary: " h-[500px]  bg-red-300",
-        secondary: " h-[240px] min-w-[407px] bg-green-300 ",
+        primary: " h-[500px]  ",
+        secondary: " h-[240px] min-w-[407px]  ",
         accent: " bg-blue-400",
       },
       size: {
-        lg: " ",
+        lg: "  ",
         sm: " ",
       },
     },
@@ -56,7 +56,7 @@ const cardDescriptionVariants = cva("", {
 const topHeadingVariants = cva("", {
   variants: {
     variant: {
-      primary: "text-gray-500 font-medium",
+      primary: "text-gray-500 font-medium mr-2",
       secondary: " ",
       accent: " ",
     },
@@ -76,12 +76,12 @@ const offerAmountVariants = cva("text-secondary", {
   variants: {
     variant: {
       primary:
-        "  bg-gradient-to-r from-secondary/10 to-transparent rounded-full",
+        "  bg-gradient-to-r from-secondary/10 to-transparent rounded-full text-sm font-semibold  py-2 px-3 ",
       secondary: "  text-[28px] font-semibold",
       accent: " ",
     },
     size: {
-      lg: " text-sm font-semibold  py-2 px-3 ml-4",
+      lg: " ",
       sm: " ",
     },
   },
@@ -94,13 +94,13 @@ const offerAmountVariants = cva("text-secondary", {
 const headingVariants = cva("", {
   variants: {
     variant: {
-      primary: " text-primary",
+      primary: " text-primary text-[36px] font-extrabold",
       secondary: "text-primary text-[24px] font-bold ",
       accent: "font-semibold ",
     },
     size: {
-      lg: " text-[36px] font-extrabold",
-      sm: " ",
+      lg: " ",
+      sm: " text-[20px] font-extrabold",
     },
   },
   defaultVariants: {
@@ -132,12 +132,12 @@ const subheadingVariants = cva("", {
 const descriptionVariants = cva("text-gray-400", {
   variants: {
     variant: {
-      primary: " ",
+      primary: " text-sm font-medium w-[75%] mb-6",
       secondary: "text-sm w-[70%] ",
       accent: " text-sm",
     },
     size: {
-      lg: "text-sm font-medium w-[75%] mb-6",
+      lg: "",
       sm: " ",
     },
   },
@@ -180,9 +180,11 @@ const AppCard: FC<TAppCardProps> = ({
         <div className={cn(cardDescriptionVariants({ variant, size }))}>
           {/* top heading */}
           <div className="flex  items-center">
-            <h5 className={cn(topHeadingVariants({ variant, size }))}>
-              {cover.topHeader}
-            </h5>
+            {cover.topHeader && (
+              <h5 className={cn(topHeadingVariants({ variant, size }))}>
+                {cover.topHeader}
+              </h5>
+            )}
             {/* offer amount */}
             <span className={cn(offerAmountVariants({ variant, size }))}>
               {cover.offerAmount}
@@ -197,16 +199,18 @@ const AppCard: FC<TAppCardProps> = ({
             {cover.heading}
           </h2>
           {/* description */}
-          <p className={cn(descriptionVariants({ variant, size }))}>
-            {cover.description}
-          </p>
+          {cover.description && (
+            <p className={cn(descriptionVariants({ variant, size }))}>
+              {cover.description}
+            </p>
+          )}
         </div>
         {/* button */}
         <Link href={cover.path}>
           <AppButton
             className={cn(
               variant === "secondary" ? "text-foreground" : "text-white",
-              variant === "accent" ? "mt-7 ml-6 text-sm" : ""
+              variant === "accent" ? "mt-8 -ml-2 text-sm" : ""
             )}
             size={size}
             variant={variant === "primary" ? "primary" : "ghost"}

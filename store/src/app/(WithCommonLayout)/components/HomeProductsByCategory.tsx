@@ -1,6 +1,7 @@
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import HomeSectionTop from "./HomeSectionTop";
 import HomePageCategories from "./HomePageCategories";
+import HomePageOfferCards from "./HomePageOfferCards";
 
 const HomeProductsByCategory = () => {
   return (
@@ -24,6 +25,7 @@ const HomeProductsByCategory = () => {
         description="Top Categories Of The Week"
       />
       <HomePageCategories />
+      <HomePageOfferCards />
     </div>
   );
 };

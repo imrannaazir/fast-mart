@@ -12,6 +12,8 @@ const assets = {
       nuts: require("./image/nuts-banner.jpg"),
       snacks: require("./image/snacks-banner.jpg"),
       vegetables: require("./image/vegetable-banner.jpg"),
+      chicken: require("./image/chicken.jpg"),
+      mushrooms: require("./image/mushrooms.jpg"),
     },
   },
   svg: {
