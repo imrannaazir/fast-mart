@@ -29,6 +29,7 @@ export default function App() {
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
+          pauseOnMouseEnter: true,
         }}
         pagination={pagination}
         modules={[Autoplay, Pagination]}
