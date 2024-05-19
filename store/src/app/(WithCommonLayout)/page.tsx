@@ -5,6 +5,7 @@ import HomeProductsByCategory from "./components/HomeProductsByCategory";
 import FoodCupBoardProducts from "./components/FoodCupboardProducts";
 import FoodCupBoardProductsSidebar from "./components/FoodCupboardProductsSidebar";
 import HomeBestSellerProductsSideBanner from "./components/HomeBestSellerProductsSideBanner";
+import BestSellerProductsSection from "./components/BestSellerProductsSection";
 
 const HomePage = () => {
   return (
@@ -28,7 +29,7 @@ const HomePage = () => {
       <HomeSectionLayout
         className="mt-10"
         leftSideContent={<HomeBestSellerProductsSideBanner />}
-        rightSideContent={<HomeProductsByCategory />}
+        rightSideContent={<BestSellerProductsSection />}
       />
     </div>
   );

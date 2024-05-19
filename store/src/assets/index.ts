@@ -16,6 +16,7 @@ const assets = {
       mushrooms: require("./image/mushrooms.jpg"),
       seafood: require("./image/seafood.jpg"),
       fresh_vegetable: require("./image/fresh-vegetable.jpg"),
+      cashback: require("./image/cashback.jpg"),
     },
   },
   svg: {
