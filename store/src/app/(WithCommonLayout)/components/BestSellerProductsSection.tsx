@@ -3,6 +3,7 @@ import HomePageCashbackBanner from "./HomePageCashbackBanner";
 import HomeSectionTop from "./HomeSectionTop";
 import { THeroCoverProps } from "./Hero";
 import assets from "@/assets";
+import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 
 const BestSellerProductsSection = () => {
   // juice cover
@@ -29,6 +30,18 @@ const BestSellerProductsSection = () => {
     description: null,
     topHeader: null,
   };
+
+  // summer vegetables
+  const summerVegetablesCover: THeroCoverProps = {
+    id: 3,
+    subHeading: null,
+    heading: "VEGETABLE",
+    offerAmount: null,
+    photo: assets.images.banners.summer_vegetable,
+    path: "",
+    description: "Save up to 5% OFF",
+    topHeader: "SUMMER",
+  };
   return (
     <section>
       <HomePageCashbackBanner />
@@ -53,6 +66,16 @@ const BestSellerProductsSection = () => {
         heading="Our Best Seller"
         description="A virtual assistant collects the products from your list"
       />
+
+      {/* best seller products */}
+      <div className="grid grid-cols-4 gap-3 mt-6">
+        {Array.from({ length: 8 }).map((_product, i) => (
+          <AppProductCard key={i} />
+        ))}
+      </div>
+
+      {/* vegetable banner    */}
+      <AppCard cover={summerVegetablesCover} className="justify-end mt-10" />
     </section>
   );
 };

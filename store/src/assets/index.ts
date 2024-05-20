@@ -19,6 +19,7 @@ const assets = {
       cashback: require("./image/cashback.jpg"),
       juice: require("./image/juice.jpg"),
       drinks: require("./image/drinks.jpg"),
+      summer_vegetable: require("./image/summer_vegetable.jpg"),
     },
   },
   svg: {
