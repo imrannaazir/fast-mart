@@ -1,6 +1,7 @@
 const assets = {
   images: {
     payment: require("./image/payment.png"),
+    sales_manager: require("./image/sales_manager.jpg"),
     bg: {
       category_card: require("./image/category-card-bg.png"),
     },

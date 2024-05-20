@@ -6,6 +6,8 @@ import FoodCupBoardProducts from "./components/FoodCupboardProducts";
 import FoodCupBoardProductsSidebar from "./components/FoodCupboardProductsSidebar";
 import HomeBestSellerProductsSideBanner from "./components/HomeBestSellerProductsSideBanner";
 import BestSellerProductsSection from "./components/BestSellerProductsSection";
+import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
+import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
 
 const HomePage = () => {
   return (
@@ -30,6 +32,13 @@ const HomePage = () => {
         className="mt-10"
         leftSideContent={<HomeBestSellerProductsSideBanner />}
         rightSideContent={<BestSellerProductsSection />}
+      />
+
+      {/* featured blogs */}
+      <HomeSectionLayout
+        className="mt-10"
+        leftSideContent={<CustomerCommentsSidebar />}
+        rightSideContent={<HomeFeaturedBlogs />}
       />
     </div>
   );
