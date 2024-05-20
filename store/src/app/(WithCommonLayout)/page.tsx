@@ -8,6 +8,7 @@ import HomeBestSellerProductsSideBanner from "./components/HomeBestSellerProduct
 import BestSellerProductsSection from "./components/BestSellerProductsSection";
 import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
 import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
+import HomePageNewsLetter from "./components/HomePageNewsLetter";
 
 const HomePage = () => {
   return (
@@ -40,6 +41,8 @@ const HomePage = () => {
         leftSideContent={<CustomerCommentsSidebar />}
         rightSideContent={<HomeFeaturedBlogs />}
       />
+      {/* news letter  */}
+      <HomePageNewsLetter />
     </div>
   );
 };
