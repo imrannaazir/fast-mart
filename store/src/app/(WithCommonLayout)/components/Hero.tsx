@@ -97,7 +97,7 @@ const HomePageHero = () => {
             i === 0
               ? "col-span-8 row-span-2"
               : i > 0 && i < 2
-              ? "col-span-4"
+              ? "col-span-4  min-h-[240px] min-w-[407px] "
               : " col-span-3 "
           }
           key={i}
