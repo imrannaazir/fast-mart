@@ -4,8 +4,8 @@ import Image from "next/image";
 import { FC } from "react";
 import { AppButton } from "./AppButton";
 import { cva } from "class-variance-authority";
-import { THeroCoverProps } from "@/app/(WithCommonLayout)/components/Hero";
 import Link from "next/link";
+import { THeroCoverProps } from "@/types";
 
 // Define the variant type
 type AppCardVariant = "primary" | "secondary" | "accent";
@@ -18,7 +18,8 @@ const appCardVariants = cva(
     variants: {
       variant: {
         primary: " ",
-        secondary: " h-[240px] min-w-[407px]  ",
+        secondary:
+          "lg:h-[200px] lg:w-[320px]  xl:h-[240px]  xl:min-w-[407px] bg-red-400 ",
         accent: " ",
       },
       size: {
@@ -77,7 +78,7 @@ const offerAmountVariants = cva("text-secondary", {
     variant: {
       primary:
         "  bg-gradient-to-r from-secondary/10 to-transparent rounded-full text-sm font-semibold  py-2 px-3 ",
-      secondary: "  text-[28px] font-semibold",
+      secondary: "  lg:text-[28px] font-semibold",
       accent: " ",
     },
     size: {
@@ -94,13 +95,13 @@ const offerAmountVariants = cva("text-secondary", {
 const headingVariants = cva("", {
   variants: {
     variant: {
-      primary: " text-primary text-[36px] font-extrabold",
-      secondary: "text-primary text-[24px] font-bold ",
+      primary: " text-primary md:text-[36px] font-extrabold",
+      secondary: "text-primary md:text-[24px] font-bold ",
       accent: "font-semibold ",
     },
     size: {
       lg: " ",
-      sm: " text-[20px] font-extrabold",
+      sm: " lg:text-[20px] font-extrabold",
     },
   },
   defaultVariants: {
@@ -118,7 +119,7 @@ const subheadingVariants = cva("", {
       accent: " ",
     },
     size: {
-      lg: "text-[36px] font-semibold w-[80%]",
+      lg: "md:text-[36px] font-semibold md:w-[80%]",
       sm: " ",
     },
   },
@@ -132,8 +133,8 @@ const subheadingVariants = cva("", {
 const descriptionVariants = cva("text-gray-400", {
   variants: {
     variant: {
-      primary: " text-sm font-medium w-[75%] mb-6",
-      secondary: "text-sm w-[70%] ",
+      primary: " hidden lg:block text-sm font-medium w-[75%] mb-6",
+      secondary: "text-sm lg:w-[70%] ",
       accent: " text-sm",
     },
     size: {
@@ -172,8 +173,8 @@ const AppCard: FC<TAppCardProps> = ({
 
       <div
         className={cn(
-          "absolute w-[75%] p-[5%]",
-          variant === "accent" && "pl-0"
+          "absolute lg:w-[75%] p-[5%]",
+          variant === "accent" && "pl-0 lg:w-full"
         )}
       >
         {/* description */}
@@ -210,7 +211,7 @@ const AppCard: FC<TAppCardProps> = ({
           <AppButton
             className={cn(
               variant === "secondary" ? "text-foreground" : "text-white",
-              variant === "accent" ? "mt-8 -ml-2 text-sm" : ""
+              variant === "accent" ? "mt-8 lg:mt-2 xl:mt-8-ml-2 text-sm" : ""
             )}
             size={size}
             variant={variant === "primary" ? "primary" : "ghost"}

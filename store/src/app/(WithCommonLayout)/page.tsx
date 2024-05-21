@@ -15,34 +15,34 @@ const HomePage = () => {
     <div>
       <HomePageHero />
       {/* products  by category */}
-      <HomeSectionLayout
+      {/* <HomeSectionLayout
         className="mt-10 "
         leftSideContent={<HomeLeftSideCategoriesBar />}
         rightSideContent={<HomeProductsByCategory />}
-      />
+      /> */}
 
       {/* food Cupboard  */}
-      <HomeSectionLayout
+      {/* <HomeSectionLayout
         className="mt-10"
         leftSideContent={<FoodCupBoardProductsSidebar />}
         rightSideContent={<FoodCupBoardProducts />}
-      />
+      /> */}
 
       {/* our best seller products */}
-      <HomeSectionLayout
+      {/* <HomeSectionLayout
         className="mt-10"
         leftSideContent={<HomeBestSellerProductsSideBanner />}
         rightSideContent={<BestSellerProductsSection />}
-      />
+      /> */}
 
       {/* featured blogs */}
-      <HomeSectionLayout
+      {/* <HomeSectionLayout
         className="mt-10"
         leftSideContent={<CustomerCommentsSidebar />}
         rightSideContent={<HomeFeaturedBlogs />}
-      />
+      /> */}
       {/* news letter  */}
-      <HomePageNewsLetter />
+      {/* <HomePageNewsLetter /> */}
     </div>
   );
 };

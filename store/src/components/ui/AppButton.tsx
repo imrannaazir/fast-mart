@@ -17,7 +17,7 @@ const appButtonVariants = cva(
       size: {
         default: "h-10 pl-4 pr-2 py-2",
         sm: "h-9 rounded-md text-sm pl-0 pr-0 mt-1 text-foreground/70",
-        lg: "h-12 rounded-md pl-8 pr-6 font-bold text-[16px]",
+        lg: "h-9 lg:h-12 rounded-md lg:pl-8 lg:pr-6 font-bold lg:text-[16px]",
         icon: "h-10 w-10",
       },
     },

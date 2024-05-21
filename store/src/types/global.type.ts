@@ -9,3 +9,14 @@ export type TLinkItem = {
   image?: string;
   logo?: string;
 };
+
+export type THeroCoverProps = {
+  id: number;
+  photo: unknown;
+  topHeader: string | null;
+  offerAmount: string | null;
+  subHeading: string | null;
+  heading: string;
+  description: string | null;
+  path: string;
+};
