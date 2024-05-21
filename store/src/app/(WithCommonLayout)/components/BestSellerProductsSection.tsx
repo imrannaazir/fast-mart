@@ -20,12 +20,14 @@ const BestSellerProductsSection = () => {
           className="lg:col-span-2 lg:max-h-full"
           size="sm"
         />
-        <AppCard
-          cover={drinksCover}
-          className="hidden lg:block lg:max-h-full"
-          variant="primary"
-          size="sm"
-        />
+        <div className="hidden lg:block">
+          <AppCard
+            cover={drinksCover}
+            className=" lg:max-h-full"
+            variant="primary"
+            size="sm"
+          />
+        </div>
       </div>
 
       <HomeSectionTop

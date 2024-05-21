@@ -36,13 +36,13 @@ const HomePage = () => {
       />
 
       {/* featured blogs */}
-      {/* <HomeSectionLayout
+      <HomeSectionLayout
         className="mt-10"
         leftSideContent={<CustomerCommentsSidebar />}
         rightSideContent={<HomeFeaturedBlogs />}
-      /> */}
+      />
       {/* news letter  */}
-      {/* <HomePageNewsLetter /> */}
+      <HomePageNewsLetter />
     </div>
   );
 };

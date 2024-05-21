@@ -7,12 +7,12 @@ const { Search } = Input;
 const HomePageNewsLetter = () => {
   return (
     <div
-      className="my-10 rounded-lg py-10 px-[211px]"
+      className="my-10 rounded-lg py-6 lg:py-10 lg:px-[211px]"
       style={{
         backgroundImage: `url("/backgrounds/newsletter.jpg")`,
       }}
     >
-      <div className="max-w-[400px]">
+      <div className="max-w-[400px] px-4">
         <h3 className="text-[28px] font-semibold text-background">
           Join our newsletter and get...
         </h3>
