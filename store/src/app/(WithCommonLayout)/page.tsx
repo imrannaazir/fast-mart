@@ -29,11 +29,11 @@ const HomePage = () => {
       />
 
       {/* our best seller products */}
-      {/* <HomeSectionLayout
+      <HomeSectionLayout
         className="mt-10"
         leftSideContent={<HomeBestSellerProductsSideBanner />}
         rightSideContent={<BestSellerProductsSection />}
-      /> */}
+      />
 
       {/* featured blogs */}
       {/* <HomeSectionLayout

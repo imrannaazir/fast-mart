@@ -97,3 +97,40 @@ export const offerCards = [
     path: "/",
   },
 ];
+
+// juice cover
+export const juiceCover: THeroCoverProps = {
+  id: 1,
+  subHeading: "Get Ready To",
+  heading: "TAKE ON THE DAY!",
+  description:
+    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.",
+  photo: assets.images.banners.juice,
+  path: "",
+  offerAmount: null,
+  topHeader: null,
+};
+
+// drinks cover
+export const drinksCover: THeroCoverProps = {
+  id: 2,
+  subHeading: "SUMMARY",
+  heading: "Products",
+  offerAmount: "20% Off",
+  photo: assets.images.banners.drinks,
+  path: "",
+  description: null,
+  topHeader: null,
+};
+
+// summer vegetables
+export const summerVegetablesCover: THeroCoverProps = {
+  id: 3,
+  subHeading: null,
+  heading: "VEGETABLE",
+  offerAmount: null,
+  photo: assets.images.banners.summer_vegetable,
+  path: "",
+  description: "Save up to 5% OFF",
+  topHeader: "SUMMER",
+};
