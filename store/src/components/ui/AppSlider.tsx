@@ -15,17 +15,25 @@ import { FC, ReactNode, useEffect, useRef } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { ClassValue } from "clsx";
 import { cn } from "@/libs/utils";
+import { SwiperOptions } from "swiper/types";
 
 type TAppSliderProps = {
   children: ReactNode;
   className?: ClassValue;
   slidesPerView: number;
+  breakpoints:
+    | {
+        [width: number]: SwiperOptions;
+        [ratio: string]: SwiperOptions;
+      }
+    | undefined;
 };
 
 const AppSlider: FC<TAppSliderProps> = ({
   children,
   className,
   slidesPerView,
+  breakpoints,
 }) => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -52,6 +60,7 @@ const AppSlider: FC<TAppSliderProps> = ({
         }}
         loop={true}
         slidesPerView={slidesPerView}
+        breakpoints={breakpoints}
         navigation={{
           prevEl: prevRef.current,
           nextEl: nextRef.current,

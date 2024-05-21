@@ -58,3 +58,10 @@
 .custom-swiper-button-next {
   right: 10px;
 }
+
+@media (max-width: 540px) {
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    opacity: 1;
+  }
+}

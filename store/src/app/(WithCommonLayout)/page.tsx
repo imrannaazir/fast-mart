@@ -22,11 +22,11 @@ const HomePage = () => {
       />
 
       {/* food Cupboard  */}
-      {/* <HomeSectionLayout
+      <HomeSectionLayout
         className="mt-10"
         leftSideContent={<FoodCupBoardProductsSidebar />}
         rightSideContent={<FoodCupBoardProducts />}
-      /> */}
+      />
 
       {/* our best seller products */}
       {/* <HomeSectionLayout

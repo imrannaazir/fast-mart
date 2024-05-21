@@ -6,7 +6,7 @@ import assets from "@/assets";
 
 const MobileMenu = () => {
   return (
-    <div className="md:hidden  fixed bottom-0 w-full  bg-primary text-background py-[10px] flex justify-center gap-4 items-center">
+    <div className="md:hidden  fixed bottom-0 w-full  bg-primary text-background py-[10px] flex justify-center gap-4 items-center z-50">
       {/* home */}
       <Link href={"/"} className="flex items-center justify-center flex-col">
         <BiHome className="w-5 h-5" />

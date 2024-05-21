@@ -12,7 +12,7 @@ const FoodCupBoardProducts = () => {
 
       <ProductsSliders />
 
-      <div className="flex justify-end pb-4">
+      <div className="flex justify-center md:justify-end pb-4 mt-4">
         <AppButton className="">View More</AppButton>
       </div>
     </div>
