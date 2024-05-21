@@ -23,9 +23,8 @@ export default function HomePageCategories() {
     <div className="mt-6">
       <Swiper
         loop={true}
-        slidesPerView={5}
-        centeredSlides={true}
-        spaceBetween={0}
+        slidesPerView={2}
+        spaceBetween={10}
         autoplay={{
           delay: 2500,
           disableOnInteraction: false,
@@ -34,6 +33,20 @@ export default function HomePageCategories() {
         pagination={pagination}
         modules={[Autoplay, Pagination]}
         className="mySwiper"
+        breakpoints={{
+          540: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },
+          768: {
+            slidesPerView: 4,
+            spaceBetween: 0,
+          },
+          1024: {
+            slidesPerView: 5,
+            spaceBetween: 0,
+          },
+        }}
       >
         {Array.from({ length: 8 }).map((_item, i) => (
           <SwiperSlide key={i}>

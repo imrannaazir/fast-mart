@@ -17,13 +17,15 @@ const HomeSectionLayout: FC<THomeSectionLayout> = ({
   className,
 }) => {
   return (
-    <section className={cn("grid grid-cols-4 gap-4", className)}>
+    <section className={cn("grid-cols-1 grid xl:grid-cols-4 gap-4", className)}>
       {/* left */}
-      <div className={cn("", leftSideClassName)}>{leftSideContent}</div>
+      <div className={cn("hidden xl:block", leftSideClassName)}>
+        {leftSideContent}
+      </div>
 
       {/* right */}
 
-      <div className={cn("col-span-3", rightSideClassName)}>
+      <div className={cn("xl:col-span-3", rightSideClassName)}>
         {rightSideContent}
       </div>
     </section>

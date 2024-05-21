@@ -19,7 +19,7 @@ const appCardVariants = cva(
       variant: {
         primary: " ",
         secondary:
-          "lg:h-[200px] lg:w-[320px]  xl:h-[240px]  xl:min-w-[407px] bg-red-400 ",
+          "lg:h-[200px] lg:w-[320px]  xl:h-[240px]  xl:min-w-[407px]  ",
         accent: " ",
       },
       size: {

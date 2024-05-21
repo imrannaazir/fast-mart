@@ -15,11 +15,11 @@ const HomePage = () => {
     <div>
       <HomePageHero />
       {/* products  by category */}
-      {/* <HomeSectionLayout
+      <HomeSectionLayout
         className="mt-10 "
         leftSideContent={<HomeLeftSideCategoriesBar />}
         rightSideContent={<HomeProductsByCategory />}
-      /> */}
+      />
 
       {/* food Cupboard  */}
       {/* <HomeSectionLayout
