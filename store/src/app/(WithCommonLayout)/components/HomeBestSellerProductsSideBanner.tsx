@@ -1,7 +1,7 @@
 import AppCard from "@/components/ui/AppCard";
-import { THeroCoverProps } from "./Hero";
 import assets from "@/assets";
 import HomePageTrendingProducts from "./HomePageTrendingProducts";
+import { THeroCoverProps } from "@/types";
 
 const HomeBestSellerProductsSideBanner = () => {
   const freshVegetableCover: THeroCoverProps = {

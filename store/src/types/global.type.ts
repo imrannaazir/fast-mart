@@ -1,11 +1,11 @@
 import { ReactNode } from "react";
 
 export type TLinkItem = {
-  id: number;
+  id: string | number;
   path: string;
-  icon?: ReactNode;
   label: string;
   children?: TLinkItem[];
+  icon?: ReactNode;
   image?: string;
   logo?: string;
 };

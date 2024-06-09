@@ -1,6 +1,6 @@
 import AppCard from "@/components/ui/AppCard";
-import { THeroCoverProps } from "./Hero";
 import assets from "@/assets";
+import { THeroCoverProps } from "@/types";
 
 const FoodCupBoardProductsSidebar = () => {
   const cover: THeroCoverProps = {

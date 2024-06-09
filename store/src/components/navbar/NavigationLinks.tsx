@@ -7,8 +7,37 @@ import NavigationLinkItem from "./NavigationLinkItem";
 import DropdownNavigationLink from "./DropdownNavigationLink";
 import Link from "next/link";
 import { Menu } from "antd";
-const NavigationLinks = () => {
+import { TBrand } from "@/types";
+
+const baseUrl = process.env.NEXT_PUBLIC_DB_URL;
+
+async function getBrandsData() {
+  const res = await fetch(`${baseUrl}/brands`);
+  if (!res?.ok) {
+    throw new Error("Failed to fetch Brands");
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+const NavigationLinks = async () => {
+  // fetch brands data
+  const data = await getBrandsData();
+  const brandList: TBrand[] = data?.data || [];
+
+  // transform into link item
+  const brandListLinks = brandList?.map((brand, i) => ({
+    id: brand?._id as string,
+    label: brand?.name,
+    path: brand?.name?.split(" ").join("-").toLowerCase(),
+    logo: i === 0 ? brand?.logo?.url : "",
+  }));
+
+  // icon class name
   const iconClassName: ClassValue = "w-4 h-4";
+
+  // navigation links
   const navigationLinks = [
     {
       id: 1,
@@ -27,33 +56,7 @@ const NavigationLinks = () => {
       label: "Brands",
       path: "/brands",
       icon: <TbBrandAngular className={iconClassName} />,
-      children: [
-        {
-          id: 1,
-          label: "Apple",
-          path: "apple",
-        },
-        {
-          id: 2,
-          label: "Samsung",
-          path: "samsung",
-        },
-        {
-          id: 3,
-          label: "Sony",
-          path: "sony",
-        },
-        {
-          id: 4,
-          label: "Nokia",
-          path: "nokia",
-        },
-        {
-          id: 5,
-          label: "Huawei",
-          path: "huawei",
-        },
-      ],
+      children: brandListLinks,
     },
     {
       id: 4,
@@ -75,6 +78,7 @@ const NavigationLinks = () => {
     },
   ];
 
+  // mobile menu link
   const mobileMenuLinks = navigationLinks.map((link) => ({
     label: <Link href={link.path}>{link.label}</Link>,
     key: link.id,
