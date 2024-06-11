@@ -7,8 +7,34 @@ import {
   juiceCover,
   summerVegetablesCover,
 } from "../../../../constant/global.content";
+import { TAppProductCardProps } from "@/types";
 
-const BestSellerProductsSection = () => {
+const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+
+// fetching products
+const getProducts = async () => {
+  const res = await fetch(`${baseApi}/products`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch products!");
+  }
+  const data = await res.json();
+  return data?.data;
+};
+
+const BestSellerProductsSection = async () => {
+  const products = await getProducts();
+
+  const productsForCard: TAppProductCardProps[] = products?.map(
+    (product: any) => ({
+      id: product?._id,
+      title: product?.title,
+      price: product?.price,
+      compare_price: product?.compare_price,
+      photo: product?.media?.[0]?.url,
+    })
+  );
   return (
     <section>
       <HomePageCashbackBanner />
@@ -38,8 +64,8 @@ const BestSellerProductsSection = () => {
 
       {/* best seller products */}
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-6">
-        {Array.from({ length: 8 }).map((_product, i) => (
-          <AppProductCard key={i} />
+        {productsForCard?.map((product) => (
+          <AppProductCard key={product?.id} product={product} />
         ))}
       </div>
 

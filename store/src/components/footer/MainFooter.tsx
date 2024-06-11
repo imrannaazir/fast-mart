@@ -3,43 +3,29 @@ import CompanyDescription from "./CompanyDescription";
 import FooterContactUs from "./FooterContactUs";
 import AppLinkButton from "../ui/AppLinkButton";
 
-const MainFooter = () => {
+const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+
+const getAllCollections = async () => {
+  const res = await fetch(`${baseApi}/collections`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories!");
+  }
+  const data = await res.json();
+  return data?.data;
+};
+
+const MainFooter = async () => {
+  const collections = await getAllCollections();
+  const collectionLinks = collections?.map((collection: any) => ({
+    id: collection?._id,
+    label: collection?.title,
+    path: `/collection/${collection?._id}`,
+  }));
   const footerLinks = [
     {
       id: 1,
       label: "Categories",
-      children: [
-        {
-          id: 1,
-          label: "Electronics",
-          path: "/electronics",
-        },
-        {
-          id: 2,
-          label: "Fashion",
-          path: "/fashion",
-        },
-        {
-          id: 3,
-          label: "Groceries",
-          path: "/groceries",
-        },
-        {
-          id: 4,
-          label: "Beverages",
-          path: "/beverages",
-        },
-        {
-          id: 5,
-          label: "Home & Furniture",
-          path: "/home-furniture",
-        },
-        {
-          id: 6,
-          label: "Health & Beauty",
-          path: "/health-beauty",
-        },
-      ],
+      children: collectionLinks,
     },
     {
       id: 2,
@@ -118,7 +104,7 @@ const MainFooter = () => {
             {group.label}
           </h3>
           <div className="flex flex-col mt-4 gap-4">
-            {group.children.map((link) => (
+            {group.children.map((link: any) => (
               <Link
                 key={link.id}
                 href={link.path}

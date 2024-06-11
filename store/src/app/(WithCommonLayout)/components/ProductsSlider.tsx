@@ -1,9 +1,10 @@
 "use client";
 import AppSlider from "@/components/ui/AppSlider";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
+import { TAppProductCardProps } from "@/types";
 import { SwiperSlide } from "swiper/react";
 
-const ProductsSlider = () => {
+const ProductsSlider = ({ products }: { products: TAppProductCardProps[] }) => {
   const breakpoints = {
     540: {
       slidesPerView: 2,
@@ -20,9 +21,9 @@ const ProductsSlider = () => {
   };
   return (
     <AppSlider breakpoints={breakpoints} slidesPerView={1}>
-      {Array.from({ length: 8 }).map((_item, i) => (
-        <SwiperSlide key={i}>
-          <AppProductCard />
+      {products?.map((product) => (
+        <SwiperSlide key={product?.id}>
+          <AppProductCard product={product} />
         </SwiperSlide>
       ))}
     </AppSlider>

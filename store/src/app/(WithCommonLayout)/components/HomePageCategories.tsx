@@ -10,8 +10,13 @@ import "../../../styles/slider.css";
 // import required modules
 import { Pagination, Autoplay } from "swiper/modules";
 import HomePageCategoryCard from "./HomePageCategoryCard";
+import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 
-export default function HomePageCategories() {
+export default function HomePageCategories({
+  collections,
+}: {
+  collections: TCollectionDropdownItemProps[];
+}) {
   const pagination = {
     clickable: true,
     renderBullet: function (index: number, className: string) {
@@ -48,9 +53,9 @@ export default function HomePageCategories() {
           },
         }}
       >
-        {Array.from({ length: 8 }).map((_item, i) => (
-          <SwiperSlide key={i}>
-            <HomePageCategoryCard />
+        {collections?.map((collection) => (
+          <SwiperSlide key={collection?.id}>
+            <HomePageCategoryCard collection={collection} />
           </SwiperSlide>
         ))}
       </Swiper>

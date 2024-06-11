@@ -9,16 +9,48 @@ import BestSellerProductsSection from "./components/BestSellerProductsSection";
 import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
 import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
 import HomePageNewsLetter from "./components/HomePageNewsLetter";
+import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 
-const HomePage = () => {
+const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+
+// fetching collections
+const getAllCollections = async () => {
+  const res = await fetch(`${baseApi}/collections`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories!");
+  }
+  const data = await res.json();
+  return data?.data;
+};
+
+const HomePage = async () => {
+  const collections = await getAllCollections();
+
+  // transform collections data
+  const collectionsDropdownItems: TCollectionDropdownItemProps[] =
+    collections?.map((collection: any) => ({
+      id: collection?._id,
+      name: collection?.title,
+      iconName: collection?.icon?.name || "ban",
+      categories: collection?.categories?.map((category: any) => ({
+        id: category?._id,
+        name: category?.title,
+      })),
+    }));
   return (
     <div>
       <HomePageHero />
       {/* products  by category */}
       <HomeSectionLayout
         className="mt-10 "
-        leftSideContent={<HomeLeftSideCategoriesBar />}
-        rightSideContent={<HomeProductsByCategory />}
+        leftSideContent={
+          <HomeLeftSideCategoriesBar collections={collectionsDropdownItems} />
+        }
+        rightSideContent={
+          <HomeProductsByCategory collections={collectionsDropdownItems} />
+        }
       />
 
       {/* food Cupboard  */}

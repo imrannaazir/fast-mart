@@ -1,12 +1,17 @@
 import assets from "@/assets";
+import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
+import Icon from "@/components/ui/LucidIcon";
 import Image from "next/image";
 import Link from "next/link";
-import { PiBread } from "react-icons/pi";
 
-const HomePageCategoryCard = () => {
+const HomePageCategoryCard = ({
+  collection,
+}: {
+  collection: TCollectionDropdownItemProps;
+}) => {
   return (
     <Link
-      href={""}
+      href={`/collection/${collection?.id}`}
       className={`flex gap-4  items-center justify-center flex-col bg-gray-100 w-[174px] h-[134px] rounded-md mb-10 text-gray-800 hover:bg-primary   hover:text-background transition-colors duration-300 relative group`}
     >
       <Image
@@ -16,8 +21,8 @@ const HomePageCategoryCard = () => {
         height={134}
         alt=""
       />
-      <PiBread size={50} />
-      <h3 className=" text-[15px] font-semibold">Breakfast</h3>
+      <Icon name={collection?.iconName as any} size={50} />
+      <h3 className=" text-[15px] font-semibold">{collection?.name}</h3>
     </Link>
   );
 };

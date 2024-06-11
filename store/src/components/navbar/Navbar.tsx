@@ -6,7 +6,9 @@ import { TCollectionDropdownItemProps } from "./DropdownCategories";
 const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
 const getAllCollections = async () => {
-  const res = await fetch(`${baseApi}/collections`);
+  const res = await fetch(`${baseApi}/collections`, {
+    next: { revalidate: 3600 },
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch categories!");
   }

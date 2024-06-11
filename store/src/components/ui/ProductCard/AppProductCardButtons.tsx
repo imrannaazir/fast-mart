@@ -5,13 +5,15 @@ import { IoEyeOutline } from "react-icons/io5";
 import { LuRefreshCw } from "react-icons/lu";
 import { light_colors } from "../../../../constant/colors.constant";
 
-const AppProductButtons = () => {
+const AppProductButtons = ({ id }: { id: string }) => {
   const buttons = [
     {
       id: 1,
       label: "View",
       icon: <IoEyeOutline size={18} />,
-      onClickHandler: () => {},
+      onClickHandler: () => {
+        console.log(id);
+      },
     },
     {
       id: 2,
