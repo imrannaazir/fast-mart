@@ -3,10 +3,16 @@
 import assets from "@/assets";
 import { Dropdown, theme } from "antd";
 import Image from "next/image";
-import DropdownCategories from "./DropdownCategories";
+import DropdownCategories, {
+  TCollectionDropdownItemProps,
+} from "./DropdownCategories";
 const { useToken } = theme;
 
-const NavCategories = () => {
+const NavCategories = ({
+  collections,
+}: {
+  collections: TCollectionDropdownItemProps[];
+}) => {
   const { token } = useToken();
 
   const contentStyle: React.CSSProperties = {
@@ -21,7 +27,7 @@ const NavCategories = () => {
         menu={{}}
         dropdownRender={() => (
           <div className="px-4 py-5   mt-3 relative" style={contentStyle}>
-            <DropdownCategories />
+            <DropdownCategories collections={collections} />
           </div>
         )}
         placement="bottomLeft"

@@ -12,7 +12,12 @@ import { TBrand } from "@/types";
 const baseUrl = process.env.NEXT_PUBLIC_DB_URL;
 
 async function getBrandsData() {
-  const res = await fetch(`${baseUrl}/brands`);
+  const res = await fetch(`${baseUrl}/brands`, {
+    next: {
+      revalidate: 3600,
+    },
+  });
+
   if (!res?.ok) {
     throw new Error("Failed to fetch Brands");
   }
@@ -27,11 +32,11 @@ const NavigationLinks = async () => {
   const brandList: TBrand[] = data?.data || [];
 
   // transform into link item
-  const brandListLinks = brandList?.map((brand, i) => ({
+  const brandListLinks = brandList?.map((brand) => ({
     id: brand?._id as string,
     label: brand?.name,
     path: brand?.name?.split(" ").join("-").toLowerCase(),
-    logo: i === 0 ? brand?.logo?.url : "",
+    logo: brand?.logo?.url,
   }));
 
   // icon class name

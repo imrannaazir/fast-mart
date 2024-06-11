@@ -1,15 +1,40 @@
 import { FaWhatsapp } from "react-icons/fa";
 import NavCategories from "./NavCategories";
 import NavigationLinks from "./NavigationLinks";
+import { Suspense } from "react";
+import { TCollectionDropdownItemProps } from "./DropdownCategories";
+const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
-const Navbar = () => {
+const getAllCollections = async () => {
+  const res = await fetch(`${baseApi}/collections`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories!");
+  }
+  const data = await res.json();
+  return data?.data;
+};
+const Navbar = async () => {
+  const collections = await getAllCollections();
+  const collectionsDropdownItems: TCollectionDropdownItemProps[] =
+    collections?.map((collection: any) => ({
+      id: collection?._id,
+      name: collection?.title,
+      iconName: collection?.icon?.name || "ban",
+      categories: collection?.categories?.map((category: any) => ({
+        id: category?._id,
+        name: category?.title,
+      })),
+    }));
+
   return (
     <div className=" items-center justify-between hidden lg:flex">
       <div className="flex items-center gap-4">
         {/* Categories */}
-        <NavCategories />
+        <NavCategories collections={collectionsDropdownItems} />
         {/* nav links */}
-        <NavigationLinks />
+        <Suspense fallback={<div>Loading...</div>}>
+          <NavigationLinks />
+        </Suspense>
       </div>
       {/* cta  */}
       <div className="flex items-center gap-1">

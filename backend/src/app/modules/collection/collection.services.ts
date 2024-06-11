@@ -62,6 +62,14 @@ const getAllCollections = async (
     {
       $match: searchCondition,
     },
+    {
+      $lookup: {
+        from: 'categories', // The name of the categories collection
+        localField: '_id', // Field in the collection schema
+        foreignField: 'collection', // Field in the category schema
+        as: 'categories', // The array field to add categories
+      },
+    },
     // lookup pipeline collections
     {
       $lookup: {
