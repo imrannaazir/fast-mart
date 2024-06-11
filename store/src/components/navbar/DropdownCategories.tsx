@@ -31,7 +31,7 @@ const DropdownCategories: FC<TDropDownCategoriesProps> = ({
           <div
             className={cn(
               type === "mega"
-                ? " min-w-full h-full opacity-0 group-hover:opacity-100  group-hover:block absolute top-0 -right-[400px] group-hover:-right-[300px] transition-all duration-300"
+                ? " min-w-full h-full hidden group-hover:block opacity-0 group-hover:opacity-100   absolute top-0 -right-[400px] group-hover:-right-[300px] transition-all duration-300"
                 : "hidden"
             )}
           >
@@ -64,40 +64,3 @@ const DropdownCategories: FC<TDropDownCategoriesProps> = ({
 };
 
 export default DropdownCategories;
-
-/* 
-import { Dropdown, theme } from "antd";
-import DropdownCategoryItem from "./DropdownCategoryItem";
-const { useToken } = theme;
-const DropdownCategories = () => {
-  const { token } = useToken();
-  const contentStyle: React.CSSProperties = {
-    backgroundColor: token.colorBgElevated,
-    borderRadius: token.borderRadiusLG,
-    boxShadow: token.boxShadowSecondary,
-  };
-  return (
-    <div className="space-y-4 w-[300px] ">
-      {Array.from({ length: 9 }).map((_item, i) => (
-        <Dropdown
-          key={i}
-          menu={{}}
-          dropdownRender={() => (
-            <div className="px-4 py-5  z-50 mt-3" style={contentStyle}>
-              hello hello hello hello hello hello hello hello
-            </div>
-          )}
-          placement="topRight"
-        > 
-
-          <DropdownCategoryItem key={i} />
-        </Dropdown>
-      ))}
-    </div>
-  );
-};
-
-export default DropdownCategories;
-
-
-*/
