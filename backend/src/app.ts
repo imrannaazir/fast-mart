@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 import cookieParser from 'cookie-parser';
 import { Application } from 'express';
 import notFoundHandler from './app/middlewares/notFoundHandler';
@@ -9,8 +9,29 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 const app: Application = express();
 // parser
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
+
+// List of allowed origins
+const allowedOrigins: string[] = [
+  'https://admin-fastmart.vercel.app',
+  'https://fast-mart.vercel.app',
+];
+
+const corsOptions: CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  allowedHeaders: 'Content-Type,Authorization',
+};
+
+// Configure CORS
+app.use(cors(corsOptions));
 
 app.get('/api/v1', (req, res) => {
   res.send('Hello World!');
