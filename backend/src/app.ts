@@ -9,7 +9,25 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 const app: Application = express();
 // parser
 app.use(express.json());
-app.use(cors({ origin: 'https://fast-mart.vercel.app' }));
+
+const allowedOrigins = [
+  'https://fast-mart.vercel.app',
+  'https://admin-fastmart.vercel.app',
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          'The CORS policy for this site does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  }),
+);
 app.use(cookieParser());
 
 app.get('/api/v1', (req, res) => {
