@@ -1,18 +1,22 @@
+"use client";
 import assets from "@/assets";
 import { Divider, Tooltip } from "antd";
 import Image from "next/image";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuRefreshCw } from "react-icons/lu";
 import { light_colors } from "../../../../constant/colors.constant";
+import { useRouter } from "next/navigation";
 
 const AppProductButtons = ({ id }: { id: string }) => {
+  const router = useRouter();
+
   const buttons = [
     {
       id: 1,
       label: "View",
       icon: <IoEyeOutline size={18} />,
       onClickHandler: () => {
-        console.log(id);
+        router.push(`/products/${id}`);
       },
     },
     {
@@ -41,7 +45,7 @@ const AppProductButtons = ({ id }: { id: string }) => {
             key={button.id}
           >
             {/* <Button> */}
-            <button>{button.icon}</button>
+            <button onClick={button.onClickHandler}>{button.icon}</button>
             {/* </Button> */}
           </Tooltip>
         </>
