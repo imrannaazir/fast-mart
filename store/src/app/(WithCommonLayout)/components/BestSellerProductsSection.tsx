@@ -8,8 +8,9 @@ import {
   summerVegetablesCover,
 } from "../../../../constant/global.content";
 import { TAppProductCardProps } from "@/types";
+import { products } from "../../../../db";
 
-const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
 // fetching products
 const getProducts = async () => {
@@ -21,10 +22,10 @@ const getProducts = async () => {
   }
   const data = await res.json();
   return data?.data;
-};
+}; */
 
 const BestSellerProductsSection = async () => {
-  const products = await getProducts();
+  // const products = await getProducts();
 
   const productsForCard: TAppProductCardProps[] = products?.map(
     (product: any) => ({

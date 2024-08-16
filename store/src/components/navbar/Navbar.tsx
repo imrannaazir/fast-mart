@@ -3,7 +3,8 @@ import NavCategories from "./NavCategories";
 import NavigationLinks from "./NavigationLinks";
 import { Suspense } from "react";
 import { TCollectionDropdownItemProps } from "./DropdownCategories";
-const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+import { collections } from "../../../db";
+/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
 const getAllCollections = async () => {
   const res = await fetch(`${baseApi}/collections`, {
@@ -14,9 +15,9 @@ const getAllCollections = async () => {
   }
   const data = await res.json();
   return data?.data;
-};
+}; */
 const Navbar = async () => {
-  const collections = await getAllCollections();
+  // const collections = await getAllCollections();
   const collectionsDropdownItems: TCollectionDropdownItemProps[] =
     collections?.map((collection: any) => ({
       id: collection?._id,

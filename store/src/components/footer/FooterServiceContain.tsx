@@ -2,6 +2,7 @@ import assets from "@/assets";
 import { cn } from "@/libs/utils";
 import { Divider } from "antd";
 import Image from "next/image";
+import { Fragment } from "react";
 
 const FooterServiceContain = () => {
   const serviceContainContent = [
@@ -30,11 +31,8 @@ const FooterServiceContain = () => {
     <div className="flex flex-col lg:flex-row  justify-between items-center py-10  ">
       {serviceContainContent.map((item, i) => {
         return (
-          <>
-            <div
-              className="flex flex-col lg:flex-row  items-center lg:gap-4  "
-              key={item.id}
-            >
+          <Fragment key={item.id}>
+            <div className="flex flex-col lg:flex-row  items-center lg:gap-4  ">
               <Image src={item.icon} height={38} width={38} alt={item.label} />
               <p className="font-medium">{item.label}</p>
             </div>
@@ -52,7 +50,7 @@ const FooterServiceContain = () => {
                 borderLeft: "1.7px dashed gray",
               }}
             />
-          </>
+          </Fragment>
         );
       })}
     </div>

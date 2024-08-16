@@ -10,8 +10,9 @@ import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
 import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
 import HomePageNewsLetter from "./components/HomePageNewsLetter";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
+import { collections } from "../../../db";
 
-const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
 // fetching collections
 const getAllCollections = async () => {
@@ -23,10 +24,10 @@ const getAllCollections = async () => {
   }
   const data = await res.json();
   return data?.data;
-};
+}; */
 
 const HomePage = async () => {
-  const collections = await getAllCollections();
+  // const collections = await getAllCollections();
 
   // transform collections data
   const collectionsDropdownItems: TCollectionDropdownItemProps[] =

@@ -7,9 +7,10 @@ import NavigationLinkItem from "./NavigationLinkItem";
 import DropdownNavigationLink from "./DropdownNavigationLink";
 import Link from "next/link";
 import { Menu } from "antd";
-import { TBrand } from "@/types";
+// import { TBrand } from "@/types";
+import { brands } from "../../../db";
 
-const baseUrl = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseUrl = process.env.NEXT_PUBLIC_DB_URL;
 
 async function getBrandsData() {
   const res = await fetch(`${baseUrl}/brands`, {
@@ -24,15 +25,15 @@ async function getBrandsData() {
 
   const data = await res.json();
   return data;
-}
+} */
 
 const NavigationLinks = async () => {
   // fetch brands data
-  const data = await getBrandsData();
-  const brandList: TBrand[] = data?.data || [];
+  // const data = await getBrandsData();
+  // const brandList: TBrand[] = data?.data || [];
 
   // transform into link item
-  const brandListLinks = brandList?.map((brand) => ({
+  const brandListLinks = brands?.map((brand) => ({
     id: brand?._id as string,
     label: brand?.name,
     path: brand?.name?.split(" ").join("-").toLowerCase(),

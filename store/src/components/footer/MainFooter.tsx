@@ -2,8 +2,9 @@ import Link from "next/link";
 import CompanyDescription from "./CompanyDescription";
 import FooterContactUs from "./FooterContactUs";
 import AppLinkButton from "../ui/AppLinkButton";
+import { collections } from "../../../db";
 
-const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
 const getAllCollections = async () => {
   const res = await fetch(`${baseApi}/collections`);
@@ -12,10 +13,10 @@ const getAllCollections = async () => {
   }
   const data = await res.json();
   return data?.data;
-};
+}; */
 
 const MainFooter = async () => {
-  const collections = await getAllCollections();
+  // const collections = await getAllCollections();
   const collectionLinks = collections?.map((collection: any) => ({
     id: collection?._id,
     label: collection?.title,

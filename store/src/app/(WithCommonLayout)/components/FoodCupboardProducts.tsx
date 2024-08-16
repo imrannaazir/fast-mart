@@ -2,8 +2,9 @@ import { AppButton } from "@/components/ui/AppButton";
 import HomeSectionTop from "./HomeSectionTop";
 import ProductsSliders from "./ProductsSlider";
 import { TAppProductCardProps } from "@/types";
+import { products } from "../../../../db";
 
-const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
 // fetching products
 const getProducts = async () => {
@@ -15,9 +16,9 @@ const getProducts = async () => {
   }
   const data = await res.json();
   return data?.data;
-};
+}; */
 const FoodCupBoardProducts = async () => {
-  const products = await getProducts();
+  // const products = await getProducts();
 
   const productsForCard: TAppProductCardProps[] = products?.map(
     (product: any) => ({
