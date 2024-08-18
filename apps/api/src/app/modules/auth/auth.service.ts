@@ -1,11 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TUser } from '../user/user.interface';
 import User from '../user/user.model';
 import { JwtPayload } from 'jsonwebtoken';
 import { verifyPassword, generateToken, decodeToken } from './auth.utils';
 import config from '../../config';
-import { TLoginUser } from './auth.interface';
+import { TLoginUser, TUser } from '@repo/utils/types';
 
 // register user
 const register = async (payload: TUser) => {

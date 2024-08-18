@@ -1,5 +1,5 @@
+import { TUser } from '@repo/utils/types';
 import config from '../config';
-import { TUser } from '../modules/user/user.interface';
 import User from '../modules/user/user.model';
 
 const superAdminData: TUser = {

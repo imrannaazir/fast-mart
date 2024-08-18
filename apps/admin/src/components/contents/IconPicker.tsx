@@ -1,21 +1,11 @@
 import IconLoader from "@/pages/icon-loader";
 import { Button } from "../ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "../ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandItem } from "../ui/command";
 import { FormControl } from "../ui/form";
 import { Input } from "../ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import SearchInput from "../ui/search-input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import Icon from "../ui/lucide-icon";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -23,18 +13,15 @@ import { ChangeEvent, FC, useEffect, useState } from "react";
 import { useGetAllIconsQuery } from "@/redux/features/icon/icon.api";
 import queryString from "query-string";
 import debounce from "@/lib/debounce";
-import {
-  selectSearchTerm,
-  updateSearchTerm,
-} from "@/redux/features/filter/filterSlice";
+import { selectSearchTerm, updateSearchTerm } from "@/redux/features/filter/filterSlice";
 import { cn } from "@/lib/utils";
 import { UseFormSetValue } from "react-hook-form";
 import { z } from "zod";
-import { createCollectionValidationSchema } from "@/schemas/contents.schemas";
-import { TIcon } from "@/types";
+import { createCollectionSchema } from "@repo/utils/zod-schemas";
+import { TIcon } from "@repo/utils/types";
 
 type TIconPickerProps = {
-  setValue: UseFormSetValue<z.infer<typeof createCollectionValidationSchema>>;
+  setValue: UseFormSetValue<z.infer<typeof createCollectionSchema>>;
 };
 
 const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
@@ -71,12 +58,7 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
     <Popover>
       <PopoverTrigger asChild>
         <FormControl>
-          <Button
-            value={"Select icon"}
-            variant={"outline"}
-            role="combobox"
-            className={cn("w-full justify-start")}
-          >
+          <Button value={"Select icon"} variant={"outline"} role="combobox" className={cn("w-full justify-start")}>
             {iconName ? (
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               <Icon name={iconName as any} />
@@ -86,26 +68,18 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="w-[--radix-popover-trigger-width] max-h-[--radix-popover-content-available-height] mb-4">
+      <PopoverContent className="mb-4 max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width]">
         <SearchInput>
-          <Input
-            className="pl-8 h-9"
-            placeholder="Search"
-            onChange={debouncedSearchTerm}
-          />
+          <Input className="h-9 pl-8" placeholder="Search" onChange={debouncedSearchTerm} />
         </SearchInput>
         <Command>
-          <CommandEmpty
-            className={cn(isFetching && "hidden", "text-center mt-6")}
-          >
-            No icons founded.
-          </CommandEmpty>
+          <CommandEmpty className={cn(isFetching && "hidden", "mt-6 text-center")}>No icons founded.</CommandEmpty>
           <CommandGroup>
-            <div className="max-h-[200px] overflow-y-scroll custom-scrollbar ">
+            <div className="custom-scrollbar max-h-[200px] overflow-y-scroll">
               {isFetching ? (
                 <IconLoader />
               ) : (
-                <div className="flex py-4 gap-4 flex-wrap ">
+                <div className="flex flex-wrap gap-4 py-4">
                   {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     icons.map((icon: any) => {
@@ -120,18 +94,12 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  size={"icon"}
-                                  className="bg-muted"
-                                >
+                                <Button variant={"outline"} size={"icon"} className="bg-muted">
                                   <Icon name={icon?.name} />
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p>
-                                  {(icon?.name as string).split("-").join(" ")}
-                                </p>
+                                <p>{(icon?.name as string).split("-").join(" ")}</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
@@ -143,22 +111,12 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
               )}
               {/* pagination */}
               {!isFetching && data?.meta && data?.meta?.total > 100 ? (
-                <div className="flex  justify-center ">
-                  <div className=" space-x-4 mt-4">
-                    <Button
-                      disabled={page <= 1}
-                      onClick={() => setPage(page - 1)}
-                      variant={"outline"}
-                      size={"icon"}
-                    >
+                <div className="flex justify-center">
+                  <div className="mt-4 space-x-4">
+                    <Button disabled={page <= 1} onClick={() => setPage(page - 1)} variant={"outline"} size={"icon"}>
                       <FaAngleLeft />
                     </Button>
-                    <Button
-                      className="text-xl bg-muted"
-                      size={"icon"}
-                      variant={"outline"}
-                      disabled={true}
-                    >
+                    <Button className="bg-muted text-xl" size={"icon"} variant={"outline"} disabled={true}>
                       {page}
                     </Button>
                     <Button
@@ -167,10 +125,7 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
                       variant={"outline"}
                       size={"icon"}
                     >
-                      <FaAngleRight
-                        className="w-4 h-4
-                    "
-                      />
+                      <FaAngleRight className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>

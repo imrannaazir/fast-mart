@@ -1,6 +1,6 @@
+import { ProductStatus, ProductUnit } from '@repo/utils/constants';
+import { TProduct } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TProduct } from './product.interface';
-import { ProductStatus, ProductUnit } from './product.constant';
 
 const productSchema = new Schema<TProduct>(
   {

@@ -1,17 +1,10 @@
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { createCollectionValidationSchema } from "@/schemas/contents.schemas";
+import { createCollectionSchema, createProductSchema } from "@repo/utils/zod-schemas";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useCreateCollectionMutation } from "@/redux/features/collection/collection.api";
@@ -23,32 +16,26 @@ import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
 import { FC } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 import { cn } from "@/lib/utils";
 
 type AddCollectionPageProps = {
   isInModal?: boolean;
-  productForm?: UseFormReturn<TProductFormValues>;
+  productForm?: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 
-const AddCollectionPage: FC<AddCollectionPageProps> = ({
-  isInModal = false,
-  productForm,
-}) => {
+const AddCollectionPage: FC<AddCollectionPageProps> = ({ isInModal = false, productForm }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [createCollection] = useCreateCollectionMutation();
 
-  const form = useForm<z.infer<typeof createCollectionValidationSchema>>({
-    resolver: zodResolver(createCollectionValidationSchema),
+  const form = useForm<z.infer<typeof createCollectionSchema>>({
+    resolver: zodResolver(createCollectionSchema),
   });
 
   // on submit handler
-  const onSubmit = async (
-    data: z.infer<typeof createCollectionValidationSchema>
-  ) => {
+  const onSubmit = async (data: z.infer<typeof createCollectionSchema>) => {
     const toastId = toast.loading("Creating.", { duration: 2000 });
     try {
       const response = await createCollection(data).unwrap();
@@ -57,10 +44,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({
         toast.success("Created.", { id: toastId });
         form.reset();
         if (isInModal && productForm) {
-          productForm.setValue("collections", [
-            ...(productForm?.watch("collections") || []),
-            response.data._id,
-          ]);
+          productForm.setValue("collections", [...(productForm?.watch("collections") || []), response.data._id]);
           dispatch(onClose());
         } else {
           navigate("/contents/collections");
@@ -74,11 +58,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page
-          title="Create Collection"
-          action={<Action />}
-          isInModal={isInModal}
-        >
+        <Page title="Create Collection" action={<Action />} isInModal={isInModal}>
           {/* form content */}
           <div className={cn(isInModal ? "my-4 flex justify-end" : "hidden")}>
             <Action />
@@ -94,10 +74,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({
                     <FormItem>
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="e.g. Fruits, Vegetables"
-                          {...field}
-                        />
+                        <Input placeholder="e.g. Fruits, Vegetables" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -110,10 +87,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Description</FormLabel>
-                      <TextEditor
-                        setValue={form.setValue}
-                        value={field.value || ""}
-                      />
+                      <TextEditor setValue={form.setValue} value={field.value || ""} />
                     </FormItem>
                   )}
                 />
@@ -132,7 +106,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({
               </PageSection>{" "}
             </div>
             {/* right side */}
-            <div className=" flex-grow  ">
+            <div className="flex-grow">
               <PageSection>
                 <FormField
                   control={form.control}
@@ -140,11 +114,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({
                   render={() => (
                     <FormItem className="relative">
                       <FormLabel>Image</FormLabel>
-                      <UploadSingleImage
-                        fieldValue={""}
-                        fieldName="image"
-                        setValue={form.setValue}
-                      />
+                      <UploadSingleImage fieldValue={""} fieldName="image" setValue={form.setValue} />
                     </FormItem>
                   )}
                 />

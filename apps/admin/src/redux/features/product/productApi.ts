@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
-import { TOption, TVariant } from "@/types/product.type";
+import { TOption, TVariant } from "@repo/utils/types";
 
 export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

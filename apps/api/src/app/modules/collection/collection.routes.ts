@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
-import { createCollectionValidationSchema } from './collection.validations';
+import {
+  createCollectionValidationSchema,
+  deleteManyValidationSchema,
+} from '@repo/utils/zod-schemas';
 import CollectionControllers from './collection.controllers';
-import { deleteManyValidationSchema } from '../image/image.validations';
 
 const router = Router();
 

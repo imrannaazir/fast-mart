@@ -5,7 +5,7 @@ import {
   createManyImageValidationSchema,
   createSingleImageValidationSchema,
   deleteManyValidationSchema,
-} from './image.validations';
+} from '@repo/utils/zod-schemas';
 import ImageControllers from './image.controllers';
 
 const router = Router();

@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TInputVariant, TProduct } from './product.interface';
+import { TInputVariant, TProduct } from '@repo/utils/types';
 import Product from './product.model';
 import QueryBuilder from '../../builder/QueryBuilder';
-import { ProductSearchableFields } from './product.constant';
+import { ProductSearchableFields } from '@repo/utils/constants';
 import mongoose, { Types } from 'mongoose';
 import Brand from '../brand/brand.model';
 import Category from '../category/category.model';

@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
-import { TCategory } from "@/types/contents.type";
+import { TCategory } from "@repo/utils/types";
 
 const categoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

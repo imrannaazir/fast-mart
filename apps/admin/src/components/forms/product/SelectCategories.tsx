@@ -6,6 +6,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import AddCategoryPage from "@/pages/AddCategory";
+import { TLabelValuePair } from "@/types";
 
 type TSelectCategoriesProps = {
   form: UseFormReturn<any>;
@@ -13,16 +14,14 @@ type TSelectCategoriesProps = {
 
 const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {
   const dispatch = useAppDispatch();
-  const { data: categoriesData, isFetching } =
-    useGetAllCategoriesQuery(undefined);
+  const { data: categoriesData, isFetching } = useGetAllCategoriesQuery(undefined);
 
   // handle on category add
   const handleOnCategoryAdd = () => {
     dispatch(
       onOpen({
         title: "Create category",
-        description:
-          "Enter all required information to create new category in your store.",
+        description: "Enter all required information to create new category in your store.",
         children: <AddCategoryPage productForm={form} isInModal={true} />,
         className: "w-full max-w-6xl mx-4",
       })
@@ -34,7 +33,7 @@ const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {
     categoriesData?.data?.map((category) => ({
       label: category.title,
       value: category._id,
-    })) || [];
+    })) || ([] as TLabelValuePair[]);
 
   // handle set categories
   const handleSetCategories = (value: string[] | string) => {
@@ -44,7 +43,7 @@ const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {
     <OptionSelector
       label="Categories"
       onAdd={handleOnCategoryAdd}
-      options={categories}
+      options={categories as TLabelValuePair[]}
       setValue={handleSetCategories}
       value={form.watch("categories") || []}
       isDisable={false}

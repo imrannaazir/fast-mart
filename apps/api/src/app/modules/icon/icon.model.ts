@@ -1,5 +1,5 @@
+import { TTag } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TTag } from '../tag/tag.interface';
 
 const iconSchema = new Schema<TTag>({
   name: {

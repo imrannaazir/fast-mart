@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { TRole } from '../modules/user/user.interface';
 import catchAsync from '../utils/catchAsync';
 import AppError from '../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
@@ -7,6 +6,7 @@ import { decodeToken } from '../modules/auth/auth.utils';
 import config from '../config';
 import { JwtPayload } from 'jsonwebtoken';
 import User from '../modules/user/user.model';
+import { TRole } from '@repo/utils/types';
 
 const auth = (...requiredRole: TRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {

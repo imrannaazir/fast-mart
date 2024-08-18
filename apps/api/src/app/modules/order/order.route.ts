@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { createOrderValidationSchema } from './order.validation';
+import { createOrderValidationSchema } from '@repo/utils/zod-schemas';
 import OrderController from './order.controller';
 import auth from '../../middlewares/auth';
 

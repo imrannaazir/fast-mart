@@ -1,14 +1,16 @@
 import OptionSelector from "@/components/ui/option-selector";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
 import CreateTag from "./CreateTag";
+import { z } from "zod";
+import { createProductSchema } from "@repo/utils/zod-schemas";
+import { TLabelValuePair } from "@/types";
 
 type TSelectTagsProps = {
-  form: UseFormReturn<TProductFormValues>;
+  form: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 
 const SelectTags: FC<TSelectTagsProps> = ({ form }) => {
@@ -20,14 +22,8 @@ const SelectTags: FC<TSelectTagsProps> = ({ form }) => {
     dispatch(
       onOpen({
         title: "Create Tag",
-        description:
-          "Enter all required information to create new tag in your store.",
-        children: (
-          <CreateTag
-            setValue={form.setValue}
-            selectedTags={form.watch("tags") || []}
-          />
-        ),
+        description: "Enter all required information to create new tag in your store.",
+        children: <CreateTag setValue={form.setValue} selectedTags={form.watch("tags") || []} />,
         className: "w-full max-w-lg mx-4 overflow-hidden",
       })
     );
@@ -36,9 +32,9 @@ const SelectTags: FC<TSelectTagsProps> = ({ form }) => {
   // tags
   const tags =
     tagsData?.data?.map((tag) => ({
-      label: tag.name,
-      value: tag._id as string,
-    })) || [];
+      label: tag.name as string,
+      value: tag._id,
+    })) || ([] as TLabelValuePair[]);
 
   // handle set tags
   const handleSetTags = (value: string[] | string) => {
@@ -48,7 +44,7 @@ const SelectTags: FC<TSelectTagsProps> = ({ form }) => {
     <OptionSelector
       label="Tags"
       onAdd={handleOnTagAdd}
-      options={tags}
+      options={tags as TLabelValuePair[]}
       setValue={handleSetTags}
       value={form.watch("tags") || []}
       isDisable={false}

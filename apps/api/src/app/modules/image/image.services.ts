@@ -2,8 +2,9 @@ import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
-import { TDeleteManyReturnType, TImage } from './image.interface';
+
 import { Image } from './image.model';
+import { TDeleteManyReturnType, TImage } from '@repo/utils/types';
 
 // create image
 const createSingleImage = async (payload: TImage): Promise<TImage> => {

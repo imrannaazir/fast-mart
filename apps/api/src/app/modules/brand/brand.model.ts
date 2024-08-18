@@ -1,5 +1,5 @@
+import { TBrand } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TBrand } from './brand.interface';
 
 const brandSchema = new Schema<TBrand>(
   {

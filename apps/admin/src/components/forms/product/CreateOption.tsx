@@ -9,21 +9,17 @@ import LoadingButton from "../../ui/loading-button";
 import { useCreateOptionMutation } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
 import { FC } from "react";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 
 type TCreateOption = {
-  setValue: UseFormSetValue<TProductFormValues>;
+  setValue: UseFormSetValue<z.infer<typeof createProductSchema>>;
   variantId: string;
   selectedOptions: string[];
 };
 
-const CreateOption: FC<TCreateOption> = ({
-  setValue,
-  variantId,
-  selectedOptions,
-}) => {
+const CreateOption: FC<TCreateOption> = ({ setValue, variantId, selectedOptions }) => {
   const dispatch = useAppDispatch();
   const [CreateOption, { isLoading }] = useCreateOptionMutation();
   const optionSchema = z.object({
@@ -53,10 +49,7 @@ const CreateOption: FC<TCreateOption> = ({
   };
   return (
     <Form {...optionForm}>
-      <form
-        className="space-y-4"
-        onSubmit={optionForm.handleSubmit(handleOptionSubmit)}
-      >
+      <form className="space-y-4" onSubmit={optionForm.handleSubmit(handleOptionSubmit)}>
         <FormField
           control={optionForm.control}
           name="option_name"
@@ -68,11 +61,7 @@ const CreateOption: FC<TCreateOption> = ({
           )}
         />
         <div className="flex justify-end">
-          {isLoading ? (
-            <LoadingButton>Creating</LoadingButton>
-          ) : (
-            <Button>Create</Button>
-          )}
+          {isLoading ? <LoadingButton>Creating</LoadingButton> : <Button>Create</Button>}
         </div>
       </form>
     </Form>

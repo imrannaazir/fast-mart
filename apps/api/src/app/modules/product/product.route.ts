@@ -3,7 +3,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import {
   createProductValidationSchema,
   deleteBulkProductValidationSchema,
-} from './product.validation';
+} from '@repo/utils/zod-schemas';
 import ProductController from './product.controller';
 import auth from '../../middlewares/auth';
 

@@ -4,7 +4,7 @@ import validateRequest from '../../middlewares/validateRequest';
 import {
   createOptionValidationSchema,
   createVariantValidationSchema,
-} from './variant.validations';
+} from '@repo/utils/zod-schemas';
 import VariantControllers from './variant.controllers';
 
 const router = Router();

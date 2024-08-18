@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
-import { TUser } from './user.interface';
-import { Role, UserStatus } from './user.constant';
+import { TUser } from '@repo/utils/types';
+import { Role, UserStatus } from '@repo/utils/constants';
 import { hashPassword } from '../auth/auth.utils';
 
 const userSchema = new Schema<TUser>(

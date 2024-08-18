@@ -1,5 +1,4 @@
 import { PipelineStage, Types } from 'mongoose';
-import { TCollection } from './collection.interfaces';
 import { Collection } from './collection.models';
 import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
@@ -7,7 +6,7 @@ import { TMeta } from '../../utils/sendResponse';
 import { Image } from '../image/image.model';
 import Icon from '../icon/icon.model';
 import config from '../../config';
-import { TDeleteManyReturnType } from '../image/image.interface';
+import { TCollection, TDeleteManyReturnType } from '@repo/utils/types';
 
 // create collection
 const createCollection = async (

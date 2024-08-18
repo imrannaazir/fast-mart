@@ -1,5 +1,5 @@
+import { TCategory } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TCategory } from './category.interface';
 
 // category schema
 const categorySchema = new Schema<TCategory>(

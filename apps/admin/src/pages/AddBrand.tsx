@@ -1,17 +1,10 @@
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { createBrandValidationSchema } from "@/schemas/contents.schemas";
+import { createBrandSchema, createProductSchema } from "@repo/utils/zod-schemas";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
@@ -22,26 +15,23 @@ import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
 import { FC } from "react";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 type TAddBrandPageProps = {
   isInModal?: boolean;
-  productForm?: UseFormReturn<TProductFormValues>;
+  productForm?: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [createBrand] = useCreateBrandMutation();
 
-  const form = useForm<z.infer<typeof createBrandValidationSchema>>({
-    resolver: zodResolver(createBrandValidationSchema),
+  const form = useForm<z.infer<typeof createBrandSchema>>({
+    resolver: zodResolver(createBrandSchema),
   });
 
   // on submit handler
-  const onSubmit = async (
-    data: z.infer<typeof createBrandValidationSchema>
-  ) => {
+  const onSubmit = async (data: z.infer<typeof createBrandSchema>) => {
     const toastId = toast.loading("Creating.", { duration: 2000 });
     try {
       const response = await createBrand(data).unwrap();
@@ -66,7 +56,7 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Page title="Create brand" action={<Action />} isInModal={isInModal}>
           {/* form content */}
-          <div className="flex my-4 justify-end">
+          <div className="my-4 flex justify-end">
             <Action />
           </div>
           <div className="flex gap-4">
@@ -94,10 +84,7 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
                     <FormItem>
                       <FormLabel>Slogan</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="e.g. Let's make it healthy"
-                          {...field}
-                        />
+                        <Input placeholder="e.g. Let's make it healthy" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -111,17 +98,14 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Description</FormLabel>
-                      <TextEditor
-                        setValue={form.setValue}
-                        value={field.value || ""}
-                      />
+                      <TextEditor setValue={form.setValue} value={field.value || ""} />
                     </FormItem>
                   )}
                 />
               </PageSection>
             </div>
             {/* right side */}
-            <div className=" flex-grow  space-y-6">
+            <div className="flex-grow space-y-6">
               <PageSection>
                 {/* logo */}
                 <FormField
@@ -148,11 +132,7 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
                   render={() => (
                     <FormItem>
                       <FormLabel>Cover image</FormLabel>
-                      <UploadSingleImage
-                        fieldValue={""}
-                        setValue={form.setValue}
-                        fieldName="cover_image"
-                      />
+                      <UploadSingleImage fieldValue={""} setValue={form.setValue} fieldName="cover_image" />
                     </FormItem>
                   )}
                 />

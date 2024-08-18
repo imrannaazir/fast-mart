@@ -1,4 +1,4 @@
-import { TUser } from '../modules/user/user.interface';
+import { TUser } from '@repo/utils/types';
 
 declare global {
   namespace Express {

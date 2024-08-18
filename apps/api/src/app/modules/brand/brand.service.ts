@@ -1,11 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TBrand } from './brand.interface';
 import Brand from './brand.model';
 import mongoose, { PipelineStage } from 'mongoose';
 import { TMeta } from '../../utils/sendResponse';
 import config from '../../config';
-import { TDeleteManyReturnType } from '../image/image.interface';
+import { TBrand, TDeleteManyReturnType } from '@repo/utils/types';
 
 const createBrand = async (payload: TBrand): Promise<TBrand> => {
   // create brand

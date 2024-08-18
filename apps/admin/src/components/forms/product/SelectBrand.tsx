@@ -1,14 +1,15 @@
 import OptionSelector from "@/components/ui/option-selector";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useGetAllBrandsQuery } from "@/redux/features/brand/brandApi";
 import AddBrandPage from "@/pages/AddBrand";
+import { z } from "zod";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 
 type TSelectBrandProps = {
-  form: UseFormReturn<TProductFormValues>;
+  form: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 
 const SelectBrand: FC<TSelectBrandProps> = ({ form }) => {
@@ -20,8 +21,7 @@ const SelectBrand: FC<TSelectBrandProps> = ({ form }) => {
     dispatch(
       onOpen({
         title: "Create brand",
-        description:
-          "Enter all required information to create new brand in your store.",
+        description: "Enter all required information to create new brand in your store.",
         children: <AddBrandPage productForm={form} isInModal={true} />,
         className: "w-full max-w-6xl mx-4",
       })

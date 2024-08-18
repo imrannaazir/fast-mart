@@ -1,11 +1,8 @@
-import {
-  useGetAllOptionsQuery,
-  useGetAllVariantsQuery,
-} from "@/redux/features/product/productApi";
+import { useGetAllOptionsQuery, useGetAllVariantsQuery } from "@/redux/features/product/productApi";
 import { FC, useEffect, useState } from "react";
 
 import { UseFormReturn } from "react-hook-form";
-import { TProductFormValues } from "@/schemas/product.schema";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 import { useAppDispatch } from "@/redux/hooks";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import CreateVariant from "./CreateVariant";
@@ -14,9 +11,11 @@ import { Button } from "@/components/ui/button";
 import ProductVariantPreview from "./ProductVariantPreview";
 import { cn } from "@/lib/utils";
 import OptionSelector from "@/components/ui/option-selector";
+import { z } from "zod";
+import { TLabelValuePair } from "@/types";
 
 type TAddVariantProps = {
-  form: UseFormReturn<TProductFormValues>;
+  form: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 
 const AddVariant: FC<TAddVariantProps> = ({ form }) => {
@@ -30,10 +29,8 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   const productVariants = form.watch("variants") || [];
 
   // query hook
-  const { data: variantsData, isFetching: isVariantFetching } =
-    useGetAllVariantsQuery(undefined);
-  const { data: optionsData, isFetching: isOptionFetching } =
-    useGetAllOptionsQuery(`variantId=${variantId}`, { skip });
+  const { data: variantsData, isFetching: isVariantFetching } = useGetAllVariantsQuery(undefined);
+  const { data: optionsData, isFetching: isOptionFetching } = useGetAllOptionsQuery(`variantId=${variantId}`, { skip });
 
   /* 
 * filter variants : if already crated a variant with the variant name filter out that variant
@@ -54,10 +51,10 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   }));
 
   //  re structured options
-  const options =
+  const options: TLabelValuePair[] =
     optionsData?.data?.map((option) => ({
-      label: option.option_name,
-      value: option._id,
+      label: option.option_name as string,
+      value: option._id as string,
     })) || [];
 
   // handle select
@@ -74,8 +71,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
     dispatch(
       onOpen({
         title: "Create variant",
-        description:
-          "Enter a unique variant name to create new variant in your store.",
+        description: "Enter a unique variant name to create new variant in your store.",
         children: <CreateVariant setValue={form.setValue} />,
       })
     );
@@ -86,25 +82,15 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
     dispatch(
       onOpen({
         title: "Create options",
-        description:
-          "Enter a unique variant name to create new variant in your store.",
-        children: (
-          <CreateOption
-            setValue={form.setValue}
-            selectedOptions={optionsValue || []}
-            variantId={variantId}
-          />
-        ),
+        description: "Enter a unique variant name to create new variant in your store.",
+        children: <CreateOption setValue={form.setValue} selectedOptions={optionsValue || []} variantId={variantId} />,
       })
     );
   };
 
   // handle add product variant
   const handleAddProductVariant = () => {
-    const addingVariants = [
-      ...productVariants,
-      { variantId: variantId, options: optionsValue },
-    ];
+    const addingVariants = [...productVariants, { variantId: variantId, options: optionsValue }];
     // clear variant
     form.setValue("variants", addingVariants);
     form.setValue("variant", { options: [], variantId: "" });
@@ -119,19 +105,13 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
 
   return (
     <>
-      <div
-        className={cn("space-y-4 mb-4 ", !productVariants.length && "hidden")}
-      >
+      <div className={cn("mb-4 space-y-4", !productVariants.length && "hidden")}>
         {productVariants?.length &&
           productVariants?.map((variant) => (
-            <ProductVariantPreview
-              key={variant.variantId}
-              productVariant={variant}
-              form={form}
-            />
+            <ProductVariantPreview key={variant.variantId} productVariant={variant} form={form} />
           ))}
       </div>
-      <div className="flex space-x-4 items-center">
+      <div className="flex items-center space-x-4">
         {/* PREVIEW  */}
 
         {/* select variant name */}
@@ -140,7 +120,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
           isDisable={optionsValue?.length > 0}
           label="Name"
           value={variantId || ""}
-          options={variants || []}
+          options={variants as TLabelValuePair[]}
           setValue={handleSetValue}
           type="single"
           isLoading={isVariantFetching}
@@ -158,12 +138,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
           isLoading={isOptionFetching}
         />
 
-        <Button
-          type="reset"
-          className="mt-6"
-          disabled={!optionsValue?.length}
-          onClick={handleAddProductVariant}
-        >
+        <Button type="reset" className="mt-6" disabled={!optionsValue?.length} onClick={handleAddProductVariant}>
           Add
         </Button>
       </div>

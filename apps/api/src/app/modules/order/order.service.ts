@@ -1,12 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import Product from '../product/product.model';
-import { TOrder, TOrderedProduct } from './order.interface';
+
 import { Types, startSession } from 'mongoose';
 import Order from './order.model';
 import moment from 'moment';
 import QueryBuilder from '../../builder/QueryBuilder';
 import User from '../user/user.model';
+import { TOrder, TOrderedProduct } from '@repo/utils/types';
 
 // create order
 const createOrder = async (payload: TOrder, userId: Types.ObjectId) => {

@@ -1,4 +1,4 @@
-import { TOption, TVariant } from './variant.interfaces';
+import { TOption, TVariant } from '@repo/utils/types';
 import { Option, Variant } from './variant.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { TMeta } from '../../utils/sendResponse';

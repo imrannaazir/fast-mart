@@ -1,9 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { TImage } from "@/types/contents.type";
 import { Link } from "lucide-react";
 import { toast } from "sonner";
 import moment from "moment";
+import { TImage } from "@repo/utils/types";
 
 export const columns: ColumnDef<TImage>[] = [
   // select column
@@ -11,10 +11,7 @@ export const columns: ColumnDef<TImage>[] = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -39,14 +36,10 @@ export const columns: ColumnDef<TImage>[] = [
       const imageUrl = row.original.url;
       return (
         <div className="flex justify-start gap-2">
-          <img
-            className="w-10 h-10 border-2   rounded-md border-gray-100"
-            src={imageUrl}
-            alt=""
-          />
+          <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
           <div>
             <p className="font-semibold text-gray-700">{fileName}</p>
-            <h3 className=" uppercase font-semibold text-gray-500">{format}</h3>
+            <h3 className="font-semibold uppercase text-gray-500">{format}</h3>
           </div>
         </div>
       );
@@ -78,10 +71,7 @@ export const columns: ColumnDef<TImage>[] = [
         toast.success("Link copied.", { duration: 2000 });
       };
       return (
-        <Link
-          className="w-8 h-8 p-2 shadow-sm border-2 text-gray-700 rounded-md cursor-pointer"
-          onClick={onCopy}
-        />
+        <Link className="h-8 w-8 cursor-pointer rounded-md border-2 p-2 text-gray-700 shadow-sm" onClick={onCopy} />
       );
     },
   },

@@ -26,7 +26,8 @@
     "winston": "^3.13.1",
     "moment": "^2.30.1",
     "mongoose": "^8.1.2",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@repo/utils": "*"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",

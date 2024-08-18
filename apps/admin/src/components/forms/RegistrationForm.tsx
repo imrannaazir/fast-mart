@@ -3,14 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -18,7 +11,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { logIn } from "@/redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { registrationValidationSchema } from "@/schemas/auth.schema";
+import { registrationSchema } from "@repo/utils/zod-schemas";
 import { TResponse } from "@/types/global.types";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Role } from "@/constant/constant";
@@ -30,14 +23,12 @@ const RegistrationForm = () => {
   const navigate = useNavigate();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof registrationValidationSchema>>({
-    resolver: zodResolver(registrationValidationSchema),
+  const form = useForm<z.infer<typeof registrationSchema>>({
+    resolver: zodResolver(registrationSchema),
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(
-    values: z.infer<typeof registrationValidationSchema>
-  ) {
+  async function onSubmit(values: z.infer<typeof registrationSchema>) {
     const toastId = toast.loading("Account Creating.", {
       duration: 2000,
     });
@@ -124,11 +115,7 @@ const RegistrationForm = () => {
             <FormItem className="space-y-3">
               <FormLabel>Role</FormLabel>
               <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={Role[0]}
-                  className="flex flex-col space-y-1"
-                >
+                <RadioGroup onValueChange={field.onChange} defaultValue={Role[0]} className="flex flex-col space-y-1">
                   {Role.map((item) => (
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
@@ -165,11 +152,7 @@ const RegistrationForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Enter password."
-                  type="password"
-                  {...field}
-                />
+                <Input placeholder="Enter password." type="password" {...field} />
               </FormControl>
 
               <FormMessage />

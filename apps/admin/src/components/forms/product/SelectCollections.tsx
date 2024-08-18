@@ -3,26 +3,25 @@ import AddCollectionPage from "@/pages/AddCollection";
 import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { TProductFormValues } from "@/schemas/product.schema";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
 
 type TSelectCollectionsProps = {
-  form: UseFormReturn<TProductFormValues>;
+  form: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 
 const SelectCollections: FC<TSelectCollectionsProps> = ({ form }) => {
   const dispatch = useAppDispatch();
-  const { data: collectionsData, isFetching } =
-    useGetAllCollectionsQuery(undefined);
+  const { data: collectionsData, isFetching } = useGetAllCollectionsQuery(undefined);
 
   // handle on collection add
   const handleOnCollectionAdd = () => {
     dispatch(
       onOpen({
         title: "Create collection",
-        description:
-          "Enter all required information to create new collection in your store.",
+        description: "Enter all required information to create new collection in your store.",
         children: <AddCollectionPage productForm={form} isInModal={true} />,
         className: "w-full max-w-6xl mx-4",
       })

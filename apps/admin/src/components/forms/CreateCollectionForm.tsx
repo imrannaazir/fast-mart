@@ -8,22 +8,12 @@ import { onClose } from "@/redux/features/modal/modalSlice";
 import { toast } from "sonner";
 import { assignTag } from "@/redux/features/tag/tagSlice";
 import { TCreateCollection } from "@/types/rtkQuery.type";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { camelCaseToWords } from "@/lib/utils";
-import {
-  keyValidationSchema,
-  nameValidationSchema,
-} from "@/schemas/createCollectionValidation";
+import { keyValidationSchema, nameValidationSchema } from "@repo/utils/zod-schemas";
 
 type CreateCollectionFormProps = {
   collectionName: string;
@@ -31,32 +21,21 @@ type CreateCollectionFormProps = {
 
   form: any;
 };
-const CreateCollectionForm: FC<CreateCollectionFormProps> = ({
-  collectionName,
-  createCollection,
-  form,
-}) => {
+const CreateCollectionForm: FC<CreateCollectionFormProps> = ({ collectionName, createCollection, form }) => {
   const dispatch = useAppDispatch();
 
   const createCollectionValidationSchema = z.object({
-    name:
-      collectionName === "featureName"
-        ? keyValidationSchema
-        : nameValidationSchema,
+    name: collectionName === "featureName" ? keyValidationSchema : nameValidationSchema,
   });
 
   // form definition
-  const createCollectionForm = useForm<
-    z.infer<typeof createCollectionValidationSchema>
-  >({
+  const createCollectionForm = useForm<z.infer<typeof createCollectionValidationSchema>>({
     resolver: zodResolver(createCollectionValidationSchema),
     defaultValues: {
       name: "",
     },
   });
-  const handleCreateCollection = async (
-    data: z.infer<typeof createCollectionValidationSchema>
-  ) => {
+  const handleCreateCollection = async (data: z.infer<typeof createCollectionValidationSchema>) => {
     const { name } = data;
     try {
       const toastId = toast.loading(`Creating ${collectionName}.`, {
@@ -92,23 +71,15 @@ const CreateCollectionForm: FC<CreateCollectionFormProps> = ({
   return (
     <div className="">
       <Form {...createCollectionForm}>
-        <form
-          onSubmit={createCollectionForm.handleSubmit(handleCreateCollection)}
-          className="space-y-8"
-        >
+        <form onSubmit={createCollectionForm.handleSubmit(handleCreateCollection)} className="space-y-8">
           <FormField
             control={createCollectionForm.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="capitalize">
-                  {camelCaseToWords(collectionName)}
-                </FormLabel>
+                <FormLabel className="capitalize">{camelCaseToWords(collectionName)}</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder={`Enter ${camelCaseToWords(collectionName)}`}
-                    {...field}
-                  />
+                  <Input placeholder={`Enter ${camelCaseToWords(collectionName)}`} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -4,7 +4,7 @@ import {
   loginValidationSchema,
   refreshTokenValidationSchema,
   registrationValidationSchema,
-} from './auth.validation';
+} from '@repo/utils/zod-schemas';
 import AuthController from './auth.controller';
 
 const router = Router();

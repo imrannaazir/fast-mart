@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const imageValidationSchema = z.object({
   file_name: z.string(),

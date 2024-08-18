@@ -11,7 +11,7 @@ import {
 } from "@/redux/features/filter/filterSlice";
 import { useGetAllImagesQuery } from "@/redux/features/image/image.api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { TImage } from "@/types/contents.type";
+import { TImage } from "@repo/utils/types";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import UploadSingleImage from "@/components/ui/image-upload";
@@ -46,12 +46,8 @@ const ImageListPage = () => {
   const images = (data?.data || []) as TImage[];
   return (
     <Page title="Images" action={<ImageAction />}>
-      <div className=" mx-auto">
-        <ImageDataTable
-          columns={columns}
-          data={images}
-          isLoading={isFetching}
-        />
+      <div className="mx-auto">
+        <ImageDataTable columns={columns} data={images} isLoading={isFetching} />
       </div>
     </Page>
   );
@@ -60,11 +56,7 @@ const ImageListPage = () => {
 const ImageAction = () => {
   return (
     <div>
-      <UploadSingleImage
-        fieldValue={""}
-        fieldName="image"
-        loader={<LoadingButton />}
-      >
+      <UploadSingleImage fieldValue={""} fieldName="image" loader={<LoadingButton />}>
         <div className="btn-primary">Upload Image</div>
       </UploadSingleImage>
     </div>

@@ -1,5 +1,6 @@
+import { TOrder, TOrderedProduct } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TOrder, TOrderedProduct } from './order.interface';
+
 const orderedProductSchema = new Schema<TOrderedProduct>(
   {
     product: {

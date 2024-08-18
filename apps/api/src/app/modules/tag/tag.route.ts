@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import TagController from './tag.controller';
-import { createTagValidationSchema } from './tag.validation';
+import { createTagValidationSchema } from '@repo/utils/zod-schemas';
 import auth from '../../middlewares/auth';
 
 const router = Router();

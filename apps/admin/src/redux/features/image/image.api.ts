@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types/global.types";
 import baseApi from "../api/baseApi";
-import { TImage } from "@/types/contents.type";
+import { TImage } from "@repo/utils/types";
 
 const imageApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -42,8 +42,4 @@ const imageApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {
-  useGetAllImagesQuery,
-  useUploadSingleImageMutation,
-  useDeleteManyImagesMutation,
-} = imageApi;
+export const { useGetAllImagesQuery, useUploadSingleImageMutation, useDeleteManyImagesMutation } = imageApi;

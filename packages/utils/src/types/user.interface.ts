@@ -1,5 +1,5 @@
-import { Types } from 'mongoose';
-import { Role, UserStatus } from './user.constant';
+import { Types } from "mongoose";
+import { Role, UserStatus } from "../constants/user.constant";
 
 export type TRole = (typeof Role)[number];
 export type TUserStatus = (typeof UserStatus)[number];

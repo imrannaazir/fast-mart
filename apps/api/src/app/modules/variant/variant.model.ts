@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TVariant, TOption, TProductVariantOption } from './variant.interfaces';
+import { TVariant, TOption, TProductVariantOption } from '@repo/utils/types';
 
 // variant schema
 const variantSchema = new Schema<TVariant>(

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
-import { TTag } from './tag.interface';
+import { TTag } from '@repo/utils/types';
 import Tag from './tag.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { TMeta } from '../../utils/sendResponse';

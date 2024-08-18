@@ -9,12 +9,12 @@ import LoadingButton from "../../ui/loading-button";
 import { useCrateVariantMutation } from "@/redux/features/product/productApi";
 import { toast } from "sonner";
 import { FC } from "react";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 
 type TCreateVariant = {
-  setValue: UseFormSetValue<TProductFormValues>;
+  setValue: UseFormSetValue<z.infer<typeof createProductSchema>>;
 };
 
 const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
@@ -47,10 +47,7 @@ const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
   };
   return (
     <Form {...variantForm}>
-      <form
-        className="space-y-4"
-        onSubmit={variantForm.handleSubmit(handleVariantSubmit)}
-      >
+      <form className="space-y-4" onSubmit={variantForm.handleSubmit(handleVariantSubmit)}>
         <FormField
           control={variantForm.control}
           name="variant_name"
@@ -62,11 +59,7 @@ const CreateVariant: FC<TCreateVariant> = ({ setValue }) => {
           )}
         />
         <div className="flex justify-end">
-          {isLoading ? (
-            <LoadingButton>Creating</LoadingButton>
-          ) : (
-            <Button>Create</Button>
-          )}
+          {isLoading ? <LoadingButton>Creating</LoadingButton> : <Button>Create</Button>}
         </div>
       </form>
     </Form>

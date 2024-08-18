@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { createBrandValidationSchema } from './brand.validation';
 import BrandController from './brand.controller';
 import auth from '../../middlewares/auth';
-import { deleteManyValidationSchema } from '../image/image.validations';
+import {
+  deleteManyValidationSchema,
+  createBrandValidationSchema,
+} from '@repo/utils/zod-schemas';
 
 const router = Router();
 

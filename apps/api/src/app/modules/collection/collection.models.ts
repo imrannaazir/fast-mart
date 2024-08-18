@@ -1,5 +1,5 @@
+import { TCollection } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TCollection } from './collection.interfaces';
 
 //  collection schema
 const collectionSchema = new Schema<TCollection>(

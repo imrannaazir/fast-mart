@@ -1,5 +1,5 @@
+import { TImage } from '@repo/utils/types';
 import { Schema, model } from 'mongoose';
-import { TImage } from './image.interface';
 
 // image schema
 const imageSchema = new Schema<TImage>(

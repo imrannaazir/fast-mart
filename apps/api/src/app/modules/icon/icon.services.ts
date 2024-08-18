@@ -1,8 +1,8 @@
 import QueryBuilder from '../../builder/QueryBuilder';
 import { icons } from './icons.constants';
 import Icon from './icon.model';
-import { TIcon } from './icons.interface';
 import { TMeta } from '../../utils/sendResponse';
+import { TIcon } from '@repo/utils/types';
 
 // create icons
 const createIcons = async (): Promise<TIcon[]> => {

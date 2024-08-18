@@ -1,5 +1,16 @@
 import { z } from "zod";
 
+export const createCollectionSchema = z.object({
+  title: z.string({ required_error: "Please enter a title." }),
+  description: z.string().optional(),
+  icon: z.string().optional(),
+  image: z.string().optional(),
+});
+
+export const createCollectionValidationSchema = z.object({
+  body: createCollectionSchema,
+});
+
 export //zod validation schema
 const nameValidationSchema = z
   .string()

@@ -1,14 +1,7 @@
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
 import { toast } from "sonner";
@@ -18,36 +11,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
-import {
-  TProductFormValues,
-  createProductValidationSchema,
-} from "@/schemas/product.schema";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 import TextEditor from "@/components/ui/text-editor";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
 import AddVariant from "@/components/forms/product/AddVariant";
 import SelectCollections from "@/components/forms/product/SelectCollections";
 import SelectCategories from "@/components/forms/product/SelectCategories";
 import SelectBrand from "@/components/forms/product/SelectBrand";
 import SelectTags from "@/components/forms/product/SelectTags";
+import { z } from "zod";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
 
   const [createProduct] = useCreateProductMutation();
 
-  const form = useForm<TProductFormValues>({
-    resolver: zodResolver(createProductValidationSchema),
+  const form = useForm<z.infer<typeof createProductSchema>>({
+    resolver: zodResolver(createProductSchema),
   });
 
   // on submit handler
-  const onSubmit = async (data: TProductFormValues) => {
+  const onSubmit = async (data: z.infer<typeof createProductSchema>) => {
     console.log({ data });
 
     const toastId = toast.loading("Creating.", { duration: 2000 });
@@ -81,10 +66,7 @@ const AddProductPage = () => {
                     <FormItem>
                       <FormLabel>Title</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="e.g. Fruits, Vegetables"
-                          {...field}
-                        />
+                        <Input placeholder="e.g. Fruits, Vegetables" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -97,10 +79,7 @@ const AddProductPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Description</FormLabel>
-                      <TextEditor
-                        setValue={form.setValue}
-                        value={field.value || ""}
-                      />
+                      <TextEditor setValue={form.setValue} value={field.value || ""} />
                     </FormItem>
                   )}
                 />
@@ -127,7 +106,7 @@ const AddProductPage = () => {
 
               {/* Pricing */}
               <PageSection title="Pricing">
-                <div className="flex space-x-4 mt-2">
+                <div className="mt-2 flex space-x-4">
                   <FormField
                     control={form.control}
                     name="price"
@@ -146,9 +125,7 @@ const AddProductPage = () => {
                     name="compare_price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-[400]">
-                          Compare price
-                        </FormLabel>
+                        <FormLabel className="font-[400]">Compare price</FormLabel>
                         <FormControl>
                           <Input type="number" placeholder="0.00" {...field} />
                         </FormControl>
@@ -198,10 +175,7 @@ const AddProductPage = () => {
                     render={({ field }) => (
                       <FormItem className="w-[200px]">
                         <FormLabel className="font-[200]">Unit</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select unit" />
@@ -235,7 +209,7 @@ const AddProductPage = () => {
               </PageSection>
             </div>
             {/* right side */}
-            <div className=" flex-grow space-y-6 ">
+            <div className="flex-grow space-y-6">
               {/* status */}
               <PageSection>
                 <FormField
@@ -244,10 +218,7 @@ const AddProductPage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Status</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a status" />

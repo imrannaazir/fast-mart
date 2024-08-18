@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import CategoryController from './category.controller';
 import validateRequest from '../../middlewares/validateRequest';
-import { createCategoryValidationSchema } from './category.validation';
+import {
+  createCategoryValidationSchema,
+  deleteManyValidationSchema,
+} from '@repo/utils/zod-schemas';
 import auth from '../../middlewares/auth';
-import { deleteManyValidationSchema } from '../image/image.validations';
 
 const router = Router();
 

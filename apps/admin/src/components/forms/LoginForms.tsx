@@ -3,14 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/redux/features/auth/authApi";
 import { toast } from "sonner";
@@ -18,7 +11,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { logIn } from "@/redux/features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { loginFormSchema } from "@/schemas/auth.schema";
+import { loginSchema } from "@repo/utils/zod-schemas";
 import { TResponse } from "@/types/global.types";
 
 const LoginForm = () => {
@@ -28,8 +21,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "imrannaaziremon@gmail.com",
       password: "P@ssw0rd",
@@ -37,7 +30,7 @@ const LoginForm = () => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
     const toastId = toast.loading("Logging in.", {
       duration: 2000,
     });
@@ -98,11 +91,7 @@ const LoginForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Enter password."
-                  type="password"
-                  {...field}
-                />
+                <Input placeholder="Enter password." type="password" {...field} />
               </FormControl>
 
               <FormMessage />

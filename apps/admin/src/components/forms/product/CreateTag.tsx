@@ -8,13 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import LoadingButton from "../../ui/loading-button";
 import { toast } from "sonner";
 import { FC } from "react";
-import { TProductFormValues } from "@/schemas/product.schema";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
 import { useCreateTagMutation } from "@/redux/features/tag/tagApi";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 
 type TCreateTag = {
-  setValue: UseFormSetValue<TProductFormValues>;
+  setValue: UseFormSetValue<z.infer<typeof createProductSchema>>;
   selectedTags: string[];
 };
 
@@ -49,10 +49,7 @@ const CreateTag: FC<TCreateTag> = ({ setValue, selectedTags }) => {
   };
   return (
     <Form {...tagForm}>
-      <form
-        className="space-y-4"
-        onSubmit={tagForm.handleSubmit(handleTagSubmit)}
-      >
+      <form className="space-y-4" onSubmit={tagForm.handleSubmit(handleTagSubmit)}>
         <FormField
           control={tagForm.control}
           name="name"
@@ -64,11 +61,7 @@ const CreateTag: FC<TCreateTag> = ({ setValue, selectedTags }) => {
           )}
         />
         <div className="flex justify-end">
-          {isLoading ? (
-            <LoadingButton>Creating</LoadingButton>
-          ) : (
-            <Button>Create</Button>
-          )}
+          {isLoading ? <LoadingButton>Creating</LoadingButton> : <Button>Create</Button>}
         </div>
       </form>
     </Form>
