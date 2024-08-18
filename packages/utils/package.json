@@ -1,0 +1,14 @@
+{
+  "name": "@repo/utils",
+  "version": "1.0.0",
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "exports": {
+    "./constants": "./src/constants/index.constant.ts",
+    "./validations": "./src/validations/index.constant.ts",
+    "./functions": "./src/functions/index.constant.ts",
+    "./types": "./src/types/index.types.ts",
+    "./zod-schemas": "./src/zod-schemas/index.zod.ts"
+  }
+}
