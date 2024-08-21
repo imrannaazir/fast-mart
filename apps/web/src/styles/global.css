@@ -1,0 +1,79 @@
+@import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer {
+  .button {
+    min-width: 150px;
+    max-width: 250px;
+    z-index: 1;
+    -webkit-backface-visibility: hidden;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Aylen */
+  .button.button--aylen {
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
+  }
+  .button--aylen::before,
+  .button--aylen::after {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    bottom: 100%;
+    left: 0;
+    z-index: -1;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+    transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+  }
+  .button--aylen::before {
+    background: #ffffff5b;
+  }
+
+  .button--aylen:hover::before,
+  .button--aylen:hover::after {
+    -webkit-transform: translate3d(0, 200%, 0);
+    transform: translate3d(0, 200%, 0);
+  }
+  .button--aylen:hover::after {
+    -webkit-transition-delay: 0.175s;
+    transition-delay: 0.175s;
+  }
+
+  /* carouselStyles css */
+  .custom-carousel {
+    font-size: 100px;
+    position: relative;
+    background-color: gray;
+  }
+  .slick-dots {
+    position: absolute;
+    background-color: brown;
+    top: 170px;
+  }
+
+  .slick-active li button {
+    background: #ff0000; /* Active dot color */
+  }
+
+  .custom-carousel .slick-dots li button:before {
+    color: transparent;
+  }
+
+  .custom-carousel .slick-dots li.slick-active button:before {
+    color: transparent;
+  }
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Public Sans", sans-serif;
+}

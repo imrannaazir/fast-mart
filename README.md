@@ -1,94 +1,91 @@
-# FastMart
+# Turborepo Starter
 
-**FastMart** is a glossary eCommerce project including admin Dashboard.
+This is an official starter Turborepo.
 
-## Live URL
+## Using this Example
 
-[FastMart](https://fast-mart.vercel.app/)
+To get started, run the following command:
 
-[admin-FastMart](https://admin-fastmart.vercel.app/)
-
- 
-
-## Technology Used
-- **Frontend:** Next.js, Tailwind CSS, Redux, ant design
-- **Frontend admin:** Reactjs, Tailwind CSS, Redux
-- **Backend:** Express.js, Mongoose
-- **Database:** Mongodb
-- **Image Hosting:** Cloudinary
-
-## Setup Instructions
-
-### Prerequisites
-
-- Node.js (v14.x or higher) 
-
-### Installation and run in dev mood (Frontend)
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/imrannaazir/fast-mart
-   ```
-
-2. **Go to frontend dir:**
-
-   ```bash
-   cd view
-   npm i
-   ```
-
-3. **Create `.env` file and paste :**
-
-```bash
-VITE_API_URL=http://localhost:5000/api/v1 
-VITE_CLOUDINARY_CLOUD_NAME=dm6yrvvxj
-VITE_CLOUDINARY_API_KEY=423247538115551
-VITE_CLOUDINARY_API_SECRET=Yw7vhdPQme0VnWHo67CAgfMk8eM
-VITE_CLOUDINARY_UPLOAD_PRESET=e-commerce
+```sh
+npx create-turbo@latest
 ```
 
-4. **Run this command to run in dev mode:**
-   ```bash
-   npm run dev
-   ```
+## What's Inside?
 
-### Run in dev mood (Backend)
+This Turborepo includes the following packages/apps:
 
-1. **Clone the repository:**
+### Apps and Packages
 
-   ```bash
-   git clone https://github.com/imrannaazir/fast-mart
-   ```
+- `docs`: a [Next.js](https://nextjs.org/) app
+- `web`: another [Next.js](https://nextjs.org/) app
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-2. **Go to frontend dir:**
+Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
-   ```bash
-   cd backend
-   npm i
-   ```
+### Utilities
 
-3. **Create `.env` file and paste :**
+This Turborepo has some additional tools already setup for you:
 
-```bash
-NODE_ENV=development
-PORT=5000
-DATABASE_URL=mongodb+srv://imrannaaziremon:f6b7N3p52jsMuMDq@cluster0.zze69mb.mongodb.net/db?retryWrites=true&w=majority
-SUPER_ADMIN_EMAIL=imrannaaziremon@gmail.com
-SUPER_ADMIN_PASSWORD=P@ssw0rd
-SALT_ROUNDS=10
-DATA_LIMIT=10
-# CLIENT_URL=https://assignment-6-client.vercel.app
-CLIENT_URL=http://localhost:5173
+- [TypeScript](https://www.typescriptlang.org/) for static type checking
+- [ESLint](https://eslint.org/) for code linting
+- [Prettier](https://prettier.io) for code formatting
 
-# jwt 
-JWT_ACCESS_SECRET=641be78b23088b67c3b7c81a2af459232746c148fb934129002cb604975067be5ce1461c042accdf0451daa3b1acd5b54c3f1b5b1eedf11a8fed7791ef551d2a28
-JWT_REFRESH_SECRET=7a5ee3a9b66095e0dd1311a432cb3dbd061d233e8ee9a5bab4a54914eb4a583de5c490e17eb04cda568204113c05d598cd6e56ad5705e52386d60ca684a5f81b69
-JWT_ACCESS_TOKEN_EXPIRES_IN=365d
-JWT_REFRESH_TOKEN_EXPIRES_IN=30d
+## Build
+
+To build all apps and packages, run the following command:
+
+```sh
+cd my-turborepo
+yarn build
 ```
 
-4. **Run this command to run in dev mode:**
-   ```bash
-   npm run dev
-   ```
+## Develop
+
+To develop all apps and packages, run the following command:
+
+```sh
+cd my-turborepo
+yarn dev
+```
+
+## Remote Caching
+
+Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+
+By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+
+```sh
+cd my-turborepo
+npx turbo login
+```
+
+This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+
+Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+
+```sh
+npx turbo link
+```
+
+## Additional Resources
+
+For more information on how to use Turborepo, check out these resources:
+
+- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
+- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
+- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
+- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
+- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
+- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+## Using Turborepo with Vite and Shadcn UI
+
+For an in-depth guide on integrating Vite and Shadcn UI with Turborepo, you can refer to this article: [React + Vite with Shadcn UI for UI Components all in Turborepo](https://articles.wesionary.team/react-vite-with-shadcn-ui-for-ui-components-all-in-turborepo-8af3deafa58e).
+
+This guide provides a comprehensive example of setting up a Turborepo with these technologies, ensuring a smooth development experience and optimal performance.
+
+---
+
+This README provides an overview of setting up and using Turborepo with Yarn, ensuring that you can get started quickly and take full advantage of Turborepo's powerful features for monorepo management. For detailed instructions and further customization, refer to the official documentation and resources linked above.
