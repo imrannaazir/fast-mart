@@ -11,6 +11,7 @@ import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
 import HomePageNewsLetter from "./components/HomePageNewsLetter";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 import { collections } from "@/constants/db";
+import Container from "@/components/ui/Container";
 
 /* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
 
@@ -40,7 +41,7 @@ const HomePage = async () => {
     })),
   }));
   return (
-    <div>
+    <Container>
       <HomePageHero />
       {/* products  by category */}
       <HomeSectionLayout
@@ -71,7 +72,7 @@ const HomePage = async () => {
       />
       {/* news letter  */}
       <HomePageNewsLetter />
-    </div>
+    </Container>
   );
 };
 

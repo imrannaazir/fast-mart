@@ -20,3 +20,11 @@ export type THeroCoverProps = {
   description: string | null;
   path: string;
 };
+
+export type TAppProductCardProps = {
+  compare_price: string;
+  id: string;
+  price: number;
+  title: string;
+  photo: string;
+};

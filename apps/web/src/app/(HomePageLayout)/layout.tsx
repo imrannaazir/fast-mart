@@ -18,8 +18,8 @@ const CommonLayout: FC<TCommonLayoutProps> = ({ children }) => {
         <Container>
           <Header />
           <Navbar />
-          {children}
         </Container>
+        {children}
         <Footer />
       </div>
       {/* mobile menu */}
