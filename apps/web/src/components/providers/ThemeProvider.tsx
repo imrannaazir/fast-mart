@@ -9,6 +9,7 @@ const ThemeProvider: FC<TThemeProviderProps> = ({ children }) => {
   const theme: ThemeConfig = {
     token: {
       colorPrimary: light_colors.primary,
+      marginXS: 3,
     },
   };
   return <ConfigProvider theme={theme}>{children}</ConfigProvider>;

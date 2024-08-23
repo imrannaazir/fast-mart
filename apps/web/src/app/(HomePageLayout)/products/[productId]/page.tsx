@@ -4,6 +4,7 @@ import { products } from "@/constants/db";
 import { Fragment } from "react";
 import HomePageTrendingProducts from "../../components/HomePageTrendingProducts";
 import ProductBrandDetails from "../components/ProductBrandDetails";
+import ProductBasicDescription from "../components/ProductBasicDescription";
 
 const ProductDetailsPage = () => {
   const product = products[0];
@@ -28,11 +29,11 @@ const ProductDetailsPage = () => {
       <Container className="">
         <div className="grid grid-cols-4">
           {/* left  */}
-          <section className="col-span-3">
+          <section className="col-span-3 grid grid-cols-2 gap-6">
             {/* product images */}
-            <div></div>
+            <div className="aspect-square w-full border"></div>
             {/* product description */}
-            <div></div>
+            <ProductBasicDescription product={product} />{" "}
           </section>
           {/* right */}
           <section className="space-y-6">

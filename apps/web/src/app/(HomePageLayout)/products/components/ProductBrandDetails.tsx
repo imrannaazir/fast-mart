@@ -14,11 +14,11 @@ const ProductBrandDetails: React.FC<TProductBrandDetailsProps> = ({ img, name, d
         <img src={img} alt={name} className="w-9" />
         <div>
           <h2 className="text-[calc(15px + 1*(100vw - 320px) / 1600)] mt-2">{name}</h2>
-          <p>
+          <div>
             {" "}
-            <Rate disabled allowHalf value={2.5} style={{ fontSize: 14, margin: 0 }} />
+            <Rate className=" " disabled allowHalf value={2.5} style={{ fontSize: 14 }} />
             <span className="ml-2 text-xs">(36 Reviews)</span>
-          </p>
+          </div>
         </div>
       </div>
       <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: description }} />{" "}
