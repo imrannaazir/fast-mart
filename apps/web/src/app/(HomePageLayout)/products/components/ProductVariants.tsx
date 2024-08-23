@@ -50,7 +50,12 @@ const ProductVariants: FC<TProductVariantsProps> = ({ variants }) => {
 
                 return (
                   <Link key={option?._id as string} href={generateLink(variantName, optionName, restQueryObj)}>
-                    <Button type={currentVariant === optionName ? "primary" : "default"}>{optionName}</Button>
+                    <Button
+                      ghost={currentVariant === optionName}
+                      type={currentVariant === optionName ? "primary" : "default"}
+                    >
+                      {optionName}
+                    </Button>
                   </Link>
                 );
               })}

@@ -1,6 +1,8 @@
 import { TProduct, TProductVariantOption } from "@repo/utils/types";
 import { Divider, Rate } from "antd";
 import ProductVariants from "./ProductVariants";
+import ProductDetailButtons from "./ProductDetailButtons";
+import assets from "@/assets";
 
 const ProductBasicDescription = ({ product }: { product: TProduct }) => {
   return (
@@ -31,7 +33,13 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
       <Divider />
       {/* variants */}
       <ProductVariants variants={product?.variants as unknown as TProductVariantOption[]} />
+      {/* buttons */}
+      <ProductDetailButtons />
       {/* payment secure */}
+      <div>
+        <h3 className="mb-4 font-semibold">Guaranteed Safe Checkout</h3>
+        <img src={assets.images.payment} />
+      </div>
     </div>
   );
 };
