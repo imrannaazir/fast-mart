@@ -1,10 +1,8 @@
-import { TProduct, TProductVariant, TVariant } from "@repo/utils/types";
-import { Button, Divider, Rate } from "antd";
-import { FC } from "react";
+import { TProduct, TProductVariantOption } from "@repo/utils/types";
+import { Divider, Rate } from "antd";
+import ProductVariants from "./ProductVariants";
 
 const ProductBasicDescription = ({ product }: { product: TProduct }) => {
-  console.log(product?.variants);
-
   return (
     <div className="pr-6">
       {/* offer */}
@@ -32,14 +30,7 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
       </p>
       <Divider />
       {/* variants */}
-      {product?.variants.map((variant) => (
-        <div>
-          <h3>{variant?.variantId?.variant_name}</h3>
-          <div className="flex flex-wrap gap-2">
-            {variant?.options?.map((option) => <Button type="primary">{option?.option_name}</Button>)}
-          </div>
-        </div>
-      ))}
+      <ProductVariants variants={product?.variants as unknown as TProductVariantOption[]} />
       {/* payment secure */}
     </div>
   );

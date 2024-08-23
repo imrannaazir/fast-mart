@@ -276,6 +276,37 @@ export const products = [
         ],
         __v: 0,
       },
+      {
+        _id: "6625ceb7db2706ff7e56ecf4",
+        variantId: {
+          _id: "66235dadfaef4a0165918236",
+          variant_name: "Color",
+          createdAt: "2024-04-20T06:16:13.739Z",
+          updatedAt: "2024-04-20T06:16:13.739Z",
+          __v: 0,
+        },
+        options: [
+          {
+            _id: "6624709e1c78273a61dbd6c7",
+            option_name: "Red",
+            variantId: "66235dadfaef4a0165918234",
+            __v: 0,
+          },
+          {
+            _id: "662470ae1c78273a61dbd6d3",
+            option_name: "Black",
+            variantId: "66235dadfaef4a0165918234",
+            __v: 0,
+          },
+          {
+            _id: "662470be1c78373a61dbd6dd",
+            option_name: "Green",
+            variantId: "66235dadfaef4a0165918234",
+            __v: 0,
+          },
+        ],
+        __v: 0,
+      },
     ],
     status: "ACTIVE",
     createdAt: "2024-04-22T02:43:03.947Z",

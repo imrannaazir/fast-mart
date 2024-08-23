@@ -18,7 +18,7 @@ export type TOption = {
 export type TProductVariantOption = {
   _id: Types.ObjectId | string;
   variantId: Types.ObjectId | string | TVariant;
-  options: [Types.ObjectId];
+  options: [Types.ObjectId] | TOption[];
 };
 
 export type TProductVariant = {
