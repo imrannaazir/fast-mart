@@ -29,12 +29,7 @@ type TAppSliderProps = {
     | undefined;
 };
 
-const AppSlider: FC<TAppSliderProps> = ({
-  children,
-  className,
-  slidesPerView,
-  breakpoints,
-}) => {
+const AppSlider: FC<TAppSliderProps> = ({ children, className, slidesPerView, breakpoints }) => {
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
@@ -45,14 +40,11 @@ const AppSlider: FC<TAppSliderProps> = ({
     }
   }, []);
   return (
-    <div className={cn("relative swiper-container ", className)}>
+    <div className={cn("swiper-container relative", className)}>
       <Swiper
         onBeforeInit={(swiper) => {
           swiperRef.current = swiper;
-          if (
-            typeof swiper.params.navigation !== "boolean" &&
-            swiper.params.navigation
-          ) {
+          if (typeof swiper.params.navigation !== "boolean" && swiper.params.navigation) {
             swiper.params.navigation.prevEl = prevRef.current;
             swiper.params.navigation.nextEl = nextRef.current;
           }
@@ -72,16 +64,10 @@ const AppSlider: FC<TAppSliderProps> = ({
       >
         {children}
       </Swiper>
-      <button
-        ref={prevRef}
-        className="custom-swiper-button-prev bg-primary text-white p-2 rounded-full"
-      >
+      <button ref={prevRef} className="custom-swiper-button-prev bg-primary rounded-full p-2 text-white">
         <FaAngleLeft />
       </button>
-      <button
-        ref={nextRef}
-        className="custom-swiper-button-next bg-primary text-white p-2 rounded-full"
-      >
+      <button ref={nextRef} className="custom-swiper-button-next bg-primary rounded-full p-2 text-white">
         <FaAngleRight />
       </button>
     </div>

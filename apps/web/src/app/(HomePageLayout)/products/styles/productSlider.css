@@ -1,0 +1,28 @@
+/* .swiper {
+  width: 100%;
+  height: 100%;
+} */
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white;
+  background-color: #0da487;
+  padding: 10px;
+  border-radius: 100%;
+  --swiper-navigation-size: 12px;
+  height: 35px;
+  width: 35px;
+  opacity: 0;
+}
+
+.swiper:hover .swiper-button-prev,
+.swiper:hover .swiper-button-next {
+  opacity: 1;
+}
+
+.swiper-slide-thumb-active div {
+  border: 2px solid #0da487;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

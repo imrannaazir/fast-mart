@@ -1,3 +1,4 @@
+"use client";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
 import { products } from "@/constants/db";
@@ -5,6 +6,8 @@ import { Fragment } from "react";
 import HomePageTrendingProducts from "../../components/HomePageTrendingProducts";
 import ProductBrandDetails from "../components/ProductBrandDetails";
 import ProductBasicDescription from "../components/ProductBasicDescription";
+import { TProduct } from "@repo/utils/types";
+import ProductGallery from "../components/ProductGallery";
 
 const ProductDetailsPage = () => {
   const product = products[0];
@@ -31,9 +34,9 @@ const ProductDetailsPage = () => {
           {/* left  */}
           <section className="col-span-3 grid grid-cols-2 gap-6">
             {/* product images */}
-            <div className="aspect-square w-full border"></div>
+            {<ProductGallery />}
             {/* product description */}
-            <ProductBasicDescription product={product} />{" "}
+            <ProductBasicDescription product={product as unknown as TProduct} />{" "}
           </section>
           {/* right */}
           <section className="space-y-6">
