@@ -1,5 +1,5 @@
 "use client";
-import { CSSProperties, MouseEvent, useState } from "react";
+import { CSSProperties, FC, MouseEvent, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
@@ -7,13 +7,7 @@ import { Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import "../styles/productSlider.css";
-
-const sliderImages = [
-  {
-    id: 1,
-    image: "https://themes.pixelstrap.com/fastkart/assets/images/fashion/product/25.jpg",
-  },
-];
+import { TImage } from "@repo/utils/types";
 
 type ZoomStyles = {
   display: string;
@@ -21,7 +15,10 @@ type ZoomStyles = {
   zoomY: string;
 };
 
-const ProductGallery = () => {
+type TProductGalleryProps = {
+  sliderImages: TImage[];
+};
+const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
   const [activeThumb, setActiveThumb] = useState<SwiperType | null>(null);
   const [zoomStyles, setZoomStyles] = useState<ZoomStyles>({
     display: "none",
@@ -64,7 +61,7 @@ const ProductGallery = () => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={`${image._id}`}>
             <div
               className="relative w-full cursor-zoom-in overflow-hidden rounded-sm"
               style={
@@ -72,14 +69,14 @@ const ProductGallery = () => {
                   "--display": zoomStyles.display,
                   "--zoom-x": zoomStyles.zoomX,
                   "--zoom-y": zoomStyles.zoomY,
-                  "--url": `url(${image.image})`,
+                  "--url": `url(${image.url})`,
                 } as CSSProperties
               }
-              onMouseMove={(event) => handleMouseMove(event, image.image)}
+              onMouseMove={(event) => handleMouseMove(event, image.url)}
               onMouseOut={handleMouseOut}
             >
               <img
-                src={image.image}
+                src={image.url}
                 className="aspect-square w-full rounded-sm object-cover object-top"
                 alt={`Product image ${index + 1}`}
               />
@@ -89,7 +86,7 @@ const ProductGallery = () => {
                   {
                     display: zoomStyles.display,
                     backgroundColor: "black",
-                    backgroundImage: `url(${image.image})`,
+                    backgroundImage: `url(${image.url})`,
                     backgroundSize: "400%",
                     backgroundPosition: `${zoomStyles.zoomX} ${zoomStyles.zoomY}`,
                   } as CSSProperties
@@ -120,10 +117,10 @@ const ProductGallery = () => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={image.id}>
+          <SwiperSlide key={`${image?._id}`}>
             <div className="border-primary flex cursor-pointer items-center justify-center rounded-md border-2 border-none p-1">
               <img
-                src={image.image}
+                src={image.url}
                 className="aspect-square w-full rounded-sm object-fill object-center"
                 alt={`Thumbnail image ${index + 1}`}
               />

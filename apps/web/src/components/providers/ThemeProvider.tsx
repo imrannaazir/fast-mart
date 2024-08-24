@@ -11,6 +11,11 @@ const ThemeProvider: FC<TThemeProviderProps> = ({ children }) => {
       colorPrimary: light_colors.primary,
       marginXS: 3,
     },
+    components: {
+      Table: {
+        cellFontSize: 16,
+      },
+    },
   };
   return <ConfigProvider theme={theme}>{children}</ConfigProvider>;
 };

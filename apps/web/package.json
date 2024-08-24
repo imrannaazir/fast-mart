@@ -21,6 +21,7 @@
     "react-icons": "^5.2.1",
     "react-image-magnify": "^2.7.4",
     "react-inner-image-zoom": "^3.0.2",
+    "react-sticky-box": "^2.0.5",
     "swiper": "^11.1.9",
     "tailwind-merge": "^2.5.2"
   },

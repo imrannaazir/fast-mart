@@ -8,6 +8,8 @@ import ProductBrandDetails from "../components/ProductBrandDetails";
 import ProductBasicDescription from "../components/ProductBasicDescription";
 import { TProduct } from "@repo/utils/types";
 import ProductGallery from "../components/ProductGallery";
+import ProductDetailsTab from "../components/ProductDetailsTab";
+import StickyBox from "react-sticky-box";
 
 const ProductDetailsPage = () => {
   const product = products[0];
@@ -30,22 +32,27 @@ const ProductDetailsPage = () => {
     <Fragment>
       <AppBreadcrumb items={breadcrumbItems} title={product?.title as string} />
       <Container className="">
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-4 pb-6">
           {/* left  */}
-          <section className="col-span-3 grid grid-cols-2 gap-6">
-            {/* product images */}
-            {<ProductGallery />}
-            {/* product description */}
-            <ProductBasicDescription product={product as unknown as TProduct} />{" "}
+          <section className="col-span-3">
+            <div className="grid grid-cols-2 gap-6">
+              {/* product images */}
+              {<ProductGallery sliderImages={product?.media} />}
+              {/* product description */}
+              <ProductBasicDescription product={product as unknown as TProduct} />
+            </div>
+            <ProductDetailsTab product={product} />
           </section>
           {/* right */}
-          <section className="space-y-6">
-            <ProductBrandDetails
-              name={product?.brand?.name as string}
-              description={product?.brand?.description as string}
-              img={product?.brand?.logo?.url as string}
-            />
-            <HomePageTrendingProducts />
+          <section>
+            <StickyBox className="space-y-6" offsetTop={24}>
+              <ProductBrandDetails
+                name={product?.brand?.name as string}
+                description={product?.brand?.description as string}
+                img={product?.brand?.logo?.url as string}
+              />
+              <HomePageTrendingProducts />
+            </StickyBox>
           </section>
         </div>
       </Container>
