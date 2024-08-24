@@ -1,5 +1,7 @@
 import { Divider, Flex, Progress, Rate } from "antd";
 import { FaStar } from "react-icons/fa";
+import CustomerReviews from "./CustomerReviews";
+import AppReviewCard from "@/components/ui/AppReviewCard";
 const ProductReviews = () => {
   const ratingsProgress = [
     {
@@ -58,6 +60,11 @@ const ProductReviews = () => {
         </Flex>
       </div>
       <Divider />
+      <div className="space-y-4">
+        {new Array(10).fill(null).map((review) => (
+          <AppReviewCard />
+        ))}
+      </div>
     </div>
   );
 };
