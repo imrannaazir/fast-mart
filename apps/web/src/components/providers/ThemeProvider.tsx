@@ -15,6 +15,9 @@ const ThemeProvider: FC<TThemeProviderProps> = ({ children }) => {
       Table: {
         cellFontSize: 16,
       },
+      Progress: {
+        defaultColor: "#fadb14",
+      },
     },
   };
   return <ConfigProvider theme={theme}>{children}</ConfigProvider>;
