@@ -10,6 +10,11 @@ import { TProduct } from "@repo/utils/types";
 import ProductGallery from "../components/ProductGallery";
 import ProductDetailsTab from "../components/ProductDetailsTab";
 import StickyBox from "react-sticky-box";
+import HomeSectionTop from "../../components/HomeSectionTop";
+import { AppButton } from "@/components/ui/AppButton";
+import ProductsSlider from "../../components/ProductsSlider";
+import { TAppProductCardProps } from "@/types";
+import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 
 const ProductDetailsPage = () => {
   const product = products[0];
@@ -27,6 +32,15 @@ const ProductDetailsPage = () => {
       title: product?.title,
     },
   ];
+
+  // products
+  const productsForCard: TAppProductCardProps[] = products?.map((product: any) => ({
+    id: product?._id,
+    title: product?.title,
+    price: product?.price,
+    compare_price: product?.compare_price,
+    photo: product?.media?.[0]?.url,
+  }));
 
   return (
     <Fragment>
@@ -54,6 +68,30 @@ const ProductDetailsPage = () => {
               <HomePageTrendingProducts />
             </StickyBox>
           </section>
+        </div>
+        {/* related products */}
+        <div className="flex h-full flex-col justify-between">
+          <HomeSectionTop
+            heading="Related Products"
+            description="A virtual assistant collects the products from your list"
+          />
+
+          <div className="mt-6 grid grid-cols-5 gap-4">
+            {new Array(5).fill(null).map((product) => (
+              <AppProductCard
+                product={{
+                  compare_price: "54",
+                  id: "1",
+                  photo: "https://themes.pixelstrap.com/fastkart/assets/images/cake/product/2.png",
+                  price: 45,
+                  title: "Chocolate Brownie Cake",
+                }}
+              />
+            ))}
+          </div>
+          <div className="mt-4 flex justify-center pb-4 md:justify-end">
+            <AppButton className="">View More</AppButton>
+          </div>
         </div>
       </Container>
     </Fragment>

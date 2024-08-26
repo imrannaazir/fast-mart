@@ -1,6 +1,5 @@
 import { Divider, Flex, Progress, Rate } from "antd";
 import { FaStar } from "react-icons/fa";
-import CustomerReviews from "./CustomerReviews";
 import AppReviewCard from "@/components/ui/AppReviewCard";
 const ProductReviews = () => {
   const ratingsProgress = [
@@ -50,7 +49,7 @@ const ProductReviews = () => {
         </div>
         <Flex gap="small" vertical>
           {ratingsProgress.map((item) => (
-            <div className="flex items-center gap-2">
+            <div key={item.star} className="flex items-center gap-2">
               <FaStar className="text-[#fadb14]" size={16} />
               <span>{item.star}</span>
               <Progress size={"small"} percent={item.percent} showInfo={false} />

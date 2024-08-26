@@ -4,6 +4,7 @@ const assets = {
     sales_manager: "/images/sales_manager.jpg",
     bg: {
       category_card: "/images/category-card-bg.png",
+      login_bg: "/images/log-in-bg.png",
     },
     banners: {
       eggs: "/images/eggs-banner.jpg",
@@ -21,6 +22,7 @@ const assets = {
       juice: "/images/juice.jpg",
       drinks: "/images/drinks.jpg",
       summer_vegetable: "/images/summer_vegetable.jpg",
+      login: "/images/log-in.png",
     },
   },
   svg: {
