@@ -37,7 +37,7 @@ const getAllCollections = catchAsync(async (req, res) => {
 
 // delete single collection
 const deleteSingleCollection = catchAsync(async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id as string;
   const result = await CollectionServices.deleteSingleCollection(id);
   sendResponse(res, {
     success: true,

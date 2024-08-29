@@ -30,7 +30,7 @@ const getAllBrands = catchAsync(async (req, res) => {
 
 // delete single brand
 const deleteSingleBrand = catchAsync(async (req, res) => {
-  const id = req.params.id;
+  const id = req.params.id as string;
   const result = await BrandService.deleteSingleBrand(id);
 
   sendResponse(res, {

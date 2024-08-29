@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export type TVariant = {
-  _id?: Types.ObjectId | string;
+  _id?: Types.ObjectId;
   variant_name: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -18,7 +18,7 @@ export type TOption = {
 export type TProductVariantOption = {
   _id: Types.ObjectId | string;
   variantId: Types.ObjectId | string | TVariant;
-  options: [Types.ObjectId] | TOption[];
+  options: Types.ObjectId[] | TOption[];
 };
 
 export type TProductVariant = {

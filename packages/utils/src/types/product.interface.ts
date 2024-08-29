@@ -28,7 +28,7 @@ export type TProduct = {
   unit: TProductUnit;
 
   media?: [Types.ObjectId] | TImage[];
-  variants?: [TInputVariant] | Types.ObjectId[] | TProductVariant;
+  variants?: [TInputVariant] | Types.ObjectId[] | TProductVariant[];
   categories?: [Types.ObjectId] | TCategory[];
   collections?: [Types.ObjectId] | TCollection[];
   brand?: Types.ObjectId | TBrand;
