@@ -7,6 +7,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex } from "antd";
 import assets from "@/assets";
 import Image from "next/image";
+import { AppButton } from "@/components/ui/AppButton";
 
 const LoginPage = () => {
   const loginPageBreadcrumbItems: TAppBreadcrumbItem[] = [
@@ -51,10 +52,9 @@ const LoginPage = () => {
                 </Form.Item>
 
                 <Form.Item>
-                  <Button block type="primary" htmlType="submit">
-                    Log in
-                  </Button>
-                  or <a href="">Register now!</a>
+                  <AppButton variant={"secondary"} className="m-0 min-w-full">
+                    Loin
+                  </AppButton>
                 </Form.Item>
               </Form>
             </div>

@@ -6,7 +6,7 @@ import { Fragment } from "react";
 import HomePageTrendingProducts from "../../components/HomePageTrendingProducts";
 import ProductBrandDetails from "../components/ProductBrandDetails";
 import ProductBasicDescription from "../components/ProductBasicDescription";
-import { TProduct } from "@repo/utils/types";
+import { TImage, TProduct } from "@repo/utils/types";
 import ProductGallery from "../components/ProductGallery";
 import ProductDetailsTab from "../components/ProductDetailsTab";
 import StickyBox from "react-sticky-box";
@@ -51,11 +51,11 @@ const ProductDetailsPage = () => {
           <section className="col-span-3">
             <div className="grid grid-cols-2 gap-6">
               {/* product images */}
-              {<ProductGallery sliderImages={product?.media} />}
+              {<ProductGallery sliderImages={product?.media as TImage[]} />}
               {/* product description */}
               <ProductBasicDescription product={product as unknown as TProduct} />
             </div>
-            <ProductDetailsTab product={product} />
+            <ProductDetailsTab product={product as unknown as TProduct} />
           </section>
           {/* right */}
           <section>
@@ -79,6 +79,7 @@ const ProductDetailsPage = () => {
           <div className="mt-6 grid grid-cols-5 gap-4">
             {new Array(5).fill(null).map((product) => (
               <AppProductCard
+                key={product?.id}
                 product={{
                   compare_price: "54",
                   id: "1",

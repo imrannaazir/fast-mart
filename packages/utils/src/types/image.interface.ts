@@ -6,8 +6,8 @@ export type TImage = {
   url: string;
   size: number;
   format: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type TDeleteManyReturnType = {
