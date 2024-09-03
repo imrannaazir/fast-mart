@@ -224,6 +224,16 @@ export const products = [
         updatedAt: "2024-04-22T02:39:56.662Z",
         __v: 0,
       },
+      {
+        _id: "6625cdfcdb2706ff7e56ecdd",
+        file_name: "download (7)",
+        url: "https://res.cloudinary.com/dm6yrvvxj/image/upload/v1713753596/e-commerce/s3ob39jmowtsasmlxrz3.jpg",
+        size: 3.489,
+        format: "jpg",
+        createdAt: "2024-04-22T02:39:56.662Z",
+        updatedAt: "2024-04-22T02:39:56.662Z",
+        __v: 0,
+      },
     ],
     quantity: 100,
     tags: [

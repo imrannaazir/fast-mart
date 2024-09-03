@@ -12,8 +12,6 @@ import ProductDetailsTab from "../components/ProductDetailsTab";
 import StickyBox from "react-sticky-box";
 import HomeSectionTop from "../../components/HomeSectionTop";
 import { AppButton } from "@/components/ui/AppButton";
-import ProductsSlider from "../../components/ProductsSlider";
-import { TAppProductCardProps } from "@/types";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 
 const ProductDetailsPage = () => {
@@ -32,15 +30,6 @@ const ProductDetailsPage = () => {
       title: product?.title,
     },
   ];
-
-  // products
-  const productsForCard: TAppProductCardProps[] = products?.map((product: any) => ({
-    id: product?._id,
-    title: product?.title,
-    price: product?.price,
-    compare_price: product?.compare_price,
-    photo: product?.media?.[0]?.url,
-  }));
 
   return (
     <Fragment>
@@ -77,9 +66,9 @@ const ProductDetailsPage = () => {
           />
 
           <div className="mt-6 grid grid-cols-5 gap-4">
-            {new Array(5).fill(null).map((product) => (
+            {new Array(5).fill(null).map((item, i) => (
               <AppProductCard
-                key={product?.id}
+                key={i}
                 product={{
                   compare_price: "54",
                   id: "1",

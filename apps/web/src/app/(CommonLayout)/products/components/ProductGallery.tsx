@@ -87,7 +87,7 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
                     display: zoomStyles.display,
                     backgroundColor: "black",
                     backgroundImage: `url(${image.url})`,
-                    backgroundSize: "400%",
+                    backgroundSize: "350%",
                     backgroundPosition: `${zoomStyles.zoomX} ${zoomStyles.zoomY}`,
                   } as CSSProperties
                 }
@@ -96,6 +96,7 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
           </SwiperSlide>
         ))}
       </Swiper>
+      {/* box images */}
       <Swiper
         onSwiper={setActiveThumb}
         modules={[Thumbs]}
