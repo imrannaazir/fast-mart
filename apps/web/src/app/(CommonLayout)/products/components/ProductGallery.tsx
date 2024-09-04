@@ -118,7 +118,7 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={`${image?._id}`}>
+          <SwiperSlide className="size-[90px]" key={`${image?._id}`}>
             <div className="border-primary flex cursor-pointer items-center justify-center rounded-md border-2 border-none p-1">
               <img
                 src={image.url}
