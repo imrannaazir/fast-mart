@@ -1,7 +1,13 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.join(process.cwd() + '/.env') });
+// Load .env file
+dotenv.config();
+
+// Fallback to .env file if process.env is empty
+if (Object.keys(process.env).length === 0) {
+  dotenv.config({ path: path.join(process.cwd(), '..', '..', '.env') });
+}
 
 export default {
   port: process.env.PORT,

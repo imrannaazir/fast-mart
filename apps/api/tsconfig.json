@@ -5,24 +5,5 @@
     "outDir": "./dist"
   },
   "exclude": ["node_modules"],
-  "include": [
-    ".",
-    "../../packages/utils/src/types/category.interface.ts",
-    "../../packages/utils/src/types/collection.interfaces.ts",
-    "../../packages/utils/src/types/icons.interface.ts",
-    "../../packages/utils/src/types/image.interface.ts",
-    "../../packages/utils/src/types/order.interface.ts",
-    "../../packages/utils/src/types/product.interface.ts",
-    "../../packages/utils/src/types/tag.interface.ts",
-    "../../packages/utils/src/types/user.interface.ts",
-    "../../packages/utils/src/zod-schemas/brand.validation.ts",
-    "../../packages/utils/src/zod-schemas/category.validation.ts",
-    "../../packages/utils/src/zod-schemas/collection.validations.ts",
-    "../../packages/utils/src/zod-schemas/image.validations.ts",
-    "../../packages/utils/src/zod-schemas/order.validation.ts",
-    "../../packages/utils/src/zod-schemas/product.validation.ts",
-    "../../packages/utils/src/zod-schemas/tag.validation.ts",
-    "../../packages/utils/src/zod-schemas/variant.validations.ts",
-    "../../packages/utils/src/zod-schemas/user.validation.ts"
-  ]
+  "include": ["./src"]
 }

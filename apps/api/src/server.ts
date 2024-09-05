@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
@@ -6,13 +7,23 @@ import config from './app/config';
 import colors from 'colors';
 import { seedSuperAdmin } from './app/DB';
 let server: Server;
+const port = process.env.PORT || 3000;
 async function main() {
   try {
+    if (!config.database_url) {
+      throw new Error(
+        'DATABASE_URL is not defined in the environment variables',
+      );
+    }
     await mongoose.connect(config.database_url as string);
     await seedSuperAdmin();
-    server = app.listen(config.port, () => {
-      console.log(colors.green.bold(`App listening on port ${config.port} ✔️`));
-    });
+    server = app.listen(
+      port,
+
+      () => {
+        console.log(colors.green.bold(`App listening on port ${port} ✔️`));
+      },
+    );
   } catch (error) {
     console.log(error);
   }
