@@ -11,17 +11,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaEllipsis } from "react-icons/fa6";
 import { Row } from "@tanstack/react-table";
-import { TCollection } from "@/types";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
-import {
-  setIsLoading,
-  setIsOpen,
-  setOnConfirm,
-} from "@/redux/features/modal/alertModal.slice";
+import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
 import { useDeleteSingleCollectionMutation } from "@/redux/features/collection/collection.api";
 import { toast } from "sonner";
+import { TCollection } from "@repo/utils/types";
 
 const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
   const [deleteSingleCollection] = useDeleteSingleCollectionMutation();
@@ -33,7 +29,7 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
   const onConfirm = async () => {
     dispatch(setIsLoading(true));
     try {
-      const res = await deleteSingleCollection(collectionId).unwrap();
+      const res = await deleteSingleCollection(collectionId as string).unwrap();
       if (res.success) {
         toast.success("Deleted successfully.", { duration: 2000 });
         dispatch(setIsOpen(false));
@@ -77,14 +73,10 @@ const CollectionDataTableAction = ({ row }: { row: Row<TCollection> }) => {
           <FaEllipsis />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[200px] absolute -right-5">
+      <DropdownMenuContent className="absolute -right-5 w-[200px]">
         <DropdownMenuGroup>
           {collectionActions.map((action, i) => (
-            <DropdownMenuItem
-              key={i}
-              onClick={action.fn}
-              className={cn(action.className)}
-            >
+            <DropdownMenuItem key={i} onClick={action.fn} className={cn(action.className)}>
               {action.icon}
               <span>{action.title}</span>
             </DropdownMenuItem>

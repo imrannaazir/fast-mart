@@ -1,28 +1,26 @@
-import { Types } from "mongoose";
-
 export type TVariant = {
-  _id?: Types.ObjectId;
+  _id?: string;
   variant_name: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
 
 export type TOption = {
-  _id?: Types.ObjectId | string;
+  _id?: string;
   option_name: string;
-  variantId: Types.ObjectId | string;
+  variantId: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
 
 export type TProductVariantOption = {
-  _id: Types.ObjectId | string;
-  variantId: Types.ObjectId | string | TVariant;
-  options: Types.ObjectId[] | TOption[];
+  _id: string;
+  variantId: string | TVariant;
+  options: TOption[];
 };
 
 export type TProductVariant = {
-  _id: Types.ObjectId | string;
-  productId: Types.ObjectId | string;
-  productVariantOptions: [Types.ObjectId];
+  _id: string;
+  productId: string;
+  productVariantOptions: string[];
 };

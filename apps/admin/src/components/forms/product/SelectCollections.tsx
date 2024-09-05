@@ -3,6 +3,7 @@ import AddCollectionPage from "@/pages/AddCollection";
 import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
+import { TLabelValuePair } from "@/types";
 import { createProductSchema } from "@repo/utils/zod-schemas";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
@@ -43,7 +44,7 @@ const SelectCollections: FC<TSelectCollectionsProps> = ({ form }) => {
     <OptionSelector
       label="Collections"
       onAdd={handleOnCollectionAdd}
-      options={collections}
+      options={collections as TLabelValuePair[]}
       setValue={handleSetCollections}
       value={form.watch("collections") || []}
       isDisable={false}

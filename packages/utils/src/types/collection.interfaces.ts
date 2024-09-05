@@ -1,12 +1,14 @@
-import { Types } from 'mongoose';
+import { TIcon } from "./icons.interface";
+import { TImage } from "./image.interface";
+import { TUser } from "./user.interface";
 
 export type TCollection = {
-  _id?: Types.ObjectId;
+  _id?: string;
   title: string;
   description?: string;
-  image?: Types.ObjectId;
-  icon?: Types.ObjectId;
-  createdBy?: Types.ObjectId;
+  image?: TImage;
+  icon?: TIcon;
+  createdBy?: TUser;
   createdAt?: Date;
   updatedAt?: Date;
 };

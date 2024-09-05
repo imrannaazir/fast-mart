@@ -3,7 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import moment from "moment";
 import Icon from "@/components/ui/lucide-icon";
 import CollectionDataTableAction from "./data-table-action";
-import { TCollection } from "@/types";
+import { TCollection } from "@repo/utils/types";
 
 export const columns: ColumnDef<TCollection>[] = [
   // select column
@@ -11,10 +11,7 @@ export const columns: ColumnDef<TCollection>[] = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -37,15 +34,10 @@ export const columns: ColumnDef<TCollection>[] = [
       const title = row.original.title;
       // const format = row?.original?.image?.url;
       const imageUrl =
-        row.original?.image?.url ||
-        "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
+        row.original?.image?.url || "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
       return (
-        <div className="flex justify-start gap-2 items-center">
-          <img
-            className="w-10 h-10 border-2   rounded-md border-gray-100"
-            src={imageUrl}
-            alt=""
-          />
+        <div className="flex items-center justify-start gap-2">
+          <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
           <div>
             <p className="font-semibold text-gray-700">{title}</p>
           </div>
@@ -58,7 +50,7 @@ export const columns: ColumnDef<TCollection>[] = [
     cell: ({ row }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const iconName: any = row?.original?.icon?.name || "ban";
-      return <Icon className="text-gray-600 w-4 h-4" name={iconName} />;
+      return <Icon className="h-4 w-4 text-gray-600" name={iconName} />;
     },
   },
   {

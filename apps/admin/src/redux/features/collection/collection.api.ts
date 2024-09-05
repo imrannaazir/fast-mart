@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
-import { TCollection } from "@/types";
+import { TCollection } from "@repo/utils/types";
 
 const collectionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

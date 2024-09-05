@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import { ProductStatus, ProductUnit } from "../constants/product.constant";
 import { TImage } from "./image.interface";
 import { TProductVariant } from "./variant.interfaces";
@@ -6,16 +5,17 @@ import { TCategory } from "./category.interface";
 import { TCollection } from "./collection.interfaces";
 import { TBrand } from "./brand.interface";
 import { TTag } from "./tag.interface";
+import { TUser } from "./user.interface";
 
 export type TProductStatus = (typeof ProductStatus)[number];
 export type TProductUnit = (typeof ProductUnit)[number];
 export type TInputVariant = {
-  variantId: Types.ObjectId;
-  options: [Types.ObjectId];
+  variantId: string;
+  options: string[];
 };
 
 export type TProduct = {
-  _id?: Types.ObjectId;
+  _id?: string;
 
   title: string;
   price: number;
@@ -27,13 +27,13 @@ export type TProduct = {
   weight?: number;
   unit: TProductUnit;
 
-  media?: [Types.ObjectId] | TImage[];
-  variants?: [TInputVariant] | Types.ObjectId[] | TProductVariant[];
-  categories?: [Types.ObjectId] | TCategory[];
-  collections?: [Types.ObjectId] | TCollection[];
-  brand?: Types.ObjectId | TBrand;
-  tags?: [Types.ObjectId] | TTag[];
-  createdBy?: Types.ObjectId;
+  media?: TImage[];
+  variants?: [TInputVariant] | string[] | TProductVariant[];
+  categories?: TCategory[];
+  collections?: TCollection[];
+  brand?: TBrand;
+  tags?: TTag[];
+  createdBy?: TUser;
   createdAt?: Date;
   updatedAt?: Date;
 };

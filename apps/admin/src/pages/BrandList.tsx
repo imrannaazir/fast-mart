@@ -13,7 +13,7 @@ import {
 } from "@/redux/features/filter/filterSlice";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { TBrand } from "@/types";
+import { TBrand } from "@repo/utils/types";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -44,12 +44,8 @@ const BrandListPage = () => {
   const brands = data?.data || ([] as TBrand[]);
   return (
     <Page title="Brands" action={<CollectionAction />}>
-      <div className=" mx-auto">
-        <BrandDataTable
-          columns={columns}
-          data={brands as TBrand[]}
-          isLoading={isFetching}
-        />
+      <div className="mx-auto">
+        <BrandDataTable columns={columns} data={brands as TBrand[]} isLoading={isFetching} />
       </div>
     </Page>
   );

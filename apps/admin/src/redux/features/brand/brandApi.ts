@@ -1,5 +1,6 @@
-import { TBrand, TResponseRedux } from "@/types";
+import { TResponseRedux } from "@/types";
 import baseApi from "../api/baseApi";
+import { TBrand } from "@repo/utils/types";
 
 const brandApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

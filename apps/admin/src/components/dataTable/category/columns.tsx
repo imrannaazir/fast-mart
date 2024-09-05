@@ -1,8 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import moment from "moment";
-import { TCategory } from "@/types";
 import CategoryDataTableAction from "./data-table-action";
+import { TCategory } from "@repo/utils/types";
 
 export const columns: ColumnDef<TCategory>[] = [
   // select column
@@ -10,10 +10,7 @@ export const columns: ColumnDef<TCategory>[] = [
     id: "select",
     header: ({ table }) => (
       <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -36,15 +33,10 @@ export const columns: ColumnDef<TCategory>[] = [
       const title = row.original.title;
       // const format = row?.original?.image?.url;
       const imageUrl =
-        row.original?.image?.url ||
-        "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
+        row.original?.image?.url || "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
       return (
-        <div className="flex justify-start gap-2 items-center">
-          <img
-            className="w-10 h-10 border-2   rounded-md border-gray-100"
-            src={imageUrl}
-            alt=""
-          />
+        <div className="flex items-center justify-start gap-2">
+          <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
           <div>
             <p className="font-semibold text-gray-700">{title}</p>
           </div>

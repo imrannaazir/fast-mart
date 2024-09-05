@@ -6,5 +6,4 @@ export * from "./image.validations";
 export * from "./order.validation";
 export * from "./product.validation";
 export * from "./tag.validation";
-export * from "./user.validation";
 export * from "./variant.validations";

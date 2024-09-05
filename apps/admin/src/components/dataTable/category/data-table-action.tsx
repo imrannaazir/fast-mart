@@ -14,14 +14,10 @@ import { Row } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/redux/hooks";
-import {
-  setIsLoading,
-  setIsOpen,
-  setOnConfirm,
-} from "@/redux/features/modal/alertModal.slice";
+import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
 import { toast } from "sonner";
-import { TCategory } from "@/types";
 import { useDeleteSingleCategoryMutation } from "@/redux/features/category/categoryApi";
+import { TCategory } from "@repo/utils/types";
 
 const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
   const [deleteSingleCategory] = useDeleteSingleCategoryMutation();
@@ -76,14 +72,10 @@ const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
           <FaEllipsis />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[200px] absolute -right-5">
+      <DropdownMenuContent className="absolute -right-5 w-[200px]">
         <DropdownMenuGroup>
           {collectionActions.map((action, i) => (
-            <DropdownMenuItem
-              key={i}
-              onClick={action.fn}
-              className={cn(action.className)}
-            >
+            <DropdownMenuItem key={i} onClick={action.fn} className={cn(action.className)}>
               {action.icon}
               <span>{action.title}</span>
             </DropdownMenuItem>

@@ -1,26 +1,18 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { MutationTrigger } from "node_modules/@reduxjs/toolkit/dist/query/react/buildHooks";
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  MutationDefinition,
-} from "@reduxjs/toolkit/query";
+import { TypedMutationTrigger } from "@reduxjs/toolkit/query/react";
+import { BaseQueryFn, FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
-export type TCreateCollection = MutationTrigger<
-  MutationDefinition<
-    any,
-    BaseQueryFn<
-      string | FetchArgs,
-      unknown,
-      FetchBaseQueryError,
-      {},
-      FetchBaseQueryMeta
-    >,
-    any,
-    any,
-    "api"
-  >
+type CreateCollectionResult = {
+  data: {
+    _id: string;
+  };
+};
+
+type CreateCollectionArg = Record<string, unknown>;
+
+type CreateCollectionBaseQuery = BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError>;
+
+export type TCreateCollection = TypedMutationTrigger<
+  CreateCollectionResult,
+  CreateCollectionArg,
+  CreateCollectionBaseQuery
 >;

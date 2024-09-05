@@ -1,10 +1,11 @@
-import { Types } from 'mongoose';
+import { Types } from "mongoose";
+import { TImage } from "./image.interface";
 
 export type TBrand = {
-  _id?: Types.ObjectId;
+  _id?: string;
   name: string;
   description?: string;
-  logo?: Types.ObjectId;
+  logo?: TImage;
   slogan?: string;
   cover_photo?: Types.ObjectId;
   noOfProducts?: number;

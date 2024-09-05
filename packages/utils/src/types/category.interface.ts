@@ -1,11 +1,13 @@
-import { Types } from 'mongoose';
+import { Types } from "mongoose";
+import { TImage } from "./image.interface";
+import { TCollection } from "./collection.interfaces";
 
 export type TCategory = {
-  _id: Types.ObjectId;
+  _id: string;
   title: string;
-  collection: Types.ObjectId;
+  collection: TCollection;
   description?: string;
-  image?: Types.ObjectId;
+  image?: TImage;
   createdBy: Types.ObjectId;
   noOfProducts?: number;
   createdAt: Date;
