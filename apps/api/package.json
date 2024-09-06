@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/server.ts",
-    "build": "npx esbuild ./src/server.ts --bundle --platform=node --outfile=dist/server.js",
+    "build": "npx esbuild ./src/server.ts --bundle --platform=node --outfile=dist/server.js --external:@repo/*",
     "start": "node dist/server.js",
     "postinstall": "npm rebuild bcrypt --build-from-source",
     "copy-native-modules": "mkdir -p dist/node_modules/bcrypt/lib/binding && cp -R node_modules/bcrypt/lib/binding dist/node_modules/bcrypt/lib/",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@repo/utils": "*",
+    "module-alias": "^2.2.2",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
