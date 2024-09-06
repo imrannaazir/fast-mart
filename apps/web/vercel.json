@@ -1,0 +1,4 @@
+{
+  "buildCommand": "cd ../.. && yarn install && yarn turbo run build --filter=web...",
+  "outputDirectory": ".next"
+}
