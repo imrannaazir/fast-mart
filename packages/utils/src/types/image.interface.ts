@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 export type TImage = {
-  _id?: Types.ObjectId | string;
+  _id?: string;
   file_name: string;
   url: string;
   size: number;

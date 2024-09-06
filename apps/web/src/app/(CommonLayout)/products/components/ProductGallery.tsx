@@ -1,9 +1,10 @@
 "use client";
+import Image from "next/image";
 import { CSSProperties, FC, MouseEvent, useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { Navigation, Thumbs } from "swiper/modules";
+import { Autoplay, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import "../styles/productSlider.css";
@@ -18,7 +19,7 @@ type ZoomStyles = {
 type TProductGalleryProps = {
   sliderImages: TImage[];
 };
-const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
+const ProductImageGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
   const [activeThumb, setActiveThumb] = useState<SwiperType | null>(null);
   const [zoomStyles, setZoomStyles] = useState<ZoomStyles>({
     display: "none",
@@ -47,7 +48,7 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
   };
 
   return (
-    <div className="space-y-5 rounded-md">
+    <div className="h-fit space-y-5 rounded-md lg:border lg:p-4">
       <Swiper
         loop
         spaceBetween={10}
@@ -61,7 +62,7 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={`${image._id}`}>
+          <SwiperSlide key={image._id}>
             <div
               className="relative w-full cursor-zoom-in overflow-hidden rounded-sm"
               style={
@@ -75,9 +76,11 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
               onMouseMove={(event) => handleMouseMove(event, image.url)}
               onMouseOut={handleMouseOut}
             >
-              <img
+              <Image
+                height={400}
+                width={400}
                 src={image.url}
-                className="aspect-square w-full rounded-sm object-cover object-top"
+                className="aspect-auto h-[400px] w-full rounded-sm object-cover object-top"
                 alt={`Product image ${index + 1}`}
               />
               <div
@@ -87,7 +90,7 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
                     display: zoomStyles.display,
                     backgroundColor: "black",
                     backgroundImage: `url(${image.url})`,
-                    backgroundSize: "350%",
+                    backgroundSize: "250%",
                     backgroundPosition: `${zoomStyles.zoomX} ${zoomStyles.zoomY}`,
                   } as CSSProperties
                 }
@@ -96,10 +99,14 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* box images */}
       <Swiper
         onSwiper={setActiveThumb}
-        modules={[Thumbs]}
+        modules={[Thumbs, Autoplay]}
+        autoplay={{
+          delay: 3500,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
         slidesPerView={3}
         spaceBetween={5}
         breakpoints={{
@@ -118,11 +125,13 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide className="size-[90px]" key={`${image?._id}`}>
-            <div className="border-primary flex cursor-pointer items-center justify-center rounded-md border-2 border-none p-1">
-              <img
+          <SwiperSlide key={image._id}>
+            <div className="border-primary flex size-[100px] cursor-pointer items-center justify-center rounded-md border-2 border-none p-1">
+              <Image
+                width={90}
+                height={90}
                 src={image.url}
-                className="aspect-square w-full rounded-sm object-fill object-center"
+                className="h-full w-full rounded-sm object-fill object-center"
                 alt={`Thumbnail image ${index + 1}`}
               />
             </div>
@@ -133,4 +142,4 @@ const ProductGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
   );
 };
 
-export default ProductGallery;
+export default ProductImageGallery;
