@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 export type TImage = {
   _id?: string;
   file_name: string;
