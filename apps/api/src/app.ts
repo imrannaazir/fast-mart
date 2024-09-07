@@ -5,6 +5,7 @@ import { Application } from 'express';
 import notFoundHandler from './app/middlewares/notFoundHandler';
 import router from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import { StatusCodes } from 'http-status-codes';
 
 const app: Application = express();
 // parser
@@ -17,6 +18,7 @@ const allowedOrigins: string[] = [
   'https://fast-mart.vercel.app',
 ];
 
+// Configure CORS
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -30,11 +32,14 @@ const corsOptions: CorsOptions = {
   allowedHeaders: 'Content-Type,Authorization',
 };
 
-// Configure CORS
 app.use(cors(corsOptions));
 
-app.get('/api/v1', (req, res) => {
-  res.send('Hello World!');
+app.get('/', (req, res) => {
+  res.json({
+    status: StatusCodes.OK,
+    success: true,
+    message: `App is alive 😀`,
+  });
 });
 
 // all route

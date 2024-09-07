@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
 import colors from 'colors';
-import { seedSuperAdmin } from './app/DB';
+import { keepServerAlive, seedSuperAdmin } from './app/DB';
 let server: Server;
 const port = process.env.PORT || 3000;
 async function main() {
@@ -24,6 +24,8 @@ async function main() {
         console.log(colors.green.bold(`App listening on port ${port} ✔️`));
       },
     );
+    // pink the server
+    keepServerAlive();
   } catch (error) {
     console.log(error);
   }
