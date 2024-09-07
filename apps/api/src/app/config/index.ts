@@ -12,6 +12,8 @@ if (Object.keys(process.env).length === 0) {
 export default {
   port: process.env.PORT,
   app_url: process.env.APP_URL,
+  origin_url_1: process.env.ORIGIN_URL_1,
+  origin_url_2: process.env.ORIGIN_URL_2,
   database_url: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV,
   salt_rounds: process.env.SALT_ROUNDS,

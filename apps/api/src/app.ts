@@ -6,6 +6,7 @@ import notFoundHandler from './app/middlewares/notFoundHandler';
 import router from './app/routes';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import { StatusCodes } from 'http-status-codes';
+import config from './app/config';
 
 const app: Application = express();
 // parser
@@ -14,8 +15,8 @@ app.use(cookieParser());
 
 // List of allowed origins
 const allowedOrigins: string[] = [
-  'https://admin-fastmart.vercel.app',
-  'https://fast-mart.vercel.app',
+  config.origin_url_1 as string,
+  config.origin_url_2 as string,
 ];
 
 // Configure CORS

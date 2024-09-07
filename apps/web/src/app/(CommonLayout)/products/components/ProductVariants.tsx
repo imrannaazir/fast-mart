@@ -1,8 +1,8 @@
 "use client";
+
 import { TOption, TProductVariantOption, TVariant } from "@repo/utils/types";
 import { Button } from "antd";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FC, useMemo } from "react";
 
 type TProductVariantsProps = {
@@ -10,6 +10,7 @@ type TProductVariantsProps = {
 };
 
 const ProductVariants: FC<TProductVariantsProps> = ({ variants }) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
   // Memoize searchParamsObj to avoid recalculating on every render
@@ -21,12 +22,12 @@ const ProductVariants: FC<TProductVariantsProps> = ({ variants }) => {
     return params;
   }, [searchParams]);
 
-  const generateLink = (variantName: string, optionName: string, restQueryObj: Record<string, string>) => {
-    const urlParams = new URLSearchParams({
-      [variantName]: optionName,
-      ...restQueryObj,
-    });
-    return `?${urlParams.toString()}`;
+  const handleVariantClick = (variantName: string, optionName: string) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set(variantName, optionName);
+
+    // Update the URL without causing a page reload
+    router.push(`?${newParams.toString()}`, { scroll: false });
   };
 
   return (
@@ -39,24 +40,18 @@ const ProductVariants: FC<TProductVariantsProps> = ({ variants }) => {
             <h3 className="mb-2 font-semibold">{variantName}</h3>
             <div className="flex flex-wrap gap-2">
               {variant?.options?.map((option) => {
-                // coping query object
-                const restQueryObj = { ...searchParamsObj };
-                // current variant
-                const currentVariant = searchParamsObj[variantName];
-                delete restQueryObj[variantName];
-
-                // current option
                 const optionName = (option as TOption)?.option_name;
+                const isSelected = searchParams.get(variantName) === optionName;
 
                 return (
-                  <Link key={option?._id as string} href={generateLink(variantName, optionName, restQueryObj)}>
-                    <Button
-                      ghost={currentVariant === optionName}
-                      type={currentVariant === optionName ? "primary" : "default"}
-                    >
-                      {optionName}
-                    </Button>
-                  </Link>
+                  <Button
+                    key={option?._id as string}
+                    ghost={isSelected}
+                    type={isSelected ? "primary" : "default"}
+                    onClick={() => handleVariantClick(variantName, optionName)}
+                  >
+                    {optionName}
+                  </Button>
                 );
               })}
             </div>
