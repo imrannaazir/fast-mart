@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: api
+    env: node
+    rootDir: apps/api    
+    buildCommand: cd ../.. && yarn install && yarn workspace api build    
+    startCommand: yarn workspace api start    envVars:      
+  - key: NODE_ENV        
+    value: production      
+  - key: MONGODB_URI        
+    sync: false    
+healthCheckPath: /health
