@@ -1,18 +1,24 @@
+import { FiShoppingBag, FiUsers } from "react-icons/fi";
+import { IoPricetagsOutline } from "react-icons/io5";
+import { GoDatabase } from "react-icons/go";
+
 export const modules = {
   toolbar: [
     [{ header: "1" }, { header: "2" }, { font: [] }],
     [{ size: [] }],
     ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
+    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
     ["link", "image", "video"],
     ["clean"],
   ],
 };
+
+export const cartCards = [
+  { id: 1, title: "Total Revenue", number: "$6659", icon: GoDatabase, color: "#0da487" },
+  { id: 2, title: "Total Orders", number: "9856", icon: FiShoppingBag, color: "#757cc6" },
+  { id: 3, title: "Total Products", number: "893", icon: IoPricetagsOutline, color: "#ef3e3f" },
+  { id: 4, title: "Total Customers", number: "4.6k", icon: FiUsers, color: "#9e65c2" },
+];
 
 export const formats = [
   "header",

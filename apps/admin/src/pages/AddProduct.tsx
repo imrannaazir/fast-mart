@@ -182,9 +182,7 @@ const AddProductPage = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {ProductUnit.map((item) => (
-                              <SelectItem value={item}>{item}</SelectItem>
-                            ))}
+                            {ProductUnit?.map((item) => <SelectItem value={item}>{item}</SelectItem>)}
                           </SelectContent>
                         </Select>
 
@@ -225,9 +223,7 @@ const AddProductPage = () => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {ProductStatus.map((item) => (
-                            <SelectItem value={item}>{item}</SelectItem>
-                          ))}
+                          {ProductStatus?.map((item) => <SelectItem value={item}>{item}</SelectItem>)}
                         </SelectContent>
                       </Select>
 

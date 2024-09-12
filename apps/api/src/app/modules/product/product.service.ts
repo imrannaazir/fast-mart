@@ -4,7 +4,7 @@ import { TInputVariant, TProduct } from '@repo/utils/types';
 import Product from './product.model';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { ProductSearchableFields } from '@repo/utils/constants';
-import mongoose, { Types } from 'mongoose';
+import mongoose from 'mongoose';
 import Brand from '../brand/brand.model';
 import Category from '../category/category.model';
 import { Collection } from '../collection/collection.models';
@@ -20,7 +20,7 @@ import { TMeta } from '../../utils/sendResponse';
 // create product
 const createProduct = async (
   payload: TProduct,
-  userId: Types.ObjectId,
+  userId: string,
 ): Promise<TProduct> => {
   /* 
 1. check is brand exist 
@@ -185,7 +185,7 @@ const createProduct = async (
 
     await session.commitTransaction();
     await session.endSession();
-    return product[0];
+    return product[0] as TProduct;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     await session.abortTransaction();
@@ -272,7 +272,7 @@ const getSingleProductById = async (id: string): Promise<TProduct> => {
 // delete product by Id
 const deleteProductById = async (
   productId: string,
-): Promise<{ deletedProductId: Types.ObjectId }> => {
+): Promise<{ deletedProductId: string }> => {
   // check is product exist
   const isProductExist = await Product.findById(productId);
   if (!isProductExist) {

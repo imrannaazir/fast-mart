@@ -33,7 +33,7 @@ export type TProduct = {
   collections?: TCollection[];
   brand?: TBrand;
   tags?: TTag[];
-  createdBy?: TUser;
+  createdBy?: TUser | string;
   createdAt?: Date;
   updatedAt?: Date;
 };
