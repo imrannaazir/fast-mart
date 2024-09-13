@@ -1,4 +1,4 @@
-import { PipelineStage, Types } from 'mongoose';
+import { PipelineStage } from 'mongoose';
 import { Collection } from './collection.models';
 import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
@@ -11,7 +11,7 @@ import { TCollection, TDeleteManyReturnType } from '@repo/utils/types';
 // create collection
 const createCollection = async (
   payload: TCollection,
-  userId: Types.ObjectId,
+  userId: string,
 ): Promise<TCollection> => {
   // check image id is valid
   if (payload.image) {

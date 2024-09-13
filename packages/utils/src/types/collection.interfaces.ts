@@ -8,7 +8,7 @@ export type TCollection = {
   description?: string;
   image?: TImage;
   icon?: TIcon;
-  createdBy?: TUser;
+  createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
 };
