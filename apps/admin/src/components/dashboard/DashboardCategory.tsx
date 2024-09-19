@@ -9,6 +9,7 @@ import "swiper/css/pagination";
 import "@/styles/categorySlider.css";
 import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
 import Icon from "../ui/lucide-icon";
+import { Skeleton } from "../ui/skeleton";
 
 // import required modules
 
@@ -39,7 +40,13 @@ const DashboardCategory = () => {
         className="mySwiper"
       >
         {isFetching
-          ? "Fetching"
+          ? Array(10)
+              .fill(0)
+              .map((_item, index) => (
+                <SwiperSlide key={index}>
+                  <CategoryCardSkeleton />
+                </SwiperSlide>
+              ))
           : collections?.map((collection) => (
               <SwiperSlide key={collection?._id}>
                 <CategoryCard iconName={collection?.icon?.name || "combine"} collectionName={collection?.title} />
@@ -61,6 +68,15 @@ const CategoryCard = ({ iconName, collectionName }: { iconName: string; collecti
       <span className="mt-2 w-full truncate text-center" title={collectionName}>
         {collectionName}
       </span>
+    </div>
+  );
+};
+
+const CategoryCardSkeleton = () => {
+  return (
+    <div className="flex w-full max-w-[150px] cursor-pointer flex-col items-center">
+      <Skeleton className="aspect-square w-full rounded-xl" />
+      <Skeleton className="mt-2 h-4 w-full" />
     </div>
   );
 };
