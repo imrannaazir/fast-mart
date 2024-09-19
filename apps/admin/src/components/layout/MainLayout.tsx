@@ -14,15 +14,16 @@ const MainLayout = () => {
   useEffect(() => {
     dispatch(resetFilters());
   }, [dispatch, pathname]);
+
   return (
     <>
       <AlertModal />
       <Modal />
-      <div className="w-full">
+      <div className="flex min-h-screen flex-col">
         <Navbar />
-        <div className="flex">
+        <div className="flex flex-1 overflow-hidden">
           <LeftSidebar />
-          <div className="p-4 w-full bg-muted">
+          <div className="bg-muted flex-1 overflow-auto p-4">
             <Outlet />
           </div>
         </div>
