@@ -17,7 +17,7 @@ const DashboardCategory = () => {
   const collections = data?.data || [];
 
   return (
-    <section className="bg-background my-6 overflow-hidden rounded-xl p-[25px]">
+    <section className="bg-background my-6 overflow-hidden rounded-xl p-[25px] duration-300 hover:-translate-y-1 hover:shadow-sm">
       <h3 className="mb-3 text-lg text-gray-700">Category</h3>
       <Swiper
         slidesPerView={3}
@@ -42,7 +42,7 @@ const DashboardCategory = () => {
           ? "Fetching"
           : collections?.map((collection) => (
               <SwiperSlide key={collection?._id}>
-                <CategoryCard iconName={collection?.icon?.name || "combine"} />
+                <CategoryCard iconName={collection?.icon?.name || "combine"} collectionName={collection?.title} />
               </SwiperSlide>
             ))}
       </Swiper>
@@ -52,12 +52,15 @@ const DashboardCategory = () => {
 
 export default DashboardCategory;
 
-const CategoryCard = ({ iconName }: { iconName: string }) => {
-  console.log(iconName);
-
+const CategoryCard = ({ iconName, collectionName }: { iconName: string; collectionName: string }) => {
   return (
-    <div className="bg-gray-100">
-      <Icon name={iconName as any} />
+    <div className="flex w-full max-w-[150px] cursor-pointer flex-col items-center">
+      <div className="flex aspect-square w-full items-center justify-center rounded-xl bg-gray-100 from-green-700 to-green-300 text-gray-600 transition-colors duration-300 hover:bg-gradient-to-tl hover:text-white">
+        <Icon size={49} name={iconName as any} strokeWidth={1} />
+      </div>
+      <span className="mt-2 w-full truncate text-center" title={collectionName}>
+        {collectionName}
+      </span>
     </div>
   );
 };
