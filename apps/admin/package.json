@@ -26,6 +26,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@reduxjs/toolkit": "^2.2.1",
+    "@repo/utils": "*",
     "@tanstack/react-table": "^8.13.2",
     "class-variance-authority": "^0.7.0",
     "cloudinary-react": "^1.8.1",
@@ -47,12 +48,12 @@
     "react-quill": "^2.0.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.1",
+    "recharts": "^2.12.7",
     "redux-persist": "^6.0.0",
     "sonner": "^1.4.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4",
-    "@repo/utils": "*"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/draft-js": "^0.11.17",

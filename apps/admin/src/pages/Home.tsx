@@ -2,6 +2,7 @@ import { Fragment } from "react/jsx-runtime";
 import { cartCards } from "@/constant/constant";
 import ChartCard from "@/components/dashboard/ChartCard";
 import DashboardCategory from "@/components/dashboard/DashboardCategory";
+import RevenueReport from "@/components/dashboard/RevenueReport";
 
 const HomePage = () => {
   // cart cards data
@@ -15,6 +16,11 @@ const HomePage = () => {
 
       {/* categories */}
       <DashboardCategory />
+
+      {/* Revenue report and best selling products */}
+      <div className="grid grid-cols-2">
+        <RevenueReport />
+      </div>
     </Fragment>
   );
 };
