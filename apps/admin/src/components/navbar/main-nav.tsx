@@ -1,20 +1,12 @@
 import { cn } from "@/lib/utils";
 import { Circle, Settings } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
 import sidebarGenerator from "@/utils/sidebarGenerator";
 import paths from "@/routes/admin.routes";
 import { ReactNode } from "react";
 
-export default function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export default function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const routes = sidebarGenerator(paths);
   const { pathname } = useLocation();
 
@@ -27,8 +19,8 @@ export default function MainNav({
           <div key={i}>
             <Accordion className="w-[235px]" type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger className="  py-1 px-2">
-                  <p className="flex items-center gap-2 ">
+                <AccordionTrigger className="px-2 py-1">
+                  <p className="flex items-center gap-2">
                     {item.icon}
                     {item.label}
                   </p>
@@ -37,10 +29,8 @@ export default function MainNav({
                   {item.children.map((child, i) => (
                     <NavLink
                       className={cn(
-                        "flex items-center font-semibold  pl-6 py-2 rounded-md",
-                        pathname.includes(`${item.href}/${child?.href}`)
-                          ? "bg-background"
-                          : ""
+                        "flex items-center rounded-md py-2 pl-6 font-semibold",
+                        pathname.includes(`${item.href}/${child?.href}`) ? "bg-background" : ""
                       )}
                       to={`/${item.href}/${child?.href}`}
                       key={i}
@@ -60,7 +50,7 @@ export default function MainNav({
         return (
           <NavLink
             className={cn(
-              "flex items-center font-semibold gap-2  py-2 px-2  rounded-md w-[235px]",
+              "flex w-[235px] items-center gap-2 rounded-md px-2 py-2 font-semibold",
               pathname.includes(item.href) ? "bg-background" : ""
             )}
             to={item?.href}
@@ -75,18 +65,15 @@ export default function MainNav({
   }
 
   return (
-    <nav
-      className={cn(" h-full overflow-y-scroll custom-scrollbar   ", className)}
-      {...props}
-    >
-      <div className="h-full w-full flex flex-col justify-between px-2 pt-10 pb-6">
+    <nav className={cn("custom-scrollbar h-full overflow-y-scroll", className)} {...props}>
+      <div className="flex h-full w-full flex-col justify-between px-2 pb-6">
         {/* top */}
-        <div className="flex-grow ">{sidebarNavRoute}</div>
+        <div className="flex-grow">{sidebarNavRoute}</div>
 
         {/* end */}
         <NavLink
           className={cn(
-            "flex items-center font-semibold  gap-2 py-2 px-2  rounded-md w-[235px]",
+            "flex w-[235px] items-center gap-2 rounded-md px-2 py-2 font-semibold",
             pathname === "/settings" ? "bg-background" : ""
           )}
           to={"/settings"}

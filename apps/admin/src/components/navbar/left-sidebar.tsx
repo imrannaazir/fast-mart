@@ -1,11 +1,9 @@
 import MainNav from "./main-nav";
 
-const LeftSidebar = () => {
+export default function LeftSidebar() {
   return (
-    <div className="min-w-[256px] bg-muted/40 sticky top-0  h-screen pt-10 -mt-16 pr-1 hidden lg:block">
+    <div className="bg-muted/40 sticky top-16 hidden h-[calc(100vh-64px)] w-64 overflow-y-auto pt-4 lg:block">
       <MainNav />
     </div>
   );
-};
-
-export default LeftSidebar;
+}

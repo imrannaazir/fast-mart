@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { resetFilters } from "@/redux/features/filter/filterSlice";
 import Modal from "../ui/modal";
 
-const MainLayout = () => {
+export default function MainLayout() {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
 
@@ -21,7 +21,7 @@ const MainLayout = () => {
       <Modal />
       <div className="flex min-h-screen flex-col">
         <Navbar />
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1">
           <LeftSidebar />
           <div className="bg-muted flex-1 overflow-auto p-4">
             <Outlet />
@@ -30,6 +30,4 @@ const MainLayout = () => {
       </div>
     </>
   );
-};
-
-export default MainLayout;
+}
