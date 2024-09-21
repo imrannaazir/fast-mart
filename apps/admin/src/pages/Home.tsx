@@ -3,6 +3,7 @@ import { cartCards } from "@/constant/constant";
 import ChartCard from "@/components/dashboard/ChartCard";
 import DashboardCategory from "@/components/dashboard/DashboardCategory";
 import RevenueReport from "@/components/dashboard/RevenueReport";
+import BestSellingProducts from "@/components/dashboard/BestSellingProducts";
 
 const HomePage = () => {
   // cart cards data
@@ -18,8 +19,9 @@ const HomePage = () => {
       <DashboardCategory />
 
       {/* Revenue report and best selling products */}
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <RevenueReport />
+        <BestSellingProducts />
       </div>
     </Fragment>
   );

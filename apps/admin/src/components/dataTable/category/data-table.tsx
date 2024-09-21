@@ -1,9 +1,4 @@
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useState } from "react";
@@ -12,10 +7,7 @@ import CategoryDataTableToolbar from "../data-table-toolbar";
 import DataTableHeader from "../data-table-header";
 import { useAppDispatch } from "@/redux/hooks";
 import { DataTablePagination } from "../data-table-pagination";
-import {
-  setIsLoading,
-  setIsOpen,
-} from "@/redux/features/modal/alertModal.slice";
+import { setIsLoading, setIsOpen } from "@/redux/features/modal/alertModal.slice";
 import { toast } from "sonner";
 import { useDeleteManyCategoriesMutation } from "@/redux/features/category/categoryApi";
 
@@ -25,11 +17,7 @@ interface CategoryDataTableProps<TData, TValue> {
   isLoading: boolean;
 }
 
-export function CategoryDataTable<TData, TValue>({
-  columns,
-  data,
-  isLoading,
-}: CategoryDataTableProps<TData, TValue>) {
+export function CategoryDataTable<TData, TValue>({ columns, data, isLoading }: CategoryDataTableProps<TData, TValue>) {
   const dispatch = useAppDispatch();
   const [deleteManyCategories] = useDeleteManyCategoriesMutation();
   const [rowSelection, setRowSelection] = useState({});
@@ -85,31 +73,20 @@ export function CategoryDataTable<TData, TValue>({
         <Table>
           <DataTableHeader table={table} fn={onDelete} />
           {isLoading ? (
-            <TableSkeleton columnNo={5} rowNo={10} />
+            <TableSkeleton columnNo={6} rowNo={10} />
           ) : (
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
+                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
                     No results.
                   </TableCell>
                 </TableRow>

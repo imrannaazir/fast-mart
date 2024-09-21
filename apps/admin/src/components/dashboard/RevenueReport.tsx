@@ -65,7 +65,7 @@ const RevenueReport = () => {
             fillOpacity={100}
             stroke="#10b981"
             fill="url(#colorRevenue)"
-            strokeWidth={3}
+            strokeWidth={4}
           />
         </AreaChart>
       </ResponsiveContainer>

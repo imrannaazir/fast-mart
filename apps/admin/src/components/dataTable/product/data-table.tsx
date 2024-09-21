@@ -1,9 +1,4 @@
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useState } from "react";
@@ -12,23 +7,23 @@ import ProductDataTableToolbar from "../data-table-toolbar";
 import DataTableHeader from "../data-table-header";
 import { useAppDispatch } from "@/redux/hooks";
 import { DataTablePagination } from "../data-table-pagination";
-import {
-  setIsLoading,
-  setIsOpen,
-} from "@/redux/features/modal/alertModal.slice";
+import { setIsLoading, setIsOpen } from "@/redux/features/modal/alertModal.slice";
 import { toast } from "sonner";
 import { useDeleteBulkProductsMutation } from "@/redux/features/product/productApi";
+import { cn } from "@/lib/utils";
 
 interface ProductDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   isLoading: boolean;
+  showHeader?: boolean;
 }
 
 export function ProductDataTable<TData, TValue>({
   columns,
   data,
   isLoading,
+  showHeader = true,
 }: ProductDataTableProps<TData, TValue>) {
   const dispatch = useAppDispatch();
   const [deleteManyProducts] = useDeleteBulkProductsMutation();
@@ -80,7 +75,10 @@ export function ProductDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <ProductDataTableToolbar sortByItems={sortByItems} />
+      {/* table header  */}
+      <div className={cn(showHeader ? "block" : "hidden")}>
+        <ProductDataTableToolbar sortByItems={sortByItems} />
+      </div>
       <div className="rounded-md border">
         <Table>
           <DataTableHeader table={table} fn={onDelete} />
@@ -90,26 +88,15 @@ export function ProductDataTable<TData, TValue>({
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
+                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                     ))}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
                     No results.
                   </TableCell>
                 </TableRow>
