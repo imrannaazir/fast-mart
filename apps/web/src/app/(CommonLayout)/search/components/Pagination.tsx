@@ -1,6 +1,7 @@
 "use client";
 import { Pagination, PaginationProps } from "antd";
-import { FC } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FC, useState } from "react";
 
 type TProductPaginationProps = {
   total: number;
@@ -9,15 +10,25 @@ type TProductPaginationProps = {
 };
 
 const ProductPagination: FC<TProductPaginationProps> = ({ defaultCurrent, defaultPageSize, total }) => {
+  const [PageSize, setPageSize] = useState(defaultPageSize);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const newParams = new URLSearchParams(searchParams.toString());
+
   const onPaginationChange: PaginationProps["onChange"] = (page, pageSize) => {
-    console.log({ page, pageSize });
+    newParams.set("page", page.toString());
+    newParams.set("limit", pageSize.toString());
+
+    router.push(`/search?${newParams.toString()}`, {
+      scroll: false,
+    });
   };
 
   return (
     <Pagination
       className="my-6"
       total={total}
-      defaultPageSize={defaultPageSize}
+      defaultPageSize={PageSize}
       defaultCurrent={defaultCurrent}
       onChange={onPaginationChange}
     />

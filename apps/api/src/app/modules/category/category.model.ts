@@ -9,11 +9,13 @@ const categorySchema = new Schema<TCategory>(
       required: true,
       unique: true,
     },
-    collection: {
-      type: Schema.Types.ObjectId,
-      ref: 'collection',
-      required: true,
-    },
+    collections: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'collection',
+        required: true,
+      },
+    ],
     description: {
       type: String,
     },

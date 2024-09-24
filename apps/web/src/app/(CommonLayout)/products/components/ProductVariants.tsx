@@ -13,15 +13,6 @@ const ProductVariants: FC<TProductVariantsProps> = ({ variants }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Memoize searchParamsObj to avoid recalculating on every render
-  const searchParamsObj = useMemo(() => {
-    const params: Record<string, string> = {};
-    for (const [key, value] of searchParams.entries()) {
-      params[key] = value;
-    }
-    return params;
-  }, [searchParams]);
-
   const handleVariantClick = (variantName: string, optionName: string) => {
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.set(variantName, optionName);

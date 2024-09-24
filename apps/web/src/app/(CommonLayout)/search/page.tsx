@@ -36,17 +36,17 @@ const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
               const { compare_price, _id, price, title, media } = product || {};
               const productCardData: TAppProductCardProps = {
                 compare_price,
-                id: _id,
-                photo: media[0]?.url as string,
                 price,
                 title,
+                id: _id,
+                photo: media[0]?.url as string,
               };
               return <AppProductCard key={product._id} product={productCardData} />;
             })}
           </div>
 
           {/* pagination */}
-          <ProductPagination defaultCurrent={1} defaultPageSize={20} total={products?.length} />
+          <ProductPagination defaultCurrent={1} defaultPageSize={5} total={products?.length} />
         </section>
       </Container>
     </>

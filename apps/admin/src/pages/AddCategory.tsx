@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +19,7 @@ import TextEditor from "@/components/ui/text-editor";
 import { FC } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { onClose } from "@/redux/features/modal/modalSlice";
-import SelectCategories from "@/components/forms/product/SelectCategories";
+import SelectCollections from "@/components/forms/product/SelectCollections";
 
 type TAddCategoryPageProps = {
   isInModal?: boolean;
@@ -34,6 +35,7 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm }) 
   const form = useForm<z.infer<typeof createCategorySchema>>({
     resolver: zodResolver(createCategorySchema),
   });
+  console.log(form.watch("title"));
 
   // on submit handler
   const onSubmit = async (data: z.infer<typeof createCategorySchema>) => {
@@ -60,10 +62,6 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm }) 
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Page title="Create Category" action={<Action />} isInModal={isInModal}>
-          {/* form content */}
-          <div className="my-4 flex justify-end">
-            <Action />
-          </div>
           <div className="flex gap-4">
             <div className="w-[66%]">
               <PageSection>
@@ -83,7 +81,7 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm }) 
                 />
 
                 {/* collection */}
-                <SelectCategories form={form} />
+                <SelectCollections form={form as any} />
                 {/* description */}
                 <FormField
                   control={form.control}

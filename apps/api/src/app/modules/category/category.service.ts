@@ -14,10 +14,13 @@ const createCategory = async (
   userId: Types.ObjectId,
 ): Promise<TCategory> => {
   // check is collection id valid
-  const isCollectionExist = await Collection.findById(payload.collection);
+  const isCollectionsExist = await Collection.find({
+    _id: { $in: payload.collections },
+  });
+  console.log(isCollectionsExist);
 
-  if (!isCollectionExist) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'Collection not founded.');
+  if (!isCollectionsExist) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'Collections not founded.');
   }
 
   // check is image id is valid

@@ -11,15 +11,15 @@ export const createProductSchema = z.object({
   description: z.string().optional(),
   media: z.array(z.string()).optional(),
 
-  price: z.number().gte(0),
-  compare_price: z.number().optional(),
-  quantity: z.number().gte(0).optional(),
+  price: z.coerce.number().gte(0),
+  compare_price: z.coerce.number().optional(),
+  quantity: z.coerce.number().gte(0).optional(),
 
-  weight: z.number().optional(),
+  weight: z.coerce.number().optional(),
   unit: z.enum(ProductUnit).optional(),
 
   variants: z.array(variantValidationSchema).optional(),
-  variant: variantValidationSchema,
+  variant: variantValidationSchema.optional(),
 
   status: z.enum(ProductStatus).optional(),
 

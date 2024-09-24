@@ -5,7 +5,7 @@ import { TCollection } from "./collection.interfaces";
 export type TCategory = {
   _id: string;
   title: string;
-  collection: TCollection;
+  collections: string[] | TCollection[];
   description?: string;
   image?: TImage;
   createdBy: Types.ObjectId;
