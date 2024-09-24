@@ -22,7 +22,7 @@ export type THeroCoverProps = {
 };
 
 export type TAppProductCardProps = {
-  compare_price: string;
+  compare_price: number;
   id: string;
   price: number;
   title: string;

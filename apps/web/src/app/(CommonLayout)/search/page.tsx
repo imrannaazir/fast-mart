@@ -1,6 +1,12 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
 import React from "react";
+import SideBarFilter from "./components/SideBarFilter";
+import SelectSortBy from "./components/SelectSortBy";
+import { products } from "@/constants/db";
+import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
+import { TAppProductCardProps } from "@/types";
+import ProductPagination from "./components/Pagination";
 
 const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
   const searchBreadcrumbItems: TAppBreadcrumbItem[] = [
@@ -14,11 +20,34 @@ const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
   return (
     <>
       <AppBreadcrumb title={`Search Results for "${searchParams.q}"`} items={searchBreadcrumbItems} />
-      <Container className="flex">
+      <Container className="flex gap-6">
         {/* left */}
-        <aside className="w-[236px] bg-red-300"> Side bar</aside>
+        <SideBarFilter />
         {/* right */}
-        <section className="w-full bg-green-400">Content</section>
+        <section className="w-full">
+          {/* header  */}
+          <div className="flex justify-between">
+            <span>Showing 1-20 of 50 result</span>
+            <SelectSortBy />
+          </div>
+          {/* products list */}
+          <div className="grid grid-cols-1 gap-x-6 gap-y-3 lg:grid-cols-4">
+            {products.map((product) => {
+              const { compare_price, _id, price, title, media } = product || {};
+              const productCardData: TAppProductCardProps = {
+                compare_price,
+                id: _id,
+                photo: media[0]?.url as string,
+                price,
+                title,
+              };
+              return <AppProductCard key={product._id} product={productCardData} />;
+            })}
+          </div>
+
+          {/* pagination */}
+          <ProductPagination defaultCurrent={1} defaultPageSize={20} total={products?.length} />
+        </section>
       </Container>
     </>
   );
