@@ -1,8 +1,19 @@
-const SidebarSectionHeader = ({ level }: { level: string }) => {
+import { cn } from "@/libs/utils";
+import { ClassValue } from "clsx";
+
+const SidebarSectionHeader = ({
+  level,
+  className,
+  border = true,
+}: {
+  level: string;
+  className?: ClassValue;
+  border?: boolean;
+}) => {
   return (
-    <h3 className="flex flex-col">
-      <span className="text-xl font-semibold">{level}</span>
-      <span className="h-[2px] w-[65px] bg-primary" />
+    <h3 className={cn("flex flex-col text-xl font-semibold", className)}>
+      <span>{level}</span>
+      {border && <span className="bg-primary h-[2px] w-[65px]" />}
     </h3>
   );
 };

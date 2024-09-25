@@ -15,14 +15,14 @@ const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
       href: "/search",
     },
   ];
-  console.log(searchParams?.q);
+  console.log(searchParams);
 
   return (
     <>
       <AppBreadcrumb title={`Search Results for "${searchParams.q}"`} items={searchBreadcrumbItems} />
       <Container className="flex gap-6">
         {/* left */}
-        <SideBarFilter />
+        <SideBarFilter maxPrice={823} />
         {/* right */}
         <section className="w-full">
           {/* header  */}

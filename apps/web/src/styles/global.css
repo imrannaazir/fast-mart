@@ -101,3 +101,8 @@
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
+/* ant design collapse padding */
+.custom-collapse .ant-collapse-content-box {
+  padding: 12px;
+}

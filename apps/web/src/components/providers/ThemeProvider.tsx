@@ -18,6 +18,9 @@ const ThemeProvider: FC<TThemeProviderProps> = ({ children }) => {
       Progress: {
         defaultColor: "#fadb14",
       },
+      Collapse: {
+        padding: 12,
+      },
     },
   };
   return <ConfigProvider theme={theme}>{children}</ConfigProvider>;
