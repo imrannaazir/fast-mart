@@ -1,15 +1,14 @@
 import { light_colors } from "@/constants/colors.constant";
 import { Button, Collapse, Form, Slider } from "antd";
 import SidebarSectionHeader from "../../components/SidebarSectionHeader";
-import { useFilterState } from "@/hooks/use-filter-state";
 import { FC } from "react";
 
 type TPriceRangeFilterProps = {
   maxPrice: number;
+  maxRange: number;
+  minRange: number;
 };
-const PriceRangeFilter: FC<TPriceRangeFilterProps> = ({ maxPrice }) => {
-  const { range } = useFilterState(maxPrice);
-
+const PriceRangeFilter: FC<TPriceRangeFilterProps> = ({ maxPrice, maxRange, minRange }) => {
   return (
     <Collapse
       className="custom-collapse"
@@ -26,22 +25,22 @@ const PriceRangeFilter: FC<TPriceRangeFilterProps> = ({ maxPrice }) => {
           label: <SidebarSectionHeader border={false} level="Price Range" className="text-lg font-medium" />,
           children: (
             <>
-              <Form.Item style={{ margin: 0 }} initialValue={range} name="priceRange">
+              <Form.Item style={{ margin: 0 }} initialValue={[minRange, maxRange]} name="priceRange">
                 <Slider
                   tooltip={{
                     open: false,
                   }}
                   range
-                  min={range[0]}
-                  max={range[1]}
+                  min={0}
+                  max={maxPrice}
                 />
               </Form.Item>
               <div className="flex justify-between">
                 <Button type="primary" size="small">
-                  {range[0]}{" "}
+                  {minRange}{" "}
                 </Button>
                 <Button type="primary" size="small">
-                  {range[1]}{" "}
+                  {maxRange}{" "}
                 </Button>
               </div>
             </>

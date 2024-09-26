@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import moment from "moment";
 import CategoryDataTableAction from "./data-table-action";
-import { TCategory } from "@repo/utils/types";
+import { TCategory, TCollection } from "@repo/utils/types";
 
 export const columns: ColumnDef<TCategory>[] = [
   // select column
@@ -48,7 +48,7 @@ export const columns: ColumnDef<TCategory>[] = [
   {
     header: "Collection",
     cell: ({ row }) => {
-      const collectionName = row.original.collection?.title || "N/A";
+      const collectionName = (row.original.collections as TCollection[])?.[0]?.title || "N/A";
       return <p>{collectionName}</p>;
     },
   },

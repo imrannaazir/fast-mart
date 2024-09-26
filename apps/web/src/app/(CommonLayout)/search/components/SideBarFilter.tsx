@@ -16,7 +16,7 @@ type TSideBarFilterProps = {
 const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { form, handleValuesChanges, clearFilters } = useFilterState(maxPrice);
+  const { form, handleValuesChanges, clearFilters, roundedMaxPrice } = useFilterState(maxPrice);
 
   const memoizedCollections = useMemo(
     () => collections.map((c) => ({ value: c._id, label: c.title, count: c.noOfProducts })),
@@ -37,6 +37,8 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice }) => {
     });
     router.push(`/search?${newParams}`, { scroll: false });
   }, []);
+
+  console.log({ ratings: searchParams.get("ratings")?.split(",") });
   return (
     <aside className="min-w-[300px]">
       <Form onValuesChange={handleValuesChanges} form={form} className="space-y-4">
@@ -57,12 +59,37 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice }) => {
         </Card>
 
         {/* price range */}
-        <PriceRangeFilter maxPrice={maxPrice} />
+        <PriceRangeFilter
+          maxPrice={roundedMaxPrice}
+          maxRange={Number(searchParams.get("maxPrice")) || roundedMaxPrice}
+          minRange={Number(searchParams.get("minPrice")) || 0}
+        />
 
-        <FilterSection title="Collections" name="collections" options={memoizedCollections} />
-        <FilterSection title="Categories" name="categories" options={memoizedCollections} />
-        <FilterSection title="Brands" name="brands" options={memoizedCollections} />
-        <FilterSection title="Ratings" name="ratings" options={memoizedRatings} type="rate" />
+        <FilterSection
+          initialValue={searchParams.get("collections")?.split(",") || []}
+          title="Collections"
+          name="collections"
+          options={memoizedCollections}
+        />
+        <FilterSection
+          initialValue={searchParams.get("categories")?.split(",") || []}
+          title="Categories"
+          name="categories"
+          options={memoizedCollections}
+        />
+        <FilterSection
+          initialValue={searchParams.get("brands")?.split(",") || []}
+          title="Brands"
+          name="brands"
+          options={memoizedCollections}
+        />
+        <FilterSection
+          initialValue={searchParams.get("ratings")?.split(",") || []}
+          title="Ratings"
+          name="ratings"
+          options={memoizedRatings}
+          type="rate"
+        />
       </Form>
     </aside>
   );

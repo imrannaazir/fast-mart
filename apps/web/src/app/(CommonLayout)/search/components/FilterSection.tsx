@@ -1,14 +1,16 @@
 import { light_colors } from "@/constants/colors.constant";
-import { Checkbox, Collapse, Form, Rate, Slider } from "antd";
+import { Checkbox, Collapse, Form, Rate } from "antd";
 import SidebarSectionHeader from "../../components/SidebarSectionHeader";
 import { FC } from "react";
 interface FilterSectionProps {
   title: string;
   name: string;
+  initialValue: string[] | [];
   options: { value: string | number; label: string; count?: number }[];
   type?: "checkbox" | "rate";
 }
-const FilterSection: FC<FilterSectionProps> = ({ name, options, title, type }) => {
+const FilterSection: FC<FilterSectionProps> = ({ name, options, title, type, initialValue }) => {
+  const formattedInitialValue = type === "rate" ? initialValue?.map((item) => Number(item)) : initialValue;
   return (
     <Collapse
       className="custom-collapse"
@@ -24,7 +26,7 @@ const FilterSection: FC<FilterSectionProps> = ({ name, options, title, type }) =
           key: "1",
           label: <SidebarSectionHeader border={false} level={title} className="text-lg font-medium" />,
           children: (
-            <Form.Item name={name}>
+            <Form.Item name={name} initialValue={formattedInitialValue}>
               <Checkbox.Group style={{ width: "100%" }} className="grid grid-cols-1">
                 {options.map((option) => (
                   <Checkbox

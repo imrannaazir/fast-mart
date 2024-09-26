@@ -1,6 +1,5 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import React from "react";
 import SideBarFilter from "./components/SideBarFilter";
 import SelectSortBy from "./components/SelectSortBy";
 import { products } from "@/constants/db";
@@ -18,7 +17,7 @@ const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
 
   return (
     <>
-      <AppBreadcrumb title={`Search Results for "${searchParams.q}"`} items={searchBreadcrumbItems} />
+      <AppBreadcrumb title={`Search Results for "${searchParams.q || "All"}"`} items={searchBreadcrumbItems} />
       <Container className="flex gap-6">
         {/* left */}
         <SideBarFilter maxPrice={823} />

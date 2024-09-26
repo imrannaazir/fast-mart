@@ -17,7 +17,6 @@ export const filterableFields: FilterableField[] = ["priceRange", "collections",
 
 export const useFilterState = (maxPrice: number) => {
   const roundedMaxPrice = Math.ceil(maxPrice / 10) * 10;
-  const [range, setRange] = useState([0, roundedMaxPrice]);
   const [form] = useForm();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -25,7 +24,6 @@ export const useFilterState = (maxPrice: number) => {
   //   clear filters
   const clearFilters = () => {
     form.resetFields();
-    setRange([0, roundedMaxPrice]);
   };
 
   // handleValuesChanges
@@ -34,11 +32,6 @@ export const useFilterState = (maxPrice: number) => {
 
     filterableFields.forEach((field: keyof TFiltersAttribute) => {
       if (field === "priceRange" && values["priceRange"]?.length) {
-        setRange(values.priceRange);
-        console.log({
-          stateValue: range,
-          formValue: values.priceRange,
-        });
         const [minPrice, maxPrice] = values.priceRange || [];
         newParams.set("minPrice", minPrice!.toString());
         newParams.set("maxPrice", maxPrice!.toString());
@@ -55,5 +48,5 @@ export const useFilterState = (maxPrice: number) => {
     });
   };
 
-  return { range, setRange, form, clearFilters, handleValuesChanges };
+  return { form, clearFilters, handleValuesChanges, roundedMaxPrice };
 };

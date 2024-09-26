@@ -3,24 +3,19 @@ import AppProductButtons from "./AppProductCardButtons";
 import ProductCardRate from "./ProductCardRate";
 import ProductCardAddToCartButton from "./ProductCardAddToCartButton";
 import { TAppProductCardProps } from "@/types";
+import Link from "next/link";
 
 const AppProductCard = ({ product }: { product: TAppProductCardProps }) => {
-  const {
-    compare_price = 0,
-    id = "",
-    price = 0,
-    title = "",
-    photo = "",
-  } = product || {};
+  const { compare_price = 0, id = "", price = 0, title = "", photo = "" } = product || {};
   return (
-    <div className="p-3 border rounded-lg group  text-sm shadow-sm text-start min-w-[224px]">
+    <div className="group min-w-[224px] rounded-lg border p-3 text-start text-sm shadow-sm">
       {/* image */}
-      <div className="relative mx-auto flex w-[80%] py-3 items-center justify-center  ">
+      <div className="relative mx-auto flex w-[80%] items-center justify-center py-3">
         {/* buttons */}
         <AppProductButtons id={id} />
         {photo && (
           <Image
-            className="group-hover:scale-110  transition-all duration-300 w-[158px] h-[122px] object-cover"
+            className="h-[122px] w-[158px] object-cover transition-all duration-300 group-hover:scale-110"
             src={photo}
             width={158}
             height={122}
@@ -31,12 +26,14 @@ const AppProductCard = ({ product }: { product: TAppProductCardProps }) => {
       {/* info */}
       <div className="flex flex-col justify-between gap-2">
         {/* title */}
-        <h5 className="font-semibold">{title}</h5>
+        <Link href={`/products/${id}`} className="font-semibold">
+          {title}
+        </Link>
 
         <div className="space-y-1">
           {/* price */}
           <p className="space-x-2">
-            <span className="text-base font-bold text-primary">${price}</span>
+            <span className="text-primary text-base font-bold">${price}</span>
             <del className="text-gray-500">${compare_price}</del>
           </p>
           {/* review */}

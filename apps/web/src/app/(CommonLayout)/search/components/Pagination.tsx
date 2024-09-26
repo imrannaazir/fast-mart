@@ -10,7 +10,6 @@ type TProductPaginationProps = {
 };
 
 const ProductPagination: FC<TProductPaginationProps> = ({ defaultCurrent, defaultPageSize, total }) => {
-  const [PageSize, setPageSize] = useState(defaultPageSize);
   const router = useRouter();
   const searchParams = useSearchParams();
   const newParams = new URLSearchParams(searchParams.toString());
@@ -28,8 +27,8 @@ const ProductPagination: FC<TProductPaginationProps> = ({ defaultCurrent, defaul
     <Pagination
       className="my-6"
       total={total}
-      defaultPageSize={PageSize}
-      defaultCurrent={defaultCurrent}
+      defaultPageSize={Number(searchParams.get("limit")) || defaultPageSize}
+      defaultCurrent={Number(searchParams.get("limit")) || defaultCurrent}
       onChange={onPaginationChange}
     />
   );
