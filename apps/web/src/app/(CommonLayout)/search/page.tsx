@@ -15,7 +15,6 @@ const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
       href: "/search",
     },
   ];
-  console.log(searchParams);
 
   return (
     <>

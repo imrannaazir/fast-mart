@@ -9,7 +9,6 @@ type TPriceRangeFilterProps = {
 };
 const PriceRangeFilter: FC<TPriceRangeFilterProps> = ({ maxPrice }) => {
   const { range } = useFilterState(maxPrice);
-  console.log({ range });
 
   return (
     <Collapse

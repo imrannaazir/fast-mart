@@ -3,7 +3,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export type TFiltersAttribute = {
-  priceRange?: number[];
+  priceRange: number[];
   collections?: string[];
   categories?: string[];
   brands?: string[];
@@ -30,11 +30,15 @@ export const useFilterState = (maxPrice: number) => {
 
   // handleValuesChanges
   const handleValuesChanges: FormProps["onValuesChange"] = (changedValues, values: TFiltersAttribute) => {
-    setRange(values?.priceRange || [0, roundedMaxPrice]);
     const newParams = new URLSearchParams(searchParams.toString());
 
     filterableFields.forEach((field: keyof TFiltersAttribute) => {
-      if (field === "priceRange") {
+      if (field === "priceRange" && values["priceRange"]?.length) {
+        setRange(values.priceRange);
+        console.log({
+          stateValue: range,
+          formValue: values.priceRange,
+        });
         const [minPrice, maxPrice] = values.priceRange || [];
         newParams.set("minPrice", minPrice!.toString());
         newParams.set("maxPrice", maxPrice!.toString());

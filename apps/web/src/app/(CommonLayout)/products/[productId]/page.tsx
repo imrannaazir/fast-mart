@@ -70,7 +70,7 @@ const ProductDetailsPage = () => {
               <AppProductCard
                 key={i}
                 product={{
-                  compare_price: "54",
+                  compare_price: 54,
                   id: "1",
                   photo: "https://themes.pixelstrap.com/fastkart/assets/images/cake/product/2.png",
                   price: 45,
