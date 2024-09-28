@@ -14,7 +14,7 @@ const variantSchema = new Schema<TVariant>(
 );
 
 // option schema
-const optionSchema = new Schema<TOption>({
+const optionSchema = new Schema({
   option_name: {
     unique: true,
     type: String,

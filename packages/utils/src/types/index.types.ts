@@ -9,3 +9,5 @@ export * from "./product.interface";
 export * from "./tag.interface";
 export * from "./user.interface";
 export * from "./variant.interfaces";
+export * from "./wishlist-item.interface";
+export * from "./cart.interface";
