@@ -4,12 +4,10 @@ const HomePageCashbackBanner = () => {
       style={{
         backgroundImage: `url("/backgrounds/cashback.jpg")`,
       }}
-      className="   text-background text-center flex items-center justify-center flex-col gap-3 py-6 rounded-md "
+      className="text-background flex flex-col items-center justify-center gap-3 rounded-md py-6 text-center"
     >
       <h3 className="text-3xl font-bold">Get $3 Cashback! Min Order of $30</h3>
-      <p className="p-2 border-background border border-dashed">
-        Use Code : GROCERY1920
-      </p>
+      <p className="border-background border border-dashed p-2">Use Code : GROCERY1920</p>
     </div>
   );
 };

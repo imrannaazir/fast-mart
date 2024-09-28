@@ -1,12 +1,5 @@
 import { useAppDispatch } from "@/redux/hooks";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { setFilterByDate } from "@/redux/features/filter/filterSlice";
 // import { useGetAllFeatureNamesQuery } from "@/redux/features/featureName/featureNameApi";
 
@@ -17,9 +10,9 @@ const ProductDataTableToolbar = () => {
   // redux store data
 
   return (
-    <div className="flex items-center justify-between border p-2 rounded-md">
+    <div className="flex items-center justify-between rounded-md border p-2">
       <div className="flex flex-1 items-center space-x-2">
-        <div className="space-y-2 w-full">
+        <div className="w-full space-y-2">
           {/* filters */}
           <div className="space-x-2">
             <Select onValueChange={(value) => dispatch(setFilterByDate(value))}>

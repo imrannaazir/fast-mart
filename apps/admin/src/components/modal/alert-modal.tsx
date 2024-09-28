@@ -7,13 +7,7 @@ import {
   setIsOpen,
   setOnConfirm,
 } from "@/redux/features/modal/alertModal.slice";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 
 const AlertModal = () => {
   const isOpen = useAppSelector(selectIsOpen);
@@ -36,16 +30,12 @@ const AlertModal = () => {
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div>
-          <div className="pt-6 space-x-2 flex items-center justify-end w-full">
+          <div className="flex w-full items-center justify-end space-x-2 pt-6">
             <Button variant="outline" disabled={isLoading} onClick={onClose}>
               Cancel
             </Button>
 
-            <Button
-              disabled={isLoading}
-              variant="destructive"
-              onClick={onConfirm}
-            >
+            <Button disabled={isLoading} variant="destructive" onClick={onConfirm}>
               Continue
             </Button>
           </div>

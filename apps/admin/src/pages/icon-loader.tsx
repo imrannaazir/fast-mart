@@ -5,7 +5,7 @@ const IconLoader = () => {
   const skeletonArray = Array.from({ length: 100 });
 
   return (
-    <div className="flex py-4 gap-4 flex-wrap ">
+    <div className="flex flex-wrap gap-4 py-4">
       {skeletonArray.map((_, i) => (
         <Skeleton key={i} className="h-10 w-10 rounded-md" />
       ))}

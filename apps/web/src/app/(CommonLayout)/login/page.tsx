@@ -4,20 +4,28 @@ import Container from "@/components/ui/Container";
 import { Fragment } from "react";
 import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Flex } from "antd";
+import { Checkbox, Form, Input, Flex, message } from "antd";
 import assets from "@/assets";
 import Image from "next/image";
 import { AppButton } from "@/components/ui/AppButton";
+import { userLogin } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
   const loginPageBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Login",
     },
   ];
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values: any) => {
+    const data = await userLogin(values);
+    if (data.success) {
+      message.success(data.message);
+    } else {
+      message.error(data.message);
+    }
   };
   return (
     <Fragment>
@@ -36,10 +44,18 @@ const LoginPage = () => {
           <div className="flex items-center justify-center">
             <div className="w-full max-w-[360px] rounded-lg bg-gray-100 p-[41px]">
               <Form size="large" name="login" initialValues={{ remember: true }} onFinish={onFinish}>
-                <Form.Item name="username" rules={[{ required: true, message: "Please input your Username!" }]}>
-                  <Input prefix={<UserOutlined />} placeholder="Username" />
+                <Form.Item
+                  initialValue="imrannaaziremon@gmail.com"
+                  name="email"
+                  rules={[{ required: true, message: "Please input your Username!" }]}
+                >
+                  <Input prefix={<UserOutlined />} placeholder="email" />
                 </Form.Item>
-                <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
+                <Form.Item
+                  initialValue="P@ssw0rd"
+                  name="password"
+                  rules={[{ required: true, message: "Please input your Password!" }]}
+                >
                   <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
                 </Form.Item>
                 <Form.Item>

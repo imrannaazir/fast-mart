@@ -23,34 +23,19 @@ const DropdownNavigationLink = ({ link }: { link: TLinkItem }) => {
     <Dropdown
       menu={{}}
       dropdownRender={() => (
-        <div
-          style={contentStyle}
-          className="min-w-[240px] px-6 py-4 mt-4 space-y-3"
-        >
+        <div style={contentStyle} className="mt-4 min-w-[240px] space-y-3 px-6 py-4">
           {link.children?.map((item) => (
-            <Link
-              href={item.path}
-              key={item.id}
-              className="group text-lg flex gap-3 hover:text-gray-700 text-gray-700"
-            >
+            <Link href={item.path} key={item.id} className="group flex gap-3 text-lg text-gray-700 hover:text-gray-700">
               {item?.logo ? (
-                <Image
-                  src={item?.logo}
-                  height={24}
-                  width={24}
-                  className="object-cover "
-                  alt={item.label}
-                />
+                <Image src={item?.logo} height={24} width={24} className="object-cover" alt={item.label} />
               ) : (
-                <div className="w-[24px] h-[24px] flex items-center justify-center bg-gray-100 rounded-md shadow-sm">
+                <div className="flex h-[24px] w-[24px] items-center justify-center rounded-md bg-gray-100 shadow-sm">
                   {" "}
-                  <LuImage className="w-[14px] h-[14px]" />
+                  <LuImage className="h-[14px] w-[14px]" />
                 </div>
               )}
               <AppLinkButton>
-                <span className="group-hover:tracking-wide transition-all duration-300">
-                  {item?.label}
-                </span>
+                <span className="transition-all duration-300 group-hover:tracking-wide">{item?.label}</span>
               </AppLinkButton>
             </Link>
           ))}

@@ -15,13 +15,9 @@ const Page: FC<TPageProps> = ({ action, children, title, isInModal }) => {
   return (
     <div>
       <div className={cn(isInModal ? "hidden" : "flex justify-between")}>
-        <h3 className="text-xl font-bold flex items-center gap-2">
-          <button
-            type="reset"
-            onClick={() => navigate(-1)}
-            className="hover:bg-muted p-1 rounded-md"
-          >
-            <ArrowLeft className="w-5 h-5" />
+        <h3 className="flex items-center gap-2 text-xl font-bold">
+          <button type="reset" onClick={() => navigate(-1)} className="hover:bg-muted rounded-md p-1">
+            <ArrowLeft className="h-5 w-5" />
           </button>
 
           {title}

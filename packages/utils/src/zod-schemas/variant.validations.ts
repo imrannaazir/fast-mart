@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // create validation schema
 export const createVariantValidationSchema = z.object({

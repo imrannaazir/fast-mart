@@ -1,15 +1,9 @@
-import DropdownCategories, {
-  TCollectionDropdownItemProps,
-} from "@/components/navbar/DropdownCategories";
+import DropdownCategories, { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 import SidebarSectionHeader from "./SidebarSectionHeader";
 
-const HomeLeftSideCategoriesBar = ({
-  collections,
-}: {
-  collections: TCollectionDropdownItemProps[];
-}) => {
+const HomeLeftSideCategoriesBar = ({ collections }: { collections: TCollectionDropdownItemProps[] }) => {
   return (
-    <div className="p-6 bg-gray-100 rounded-md   space-y-6  sticky top-4">
+    <div className="sticky top-4 space-y-6 rounded-md bg-gray-100 p-6">
       <SidebarSectionHeader level="Category" />
       {/* categories */}
       <DropdownCategories type="simple" collections={collections} />

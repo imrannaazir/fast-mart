@@ -26,10 +26,7 @@ const HomeFeaturedBlogs = () => {
   };
   return (
     <section>
-      <HomeSectionTop
-        heading="Featured Blog"
-        description="A virtual assistant collects the products from your list"
-      />
+      <HomeSectionTop heading="Featured Blog" description="A virtual assistant collects the products from your list" />
 
       {/* blogs */}
 

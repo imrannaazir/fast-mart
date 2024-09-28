@@ -44,12 +44,8 @@ const CategoryListPage = () => {
   const categories = data?.data || [];
   return (
     <Page title="Categories" action={<CategoryAction />}>
-      <div className=" mx-auto">
-        <CategoryDataTable
-          columns={columns}
-          data={categories}
-          isLoading={isFetching}
-        />
+      <div className="mx-auto">
+        <CategoryDataTable columns={columns} data={categories} isLoading={isFetching} />
       </div>
     </Page>
   );

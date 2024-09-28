@@ -6,7 +6,7 @@ import FooterBottom from "./FooterBottom";
 
 const Footer = () => {
   return (
-    <footer className=" bg-gray-100 ">
+    <footer className="bg-gray-100">
       <Container>
         {/* service contain */}
         <FooterServiceContain />

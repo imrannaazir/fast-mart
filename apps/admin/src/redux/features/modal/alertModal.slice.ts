@@ -35,8 +35,7 @@ const alertModalSlice = createSlice({
 });
 
 export const alertModalReducer = alertModalSlice.reducer;
-export const { setIsLoading, setIsOpen, setOnConfirm } =
-  alertModalSlice.actions;
+export const { setIsLoading, setIsOpen, setOnConfirm } = alertModalSlice.actions;
 
 export const selectIsOpen = (state: RootState) => state.alertModal.isOpen;
 export const selectIsLoading = (state: RootState) => state.alertModal.isLoading;

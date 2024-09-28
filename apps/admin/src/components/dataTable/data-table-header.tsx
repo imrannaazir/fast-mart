@@ -4,10 +4,7 @@ import { FC, useEffect } from "react";
 import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
-import {
-  setIsOpen,
-  setOnConfirm,
-} from "@/redux/features/modal/alertModal.slice";
+import { setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
 
 type TDataTableHeaderProps<TData> = {
   table: Table<TData>;
@@ -34,48 +31,30 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({ table, fn }) => {
   return (
     <TableHeader className=" ">
       {table.getHeaderGroups().map((headerGroup) => (
-        <TableRow key={headerGroup.id} className="  relative">
+        <TableRow key={headerGroup.id} className="relative">
           {headerGroup.headers.map((header, i) => {
             return (
               <TableHead
-                className={cn(
-                  i < 2
-                    ? "opacity-100"
-                    : isSelected
-                    ? "opacity-0"
-                    : "opacity-100"
-                )}
+                className={cn(i < 2 ? "opacity-100" : isSelected ? "opacity-0" : "opacity-100")}
                 key={header.id}
               >
                 {isSelected && i === 1 ? (
                   <div
-                    className={cn(
-                      i === 1 && isSelected ? "opacity-100" : "opacity-0"
-                    )}
+                    className={cn(i === 1 && isSelected ? "opacity-100" : "opacity-0")}
                   >{`${selectedRows.length} selected`}</div>
                 ) : (
                   <div>
                     {" "}
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </div>
                 )}
               </TableHead>
             );
           })}
           <div className={cn(isSelected ? "block" : "hidden")}>
-            <div className="absolute top-1.5 right-2">
+            <div className="absolute right-2 top-1.5">
               {" "}
-              <Button
-                onClick={onOpen}
-                className="py-1"
-                variant={"destructive"}
-                size={"sm"}
-              >
+              <Button onClick={onOpen} className="py-1" variant={"destructive"} size={"sm"}>
                 Delete
               </Button>
             </div>

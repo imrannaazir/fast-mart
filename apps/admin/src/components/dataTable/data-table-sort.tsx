@@ -7,11 +7,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 import { Separator } from "../ui/separator";
 import { TLabelValuePair } from "@/types";
@@ -39,12 +35,12 @@ const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {
     {
       label: "Asc",
       value: "asc",
-      icon: <ArrowUp className="w-3 h-3" />,
+      icon: <ArrowUp className="h-3 w-3" />,
     },
     {
       label: "Desc",
       value: "desc",
-      icon: <ArrowDown className="w-3 h-3" />,
+      icon: <ArrowDown className="h-3 w-3" />,
     },
   ];
 
@@ -66,7 +62,7 @@ const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {
                 name="sortBy"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <p className="pl-2 py-1 text-sm font-semibold">Sort by</p>
+                    <p className="py-1 pl-2 text-sm font-semibold">Sort by</p>
                     <CommandGroup>
                       {sortByItems.map((item) => (
                         <CommandItem
@@ -79,9 +75,9 @@ const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {
                           }}
                         >
                           {field.value === item.value ? (
-                            <span className="w-3 h-3 border-[3.5px] border-foreground rounded-full" />
+                            <span className="border-foreground h-3 w-3 rounded-full border-[3.5px]" />
                           ) : (
-                            <Circle className="w-3 h-3" />
+                            <Circle className="h-3 w-3" />
                           )}
                           {item.label}
                         </CommandItem>
@@ -104,7 +100,7 @@ const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {
                             form.setValue("orderBy", item.value);
                             dispatch(setOrderBy(item.value));
                           }}
-                          className="capitalize flex items-center gap-2 justify-between"
+                          className="flex items-center justify-between gap-2 capitalize"
                           value={item.label}
                           key={item.value}
                         >
@@ -113,12 +109,7 @@ const DateTableSort: FC<TDataTableSortProps> = ({ sortByItems }) => {
                             {item.label}
                           </div>
                           <Check
-                            className={cn(
-                              "mr-2 h-3 w-3",
-                              item.value === field.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
+                            className={cn("mr-2 h-3 w-3", item.value === field.value ? "opacity-100" : "opacity-0")}
                           />
                         </CommandItem>
                       ))}

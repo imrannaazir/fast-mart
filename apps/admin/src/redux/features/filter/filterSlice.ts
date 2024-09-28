@@ -82,9 +82,7 @@ const filterSlice = createSlice({
 
     // remove status
     removeStatus: (state, action) => {
-      const filteredStatus = state.status.filter(
-        (status) => status.value !== action.payload.value
-      );
+      const filteredStatus = state.status.filter((status) => status.value !== action.payload.value);
       state.status = filteredStatus;
     },
 
@@ -100,9 +98,7 @@ const filterSlice = createSlice({
 
     // remove brands
     removeBrand: (state, action) => {
-      const filteredBrands = state.brands.filter(
-        (brand) => brand.value !== action.payload.value
-      );
+      const filteredBrands = state.brands.filter((brand) => brand.value !== action.payload.value);
       state.brands = filteredBrands;
     },
 
@@ -117,9 +113,7 @@ const filterSlice = createSlice({
 
     // remove category
     removeCategory: (state, action) => {
-      const filteredCategory = state.categories.filter(
-        (category) => category.value !== action.payload.value
-      );
+      const filteredCategory = state.categories.filter((category) => category.value !== action.payload.value);
       state.categories = filteredCategory;
     },
 
@@ -135,9 +129,7 @@ const filterSlice = createSlice({
 
     // remove tags
     removeTag: (state, action) => {
-      const filteredTags = state.tags.filter(
-        (tag) => tag.value !== action.payload.value
-      );
+      const filteredTags = state.tags.filter((tag) => tag.value !== action.payload.value);
       state.tags = filteredTags;
     },
 

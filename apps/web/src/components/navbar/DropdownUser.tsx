@@ -11,11 +11,7 @@ const DropdownUser = () => {
     <div className="flex flex-col gap-2">
       {userRoutes.map((item, i) => {
         return (
-          <Link
-            className="hover:text-foreground group"
-            key={i}
-            href={item.path}
-          >
+          <Link className="hover:text-foreground group" key={i} href={item.path}>
             <AppLinkButton>{item.label}</AppLinkButton>
           </Link>
         );

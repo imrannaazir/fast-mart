@@ -15,7 +15,7 @@ const HomeBestSellerProductsSideBanner = () => {
     topHeader: null,
   };
   return (
-    <div className="h-full flex flex-col gap-10">
+    <div className="flex h-full flex-col gap-10">
       <AppCard className="h-full items-start" cover={freshVegetableCover} />
       <HomePageTrendingProducts />
     </div>

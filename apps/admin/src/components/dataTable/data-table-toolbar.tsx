@@ -21,10 +21,7 @@ type TImageDataTableToolbar = {
   filterByStatuses?: TLabelValuePair[];
 };
 
-const ImageDataTableToolbar: FC<TImageDataTableToolbar> = ({
-  sortByItems,
-  filterByStatuses,
-}) => {
+const ImageDataTableToolbar: FC<TImageDataTableToolbar> = ({ sortByItems, filterByStatuses }) => {
   //invoked hooks
   const dispatch = useAppDispatch();
   const selectedStatus = useAppSelector(selectFilteredStatus);
@@ -37,18 +34,14 @@ const ImageDataTableToolbar: FC<TImageDataTableToolbar> = ({
   const debouncedSearchTerm = debounce(onSetSearchTerm, 1000);
 
   return (
-    <div className="flex items-center justify-between border p-2 rounded-md bg-background/50">
+    <div className="bg-background/50 flex items-center justify-between rounded-md border p-2">
       <div className="flex flex-1 items-center space-x-2">
-        <div className="space-y-2 w-full">
+        <div className="w-full space-y-2">
           {/* filters */}
-          <div className="flex justify-between items-center space-x-2">
+          <div className="flex items-center justify-between space-x-2">
             {/* search  */}
             <SearchInput>
-              <Input
-                className="pl-8 h-9"
-                placeholder="Search"
-                onChange={debouncedSearchTerm}
-              />
+              <Input className="h-9 pl-8" placeholder="Search" onChange={debouncedSearchTerm} />
             </SearchInput>
             <DateTableSort sortByItems={sortByItems} />
           </div>

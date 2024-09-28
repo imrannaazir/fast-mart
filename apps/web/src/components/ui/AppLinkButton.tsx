@@ -8,9 +8,9 @@ type TAppLinkButton = {
 };
 const AppLinkButton: FC<TAppLinkButton> = ({ children, className }) => {
   return (
-    <button className={cn("relative ", className)}>
+    <button className={cn("relative", className)}>
       {children}
-      <div className="h-[3px] w-0 group-hover:w-[40px] transition-width duration-300 ease-linear bg-primary/50 absolute bottom-[1px]" />
+      <div className="transition-width bg-primary/50 absolute bottom-[1px] h-[3px] w-0 duration-300 ease-linear group-hover:w-[40px]" />
     </button>
   );
 };

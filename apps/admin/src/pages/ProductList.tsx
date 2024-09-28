@@ -50,12 +50,8 @@ const ProductListPage = () => {
 
   return (
     <Page title="Products" action={<ProductAction />}>
-      <div className=" mx-auto">
-        <ProductDataTable
-          columns={columns}
-          data={products}
-          isLoading={isFetching}
-        />
+      <div className="mx-auto">
+        <ProductDataTable columns={columns} data={products} isLoading={isFetching} />
       </div>
     </Page>
   );

@@ -11,11 +11,11 @@ const DropdownCart = () => {
       <Divider />
       {/* total  and action*/}
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
+        <div className="flex items-center justify-between">
           <p className="text-base">Total :</p>
-          <h3 className="text-primary font-bold text-lg">$143.5</h3>
+          <h3 className="text-primary text-lg font-bold">$143.5</h3>
         </div>
-        <div className="flex justify-between items-center gap-4 ">
+        <div className="flex items-center justify-between gap-4">
           <Button type="primary" ghost>
             View Cart
           </Button>

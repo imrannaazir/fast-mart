@@ -5,7 +5,7 @@ interface ContainerProps extends HTMLProps<HTMLDivElement> {}
 
 const Container: FC<ContainerProps> = ({ className, children, ...rest }) => {
   return (
-    <div className={cn(className, "max-w-screen-2xl mx-auto px-2")} {...rest}>
+    <div className={cn(className, "mx-auto max-w-screen-2xl px-2")} {...rest}>
       {children}
     </div>
   );

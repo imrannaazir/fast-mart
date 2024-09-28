@@ -1,19 +1,8 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
+import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
   goToNPage,
@@ -30,9 +19,7 @@ interface OrderDataTablePaginationProps<TData> {
   table: Table<TData>;
 }
 
-export function DataTablePagination<TData>({
-  table,
-}: OrderDataTablePaginationProps<TData>) {
+export function DataTablePagination<TData>({ table }: OrderDataTablePaginationProps<TData>) {
   const dispatch = useAppDispatch();
   const meta = useAppSelector(selectMeta);
   const page = useAppSelector(selectPage);
@@ -41,18 +28,15 @@ export function DataTablePagination<TData>({
   return (
     <div
       className={cn(
-        meta?.total !== undefined && meta.total > limit
-          ? "flex items-center justify-between px-2"
-          : "hidden"
+        meta?.total !== undefined && meta.total > limit ? "flex items-center justify-between px-2" : "hidden"
       )}
     >
-      <div className="hidden md:flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+      <div className="text-muted-foreground hidden text-sm md:flex-1">
+        {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="hidden md:block text-sm font-medium">Limit</p>
+          <p className="hidden text-sm font-medium md:block">Limit</p>
           <Select
             value={limit.toString()}
             onValueChange={(value) => {

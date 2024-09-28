@@ -1,11 +1,6 @@
 import assets from "@/assets";
 import Image from "next/image";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaPinterest,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaPinterest, FaTwitter } from "react-icons/fa";
 
 const FooterBottom = () => {
   const socialLinks = [
@@ -31,20 +26,15 @@ const FooterBottom = () => {
     },
   ];
   return (
-    <div className="flex flex-col lg:flex-row gap-6 lg:gap-0 justify-between items-center pb-10">
+    <div className="flex flex-col items-center justify-between gap-6 pb-10 lg:flex-row lg:gap-0">
       <p> &copy; 2024 Fastmart All rights reserved</p>
-      <Image
-        src={assets.images.payment}
-        width={302}
-        height={35}
-        alt="secure_payment"
-      />
+      <Image src={assets.images.payment} width={302} height={35} alt="secure_payment" />
       <div className="flex items-center gap-2">
         <span className="text-foreground/80">Stay connected: </span>
         <div className="flex items-center gap-2">
           {socialLinks.map((socialLink) => (
             <a key={socialLink.id} href={socialLink.link}>
-              <socialLink.icon className="text-foreground/80 w-4 h-4 hover:text-primary transition-colors duration-300" />
+              <socialLink.icon className="text-foreground/80 hover:text-primary h-4 w-4 transition-colors duration-300" />
             </a>
           ))}
         </div>

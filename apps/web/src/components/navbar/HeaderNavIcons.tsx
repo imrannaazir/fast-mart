@@ -22,12 +22,7 @@ const HeaderNavbarIcons = () => {
   return (
     <div className="flex items-center gap-4">
       <Link className={commonStyles} href="/contact-us">
-        <Image
-          src={assets.svg.telephone}
-          height={24}
-          width={24}
-          alt="telephone"
-        />
+        <Image src={assets.svg.telephone} height={24} width={24} alt="telephone" />
       </Link>
       <Divider />
       <Link className={commonStyles} href="/wishlist">
@@ -38,10 +33,7 @@ const HeaderNavbarIcons = () => {
         className={commonStyles}
         menu={{}}
         dropdownRender={() => (
-          <div
-            className={cn("px-4 py-5 max-w-[320px] mt-3")}
-            style={contentStyle}
-          >
+          <div className={cn("mt-3 max-w-[320px] px-4 py-5")} style={contentStyle}>
             <DropdownCart />
           </div>
         )}
@@ -55,7 +47,7 @@ const HeaderNavbarIcons = () => {
       <Dropdown
         menu={{}}
         dropdownRender={() => (
-          <div className="px-6 py-4 max-w-[320px] mt-3" style={contentStyle}>
+          <div className="mt-3 max-w-[320px] px-6 py-4" style={contentStyle}>
             <DropdownUser />
           </div>
         )}
@@ -68,7 +60,7 @@ const HeaderNavbarIcons = () => {
 };
 
 const Divider = () => {
-  return <div className={cn("w-[1.5px] bg-gray-400 h-6", commonStyles)}></div>;
+  return <div className={cn("h-6 w-[1.5px] bg-gray-400", commonStyles)}></div>;
 };
 
 export default HeaderNavbarIcons;

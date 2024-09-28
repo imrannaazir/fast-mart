@@ -8,15 +8,13 @@ const NavigationLinkItem = ({ link }: { link: TLinkItem }) => {
     <Link
       key={link.id}
       href={link.path}
-      className="group flex items-center gap-1 text-gray-700 hover:text-primary transition-colors duration-300"
+      className="hover:text-primary group flex items-center gap-1 text-gray-700 transition-colors duration-300"
     >
       {link.icon}
       <AppLinkButton>{link.label}</AppLinkButton>
       <LiaAngleDownSolid
         className={
-          !!link.children?.length
-            ? "block group-hover:-rotate-180 transition-transform duration-300"
-            : "hidden"
+          !!link.children?.length ? "block transition-transform duration-300 group-hover:-rotate-180" : "hidden"
         }
         size={14}
       />

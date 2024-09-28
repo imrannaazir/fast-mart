@@ -28,21 +28,17 @@ const FooterServiceContain = () => {
     },
   ];
   return (
-    <div className="flex flex-col lg:flex-row  justify-between items-center py-10  ">
+    <div className="flex flex-col items-center justify-between py-10 lg:flex-row">
       {serviceContainContent.map((item, i) => {
         return (
           <Fragment key={item.id}>
-            <div className="flex flex-col lg:flex-row  items-center lg:gap-4  ">
+            <div className="flex flex-col items-center lg:flex-row lg:gap-4">
               <Image src={item.icon} height={38} width={38} alt={item.label} />
               <p className="font-medium">{item.label}</p>
             </div>
             <Divider className="lg:hidden" />
             <Divider
-              className={cn(
-                serviceContainContent.length <= i + 1
-                  ? "hidden"
-                  : "hidden lg:block "
-              )}
+              className={cn(serviceContainContent.length <= i + 1 ? "hidden" : "hidden lg:block")}
               type="vertical"
               dashed
               style={{

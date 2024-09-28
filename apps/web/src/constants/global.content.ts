@@ -9,8 +9,7 @@ export const heroCovers: THeroCoverProps[] = [
     offerAmount: "30% Off",
     subHeading: "STAY HOME & DELIVERED YOUR",
     heading: "DAILY NEEDS",
-    description:
-      "Vegetables contain many vitamins and minerals that are good for your health.",
+    description: "Vegetables contain many vitamins and minerals that are good for your health.",
     path: "/",
   },
   {
@@ -103,8 +102,7 @@ export const juiceCover: THeroCoverProps = {
   id: 1,
   subHeading: "Get Ready To",
   heading: "TAKE ON THE DAY!",
-  description:
-    "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.",
+  description: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.",
   photo: assets.images.banners.juice,
   path: "",
   offerAmount: null,

@@ -5,7 +5,7 @@ import MobileNavMenuDrawer from "./MobileNavMenuDrawer";
 
 const Header = () => {
   return (
-    <div className="flex justify-between items-center py-6">
+    <div className="flex items-center justify-between py-6">
       {/* mobile navigation menu drawer */}
       <MobileNavMenuDrawer />
       {/* logo */}

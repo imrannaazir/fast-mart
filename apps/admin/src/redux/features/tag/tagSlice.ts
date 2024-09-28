@@ -32,15 +32,11 @@ const tagSlice = createSlice({
     },
     // assign tag
     assignTag: (state, action) => {
-      const isTagAlreadyExist = state.selectedTags.find(
-        (selectedTag) => selectedTag._id === action.payload._id
-      );
+      const isTagAlreadyExist = state.selectedTags.find((selectedTag) => selectedTag._id === action.payload._id);
 
       if (!isTagAlreadyExist) {
         state?.selectedTags.push(action.payload);
-        const newTags = state.tags.filter(
-          (tag) => tag._id !== action.payload._id
-        );
+        const newTags = state.tags.filter((tag) => tag._id !== action.payload._id);
         state.tags = newTags;
       }
     },
@@ -51,9 +47,7 @@ const tagSlice = createSlice({
 
     // remove tag
     removeTag: (state, action) => {
-      const newSelectedTag = state?.selectedTags.filter(
-        (tag) => tag._id !== action.payload._id
-      );
+      const newSelectedTag = state?.selectedTags.filter((tag) => tag._id !== action.payload._id);
       state.selectedTags = newSelectedTag;
       state.tags.push(action.payload);
     },
@@ -66,12 +60,6 @@ const tagSlice = createSlice({
 });
 
 export default tagSlice.reducer;
-export const {
-  assignTag,
-  removeTag,
-  getAllTags,
-  clearSelectedTags,
-  assignSelectedTags,
-} = tagSlice.actions;
+export const { assignTag, removeTag, getAllTags, clearSelectedTags, assignSelectedTags } = tagSlice.actions;
 export const selectSelectedTags = (state: RootState) => state.tags.selectedTags;
 export const selectTags = (state: RootState) => state.tags.tags;

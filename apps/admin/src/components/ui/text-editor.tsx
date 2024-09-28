@@ -8,11 +8,7 @@ type TTextEditorProps = {
   setValue: SetFieldValue<any>;
   fieldName?: string;
 };
-const TextEditor: FC<TTextEditorProps> = ({
-  value,
-  setValue,
-  fieldName = "description",
-}) => {
+const TextEditor: FC<TTextEditorProps> = ({ value, setValue, fieldName = "description" }) => {
   const editor = useRef(null);
   const config = useMemo(
     () => ({
@@ -46,7 +42,7 @@ const TextEditor: FC<TTextEditorProps> = ({
 
   return (
     <JoditEditor
-      className="border-2 rounded-3xl"
+      className="rounded-3xl border-2"
       ref={editor}
       value={value}
       config={config}

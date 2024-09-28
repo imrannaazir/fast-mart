@@ -43,12 +43,8 @@ const CollectionListPage = () => {
   const collections = data?.data || [];
   return (
     <Page title="Collections" action={<CollectionAction />}>
-      <div className=" mx-auto">
-        <CollectionDataTable
-          columns={columns}
-          data={collections}
-          isLoading={isFetching}
-        />
+      <div className="mx-auto">
+        <CollectionDataTable columns={columns} data={collections} isLoading={isFetching} />
       </div>
     </Page>
   );

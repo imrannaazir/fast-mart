@@ -8,10 +8,8 @@ const appButtonVariants = cva(
   {
     variants: {
       variant: {
-        primary:
-          "bg-secondary text-background hover:bg-secondary/90 button button--aylen",
-        secondary:
-          "bg-primary text-background hover:bg-primary/90 button button--aylen",
+        primary: "bg-secondary text-background hover:bg-secondary/90 button button--aylen",
+        secondary: "bg-primary text-background hover:bg-primary/90 button button--aylen",
         ghost: "bg-transparent text-background pl-0",
       },
       size: {
@@ -38,16 +36,9 @@ const AppButton = React.forwardRef<HTMLButtonElement, AppButtonProps>(
   ({ className, variant, size, children, ...props }, ref) => {
     const Comp = "button";
     return (
-      <Comp
-        className={cn(
-          "group flex gap-2",
-          appButtonVariants({ variant, size, className })
-        )}
-        ref={ref}
-        {...props}
-      >
+      <Comp className={cn("group flex gap-2", appButtonVariants({ variant, size, className }))} ref={ref} {...props}>
         {children}
-        <FaArrowRight className=" ml-0 mr-1 group-hover:ml-1 group-hover:mr-0 duration-200" />
+        <FaArrowRight className="ml-0 mr-1 duration-200 group-hover:ml-1 group-hover:mr-0" />
       </Comp>
     );
   }
