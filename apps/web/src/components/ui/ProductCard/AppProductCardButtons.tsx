@@ -7,9 +7,15 @@ import { LuRefreshCw } from "react-icons/lu";
 import { light_colors } from "@/constants/colors.constant";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { addToWishlist } from "@/actions/wishlist";
 
 const AppProductButtons = ({ id }: { id: string }) => {
   const router = useRouter();
+
+  // add product to wishlist
+  const addProductToWishlist = async () => {
+    const result = await addToWishlist({ productId: "66f2923ac1b98bb510d364e2" });
+  };
 
   const buttons = [
     {
@@ -30,7 +36,7 @@ const AppProductButtons = ({ id }: { id: string }) => {
       id: 3,
       label: "Wishlist",
       icon: <Image src={assets.svg.love} alt="wishlist" width={16} height={16} />,
-      onClickHandler: () => {},
+      onClickHandler: addProductToWishlist,
     },
   ];
   return (

@@ -23,6 +23,7 @@ const LoginPage = () => {
     const data = await userLogin(values);
     if (data.success) {
       message.success(data.message);
+      router.push("/");
     } else {
       message.error(data.message);
     }

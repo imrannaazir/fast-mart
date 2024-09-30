@@ -9,6 +9,7 @@ import IconRoutes from '../modules/icon/icon.routes';
 import ImageRoutes from '../modules/image/image.routes';
 import CollectionRoutes from '../modules/collection/collection.routes';
 import VariantRoutes, { OptionRoutes } from '../modules/variant/variant.routes';
+import WishListRoutes from '../modules/wishlist-item/wishlist-item.routes';
 
 const router = Router();
 
@@ -62,6 +63,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/options',
     route: OptionRoutes,
+  },
+  {
+    path: '/wishlist-items',
+    route: WishListRoutes,
   },
 ];
 

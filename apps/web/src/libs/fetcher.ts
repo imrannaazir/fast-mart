@@ -1,4 +1,5 @@
 import { getErrorMessage } from "@repo/utils/functions";
+import { cookies } from "next/headers";
 
 type THttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -25,12 +26,14 @@ export default async function fetcher<TResponse, TBody = unknown>(
 ): Promise<TApiResponse<TResponse>> {
   const { method = "GET", headers = {}, body, cache = "force-cache", next = { revalidate: false } } = options;
   const url = `${baseUrl}${endpoint}`;
+  const accessToken = cookies().get("accessToken")?.value || "";
 
   try {
     const response = await fetch(url, {
       method,
       headers: {
         "Content-Type": "application/json",
+        authorization: accessToken,
         ...headers,
       },
       body: body ? JSON.stringify(body) : undefined,
@@ -41,12 +44,15 @@ export default async function fetcher<TResponse, TBody = unknown>(
 
     const result = await response.json();
 
+    if (response.status === 401) {
+    }
+
     if (!response.ok) {
       return {
         data: null,
         success: false,
         statusCode: response.status,
-        message: result?.errorSources.length ? result?.errorSources[0].message : result?.message,
+        message: result?.errorSources?.length ? result?.errorSources?.[0]?.message : result?.message,
       };
     }
 
@@ -57,6 +63,8 @@ export default async function fetcher<TResponse, TBody = unknown>(
       statusCode: response.status,
     };
   } catch (error) {
+    console.log(error);
+
     return {
       data: null,
       success: false,

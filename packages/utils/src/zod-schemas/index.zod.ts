@@ -8,3 +8,4 @@ export * from "./order.validation";
 export * from "./product.validation";
 export * from "./tag.validation";
 export * from "./variant.validations";
+export * from "./wishlist.validations";
