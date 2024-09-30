@@ -13,7 +13,7 @@ import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCatego
 import { collections } from "@/constants/db";
 import Container from "@/components/ui/Container";
 
-const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+const baseApi = process.env.NEXT_PUBLIC_API_URL;
 
 // fetching collections
 const getAllCollections = async () => {

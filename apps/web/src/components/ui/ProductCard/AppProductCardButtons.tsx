@@ -15,6 +15,7 @@ const AppProductButtons = ({ id }: { id: string }) => {
   // add product to wishlist
   const addProductToWishlist = async () => {
     const result = await addToWishlist({ productId: "66f2923ac1b98bb510d364e2" });
+    console.log({ result });
   };
 
   const buttons = [

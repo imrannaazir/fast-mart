@@ -18,7 +18,7 @@ export type TApiResponse<T> = {
   statusCode?: number;
 };
 
-const baseUrl = process.env.NEXT_PUBLIC_DB_URL as string;
+const baseUrl = process.env.NEXT_PUBLIC_API_URL as string;
 
 export default async function fetcher<TResponse, TBody = unknown>(
   endpoint: string,
@@ -44,9 +44,6 @@ export default async function fetcher<TResponse, TBody = unknown>(
 
     const result = await response.json();
 
-    if (response.status === 401) {
-    }
-
     if (!response.ok) {
       return {
         data: null,
@@ -59,7 +56,7 @@ export default async function fetcher<TResponse, TBody = unknown>(
     return {
       data: result?.data,
       success: true,
-      message: result?.message,
+      message: result?.errorSources?.length ? result?.errorSources?.[0]?.message : result?.message,
       statusCode: response.status,
     };
   } catch (error) {

@@ -1,15 +1,13 @@
 "use server";
 
-import fetcher from "@/libs/fetcher";
+import apiCall from "@/libs/api";
 import { wishlistItemSchema, z } from "@repo/utils/zod-schemas";
 
-export const addToWishlist = async (productId: z.infer<typeof wishlistItemSchema>) => {
-  const result = await fetcher("/wishlist-items/add", {
+export const addToWishlist = async (body: z.infer<typeof wishlistItemSchema>) => {
+  const response = await apiCall("/wishlist-items/add", {
     method: "POST",
-    body: {
-      productId,
-    },
+    body,
   });
 
-  console.log({ result });
+  return response;
 };

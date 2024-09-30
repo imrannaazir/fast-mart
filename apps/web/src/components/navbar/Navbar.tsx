@@ -4,7 +4,7 @@ import NavigationLinks from "./NavigationLinks";
 import { Suspense } from "react";
 import { TCollectionDropdownItemProps } from "./DropdownCategories";
 import { collections } from "@/constants/db";
-/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseApi = process.env.NEXT_PUBLIC_API_URL;
 
 const getAllCollections = async () => {
   const res = await fetch(`${baseApi}/collections`, {

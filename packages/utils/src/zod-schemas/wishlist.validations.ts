@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const wishlistItemSchema = z.object({
-  productId: z.string({ message: "Product Id is required!" }),
+  productId: z.string(),
 });
 
 export const wishlistItemValidationSchema = z.object({

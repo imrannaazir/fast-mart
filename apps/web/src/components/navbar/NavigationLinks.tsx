@@ -10,7 +10,7 @@ import { Menu } from "antd";
 // import { TBrand } from "@/types";
 import { brands } from "@/constants/db";
 
-/* const baseUrl = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 async function getBrandsData() {
   const res = await fetch(`${baseUrl}/brands`, {

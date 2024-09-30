@@ -6,7 +6,7 @@ import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCatego
 import { TAppProductCardProps } from "@/types";
 import { products } from "@/constants/db";
 
-/* const baseApi = process.env.NEXT_PUBLIC_DB_URL;
+/* const baseApi = process.env.NEXT_PUBLIC_API_URL;
 
 // fetching products
 const getProducts = async () => {
