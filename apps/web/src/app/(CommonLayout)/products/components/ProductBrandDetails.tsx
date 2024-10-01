@@ -1,5 +1,4 @@
 import { Rate } from "antd";
-import React from "react";
 
 type TProductBrandDetailsProps = {
   img: string;

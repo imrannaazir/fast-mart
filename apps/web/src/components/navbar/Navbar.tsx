@@ -3,21 +3,17 @@ import NavCategories from "./NavCategories";
 import NavigationLinks from "./NavigationLinks";
 import { Suspense } from "react";
 import { TCollectionDropdownItemProps } from "./DropdownCategories";
-import { collections } from "@/constants/db";
-/* const baseApi = process.env.NEXT_PUBLIC_API_URL;
-
-const getAllCollections = async () => {
-  const res = await fetch(`${baseApi}/collections`, {
+import apiCall from "@/libs/api";
+import { TCollection } from "@repo/utils/types";
+export const getAllCollections = async () => {
+  const response = await apiCall<TCollection[]>("/collections", {
     next: { revalidate: 3600 },
   });
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories!");
-  }
-  const data = await res.json();
-  return data?.data;
-}; */
+
+  return response.data;
+};
 const Navbar = async () => {
-  // const collections = await getAllCollections();
+  const collections = (await getAllCollections()) as TCollection[];
   const collectionsDropdownItems: TCollectionDropdownItemProps[] = collections?.map((collection: any) => ({
     id: collection?._id,
     name: collection?.title,

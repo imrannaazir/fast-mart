@@ -1,3 +1,4 @@
+"use client";
 import { TProduct } from "@repo/utils/types";
 import { Tabs, TabsProps } from "antd";
 import { FC } from "react";

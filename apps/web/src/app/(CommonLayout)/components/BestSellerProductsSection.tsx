@@ -4,24 +4,21 @@ import HomeSectionTop from "./HomeSectionTop";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { drinksCover, juiceCover, summerVegetablesCover } from "@/constants/global.content";
 import { TAppProductCardProps } from "@/types";
-import { products } from "@/constants/db";
+import apiCall from "@/libs/api";
+import { TProduct } from "@repo/utils/types";
 
-/* const baseApi = process.env.NEXT_PUBLIC_API_URL;
-
-// fetching products
 const getProducts = async () => {
-  const res = await fetch(`${baseApi}/products`, {
-    next: { revalidate: 3600 },
+  const response = await apiCall<TProduct[]>("/products", {
+    next: {
+      revalidate: 3600,
+    },
   });
-  if (!res.ok) {
-    throw new Error("Failed to fetch products!");
-  }
-  const data = await res.json();
-  return data?.data;
-}; */
+
+  return response.data;
+};
 
 const BestSellerProductsSection = async () => {
-  // const products = await getProducts();
+  const products = (await getProducts()) as TProduct[];
 
   const productsForCard: TAppProductCardProps[] = products?.map((product: any) => ({
     id: product?._id,

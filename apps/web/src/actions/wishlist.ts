@@ -1,5 +1,4 @@
 "use server";
-
 import apiCall from "@/libs/api";
 import { wishlistItemSchema, z } from "@repo/utils/zod-schemas";
 
@@ -8,6 +7,8 @@ export const addToWishlist = async (body: z.infer<typeof wishlistItemSchema>) =>
     method: "POST",
     body,
   });
+
+  console.log({ response }, "res bro");
 
   return response;
 };

@@ -1,4 +1,3 @@
-"use client";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
 import { products } from "@/constants/db";
@@ -9,7 +8,7 @@ import ProductBasicDescription from "../components/ProductBasicDescription";
 import { TImage, TProduct } from "@repo/utils/types";
 import ProductGallery from "../components/ProductGallery";
 import ProductDetailsTab from "../components/ProductDetailsTab";
-import StickyBox from "react-sticky-box";
+// import StickyBox from "react-sticky-box";
 import HomeSectionTop from "../../components/HomeSectionTop";
 import { AppButton } from "@/components/ui/AppButton";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
@@ -48,14 +47,14 @@ const ProductDetailsPage = () => {
           </section>
           {/* right */}
           <section>
-            <StickyBox className="space-y-6" offsetTop={24}>
-              <ProductBrandDetails
-                name={product?.brand?.name as string}
-                description={product?.brand?.description as string}
-                img={product?.brand?.logo?.url as string}
-              />
-              <HomePageTrendingProducts />
-            </StickyBox>
+            <ProductBrandDetails
+              name={product?.brand?.name as string}
+              description={product?.brand?.description as string}
+              img={product?.brand?.logo?.url as string}
+            />
+            <HomePageTrendingProducts />
+            {/* <StickyBox className="space-y-6" offsetTop={24}>
+            </StickyBox> */}
           </section>
         </div>
         {/* related products */}

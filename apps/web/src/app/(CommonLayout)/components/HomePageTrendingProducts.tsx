@@ -1,19 +1,34 @@
 import Image from "next/image";
 import SidebarSectionHeader from "./SidebarSectionHeader";
 import { cn } from "@/libs/utils";
+import apiCall from "@/libs/api";
+import { TProduct } from "@repo/utils/types";
 
-const HomePageTrendingProducts = () => {
+const getProducts = async () => {
+  const response = await apiCall<TProduct[]>("/products", {
+    next: {
+      revalidate: 3600,
+    },
+  });
+
+  return response.data;
+};
+
+const HomePageTrendingProducts = async () => {
+  const products = ((await getProducts()) as TProduct[]) || [];
+  console.log({ products });
+
   return (
     <div className="rounded-md bg-gray-100 p-6 pb-2">
       <SidebarSectionHeader level="Trending Products" />
       {/* trending products */}
       <div>
-        {Array.from({ length: 4 }).map((_item, i) => (
-          <div className="flex items-center gap-6" key={i}>
+        {products.map((product, i) => (
+          <div className="flex items-center gap-6" key={product._id}>
             {/* image    */}
             <Image
               className="h-[70px] object-contain"
-              src={"https://themes.pixelstrap.com/fastkart/assets/images/vegetable/product/24.png"}
+              src={product.media?.[0]?.url!}
               alt="products"
               width={90}
               height={70}

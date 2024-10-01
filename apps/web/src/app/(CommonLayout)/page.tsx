@@ -10,25 +10,20 @@ import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
 import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
 import HomePageNewsLetter from "./components/HomePageNewsLetter";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
-import { collections } from "@/constants/db";
 import Container from "@/components/ui/Container";
+import { TCollection } from "@repo/utils/types";
+import apiCall from "@/libs/api";
 
-const baseApi = process.env.NEXT_PUBLIC_API_URL;
-
-// fetching collections
-const getAllCollections = async () => {
-  const res = await fetch(`${baseApi}/collections`, {
+export const getAllCollections = async () => {
+  const response = await apiCall<TCollection[]>("/collections", {
     next: { revalidate: 3600 },
   });
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories!");
-  }
-  const data = await res.json();
-  return data?.data;
+
+  return response.data;
 };
 
 const HomePage = async () => {
-  // const collections = await getAllCollections();
+  const collections = (await getAllCollections()) as TCollection[];
 
   // transform collections data
   const collectionsDropdownItems: TCollectionDropdownItemProps[] = collections?.map((collection: any) => ({

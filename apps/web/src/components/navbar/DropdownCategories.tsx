@@ -7,7 +7,7 @@ export type TCollectionDropdownItemProps = {
   id: string;
   name: string;
   iconName?: string;
-  categories: TCollectionDropdownItemProps[];
+  categories?: TCollectionDropdownItemProps[];
 };
 type TDropDownCategoriesProps = {
   type?: "mega" | "simple";

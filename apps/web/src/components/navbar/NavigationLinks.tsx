@@ -8,9 +8,10 @@ import DropdownNavigationLink from "./DropdownNavigationLink";
 import Link from "next/link";
 import { Menu } from "antd";
 // import { TBrand } from "@/types";
-import { brands } from "@/constants/db";
+import { TBrand } from "@repo/utils/types";
+import { Fragment } from "react";
 
-/* const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 async function getBrandsData() {
   const res = await fetch(`${baseUrl}/brands`, {
@@ -25,12 +26,12 @@ async function getBrandsData() {
 
   const data = await res.json();
   return data;
-} */
+}
 
 const NavigationLinks = async () => {
   // fetch brands data
-  // const data = await getBrandsData();
-  // const brandList: TBrand[] = data?.data || [];
+  const data = await getBrandsData();
+  const brands: TBrand[] = data?.data || [];
 
   // transform into link item
   const brandListLinks = brands?.map((brand) => ({
@@ -98,7 +99,7 @@ const NavigationLinks = async () => {
   }));
 
   return (
-    <>
+    <Fragment>
       <div className="hidden items-center gap-6 text-lg lg:flex">
         {navigationLinks.map((link) =>
           link.children ? (
@@ -109,7 +110,7 @@ const NavigationLinks = async () => {
         )}
       </div>
       <Menu className="lg:hidden" style={{ width: 256 }} mode="inline" items={mobileMenuLinks} />
-    </>
+    </Fragment>
   );
 };
 

@@ -1,3 +1,4 @@
+import { TCategory } from "./category.interface";
 import { TIcon } from "./icons.interface";
 import { TImage } from "./image.interface";
 
@@ -7,6 +8,7 @@ export type TCollection = {
   description?: string;
   image?: TImage;
   icon?: TIcon;
+  categories?: TCategory[];
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;

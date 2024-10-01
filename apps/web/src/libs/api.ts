@@ -46,6 +46,7 @@ export default async function apiCall<TResponse, TBody = unknown>(
       next,
     });
 
+    console.log(response.status);
     if (response.status === 401) {
       // Attempt to refresh the token
       const refreshResponse = await fetch(`${API_URL}/auth/refresh-token`, {
@@ -69,6 +70,8 @@ export default async function apiCall<TResponse, TBody = unknown>(
       }
     }
     const result = await response.json();
+    // console.log({ result });
+
     return {
       data: result?.data,
       success: true,
@@ -76,6 +79,8 @@ export default async function apiCall<TResponse, TBody = unknown>(
       statusCode: response.status,
     };
   } catch (error) {
+    console.log(error, "error bro");
+
     return {
       data: null,
       success: false,

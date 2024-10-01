@@ -2,21 +2,19 @@ import Link from "next/link";
 import CompanyDescription from "./CompanyDescription";
 import FooterContactUs from "./FooterContactUs";
 import AppLinkButton from "../ui/AppLinkButton";
-import { collections } from "@/constants/db";
+import apiCall from "@/libs/api";
+import { TCollection } from "@repo/utils/types";
 
-/* const baseApi = process.env.NEXT_PUBLIC_API_URL;
+export const getAllCollections = async () => {
+  const response = await apiCall<TCollection[]>("/collections", {
+    next: { revalidate: 3600 },
+  });
 
-const getAllCollections = async () => {
-  const res = await fetch(`${baseApi}/collections`);
-  if (!res.ok) {
-    throw new Error("Failed to fetch categories!");
-  }
-  const data = await res.json();
-  return data?.data;
-}; */
+  return response.data;
+};
 
 const MainFooter = async () => {
-  // const collections = await getAllCollections();
+  const collections = await getAllCollections();
   const collectionLinks = collections?.map((collection: any) => ({
     id: collection?._id,
     label: collection?.title,
@@ -103,7 +101,7 @@ const MainFooter = async () => {
         <div key={group.id}>
           <h3 className="text-foreground/90 text-xl font-semibold">{group.label}</h3>
           <div className="mt-4 flex flex-col gap-4">
-            {group.children.map((link: any) => (
+            {group?.children?.map((link: any) => (
               <Link
                 key={link.id}
                 href={link.path}
