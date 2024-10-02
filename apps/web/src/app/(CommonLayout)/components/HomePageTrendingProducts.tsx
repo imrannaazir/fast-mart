@@ -16,7 +16,6 @@ const getProducts = async () => {
 
 const HomePageTrendingProducts = async () => {
   const products = ((await getProducts()) as TProduct[]) || [];
-  console.log({ products });
 
   return (
     <div className="rounded-md bg-gray-100 p-6 pb-2">

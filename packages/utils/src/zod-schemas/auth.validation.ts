@@ -37,6 +37,6 @@ export const loginValidationSchema = z.object({
 
 export const refreshTokenValidationSchema = z.object({
   cookies: z.object({
-    refreshToken: z.string(),
+    refreshToken: z.string().optional(),
   }),
 });

@@ -35,7 +35,6 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm }) 
   const form = useForm<z.infer<typeof createCategorySchema>>({
     resolver: zodResolver(createCategorySchema),
   });
-  console.log(form.watch("title"));
 
   // on submit handler
   const onSubmit = async (data: z.infer<typeof createCategorySchema>) => {

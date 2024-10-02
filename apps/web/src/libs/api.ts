@@ -1,6 +1,5 @@
 import { getErrorMessage } from "@repo/utils/functions";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
@@ -20,16 +19,31 @@ export type TApiResponse<T> = {
   statusCode?: number;
 };
 
+// create custom error for authentication
+export class AuthError extends Error {
+  constructor(message: string = "Authentication Failed") {
+    super(message);
+    this.name = "AuthError";
+  }
+}
+
 export default async function apiCall<TResponse, TBody = unknown>(
   endpoint: string,
   options: ApiOptions<TBody> = {}
 ): Promise<TApiResponse<TResponse>> {
-  const { method = "GET", body, headers = {}, cache = "no-store", next = { revalidate: false } } = options;
+  const { method = "GET", body, headers = {}, cache, next } = options;
+
+  // if next is provided then include
+  if (next) options.next = next;
+
+  //if cache is provided then include that
+  if (cache) options.cache = cache;
 
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value || "";
 
+  // add access token in request headers
   if (accessToken) {
     headers["Authorization"] = `${accessToken}`;
   }
@@ -46,31 +60,26 @@ export default async function apiCall<TResponse, TBody = unknown>(
       next,
     });
 
-    console.log(response.status);
+    // token not send -> 401 try to get access by refresh token
     if (response.status === 401) {
-      // Attempt to refresh the token
-      const refreshResponse = await fetch(`${API_URL}/auth/refresh-token`, {
+      const refreshTokenResponse = await fetch(`${API_URL}/auth/refresh-token`, {
         method: "POST",
         credentials: "include",
         headers: {
-          refreshToken: refreshToken,
+          Cookie: cookies().toString(),
         },
+        cache: "no-store",
       });
 
-      if (refreshResponse.ok) {
-        const { accessToken: newAccessToken } = await refreshResponse.json();
-        cookieStore.set("accessToken", newAccessToken, { httpOnly: true, secure: true });
-
-        // Retry the original request with the new token
-        return apiCall(endpoint, options);
-      } else {
-        // If refresh fails, clear the token and redirect to login
+      // if refresh token not sent
+      if (refreshTokenResponse.status === 401) {
         cookieStore.delete("accessToken");
-        redirect("/login");
+        cookieStore.delete("refreshToken");
+        throw new AuthError();
       }
     }
+
     const result = await response.json();
-    // console.log({ result });
 
     return {
       data: result?.data,
@@ -79,7 +88,11 @@ export default async function apiCall<TResponse, TBody = unknown>(
       statusCode: response.status,
     };
   } catch (error) {
-    console.log(error, "error bro");
+    console.log(error, "[api] - 84");
+
+    if (error instanceof AuthError) {
+      throw new AuthError();
+    }
 
     return {
       data: null,

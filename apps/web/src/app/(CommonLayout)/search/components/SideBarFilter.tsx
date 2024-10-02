@@ -38,7 +38,6 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice }) => {
     router.push(`/search?${newParams}`, { scroll: false });
   }, []);
 
-  console.log({ ratings: searchParams.get("ratings")?.split(",") });
   return (
     <aside className="min-w-[300px]">
       <Form onValuesChange={handleValuesChanges} form={form} className="space-y-4">

@@ -89,6 +89,7 @@ const login = async (payload: TLoginUser) => {
 
 // refresh token
 const refreshToken = async (token: string) => {
+  // if refresh token not sent
   if (!token) {
     throw new AppError(StatusCodes.UNAUTHORIZED, 'Token is not available.');
   }

@@ -8,8 +8,6 @@ import AppError from '../../errors/AppError';
 const addProductToWishlist = async (
   payload: Pick<TWishlistItem, 'productId' | 'userId'>,
 ) => {
-  console.log(payload);
-
   // check if product is exist
   const isProductExist = await Product.findById(payload.productId);
 

@@ -21,8 +21,6 @@ class QueryBuilder<T> {
   search(searchableFields: string[]) {
     const searchTerm = this.query.searchTerm;
 
-    console.log(searchTerm);
-
     /* 
     something.find({
         $or:[

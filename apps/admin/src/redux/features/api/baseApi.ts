@@ -12,7 +12,6 @@ import { logIn, logOut } from "../auth/authSlice";
 import { jwtDecode } from "jwt-decode";
 
 const url = import.meta.env.VITE_API_URL;
-console.log(url);
 
 const baseQuery = fetchBaseQuery({
   baseUrl: url,

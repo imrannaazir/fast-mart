@@ -60,8 +60,6 @@ export default async function fetcher<TResponse, TBody = unknown>(
       statusCode: response.status,
     };
   } catch (error) {
-    console.log(error);
-
     return {
       data: null,
       success: false,

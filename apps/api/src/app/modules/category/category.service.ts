@@ -17,7 +17,6 @@ const createCategory = async (
   const isCollectionsExist = await Collection.find({
     _id: { $in: payload.collections },
   });
-  console.log(isCollectionsExist);
 
   if (!isCollectionsExist) {
     throw new AppError(StatusCodes.NOT_FOUND, 'Collections not founded.');

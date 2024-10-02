@@ -33,8 +33,6 @@ const AddProductPage = () => {
 
   // on submit handler
   const onSubmit = async (data: z.infer<typeof createProductSchema>) => {
-    console.log({ data });
-
     const toastId = toast.loading("Creating.", { duration: 2000 });
     try {
       const response = await createProduct(data).unwrap();
