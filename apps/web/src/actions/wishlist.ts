@@ -11,4 +11,12 @@ const addToWishlistAction = async (body: z.infer<typeof wishlistItemSchema>) => 
 
   return response;
 };
+
+const getAllMyWishlistItemsAction = async (userId: string) => {
+  const myWishlistItems = await apiCall(`/wishlist-items/${userId}`);
+  return myWishlistItems;
+};
+
+export const getAllMyWishlistItems = withAuth(getAllMyWishlistItemsAction);
+
 export const addToWishlist = withAuth(addToWishlistAction);

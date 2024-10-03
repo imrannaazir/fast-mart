@@ -2,6 +2,7 @@ import { getErrorMessage } from "@repo/utils/functions";
 import { cookies } from "next/headers";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 type ApiOptions<TBody> = {
@@ -19,7 +20,6 @@ export type TApiResponse<T> = {
   statusCode?: number;
 };
 
-// create custom error for authentication
 export class AuthError extends Error {
   constructor(message: string = "Authentication Failed") {
     super(message);
@@ -32,18 +32,9 @@ export default async function apiCall<TResponse, TBody = unknown>(
   options: ApiOptions<TBody> = {}
 ): Promise<TApiResponse<TResponse>> {
   const { method = "GET", body, headers = {}, cache, next } = options;
-
-  // if next is provided then include
-  if (next) options.next = next;
-
-  //if cache is provided then include that
-  if (cache) options.cache = cache;
-
   const cookieStore = cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
-  const refreshToken = cookieStore.get("refreshToken")?.value || "";
 
-  // add access token in request headers
   if (accessToken) {
     headers["Authorization"] = `${accessToken}`;
   }
@@ -60,38 +51,45 @@ export default async function apiCall<TResponse, TBody = unknown>(
       next,
     });
 
-    // token not send -> 401 try to get access by refresh token
     if (response.status === 401) {
       const refreshTokenResponse = await fetch(`${API_URL}/auth/refresh-token`, {
         method: "POST",
         credentials: "include",
         headers: {
-          Cookie: cookies().toString(),
+          Cookie: cookieStore.toString(),
         },
         cache: "no-store",
       });
 
-      // if refresh token not sent
       if (refreshTokenResponse.status === 401) {
         cookieStore.delete("accessToken");
         cookieStore.delete("refreshToken");
         throw new AuthError();
       }
+
+      // Handle successful token refresh
+      const newTokens = await refreshTokenResponse.json();
+      // Update cookies with new tokens
+      cookieStore.set("accessToken", newTokens.data?.accessToken);
+
+      // Retry the original request with the new access token
+      return apiCall(endpoint, {
+        ...options,
+        headers: { ...headers, Authorization: `${newTokens?.data?.accessToken}` },
+      });
     }
 
     const result = await response.json();
 
     return {
       data: result?.data,
-      success: true,
-      message: result?.errorSources?.length ? result?.errorSources?.[0]?.message : result?.message,
+      success: result.success,
+      message: result?.errorSources?.length ? result?.errorSources[0]?.message : result?.message,
       statusCode: response.status,
     };
   } catch (error) {
-    console.log(error, "[api] - 84");
-
     if (error instanceof AuthError) {
-      throw new AuthError();
+      throw error;
     }
 
     return {

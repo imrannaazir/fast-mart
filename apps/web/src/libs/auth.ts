@@ -1,12 +1,12 @@
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { cookies } from "next/headers";
 
-export const isAuthenticated = (): boolean => {
+export const isAuthenticated = (): boolean | string => {
   const token = cookies().get("accessToken")?.value;
   if (!token) return false;
 
-  const decodedToken = jwtDecode(token as string);
+  const decodedToken: any = jwtDecode(token as string);
   if (!decodedToken) return false;
 
-  return true;
+  return decodedToken.userId as string;
 };

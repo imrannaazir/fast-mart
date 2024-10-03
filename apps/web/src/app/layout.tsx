@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-// import { Public_Sans } from "next/font/google";
 import "../styles/global.css";
 import ThemeProvider from "@/components/providers/ThemeProvider";
-
-// const public_sans = Public_Sans({ subsets: ["latin"] });
+import { isAuthenticated } from "@/libs/auth";
+import { getAllMyWishlistItems } from "@/actions/wishlist";
 
 export const metadata: Metadata = {
   title: "Fast Mart",
   description: "Glossary shopping website",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = isAuthenticated();
+  const wishlist = user ? await getAllMyWishlistItems(user as string) : [];
+  console.log(wishlist);
+
   return (
     <html lang="en">
       <body>

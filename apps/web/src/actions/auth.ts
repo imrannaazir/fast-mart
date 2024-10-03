@@ -1,11 +1,11 @@
 "use server";
 
-import fetcher from "@/libs/fetcher";
+import apiCall from "@/libs/api";
 import { loginSchema, z } from "@repo/utils/zod-schemas";
 import { cookies } from "next/headers";
 
 export const userLogin = async (data: z.infer<typeof loginSchema>) => {
-  const result = await fetcher<{ accessToken: string; refreshToken: string }>("/auth/login", {
+  const result = await apiCall<{ accessToken: string; refreshToken: string }>("/auth/login", {
     method: "POST",
     body: data,
     cache: "no-store",
