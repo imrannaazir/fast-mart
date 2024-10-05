@@ -19,8 +19,24 @@ const addProductToWishlist = catchAsync(async (req, res) => {
   });
 });
 
+// get all user's wishlist items
+const getAllUserWishlistItems = catchAsync(async (req, res) => {
+  // do
+  const userId = req.params.userId;
+  const wishlistItems = await WishlistItemServices.getAllUserWishlistItems(
+    userId!,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Wishlist items retrieved successfully.',
+    data: wishlistItems,
+  });
+});
 const WishlistControllers = {
   addProductToWishlist,
+  getAllUserWishlistItems,
 };
 
 export default WishlistControllers;

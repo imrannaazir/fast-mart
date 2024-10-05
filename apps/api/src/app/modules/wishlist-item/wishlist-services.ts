@@ -33,7 +33,16 @@ const addProductToWishlist = async (
   return result;
 };
 
+// get all wishlist items of user
+const getAllUserWishlistItems = async (userId: string) => {
+  const result = await WishlistItem.find({
+    userId,
+  });
+
+  return result;
+};
 const WishlistItemServices = {
   addProductToWishlist,
+  getAllUserWishlistItems,
 };
 export default WishlistItemServices;

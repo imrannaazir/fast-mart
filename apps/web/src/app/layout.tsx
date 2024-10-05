@@ -16,7 +16,7 @@ export default async function RootLayout({
 }>) {
   const user = isAuthenticated();
   const wishlist = user ? await getAllMyWishlistItems(user as string) : [];
-  console.log(wishlist);
+  console.log(wishlist, "19");
 
   return (
     <html lang="en">

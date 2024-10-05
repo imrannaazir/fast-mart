@@ -7,10 +7,7 @@ import { Types } from 'mongoose';
 // create product
 const createProduct = catchAsync(async (req, res) => {
   const userId = req.user._id;
-  const result = await ProductService.createProduct(
-    req.body,
-    userId as Types.ObjectId,
-  );
+  const result = await ProductService.createProduct(req.body, userId!);
 
   sendResponse(res, {
     success: true,

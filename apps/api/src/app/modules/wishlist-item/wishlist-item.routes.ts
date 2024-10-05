@@ -14,5 +14,9 @@ router.post(
   WishlistControllers.addProductToWishlist,
 );
 
+// get all user's wishlist items : GET
+
+router.get('/:userId', auth(), WishlistControllers.getAllUserWishlistItems);
+
 const WishListRoutes = router;
 export default WishListRoutes;

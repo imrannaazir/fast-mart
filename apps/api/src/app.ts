@@ -18,7 +18,6 @@ const allowedOrigins: string[] = [
   config.origin_url_1 as string,
   config.origin_url_2 as string,
 ];
-console.log('boom');
 
 // Configure CORS
 const corsOptions: CorsOptions = {

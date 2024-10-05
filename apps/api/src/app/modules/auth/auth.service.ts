@@ -21,6 +21,7 @@ const register = async (payload: TUser) => {
   const user = await User.create(payload);
 
   const JwtPayload: JwtPayload = {
+    userId: user._id,
     email: user.email,
     role: user.role,
   };
@@ -67,6 +68,7 @@ const login = async (payload: TLoginUser) => {
   }
 
   const JwtPayload: JwtPayload = {
+    userId: isUserExist._id,
     email: isUserExist.email,
     role: isUserExist.role,
   };
@@ -110,6 +112,7 @@ const refreshToken = async (token: string) => {
   }
 
   const JwtPayload: JwtPayload = {
+    userId: isUserExist._id,
     email: isUserExist.email,
     role: isUserExist.role,
   };

@@ -39,7 +39,7 @@ const AddProductPage = () => {
 
       if (response.success) {
         toast.success("Created.", { id: toastId });
-        navigate("/products");
+        navigate("/products/list");
         form.reset();
       }
     } catch (error) {
