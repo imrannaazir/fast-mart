@@ -2,6 +2,7 @@ const assets = {
   images: {
     payment: "/images/payment.png",
     sales_manager: "/images/sales_manager.jpg",
+    blank_image: "/images/blank-image.png",
     bg: {
       category_card: "/images/category-card-bg.png",
       login_bg: "/images/log-in-bg.png",

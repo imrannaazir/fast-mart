@@ -1,18 +1,19 @@
 "use client";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Input, Flex, message } from "antd";
 import assets from "@/assets";
 import Image from "next/image";
 import { AppButton } from "@/components/ui/AppButton";
-import { userLogin } from "@/actions/auth";
+import { storeUserInfo, userLogin } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [error, setError] = useState("");
   const loginPageBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Login",
@@ -20,12 +21,18 @@ const LoginPage = () => {
   ];
 
   const onFinish = async (values: any) => {
-    const data = await userLogin(values);
-    if (data.success) {
-      message.success(data.message);
-      router.push("/");
-    } else {
-      message.error(data.message);
+    try {
+      const res = await userLogin(values);
+      if (res?.data?.accessTokeLn) {
+        message.success(res?.message);
+        storeUserInfo({ accessToken: res?.data?.accessToken });
+        // router.push("/dashboard");
+      } else {
+        setError(res.message);
+        // console.log(res);
+      }
+    } catch (err: any) {
+      console.error(err.message);
     }
   };
   return (
