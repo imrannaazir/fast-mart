@@ -8,8 +8,8 @@ import { Checkbox, Form, Input, Flex, message } from "antd";
 import assets from "@/assets";
 import Image from "next/image";
 import { AppButton } from "@/components/ui/AppButton";
-import { userLogin } from "@/actions/auth";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -20,13 +20,12 @@ const LoginPage = () => {
   ];
 
   const onFinish = async (values: any) => {
-    const data = await userLogin(values);
-    if (data.success) {
-      message.success(data.message);
-      router.push("/");
-    } else {
-      message.error(data.message);
-    }
+    const data = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    });
+    console.log({ data }, "[Login]:29");
   };
   return (
     <Fragment>

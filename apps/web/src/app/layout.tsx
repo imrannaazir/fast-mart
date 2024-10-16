@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/global.css";
 import ThemeProvider from "@/components/providers/ThemeProvider";
-import { isAuthenticated } from "@/libs/auth";
-import { getAllMyWishlistItems } from "@/actions/wishlist";
 
 export const metadata: Metadata = {
   title: "Fast Mart",
@@ -14,10 +12,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = isAuthenticated();
-  const wishlist = user ? await getAllMyWishlistItems(user as string) : [];
-  console.log(wishlist, "19");
-
   return (
     <html lang="en">
       <body>
