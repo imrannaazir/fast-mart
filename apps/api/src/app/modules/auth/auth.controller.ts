@@ -30,6 +30,9 @@ const login = catchAsync(async (req, res) => {
   res.cookie('refreshToken', refreshToken, {
     secure: config.NODE_ENV === 'development' ? true : false,
   });
+  res.cookie('accessToken', accessToken, {
+    secure: config.NODE_ENV === 'development' ? true : false,
+  });
 
   sendResponse(res, {
     success: true,

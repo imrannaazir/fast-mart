@@ -1,18 +1,17 @@
+import { IUser } from "@repo/utils/types";
 import { DefaultUser } from "next-auth";
 declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `Provider` React Context
    */
   interface Session {
-    user: TUser;
+    user: IUser;
     sessionToken: string;
   }
 
-  interface User extends Omit<DefaultUser, "id"> {
-    sessionToken: string;
-    sessionExpiresAt: number;
+  interface User {
+    accessToken: string;
     refreshToken: string;
-    refreshExpiresAt: number;
   }
 }
 

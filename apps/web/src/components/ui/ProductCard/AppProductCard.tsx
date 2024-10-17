@@ -4,18 +4,19 @@ import ProductCardRate from "./ProductCardRate";
 import ProductCardAddToCartButton from "./ProductCardAddToCartButton";
 import { TAppProductCardProps } from "@/types";
 import Link from "next/link";
+import assets from "@/assets";
 
 const AppProductCard = ({ product }: { product: TAppProductCardProps }) => {
-  const { compare_price = 0, id = "", price = 0, title = "", photo = "" } = product || {};
+  const { compare_price = 0, id = "", price = 0, title = "", photo = assets.images.blank_image } = product || {};
   return (
     <div className="group min-w-[224px] rounded-lg border p-3 text-start text-sm shadow-sm">
       {/* image */}
-      <div className="relative mx-auto flex w-[80%] items-center justify-center py-3">
+      <div className="relative mx-auto flex items-center justify-center">
         {/* buttons */}
         <AppProductButtons id={id} />
         {photo && (
           <Image
-            className="h-[122px] w-[158px] object-cover transition-all duration-300 group-hover:scale-110"
+            className="aspect-[16/14] w-full rounded-lg object-cover transition-all duration-300 group-hover:scale-105"
             src={photo}
             width={158}
             height={122}
