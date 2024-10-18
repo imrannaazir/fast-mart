@@ -9,9 +9,11 @@ declare module "next-auth" {
     sessionToken: string;
   }
 
-  interface User {
+  interface User extends Omit<DefaultUser, "id"> {
     accessToken: string;
     refreshToken: string;
+    accessTokenExpiresAt: number;
+    refreshTokenExpiresAt: number;
   }
 }
 
