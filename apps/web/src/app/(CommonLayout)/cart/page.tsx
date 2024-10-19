@@ -1,7 +1,12 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
+import { authOptions } from "@/libs/auth";
+import { getServerSession } from "next-auth";
 
-const CartPage = () => {
+const CartPage = async () => {
+  const session = await getServerSession(authOptions);
+  console.log({ session }, "blah - 7");
+
   const cartBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Cart",

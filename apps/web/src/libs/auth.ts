@@ -1,10 +1,8 @@
 import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signOut } from "next-auth/react";
 import { fetcher } from "./fetcher";
-import { JwtPayload, TRefreshToken, TSession, TUser } from "@repo/utils/types";
+import { JwtPayload } from "@repo/utils/types";
 import { jwtDecode } from "jwt-decode";
-import { decodeJwt } from "./utils";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -61,18 +59,40 @@ export const authOptions: NextAuthOptions = {
     // jwt callback
     async jwt({ token, user }) {
       if (user) {
-        return { ...token, user };
+        return {
+          accessToken: user.accessToken,
+          accessExpiresAt: user.accessTokenExpiresAt,
+          refreshToken: user.refreshToken,
+          refreshExpiresAt: user.refreshTokenExpiresAt,
+        };
       }
+
+      return token;
     },
 
     // session callback
     async session({ session, token }) {
-      console.log({ session, token }, "10:21");
+      console.log(token.accessExpiresAt, "number time");
+
+      console.log(new Date(token.accessExpiresAt * 1000).toISOString(), "expires at");
+
+      return {
+        expires: new Date(token.accessExpiresAt * 1000).toISOString(),
+        accessToken: token.accessToken,
+
+        user: {
+          password: "",
+          role: "ADMIN",
+          status: "ACTIVE",
+          phone_number: "",
+          email: "email",
+        },
+      };
     },
   },
 
   pages: {
     signIn: "/login",
   },
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 };

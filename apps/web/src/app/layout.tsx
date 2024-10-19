@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../styles/global.css";
 import ThemeProvider from "@/components/providers/ThemeProvider";
+import { Providers } from "@/components/providers/providers";
 
 export const metadata: Metadata = {
   title: "Fast Mart",
@@ -15,7 +16,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Providers>
+          <ThemeProvider>{children}</ThemeProvider>
+        </Providers>
       </body>
     </html>
   );
