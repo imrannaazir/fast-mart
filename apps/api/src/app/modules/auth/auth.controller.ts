@@ -57,7 +57,7 @@ const logout = catchAsync(async (req, res) => {
 
 // refresh token
 const refreshToken = catchAsync(async (req, res) => {
-  const token = req.cookies.refreshToken || req.headers.refreshToken;
+  const token = req.cookies.refreshToken || req.headers.token;
 
   const result = await AuthService.refreshToken(token);
 

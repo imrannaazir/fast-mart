@@ -3,6 +3,15 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { fetcher } from "./fetcher";
 import { JwtPayload } from "@repo/utils/types";
 import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
+
+// Custom Error For Force Log out
+class ForceLogoutError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ForceLogoutError";
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -40,8 +49,8 @@ export const authOptions: NextAuthOptions = {
           accessToken: accessToken,
           refreshToken: refreshToken,
           id: decodedAccessToken.userId,
-          accessTokenExpiresAt: decodedAccessToken.exp,
-          refreshTokenExpiresAt: decodedRefreshToken.exp,
+          accessTokenExpiresAt: decodedAccessToken.exp * 1000, // convert to milliseconds
+          refreshTokenExpiresAt: decodedRefreshToken.exp * 1000, // convert to milliseconds
         };
 
         return user;
@@ -67,27 +76,64 @@ export const authOptions: NextAuthOptions = {
         };
       }
 
+      // check access token has been expired
+      if (Date.now() > token.accessExpiresAt) {
+        //check refresh token has been expired
+        if (Date.now() > token.refreshExpiresAt) {
+          throw new ForceLogoutError("Refresh Token  expired. Please login again.");
+        }
+
+        // if refresh token has not expired get new access token
+
+        const refreshTokenResponse = await fetcher<{ accessToken: string; refreshToken: string }>(
+          "/auth/refresh-token",
+          {
+            method: "POST",
+            headers: {
+              token: token.refreshToken,
+            },
+          }
+        );
+
+        if (!refreshTokenResponse.success || !refreshTokenResponse.data) {
+          throw new ForceLogoutError("Failed to retrieve token.");
+        }
+
+        const { accessToken, refreshToken } = refreshTokenResponse.data;
+        // decode tokens
+
+        const decodedAccessToken = jwtDecode<JwtPayload>(accessToken);
+        const decodedRefreshToken = jwtDecode<JwtPayload>(refreshToken);
+        return {
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          accessExpiresAt: decodedAccessToken.exp * 1000,
+          refreshExpiresAt: decodedRefreshToken.exp * 1000,
+        };
+      }
+
       return token;
     },
 
     // session callback
     async session({ session, token }) {
-      console.log(token.accessExpiresAt, "number time");
+      /* 
+      @@ Need to do: get user data and set in the session 
+      */
+      if (token) {
+        const decodedAccessToken = jwtDecode<JwtPayload>(token.accessToken);
+        return {
+          expires: new Date(token.accessExpiresAt).toISOString(),
+          accessToken: token.accessToken,
 
-      console.log(new Date(token.accessExpiresAt * 1000).toISOString(), "expires at");
+          user: {
+            userId: decodedAccessToken.userId,
+            email: decodedAccessToken.email,
+          },
+        };
+      }
 
-      return {
-        expires: new Date(token.accessExpiresAt * 1000).toISOString(),
-        accessToken: token.accessToken,
-
-        user: {
-          password: "",
-          role: "ADMIN",
-          status: "ACTIVE",
-          phone_number: "",
-          email: "email",
-        },
-      };
+      return session;
     },
   },
 
@@ -95,4 +141,12 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
+
+  events: {
+    async signOut({ token }) {
+      await fetcher("/auth/logout", {
+        method: "POST",
+      });
+    },
+  },
 };

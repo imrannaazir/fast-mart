@@ -124,7 +124,14 @@ const refreshToken = async (token: string) => {
     config.jwt_access_token_expires_in as string,
   );
 
-  return { accessToken };
+  //generate refresh token
+  const refreshToken = await generateToken(
+    JwtPayload,
+    config.jwt_refresh_secret!,
+    config.jwt_refresh_token_expires_in!,
+  );
+
+  return { accessToken, refreshToken };
 };
 
 const AuthService = {
