@@ -17,7 +17,6 @@ const NavCategories = ({ collections }: { collections: TCollectionDropdownItemPr
   };
 
   const session = useSession();
-  console.log({ session }, "21");
 
   return (
     <div className="flex items-center gap-4">
