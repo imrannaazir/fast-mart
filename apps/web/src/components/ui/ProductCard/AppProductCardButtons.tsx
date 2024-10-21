@@ -1,30 +1,40 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Divider, message, Tooltip } from "antd";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuRefreshCw } from "react-icons/lu";
 
 import { light_colors } from "@/constants/colors.constant";
-import { addToWishlist } from "@/actions/wishlist";
+import { toggleProductInWishlist } from "@/actions/wishlist";
 import { getErrorMessage } from "@repo/utils/functions";
-import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { useWishlist } from "@/contexts/wishlist-context";
 
 const AppProductButtons = ({ id }: { id: string }) => {
+  // chose favorite icon
   const router = useRouter();
+  const { isInWishlist, setWishlist, wishlist } = useWishlist();
+  const [isToggling, setIsToggling] = useState(false);
+  const isWishListed = isInWishlist(id);
+  const FavoriteIcon = isWishListed ? MdFavorite : MdFavoriteBorder;
+  // toggle product in wish list
+  const toggleWishlist = async () => {
+    if (isToggling) return;
+    setIsToggling(true);
 
-  // add product to wishlist
-  const addProductToWishlist = async () => {
-    console.log("Yeah");
+    // optimistic ui update
+    setWishlist((prev) => (isWishListed ? prev.filter((item) => item !== id) : [...prev, id]));
 
-    const result = await addToWishlist({ productId: id });
-
-    console.log(result);
-
-    if (result?.success) {
-      message.success(result?.message);
-    } else {
-      message.error(getErrorMessage(result?.message));
+    try {
+      await toggleProductInWishlist({ productId: id });
+      setIsToggling(false);
+    } catch (error) {
+      // revert optimistic update on error
+      setWishlist((prev) => (!isWishListed ? prev.filter((item) => item !== id) : [...prev, id]));
+      setIsToggling(false);
+    } finally {
+      setIsToggling(false);
     }
   };
 
@@ -43,8 +53,9 @@ const AppProductButtons = ({ id }: { id: string }) => {
     },
     {
       label: "Wishlist",
-      icon: <MdFavoriteBorder size={16} />,
-      onClickHandler: addProductToWishlist,
+      icon: <FavoriteIcon className={isWishListed ? "text-pink-600" : ""} size={16} />,
+      onClickHandler: toggleWishlist,
+      isLoading: false,
     },
   ];
 
@@ -55,7 +66,9 @@ const AppProductButtons = ({ id }: { id: string }) => {
           {i !== 0 && <Divider type="vertical" />}
           <Tooltip title={button.label} color={light_colors.primary}>
             {/* <Button> */}
-            <button onClick={button.onClickHandler}>{button.icon}</button>
+            <button disabled={button.isLoading} onClick={button.onClickHandler}>
+              {button.icon}
+            </button>
             {/* </Button> */}
           </Tooltip>
         </React.Fragment>

@@ -1,24 +1,30 @@
 "use server";
-import { fetcher } from "@/libs/fetcher";
+import { authOptions } from "@/libs/auth";
 import { serverFetcher } from "@/libs/server-fetcher";
+import { TWishlistItem } from "@repo/utils/types";
 import { wishlistItemSchema, z } from "@repo/utils/zod-schemas";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
+import { cache } from "react";
 
-export const addToWishlist = async (body: z.infer<typeof wishlistItemSchema>) => {
-  const response = await serverFetcher("/wishlist-items/add", {
+export const toggleProductInWishlist = async (body: z.infer<typeof wishlistItemSchema>) => {
+  const response = await serverFetcher("/wishlist-items/toggle", {
     method: "POST",
     body,
   });
-
+  revalidatePath("/products");
+  revalidatePath("/wishlist");
   return response;
 };
 
-export const getAllMyWishlistItems = async () => {
-  const session = await getServerSession();
+// get current user wishlist items
+export const getAllMyWishlistItems = cache(async () => {
+  const session = await getServerSession(authOptions);
+
   if (session?.user?.userId) {
-    const myWishlistItems = await fetcher(`/wishlist-items/${session?.user?.userId}`);
-    return myWishlistItems;
+    const myWishlistItems = await serverFetcher<TWishlistItem[]>(`/wishlist-items/${session?.user?.userId}`, {});
+    return myWishlistItems?.data;
   } else {
     return [];
   }
-};
+});

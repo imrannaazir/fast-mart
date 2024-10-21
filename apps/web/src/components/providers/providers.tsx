@@ -1,7 +1,14 @@
-"use client";
-import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
+import NextAuthProvider from "./next-auth-provider";
+import WishlistProvider from "./wishlist-provider";
+import ThemeProvider from "./theme-provider";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
-  return <SessionProvider refetchInterval={300}>{children}</SessionProvider>;
+  return (
+    <NextAuthProvider>
+      <WishlistProvider>
+        <ThemeProvider>{children}</ThemeProvider>
+      </WishlistProvider>
+    </NextAuthProvider>
+  );
 };

@@ -13,7 +13,7 @@ import HomeSectionTop from "../../components/HomeSectionTop";
 import { AppButton } from "@/components/ui/AppButton";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 
-const ProductDetailsPage = () => {
+const ProductDetailsPage = async () => {
   const product = products[0];
   // page breadcrumbs
   const breadcrumbItems: TAppBreadcrumbItem[] = [
@@ -29,7 +29,6 @@ const ProductDetailsPage = () => {
       title: product?.title,
     },
   ];
-
   return (
     <Fragment>
       <AppBreadcrumb items={breadcrumbItems} title={product?.title as string} />

@@ -48,8 +48,6 @@ export async function fetcher<TResponse, TBody = unknown>(
     const response = await fetch(url, fetchOptions);
     const result = await response.json();
 
-    console.log(result, "51");
-
     if (response.ok) {
       return {
         data: result.data,

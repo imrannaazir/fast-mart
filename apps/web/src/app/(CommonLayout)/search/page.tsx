@@ -7,7 +7,7 @@ import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { TAppProductCardProps } from "@/types";
 import ProductPagination from "./components/Pagination";
 
-const SearchPage = ({ searchParams }: { searchParams: { q: string } }) => {
+const SearchPage = async ({ searchParams }: { searchParams: { q: string } }) => {
   const searchBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Search",

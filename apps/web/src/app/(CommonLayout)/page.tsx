@@ -13,8 +13,6 @@ import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCatego
 import Container from "@/components/ui/Container";
 import { TCollection } from "@repo/utils/types";
 import apiCall from "@/libs/api";
-import { getAllMyWishlistItems } from "@/actions/wishlist";
-import { getSession } from "@/libs/auth-utils";
 
 export const getAllCollections = async () => {
   const response = await apiCall<TCollection[]>("/collections", {

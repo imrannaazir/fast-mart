@@ -3,13 +3,14 @@ import Container from "@/components/ui/Container";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { products } from "@/constants/db";
 
-export default function WishlistPage() {
+export default async function WishlistPage() {
   const wishlistBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Wishlist",
       href: "/wishlist",
     },
   ];
+
   return (
     <>
       <AppBreadcrumb items={wishlistBreadcrumbItems} title="Wishlist" />

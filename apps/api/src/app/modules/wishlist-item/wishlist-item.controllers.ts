@@ -3,18 +3,19 @@ import WishlistItemServices from './wishlist-services';
 import sendResponse from '../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 
-// add product to wishlist
-const addProductToWishlist = catchAsync(async (req, res) => {
+// toggle product in wishlist
+const toggleProductInWishlist = catchAsync(async (req, res) => {
   const userId = req.user._id as string;
   const productId = req.body.productId;
-  const result = await WishlistItemServices.addProductToWishlist({
-    productId,
-    userId,
-  });
+  const { result, message } =
+    await WishlistItemServices.toggleProductInWishlist({
+      productId,
+      userId,
+    });
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
-    message: 'Product added to wishlist successfully',
+    message: message,
     data: result,
   });
 });
@@ -35,7 +36,7 @@ const getAllUserWishlistItems = catchAsync(async (req, res) => {
   });
 });
 const WishlistControllers = {
-  addProductToWishlist,
+  toggleProductInWishlist,
   getAllUserWishlistItems,
 };
 

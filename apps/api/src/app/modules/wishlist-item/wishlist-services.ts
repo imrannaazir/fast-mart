@@ -5,7 +5,7 @@ import WishlistItem from './wishlist-item.model';
 import AppError from '../../errors/AppError';
 
 // add product in wishlist
-const addProductToWishlist = async (
+const toggleProductInWishlist = async (
   payload: Pick<TWishlistItem, 'productId' | 'userId'>,
 ) => {
   // check if product is exist
@@ -22,15 +22,27 @@ const addProductToWishlist = async (
   });
 
   if (isProductAlreadyInWishlist) {
-    throw new AppError(StatusCodes.CONFLICT, 'Product already in wishlist!');
+    const result = await WishlistItem.deleteOne({
+      userId: payload.userId,
+      productId: payload.productId,
+    });
+
+    if (result.deletedCount === 0) {
+      throw new AppError(
+        StatusCodes.CONFLICT,
+        'Failed to remove product from wishlist.',
+      );
+    }
+
+    return { result, message: 'Product removed from wishlist.' };
+  } else {
+    const result = await WishlistItem.create({
+      userId: payload.userId,
+      productId: payload.productId,
+    });
+
+    return { result, message: 'Product added to wishlist.' };
   }
-
-  const result = await WishlistItem.create({
-    userId: payload.userId,
-    productId: payload.productId,
-  });
-
-  return result;
 };
 
 // get all wishlist items of user
@@ -39,10 +51,12 @@ const getAllUserWishlistItems = async (userId: string) => {
     userId,
   });
 
+  console.log('Api is calling');
+
   return result;
 };
 const WishlistItemServices = {
-  addProductToWishlist,
+  toggleProductInWishlist,
   getAllUserWishlistItems,
 };
 export default WishlistItemServices;

@@ -8,14 +8,13 @@ const router = Router();
 
 // add product to wishlist  : POST
 router.post(
-  '/add',
+  '/toggle',
   auth(),
   validateRequest(wishlistItemValidationSchema),
-  WishlistControllers.addProductToWishlist,
+  WishlistControllers.toggleProductInWishlist,
 );
 
 // get all user's wishlist items : GET
-
 router.get('/:userId', auth(), WishlistControllers.getAllUserWishlistItems);
 
 const WishListRoutes = router;
