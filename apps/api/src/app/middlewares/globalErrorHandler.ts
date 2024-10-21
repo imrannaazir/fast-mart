@@ -11,7 +11,7 @@ import AppError from '../errors/AppError';
 import handleAppError from '../errors/handleAppError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  console.log(error);
+  console.log(req.headers.refresh_token, 'cookies');
 
   /* 
     1. handle zod error

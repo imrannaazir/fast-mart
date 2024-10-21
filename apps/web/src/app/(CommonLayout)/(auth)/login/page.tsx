@@ -8,11 +8,16 @@ import { Checkbox, Form, Input, Flex, message } from "antd";
 import assets from "@/assets";
 import Image from "next/image";
 import { AppButton } from "@/components/ui/AppButton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 const LoginPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
+  console.log(callbackUrl);
+
   const loginPageBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Login",
@@ -20,13 +25,17 @@ const LoginPage = () => {
   ];
 
   const onFinish = async (values: any) => {
-    const data = await signIn("credentials", {
+    const result = await signIn("credentials", {
       email: values.email,
       password: values.password,
+      callbackUrl,
       redirect: false,
     });
-    console.log({ data }, "[Login]:29");
+    if (result?.ok) {
+      router.push(callbackUrl);
+    }
   };
+
   return (
     <Fragment>
       <AppBreadcrumb className="mb-0" items={loginPageBreadcrumbItems} title="Login" />

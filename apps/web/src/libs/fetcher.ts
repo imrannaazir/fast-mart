@@ -1,10 +1,11 @@
 import { getErrorMessage } from "@repo/utils/functions";
+import { Session } from "next-auth";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
-interface FetcherOptions<TBody = unknown> {
+export interface FetcherOptions<TBody = unknown> {
   method?: HttpMethod;
-  headers?: HeadersInit;
+  headers?: Record<string, unknown>;
   body?: TBody;
   cache?: RequestCache;
   next?: NextFetchRequestConfig;
@@ -22,7 +23,8 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
 export async function fetcher<TResponse, TBody = unknown>(
   endpoint: string,
-  options: FetcherOptions<TBody> = {}
+  options: FetcherOptions<TBody> = {},
+  session?: Session | null
 ): Promise<ApiResponse<TResponse>> {
   const { method = "GET", headers = {}, body, cache, next } = options;
 
@@ -33,6 +35,7 @@ export async function fetcher<TResponse, TBody = unknown>(
     headers: {
       "Content-Type": "application/json",
       ...headers,
+      ...(session?.accessToken && { Authorization: session.accessToken }),
     },
     body: body ? JSON.stringify(body) : undefined,
     credentials: "include",
@@ -44,6 +47,9 @@ export async function fetcher<TResponse, TBody = unknown>(
   try {
     const response = await fetch(url, fetchOptions);
     const result = await response.json();
+
+    console.log(result, "51");
+
     if (response.ok) {
       return {
         data: result.data,
@@ -55,7 +61,7 @@ export async function fetcher<TResponse, TBody = unknown>(
       return {
         data: null,
         success: false,
-        message: result.message || "Request failed",
+        message: result?.errorSources?.length ? result?.errorSources[0]?.message : result?.message || "Request failed",
         statusCode: response.status,
       };
     }

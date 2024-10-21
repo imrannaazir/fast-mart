@@ -21,8 +21,6 @@ export async function middleware(request: NextRequest) {
   // check is auth route
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
-  console.log(isAuthRoute);
-
   if (nextUrl.pathname === ROOT_ROUTE) {
     return null;
   }
@@ -42,7 +40,7 @@ export async function middleware(request: NextRequest) {
     if (!isTokensValid) {
       const url = request.nextUrl.clone();
       url.pathname = "/login";
-      url.searchParams.set("callback", request.url);
+      url.searchParams.set("callbackUrl", request.url);
       return Response.redirect(url);
     }
     return null;

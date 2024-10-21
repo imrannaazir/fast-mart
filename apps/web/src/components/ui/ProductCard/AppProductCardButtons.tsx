@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
-import Image from "next/image";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { Divider, message, Tooltip } from "antd";
 import { IoEyeOutline } from "react-icons/io5";
@@ -16,7 +15,11 @@ const AppProductButtons = ({ id }: { id: string }) => {
 
   // add product to wishlist
   const addProductToWishlist = async () => {
+    console.log("Yeah");
+
     const result = await addToWishlist({ productId: id });
+
+    console.log(result);
 
     if (result?.success) {
       message.success(result?.message);
@@ -44,6 +47,7 @@ const AppProductButtons = ({ id }: { id: string }) => {
       onClickHandler: addProductToWishlist,
     },
   ];
+
   return (
     <div className="absolute -bottom-4 z-10 flex gap-1 rounded-xl bg-white px-6 py-3 opacity-0 shadow-md transition-all duration-300 group-hover:bottom-1 group-hover:opacity-100">
       {buttons.map((button, i) => (

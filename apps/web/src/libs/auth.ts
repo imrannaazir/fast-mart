@@ -3,7 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { fetcher } from "./fetcher";
 import { JwtPayload } from "@repo/utils/types";
 import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
 
 // Custom Error For Force Log out
 class ForceLogoutError extends Error {
