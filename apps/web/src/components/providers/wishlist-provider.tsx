@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 
 const WishlistProvider = async ({ children }: { children: ReactNode }) => {
   const wishlist = await getWishListedProductIds();
+  console.log("wishlist is updating");
   return <WishlistContextProvider initialWishlist={wishlist}>{children}</WishlistContextProvider>;
 };
 

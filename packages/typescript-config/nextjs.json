@@ -3,6 +3,11 @@
   "display": "Next.js",
   "extends": "./base.json",
   "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
     "plugins": [
       {
         "name": "next"
@@ -14,9 +19,7 @@
     "jsx": "preserve",
     "noEmit": true,
     "paths": {
-      "@ui/*": [
-        "../../packages/ui/src/*"
-      ]
+      "@ui/*": ["../../packages/ui/src/*"]
     }
   }
 }

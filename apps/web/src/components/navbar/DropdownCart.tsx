@@ -1,5 +1,6 @@
 import { Button, Divider } from "antd";
 import CartItem from "./CartItem";
+import Link from "next/link";
 
 const DropdownCart = () => {
   return (
@@ -16,9 +17,11 @@ const DropdownCart = () => {
           <h3 className="text-primary text-lg font-bold">$143.5</h3>
         </div>
         <div className="flex items-center justify-between gap-4">
-          <Button type="primary" ghost>
-            View Cart
-          </Button>
+          <Link href={"/cart"}>
+            <Button type="primary" ghost>
+              View Cart
+            </Button>
+          </Link>
           <Button type="primary">Checkout</Button>
         </div>
       </div>

@@ -1,11 +1,20 @@
-import assets from "@/assets";
+"use client";
+import { useWishlist } from "@/contexts/wishlist-context";
 import { Button, Divider } from "antd";
-import Image from "next/image";
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { LuRefreshCw } from "react-icons/lu";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
-const ProductDetailButtons = () => {
+const ProductDetailButtons = ({ productId }: { productId: string }) => {
+  const { isInWishlist, toggleWishlist, isToggling } = useWishlist();
+
+  const handleToggleWishlist = useCallback(() => {
+    toggleWishlist(productId);
+  }, [toggleWishlist, productId]);
+
+  const FavoriteIcon = isInWishlist(productId) ? MdFavorite : MdFavoriteBorder;
+
   return (
     <Fragment>
       <div className="mt-6 grid w-full grid-cols-3 gap-4">
@@ -24,8 +33,10 @@ const ProductDetailButtons = () => {
       </div>
       <Divider className="mb-3" />
       <div>
-        <Button type="link" className="text-foreground">
-          <Image src={assets.svg.love} alt="wishlist" width={16} height={16} /> <span>Add To Wishlist</span>
+        {/* add to cart */}
+        <Button disabled={isToggling} type="link" className="text-foreground" onClick={handleToggleWishlist}>
+          <FavoriteIcon className={isInWishlist(productId) ? "text-pink-600" : ""} size={16} />{" "}
+          <span>{isInWishlist(productId) ? "Remove from Wishlist" : "Add To Wishlist"}</span>
         </Button>
         <Button type="link" className="text-foreground">
           <LuRefreshCw size={16} />

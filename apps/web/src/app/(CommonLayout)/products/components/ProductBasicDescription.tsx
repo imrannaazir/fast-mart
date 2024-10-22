@@ -34,7 +34,7 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
       {/* variants */}
       <ProductVariants variants={product?.variants as unknown as TProductVariantOption[]} />
       {/* buttons */}
-      <ProductDetailButtons />
+      <ProductDetailButtons productId={"66f29241c1b98bb510d364ea"} />
       {/* payment secure */}
       <div>
         <h3 className="mb-4 font-semibold">Guaranteed Safe Checkout</h3>

@@ -8,12 +8,13 @@ import { revalidatePath } from "next/cache";
 import { cache } from "react";
 
 export const toggleProductInWishlist = async (body: z.infer<typeof wishlistItemSchema>) => {
-  const response = await serverFetcher("/wishlist-items/toggle", {
+  revalidatePath("/");
+  revalidatePath("/wishlist");
+  const response = await serverFetcher<TWishlistItem[]>("/wishlist-items/toggle", {
     method: "POST",
     body,
   });
-  revalidatePath("/products");
-  revalidatePath("/wishlist");
+
   return response;
 };
 

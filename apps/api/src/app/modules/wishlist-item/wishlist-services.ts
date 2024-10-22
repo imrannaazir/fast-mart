@@ -21,6 +21,8 @@ const toggleProductInWishlist = async (
     productId: payload.productId,
   });
 
+  let message: string;
+
   if (isProductAlreadyInWishlist) {
     const result = await WishlistItem.deleteOne({
       userId: payload.userId,
@@ -33,16 +35,20 @@ const toggleProductInWishlist = async (
         'Failed to remove product from wishlist.',
       );
     }
-
-    return { result, message: 'Product removed from wishlist.' };
+    message = 'Product removed from wishlist.';
   } else {
-    const result = await WishlistItem.create({
+    await WishlistItem.create({
       userId: payload.userId,
       productId: payload.productId,
     });
-
-    return { result, message: 'Product added to wishlist.' };
+    message = 'Product added to wishlist.';
   }
+
+  const myAllWishlistItems = await WishlistItem.find({
+    userId: payload?.userId,
+  });
+  console.log(myAllWishlistItems, 'Here bro');
+  return { result: myAllWishlistItems, message };
 };
 
 // get all wishlist items of user
@@ -50,9 +56,6 @@ const getAllUserWishlistItems = async (userId: string) => {
   const result = await WishlistItem.find({
     userId,
   });
-
-  console.log('Api is calling');
-
   return result;
 };
 const WishlistItemServices = {
