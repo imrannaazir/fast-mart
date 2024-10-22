@@ -47,7 +47,6 @@ const toggleProductInWishlist = async (
   const myAllWishlistItems = await WishlistItem.find({
     userId: payload?.userId,
   });
-  console.log(myAllWishlistItems, 'Here bro');
   return { result: myAllWishlistItems, message };
 };
 

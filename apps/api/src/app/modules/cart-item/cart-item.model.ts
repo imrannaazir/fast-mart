@@ -12,10 +12,12 @@ const cartItemSchema = new Schema({
     ref: 'user',
     required: true,
   },
-  variantId: {
-    type: Schema.Types.ObjectId,
-    ref: 'option',
-  },
+  options: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'option',
+    },
+  ],
   quantity: {
     type: Number,
     required: true,

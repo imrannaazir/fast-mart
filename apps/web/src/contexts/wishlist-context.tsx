@@ -10,7 +10,6 @@ import {
   SetStateAction,
   useCallback,
   useContext,
-  useRef,
   useState,
   useTransition,
 } from "react";
@@ -35,25 +34,17 @@ export const WishlistProvider = ({
 }) => {
   const [wishlist, setWishlist] = useState<string[]>(initialWishlist);
   const [isToggling, startTransition] = useTransition();
-  const pendingUpdatesRef = useRef<Set<string>>(new Set());
 
-  const isInWishlist = useCallback(
-    (productId: string) => wishlist.includes(productId) || pendingUpdatesRef.current.has(productId),
-    [wishlist]
-  );
+  const isInWishlist = useCallback((productId: string) => wishlist.includes(productId), [wishlist]);
 
   // toggle product in wish list
   const toggleWishlist = useCallback(
     async (productId: string) => {
       if (isToggling) return;
 
+      // Optimistic update
+      setWishlist((prev) => (prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]));
       startTransition(async () => {
-        // Optimistic update
-        pendingUpdatesRef.current.add(productId);
-        setWishlist((prev) =>
-          prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
-        );
-
         try {
           const result = await toggleProductInWishlist({ productId });
 
@@ -69,12 +60,10 @@ export const WishlistProvider = ({
           setWishlist((prev) =>
             prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
           );
-        } finally {
-          pendingUpdatesRef.current.delete(productId);
         }
       });
     },
-    [isToggling]
+    [isToggling, wishlist]
   );
 
   return (

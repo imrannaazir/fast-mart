@@ -17,18 +17,20 @@ const ProductDetailButtons = ({ productId }: { productId: string }) => {
 
   return (
     <Fragment>
-      <div className="mt-6 grid w-full grid-cols-3 gap-4">
+      <div className="mt-6 grid w-full grid-cols-2 gap-4">
+        {/* cart button */}
         <div className="flex w-full items-center justify-between rounded-md bg-gray-100 p-1">
           <button className="rounded-md bg-white p-3">
             <FaMinus size={10} className="text-primary" />
           </button>
-          <p>Add</p>
+          <p>Add To Cart</p>
           <button className="rounded-md bg-white p-3">
             <FaPlus size={10} className="text-primary" />
           </button>
         </div>
-        <Button type="primary" size="large" className="col-span-2">
-          Add To Cart
+        {/* Buy now button */}
+        <Button type="primary" size="large" className="">
+          Buy Now
         </Button>
       </div>
       <Divider className="mb-3" />
