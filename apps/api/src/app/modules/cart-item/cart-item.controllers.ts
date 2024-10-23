@@ -17,5 +17,18 @@ const updateProductToCart = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const CartItemControllers = { updateProductToCart };
+
+// get all cart items of the user
+const getAllMyCartItems = catchAsync(async (req, res) => {
+  const userId = req?.user?._id;
+  const result = await CartItemServices.getAllMyCartItems(userId!);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Cart items retrieved successfully.',
+    data: result,
+  });
+});
+
+const CartItemControllers = { updateProductToCart, getAllMyCartItems };
 export default CartItemControllers;

@@ -14,5 +14,8 @@ router.put(
   CartItemControllers.updateProductToCart,
 );
 
+// get all cart items of the user
+router.get('/', auth(), CartItemControllers.getAllMyCartItems);
+
 const CartItemRoute = router;
 export default CartItemRoute;

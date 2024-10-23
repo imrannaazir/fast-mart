@@ -55,5 +55,11 @@ const updateProductToCart = async (payload: TCartItemInput) => {
   return cartItems;
 };
 
-const CartItemServices = { updateProductToCart };
+// get all cart items of user
+const getAllMyCartItems = async (userId: string) => {
+  const cartItems = await CartItem.find({ userId });
+  return cartItems;
+};
+
+const CartItemServices = { updateProductToCart, getAllMyCartItems };
 export default CartItemServices;
