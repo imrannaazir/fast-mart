@@ -1,7 +1,9 @@
 "use client";
+// import { useCartList } from "@/contexts/cartlist-context";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 const ProductCardAddToCartButton = () => {
+  // const { updateCartList } = useCartList();
   return (
     <div className="flex w-full items-center justify-between rounded-full bg-gray-100 p-1">
       <button className="rounded-full bg-white p-3">

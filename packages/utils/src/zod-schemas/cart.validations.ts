@@ -2,8 +2,8 @@ import z from "zod";
 
 export const updateProductToCartValidation = z.object({
   body: z.object({
-    productId: z.string(),
-    type: z.enum(["add", "remove"]),
+    product: z.string(),
+    type: z.enum(["add", "remove", "decrement"]),
     options: z.array(z.string()).optional(),
   }),
 });
