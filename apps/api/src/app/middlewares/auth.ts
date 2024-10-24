@@ -13,7 +13,10 @@ const auth = (...requiredRole: TRole[]) => {
     // token
     const token = req.headers.authorization;
     if (!token) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'Token not sent.');
+      throw new AppError(
+        StatusCodes.UNAUTHORIZED,
+        'Your are not authenticated.',
+      );
     }
 
     const decoded = (await decodeToken(
@@ -22,7 +25,10 @@ const auth = (...requiredRole: TRole[]) => {
     )) as JwtPayload;
 
     if (!decodeToken) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'Token is not valid.');
+      throw new AppError(
+        StatusCodes.UNAUTHORIZED,
+        'You are not authenticated.',
+      );
     }
 
     // is user exist

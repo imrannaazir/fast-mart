@@ -8,10 +8,10 @@ import { UpdateQuery } from 'mongoose';
 
 // update product to cart
 const updateProductToCart = async (payload: TCartItemInput) => {
-  const { options, productId, type, userId } = payload || {};
+  const { options, product, type, user } = payload || {};
 
   //   check is product exists
-  const isProductExist = await Product.findById(productId);
+  const isProductExist = await Product.findById(product);
   if (!isProductExist)
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not found!');
 
@@ -31,13 +31,15 @@ const updateProductToCart = async (payload: TCartItemInput) => {
 
   //   update product to cart
   const updateData: UpdateQuery<TCartItem> = {
-    productId,
-    userId,
+    product,
+    user,
     options,
-    $inc: { quantity: type === 'add' ? 1 : -1 },
+    ...(type === 'remove'
+      ? { quantity: 0 }
+      : { $inc: { quantity: type === 'add' ? 1 : -1 } }),
   };
   const cartItem = await CartItem.findOneAndUpdate(
-    { userId, productId },
+    { user, product },
     updateData,
     { upsert: true, new: true, runValidators: true },
   ).populate('options');
@@ -49,15 +51,15 @@ const updateProductToCart = async (payload: TCartItemInput) => {
 
   // get all cart item of user
   const cartItems = await CartItem.find({
-    userId,
-  });
+    user,
+  }).populate('product');
 
   return cartItems;
 };
 
 // get all cart items of user
 const getAllMyCartItems = async (userId: string) => {
-  const cartItems = await CartItem.find({ userId });
+  const cartItems = await CartItem.find({}).populate('product');
   return cartItems;
 };
 

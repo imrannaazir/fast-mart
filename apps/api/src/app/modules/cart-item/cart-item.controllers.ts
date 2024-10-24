@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 // add or remove product
 const updateProductToCart = catchAsync(async (req, res) => {
   const payload: TCartItemInput = req.body;
-  payload.userId = req.user._id!;
+  payload.user = req.user._id!;
   const result = await CartItemServices.updateProductToCart(payload);
 
   sendResponse(res, {
