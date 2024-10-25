@@ -7,6 +7,7 @@ type TProductBrandDetailsProps = {
 };
 
 const ProductBrandDetails: React.FC<TProductBrandDetailsProps> = ({ img, name, description }) => {
+  const markupDescription = { __html: description || "" };
   return (
     <div className="space-y-6 rounded-md bg-gray-100 p-6">
       <div className="bg-background rounded-md px-6 py-2">
@@ -20,7 +21,7 @@ const ProductBrandDetails: React.FC<TProductBrandDetailsProps> = ({ img, name, d
           </div>
         </div>
       </div>
-      <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: description }} />{" "}
+      <div className="text-gray-700" dangerouslySetInnerHTML={markupDescription} />{" "}
     </div>
   );
 };

@@ -3,21 +3,27 @@ import { Divider, Rate } from "antd";
 import ProductVariants from "./ProductVariants";
 import ProductDetailButtons from "./ProductDetailButtons";
 import assets from "@/assets";
+import { calculateOfferPercentage } from "@repo/utils/functions";
 
 const ProductBasicDescription = ({ product }: { product: TProduct }) => {
+  const offerPercentage = calculateOfferPercentage(product?.price, product?.compare_price!);
+  const markupDescription = { __html: product?.description || "" };
+
   return (
     <div className="pr-6">
       {/* offer */}
-      <p className="text-secondary bg-secondary/10 w-fit rounded-md px-[15px] py-[9px] text-sm">30% Off</p>
+      <p className="text-secondary bg-secondary/10 w-fit rounded-md px-[15px] py-[9px] text-sm">
+        {offerPercentage}% Off
+      </p>
       {/* name */}
-      <h2 className="mt-5 text-2xl font-bold">Full Sleeve T Shirts for Men</h2>
+      <h2 className="mt-5 text-2xl font-bold">{product?.title}</h2>
       {/* price and rating */}
       <div className="mt-3 flex items-center justify-between">
         {/* price  */}
         <div className="flex items-center gap-2">
-          <h3 className="text-primary text-xl font-semibold">$49.50</h3>
-          <del className="text-gray-500">$58.46 </del>
-          <p className="text-primary">(8% Off)</p>
+          <h3 className="text-primary text-xl font-semibold">${product.price}</h3>
+          <del className="text-gray-500">${product?.compare_price}</del>
+          <p className="text-primary">({offerPercentage}% Off)</p>
         </div>
         {/* rating */}
         <div className="flex items-center gap-2">
@@ -26,15 +32,13 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
         </div>
       </div>
       {/* description */}
-      <p className="mt-4 text-gray-700">
-        I find great comfort in awkwardness. I have never been cool, but I have felt cool. I have been in the cool spot,
-        but I was not really cool; I was just trying to be hip or cool.
-      </p>
+      <div className="mt-4 text-gray-700" dangerouslySetInnerHTML={markupDescription} />
+
       <Divider />
       {/* variants */}
       <ProductVariants variants={product?.variants as unknown as TProductVariantOption[]} />
       {/* buttons */}
-      <ProductDetailButtons productId={"66f29241c1b98bb510d364ea"} />
+      <ProductDetailButtons {...product} />
       {/* payment secure */}
       <div>
         <h3 className="mb-4 font-semibold">Guaranteed Safe Checkout</h3>

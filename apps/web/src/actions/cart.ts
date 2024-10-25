@@ -13,7 +13,7 @@ export const updateCart = async (productId: string, options: string[], type: Car
       type,
     },
   });
-  return response.data || [];
+  return response;
 };
 
 export const getMyCartList = async () => {

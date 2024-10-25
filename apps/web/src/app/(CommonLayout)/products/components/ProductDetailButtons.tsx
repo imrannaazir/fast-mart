@@ -1,44 +1,92 @@
 "use client";
+import { useCartList } from "@/contexts/cartlist-context";
 import { useWishlist } from "@/contexts/wishlist-context";
+import { cn } from "@/libs/utils";
+import { TProduct } from "@repo/utils/types";
 import { Button, Divider } from "antd";
+import { Info } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { Fragment, useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { LuRefreshCw } from "react-icons/lu";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
-const ProductDetailButtons = ({ productId }: { productId: string }) => {
+const ProductDetailButtons = (product: TProduct) => {
   const { isInWishlist, toggleWishlist, isToggling } = useWishlist();
+  const searchParams = useSearchParams();
 
+  const selectedVariants = searchParams.toString().split("&");
+
+  // handle toggle product  in wishlist
   const handleToggleWishlist = useCallback(() => {
-    toggleWishlist(productId);
-  }, [toggleWishlist, productId]);
+    toggleWishlist(product?._id!);
+  }, [toggleWishlist, product?._id]);
 
-  const FavoriteIcon = isInWishlist(productId) ? MdFavorite : MdFavoriteBorder;
+  const FavoriteIcon = isInWishlist(product?._id!) ? MdFavorite : MdFavoriteBorder;
 
+  const isAllVariantSelected =
+    product?.variants?.length === 0 ? true : product?.variants?.length === selectedVariants?.length ? true : false;
+
+  console.log(product?.variants?.length, isAllVariantSelected, "variants");
+  const { updateCartList, isLoading, type } = useCartList();
+
+  // handle  add to cart
+  const handleAddToCart = () => {
+    updateCartList({
+      options: [],
+      productId: product?._id!,
+      productImg: product?.media?.[0]?.url!,
+      productPrice: product?.price!,
+      productTitle: product?.title!,
+      type: "add",
+    });
+  };
+
+  // handle decrement from cart
+  const handleDecrementCart = () => {};
   return (
     <Fragment>
-      <div className="mt-6 grid w-full grid-cols-2 gap-4">
+      {/* error message */}
+      {!isAllVariantSelected && (
+        <p className="mt-4 flex items-center gap-1 text-red-500">
+          {" "}
+          <Info size={12} /> Please select all variants.
+        </p>
+      )}
+      <div className={cn("grid w-full grid-cols-2 gap-4", isAllVariantSelected ? "mt-6" : "mt-4")}>
         {/* cart button */}
         <div className="flex w-full items-center justify-between rounded-md bg-gray-100 p-1">
-          <button className="rounded-md bg-white p-3">
-            <FaMinus size={10} className="text-primary" />
-          </button>
-          <p>Add To Cart</p>
-          <button className="rounded-md bg-white p-3">
-            <FaPlus size={10} className="text-primary" />
-          </button>
+          <Button
+            onClick={handleDecrementCart}
+            loading={isLoading && type === "decrement"}
+            disabled={!isAllVariantSelected}
+            type="primary"
+            icon={<FaMinus size={12} />}
+            size={"middle"}
+          />
+          <p className="text-sm font-semibold">Add To Cart</p>
+          <Button
+            onClick={handleAddToCart}
+            loading={isLoading && type === "add"}
+            disabled={!isAllVariantSelected}
+            type="primary"
+            icon={<FaPlus size={12} />}
+            size={"middle"}
+          />
         </div>
+
         {/* Buy now button */}
         <Button type="primary" size="large" className="">
           Buy Now
         </Button>
       </div>
+
       <Divider className="mb-3" />
       <div>
         {/* add to cart */}
         <Button disabled={isToggling} type="link" className="text-foreground" onClick={handleToggleWishlist}>
-          <FavoriteIcon className={isInWishlist(productId) ? "text-pink-600" : ""} size={16} />{" "}
-          <span>{isInWishlist(productId) ? "Remove from Wishlist" : "Add To Wishlist"}</span>
+          <FavoriteIcon className={isInWishlist(product?._id!) ? "text-pink-600" : ""} size={16} />{" "}
+          <span>{isInWishlist(product?._id!) ? "Remove from Wishlist" : "Add To Wishlist"}</span>
         </Button>
         <Button type="link" className="text-foreground">
           <LuRefreshCw size={16} />

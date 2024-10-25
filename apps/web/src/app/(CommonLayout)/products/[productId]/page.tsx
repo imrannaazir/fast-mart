@@ -1,6 +1,5 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { products } from "@/constants/db";
 import { Fragment } from "react";
 import HomePageTrendingProducts from "../../components/HomePageTrendingProducts";
 import ProductBrandDetails from "../components/ProductBrandDetails";
@@ -12,23 +11,42 @@ import ProductDetailsTab from "../components/ProductDetailsTab";
 import HomeSectionTop from "../../components/HomeSectionTop";
 import { AppButton } from "@/components/ui/AppButton";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
+import { serverFetcher } from "@/libs/server-fetcher";
 
-const ProductDetailsPage = async () => {
-  const product = products[0];
+export const getProduct = async (productId: string) => {
+  const response = await serverFetcher<TProduct>(`/products/${productId}`, {
+    next: {
+      revalidate: 3600,
+    },
+  });
+  return response.data;
+};
+
+const ProductDetailsPage = async ({ params }: { params: { productId: string } }) => {
+  const product = await getProduct(params.productId);
+
+  console.log(product, "28");
+
   // page breadcrumbs
   const breadcrumbItems: TAppBreadcrumbItem[] = [
-    {
-      title: product!.collections[0]!.title,
-      href: `/collections/${product!.collections[0]!._id}`,
-    },
-    {
-      title: product!.categories[0]!.title,
-      href: `/collections/${product!.categories[0]!._id}`,
-    },
     {
       title: product?.title,
     },
   ];
+
+  if (product?.categories?.length) {
+    breadcrumbItems.push({
+      title: product!.categories?.[0]!.title,
+      href: `/categories/${product!.categories?.[0]!._id}`,
+    });
+  }
+
+  if (product?.collections?.length) {
+    breadcrumbItems.push({
+      title: product!.collections?.[0]!.title!,
+      href: `/collections/${product!.collections?.[0]!._id}`,
+    });
+  }
   return (
     <Fragment>
       <AppBreadcrumb items={breadcrumbItems} title={product?.title as string} />
@@ -38,7 +56,7 @@ const ProductDetailsPage = async () => {
           <section className="col-span-3">
             <div className="grid grid-cols-2 gap-6">
               {/* product images */}
-              {<ProductGallery sliderImages={product?.media as TImage[]} />}
+              {<ProductGallery media={product?.media as TImage[]} />}
               {/* product description */}
               <ProductBasicDescription product={product as unknown as TProduct} />
             </div>
@@ -64,7 +82,7 @@ const ProductDetailsPage = async () => {
           />
 
           <div className="mt-6 grid grid-cols-5 gap-4">
-            {new Array(5).fill(null).map((item, i) => (
+            {new Array(5).fill(null).map((_item, i) => (
               <AppProductCard
                 key={i}
                 product={{

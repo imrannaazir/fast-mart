@@ -12,10 +12,10 @@ import HomePageNewsLetter from "./components/HomePageNewsLetter";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 import Container from "@/components/ui/Container";
 import { TCollection } from "@repo/utils/types";
-import apiCall from "@/libs/api";
+import { serverFetcher } from "@/libs/server-fetcher";
 
 export const getAllCollections = async () => {
-  const response = await apiCall<TCollection[]>("/collections", {
+  const response = await serverFetcher<TCollection[]>("/collections", {
     next: { revalidate: 3600 },
   });
 

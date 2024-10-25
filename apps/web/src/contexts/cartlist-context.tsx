@@ -2,6 +2,7 @@
 
 import { updateCart } from "@/actions/cart";
 import { generateCartState } from "@/libs/generate-cart-state";
+import { getErrorMessage } from "@repo/utils/functions";
 /* 
 1. create a context for cart list  
 2. export cart context provider 
@@ -9,6 +10,7 @@ import { generateCartState } from "@/libs/generate-cart-state";
 */
 
 import { CartActionType, TCartStateItem } from "@repo/utils/types";
+import { message } from "antd";
 import { createContext, ReactNode, useContext, useState, useTransition } from "react";
 
 type TContextPayload = {
@@ -24,6 +26,8 @@ type TCartListContext =
   | {
       cartList: TCartStateItem[];
       updateCartList: (payload: TContextPayload) => Promise<void>;
+      isLoading: boolean;
+      type?: CartActionType;
     }
   | undefined;
 
@@ -40,11 +44,13 @@ export const CartListContextProvider = ({
   const [cartList, setCartList] = useState<TCartStateItem[]>(initialCartList);
   const [prevCartList, setPrevCartList] = useState<TCartStateItem[]>([]);
   const [isLoading, startTransition] = useTransition();
+  const [type, setType] = useState<CartActionType | undefined>(undefined);
 
   // update cart list
   const updateCartList = async (payload: TContextPayload) => {
     if (isLoading) return;
     // update optimistically
+    setType("add");
     setCartList((prev) => {
       setPrevCartList(prev);
       const currentCartItem = prev?.find((item) => item.productId === payload.productId);
@@ -73,20 +79,30 @@ export const CartListContextProvider = ({
     });
     startTransition(async () => {
       try {
-        const updatedCartList = await updateCart(payload.productId, payload.options, payload.type);
-        const updatedCartState = generateCartState(updatedCartList);
-        setCartList(updatedCartState);
-        setPrevCartList([]);
+        const response = await updateCart(payload.productId, payload.options, payload.type);
+        if (!response.success) {
+          throw new Error(response.message);
+        } else {
+          const updatedCartState = generateCartState(response?.data!);
+          setCartList(updatedCartState);
+          setPrevCartList([]);
+          message.success(response.message);
+          setType(undefined);
+        }
       } catch (error) {
         setCartList(prevCartList);
         setPrevCartList([]);
+        message.error(getErrorMessage(error));
+        setType(undefined);
       }
     });
   };
 
-  console.log(cartList, "cart context - 87");
-
-  return <CartListContext.Provider value={{ cartList, updateCartList }}>{children}</CartListContext.Provider>;
+  return (
+    <CartListContext.Provider value={{ cartList, updateCartList, isLoading, type }}>
+      {children}
+    </CartListContext.Provider>
+  );
 };
 
 // context hook

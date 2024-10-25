@@ -3,7 +3,7 @@
 import { TOption, TProductVariantOption, TVariant } from "@repo/utils/types";
 import { Button } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 
 type TProductVariantsProps = {
   variants: TProductVariantOption[];

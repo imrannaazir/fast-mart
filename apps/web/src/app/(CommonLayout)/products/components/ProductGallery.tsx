@@ -17,16 +17,18 @@ type ZoomStyles = {
 };
 
 type TProductGalleryProps = {
-  sliderImages: TImage[];
+  media: TImage[];
 };
-const ProductImageGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
+const ProductImageGallery: FC<TProductGalleryProps> = ({ media }) => {
+  const sliderImages = media?.length ? media.map((image) => image.url) : ["/images/blank-image.png"];
+
   const [activeThumb, setActiveThumb] = useState<SwiperType | null>(null);
   const [zoomStyles, setZoomStyles] = useState<ZoomStyles>({
     display: "none",
     zoomX: "0%",
     zoomY: "0%",
   });
-  const handleMouseMove = (event: MouseEvent<HTMLDivElement>, image: string) => {
+  const handleMouseMove = (event: MouseEvent<HTMLDivElement>, _image: string) => {
     const target = event.target as HTMLDivElement;
     const { offsetX, offsetY } = event.nativeEvent;
     const { offsetWidth, offsetHeight } = target;
@@ -62,7 +64,7 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={image._id}>
+          <SwiperSlide key={index}>
             <div
               className="relative w-full cursor-zoom-in overflow-hidden rounded-sm"
               style={
@@ -70,16 +72,16 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
                   "--display": zoomStyles.display,
                   "--zoom-x": zoomStyles.zoomX,
                   "--zoom-y": zoomStyles.zoomY,
-                  "--url": `url(${image.url})`,
+                  "--url": `url(${image})`,
                 } as CSSProperties
               }
-              onMouseMove={(event) => handleMouseMove(event, image.url)}
+              onMouseMove={(event) => handleMouseMove(event, image)}
               onMouseOut={handleMouseOut}
             >
               <Image
                 height={400}
                 width={400}
-                src={image.url}
+                src={image}
                 className="aspect-auto h-[400px] w-full rounded-sm object-cover object-top"
                 alt={`Product image ${index + 1}`}
               />
@@ -89,7 +91,7 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
                   {
                     display: zoomStyles.display,
                     backgroundColor: "black",
-                    backgroundImage: `url(${image.url})`,
+                    backgroundImage: `url(${image})`,
                     backgroundSize: "250%",
                     backgroundPosition: `${zoomStyles.zoomX} ${zoomStyles.zoomY}`,
                   } as CSSProperties
@@ -125,12 +127,12 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ sliderImages }) => {
         }}
       >
         {sliderImages.map((image, index) => (
-          <SwiperSlide key={image._id}>
+          <SwiperSlide key={index}>
             <div className="border-primary flex size-[100px] cursor-pointer items-center justify-center rounded-md border-2 border-none p-1">
               <Image
                 width={90}
                 height={90}
-                src={image.url}
+                src={image}
                 className="h-full w-full rounded-sm object-fill object-center"
                 alt={`Thumbnail image ${index + 1}`}
               />
