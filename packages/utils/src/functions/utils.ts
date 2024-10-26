@@ -5,7 +5,7 @@ export const calculateOfferPercentage = (
 ) => {
   const diffPrice = comparePrice - price;
   const offerPercentage = (diffPrice / price) * 100;
-  return offerPercentage.toFixed(2);
+  return Math.ceil(offerPercentage);
 };
 
 export const hexToRgba = (hex: string, opacity: number) => {

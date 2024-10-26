@@ -2,7 +2,7 @@
 import { useCartList } from "@/contexts/cartlist-context";
 import { useWishlist } from "@/contexts/wishlist-context";
 import { cn } from "@/libs/utils";
-import { TProduct } from "@repo/utils/types";
+import { CartActionType, TProduct } from "@repo/utils/types";
 import { Button, Divider } from "antd";
 import { Info } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -27,23 +27,20 @@ const ProductDetailButtons = (product: TProduct) => {
   const isAllVariantSelected =
     product?.variants?.length === 0 ? true : product?.variants?.length === selectedVariants?.length ? true : false;
 
-  console.log(product?.variants?.length, isAllVariantSelected, "variants");
-  const { updateCartList, isLoading, type } = useCartList();
+  const { updateCartList, isLoading, type, isInCart } = useCartList();
 
   // handle  add to cart
-  const handleAddToCart = () => {
+  const handleCart = (type: CartActionType) => {
     updateCartList({
       options: [],
       productId: product?._id!,
       productImg: product?.media?.[0]?.url!,
       productPrice: product?.price!,
       productTitle: product?.title!,
-      type: "add",
+      type: type,
     });
   };
 
-  // handle decrement from cart
-  const handleDecrementCart = () => {};
   return (
     <Fragment>
       {/* error message */}
@@ -57,16 +54,16 @@ const ProductDetailButtons = (product: TProduct) => {
         {/* cart button */}
         <div className="flex w-full items-center justify-between rounded-md bg-gray-100 p-1">
           <Button
-            onClick={handleDecrementCart}
+            onClick={() => handleCart("decrement")}
             loading={isLoading && type === "decrement"}
-            disabled={!isAllVariantSelected}
+            disabled={!isAllVariantSelected || !isInCart(product?._id!)}
             type="primary"
             icon={<FaMinus size={12} />}
             size={"middle"}
           />
           <p className="text-sm font-semibold">Add To Cart</p>
           <Button
-            onClick={handleAddToCart}
+            onClick={() => handleCart("add")}
             loading={isLoading && type === "add"}
             disabled={!isAllVariantSelected}
             type="primary"

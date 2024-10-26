@@ -25,9 +25,10 @@ type TContextPayload = {
 type TCartListContext =
   | {
       cartList: TCartStateItem[];
-      updateCartList: (payload: TContextPayload) => Promise<void>;
       isLoading: boolean;
       type?: CartActionType;
+      updateCartList: (payload: TContextPayload) => Promise<void>;
+      isInCart: (productId: string) => boolean;
     }
   | undefined;
 
@@ -50,7 +51,7 @@ export const CartListContextProvider = ({
   const updateCartList = async (payload: TContextPayload) => {
     if (isLoading) return;
     // update optimistically
-    setType("add");
+    setType(payload.type);
     setCartList((prev) => {
       setPrevCartList(prev);
       const currentCartItem = prev?.find((item) => item.productId === payload.productId);
@@ -62,7 +63,7 @@ export const CartListContextProvider = ({
             productId: payload.productId,
             productPrice: payload.productPrice,
             productTitle: payload.productTitle,
-            productImg: payload.productImg,
+            productImg: payload.productImg || "/images/blank-image.png",
             options: payload.options,
             quantity: 0,
           };
@@ -98,8 +99,12 @@ export const CartListContextProvider = ({
     });
   };
 
+  // check is in the cart
+  const isInCart = (productId: string) => {
+    return cartList.some((item) => item.productId === productId);
+  };
   return (
-    <CartListContext.Provider value={{ cartList, updateCartList, isLoading, type }}>
+    <CartListContext.Provider value={{ cartList, updateCartList, isLoading, type, isInCart }}>
       {children}
     </CartListContext.Provider>
   );
