@@ -8,10 +8,12 @@ import DropdownCart from "./DropdownCart";
 import DropdownUser from "./DropdownUser";
 import { ClassValue } from "clsx";
 import { cn } from "@/libs/utils";
+import { useCartList } from "@/contexts/cartlist-context";
 const { useToken } = theme;
 const commonStyles: ClassValue = "hidden md:block";
 const HeaderNavbarIcons = () => {
   const { token } = useToken();
+  const { totalItems } = useCartList();
 
   const contentStyle: React.CSSProperties = {
     backgroundColor: token.colorBgElevated,
@@ -39,7 +41,7 @@ const HeaderNavbarIcons = () => {
         )}
         placement="bottomRight"
       >
-        <Badge count={99} className="mr-2 cursor-pointer">
+        <Badge count={totalItems} className="mr-2 cursor-pointer">
           <Image src={assets.svg.cart} height={24} width={24} alt="cart" />
         </Badge>
       </Dropdown>

@@ -2,16 +2,10 @@
 
 import { updateCart } from "@/actions/cart";
 import { generateCartState } from "@/libs/generate-cart-state";
-import { getErrorMessage } from "@repo/utils/functions";
-/* 
-1. create a context for cart list  
-2. export cart context provider 
-3. export hooks for cart list where return that context
-*/
-
-import { CartActionType, TCartStateItem } from "@repo/utils/types";
 import { message } from "antd";
 import { createContext, ReactNode, useContext, useState, useTransition } from "react";
+import { getErrorMessage } from "@repo/utils/functions";
+import { CartActionType, TCartStateItem } from "@repo/utils/types";
 
 type TContextPayload = {
   productId: string;
@@ -26,6 +20,8 @@ type TCartListContext =
   | {
       cartList: TCartStateItem[];
       isLoading: boolean;
+      totalItems: number;
+      subTotalPrice: number;
       type?: CartActionType;
       updateCartList: (payload: TContextPayload) => Promise<void>;
       isInCart: (productId: string) => boolean;
@@ -71,8 +67,8 @@ export const CartListContextProvider = ({
         payload.type === "remove"
           ? 0
           : payload.type === "add"
-            ? updatedCartItem.quantity + 1
-            : updatedCartItem.quantity - 1;
+            ? updatedCartItem.quantity++
+            : updatedCartItem.quantity--;
 
       const restCartItems = prev.filter((item) => item.productId !== payload.productId);
 
@@ -103,8 +99,29 @@ export const CartListContextProvider = ({
   const isInCart = (productId: string) => {
     return cartList.some((item) => item.productId === productId);
   };
+
+  // total items in the cart list
+  const totalItems = cartList.reduce((acc, currentValue) => {
+    return acc + currentValue.quantity;
+  }, 0);
+
+  // calculate total price
+  const subTotalPrice = cartList.reduce((acc, currentValue) => {
+    const currentProductPrice = currentValue.quantity * currentValue.productPrice;
+    return acc + currentProductPrice;
+  }, 0);
   return (
-    <CartListContext.Provider value={{ cartList, updateCartList, isLoading, type, isInCart }}>
+    <CartListContext.Provider
+      value={{
+        cartList,
+        updateCartList,
+        isLoading,
+        type,
+        isInCart,
+        totalItems,
+        subTotalPrice,
+      }}
+    >
       {children}
     </CartListContext.Provider>
   );
