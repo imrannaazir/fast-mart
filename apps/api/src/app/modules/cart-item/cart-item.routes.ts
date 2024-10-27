@@ -14,6 +14,8 @@ router.put(
   CartItemControllers.updateProductToCart,
 );
 
+// clear cart item
+router.delete('/clear', auth(), CartItemControllers.clearCartList);
 // get all cart items of the user
 router.get('/', auth(), CartItemControllers.getAllMyCartItems);
 

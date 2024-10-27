@@ -4,6 +4,7 @@ import { serverFetcher } from "@/libs/server-fetcher";
 import { CartActionType, TCartItem } from "@repo/utils/types";
 import { revalidatePath } from "next/cache";
 
+// update cart
 export const updateCart = async (productId: string, options: string[], type: CartActionType) => {
   const response = await serverFetcher<TCartItem[]>("/cart-items/update", {
     method: "PUT",
@@ -16,6 +17,13 @@ export const updateCart = async (productId: string, options: string[], type: Car
   return response;
 };
 
+// clear list
+export const clearCartList = async () => {
+  const response = await serverFetcher("/cart-items/clear", { method: "DELETE" });
+  return response;
+};
+
+// cart list
 export const getMyCartList = async () => {
   revalidatePath("/");
   revalidatePath("/cart");

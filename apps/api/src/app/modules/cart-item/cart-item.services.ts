@@ -16,6 +16,7 @@ const updateProductToCart = async (payload: TCartItemInput) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'Product not found!');
 
   // check options are exist
+
   if (options?.length) {
     const countOptions = await Option.countDocuments({
       _id: { $in: options },
@@ -57,11 +58,31 @@ const updateProductToCart = async (payload: TCartItemInput) => {
   return cartItems;
 };
 
+// clear cart list
+const clearCartList = async (userId: string) => {
+  const cartCount = await CartItem.countDocuments({ user: userId });
+  if (cartCount < 1) {
+    throw new AppError(StatusCodes.CONFLICT, 'No cart item founded.');
+  }
+  const deletedCartList = await CartItem.deleteMany({ user: userId });
+  if (deletedCartList.deletedCount < 1) {
+    throw new AppError(
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      'Failed to clear the cart.',
+    );
+  }
+  return [];
+};
+
 // get all cart items of user
 const getAllMyCartItems = async (userId: string) => {
   const cartItems = await CartItem.find({}).populate('product');
   return cartItems;
 };
 
-const CartItemServices = { updateProductToCart, getAllMyCartItems };
+const CartItemServices = {
+  updateProductToCart,
+  getAllMyCartItems,
+  clearCartList,
+};
 export default CartItemServices;

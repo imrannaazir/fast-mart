@@ -18,6 +18,18 @@ const updateProductToCart = catchAsync(async (req, res) => {
   });
 });
 
+// clear cart item
+const clearCartList = catchAsync(async (req, res) => {
+  const userId = req?.user?._id;
+  const result = await CartItemServices.clearCartList(userId!);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Cart list cleared.',
+    data: result,
+  });
+});
+
 // get all cart items of the user
 const getAllMyCartItems = catchAsync(async (req, res) => {
   const userId = req?.user?._id;
@@ -30,5 +42,9 @@ const getAllMyCartItems = catchAsync(async (req, res) => {
   });
 });
 
-const CartItemControllers = { updateProductToCart, getAllMyCartItems };
+const CartItemControllers = {
+  updateProductToCart,
+  getAllMyCartItems,
+  clearCartList,
+};
 export default CartItemControllers;

@@ -1,6 +1,6 @@
 "use client";
 
-import { updateCart } from "@/actions/cart";
+import { clearCartList, updateCart } from "@/actions/cart";
 import { generateCartState } from "@/libs/generate-cart-state";
 import { message } from "antd";
 import { createContext, ReactNode, useContext, useState, useTransition } from "react";
@@ -24,6 +24,7 @@ type TCartListContext =
       subTotalPrice: number;
       type?: CartActionType;
       updateCartList: (payload: TContextPayload) => Promise<void>;
+      clearCart: () => Promise<void>;
       isInCart: (productId: string) => boolean;
     }
   | undefined;
@@ -95,6 +96,30 @@ export const CartListContextProvider = ({
     });
   };
 
+  // clear cart list
+  const clearCart = async () => {
+    if (isLoading) {
+      return;
+    }
+
+    const previousState = [...cartList];
+    setCartList([]);
+
+    startTransition(async () => {
+      try {
+        const response = await clearCartList();
+        if (!response.success) {
+          throw new Error(response.message);
+        }
+        setCartList([]);
+        message.success(response.message);
+      } catch (error) {
+        setCartList(previousState);
+        message.error(getErrorMessage(error));
+      }
+    });
+  };
+
   // check is in the cart
   const isInCart = (productId: string) => {
     return cartList.some((item) => item.productId === productId);
@@ -115,6 +140,7 @@ export const CartListContextProvider = ({
       value={{
         cartList,
         updateCartList,
+        clearCart,
         isLoading,
         type,
         isInCart,

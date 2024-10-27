@@ -9,7 +9,7 @@ import { BiX } from "react-icons/bi";
 import CartSummery from "./components/cart-summery";
 
 const CartPage = () => {
-  const { cartList, totalItems } = useCartList();
+  const { cartList, totalItems, clearCart, isLoading } = useCartList();
   const cartBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Cart",
@@ -29,7 +29,14 @@ const CartPage = () => {
             </h2>
           }
           extra={
-            <Button type="text" danger icon={<BiX size={16} />} size="small">
+            <Button
+              disabled={!cartList.length || isLoading}
+              onClick={clearCart}
+              type="text"
+              danger
+              icon={<BiX size={16} />}
+              size="small"
+            >
               Clear
             </Button>
           }
