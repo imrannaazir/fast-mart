@@ -25,8 +25,6 @@ export const getProduct = async (productId: string) => {
 const ProductDetailsPage = async ({ params }: { params: { productId: string } }) => {
   const product = await getProduct(params.productId);
 
-  console.log(product, "28");
-
   // page breadcrumbs
   const breadcrumbItems: TAppBreadcrumbItem[] = [
     {

@@ -11,7 +11,7 @@ const DropdownCart = () => {
   return (
     <div className={cn("flex flex-col", !!cartList?.length && "gap-6")}>
       {!!cartList.length && cartList?.map((item) => <CartItem key={item._id} cartItem={item} />)}
-      {!cartList.length && <Empty className="min-w-[170px]" image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+      {!cartList.length && <Empty className="min-w-[288px]" image={Empty.PRESENTED_IMAGE_SIMPLE} />}
       <Divider />
       {/* total  and action*/}
       <div className={cn(!!cartList?.length && "space-y-4")}>

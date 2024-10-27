@@ -7,7 +7,8 @@ import { calculateOfferPercentage } from "@repo/utils/functions";
 
 const ProductBasicDescription = ({ product }: { product: TProduct }) => {
   const offerPercentage = calculateOfferPercentage(product?.price, product?.compare_price!);
-  const markupDescription = { __html: product?.description || "" };
+
+  const markupDescription = { __html: product?.description?.slice(0, 1000) || "" };
 
   return (
     <div className="pr-6">
