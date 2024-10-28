@@ -7,8 +7,7 @@ import { TCartStateItem } from "@repo/utils/types";
 import { ReactNode } from "react";
 
 const ContextProvider = async ({ children }: { children: ReactNode }) => {
-  const wishlist = await getWishListedProductIds();
-  const cartList = await getMyCartList();
+  const [wishlist, cartList] = await Promise.all([getWishListedProductIds(), getMyCartList()]);
   const cartListState: TCartStateItem[] = generateCartState(cartList!);
 
   return (

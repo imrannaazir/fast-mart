@@ -4,7 +4,7 @@ import { Button, Card, Divider, Form, Input, message, Space } from "antd";
 
 const CartSummery = () => {
   const { subTotalPrice } = useCartList();
-  const shippingFee = 10;
+  const shippingFee = subTotalPrice ? 10 : 0;
   const discount = 0;
   const totalPrice = subTotalPrice + shippingFee - discount;
   const onFinish = (_values: FormData) => {
@@ -44,11 +44,11 @@ const CartSummery = () => {
         </p>
         <p className="flex items-center justify-between text-base font-normal text-gray-500">
           <span>Shipping fee</span>
-          <span>$10</span>
+          <span>${shippingFee}</span>
         </p>
         <p className="flex items-center justify-between text-base font-normal text-gray-500">
           <span>Discount</span>
-          <span> -$0</span>
+          <span> -${discount}</span>
         </p>
         <p className="flex items-center justify-between text-base font-medium">
           <span>Total</span>

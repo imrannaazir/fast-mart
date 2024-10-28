@@ -16,20 +16,18 @@ type TContextPayload = {
   type: CartActionType;
 };
 
-type TCartListContext =
-  | {
-      cartList: TCartStateItem[];
-      isLoading: boolean;
-      totalItems: number;
-      subTotalPrice: number;
-      type?: CartActionType;
-      updateCartList: (payload: TContextPayload) => Promise<void>;
-      clearCart: () => Promise<void>;
-      isInCart: (productId: string) => boolean;
-    }
-  | undefined;
+type TCartListContext = {
+  cartList: TCartStateItem[];
+  isLoading: boolean;
+  totalItems: number;
+  subTotalPrice: number;
+  type?: CartActionType;
+  updateCartList: (payload: TContextPayload) => Promise<void>;
+  clearCart: () => Promise<void>;
+  isInCart: (productId: string) => boolean;
+};
 
-const CartListContext = createContext<TCartListContext>(undefined);
+const CartListContext = createContext<TCartListContext | undefined>(undefined);
 
 // context provider
 export const CartListContextProvider = ({
@@ -75,6 +73,9 @@ export const CartListContextProvider = ({
 
       return [...restCartItems, ...(updatedCartItem.quantity !== 0 ? [updatedCartItem] : [])];
     });
+
+    console.log(cartList, "77");
+
     startTransition(async () => {
       try {
         const response = await updateCart(payload.productId, payload.options, payload.type);
@@ -135,6 +136,7 @@ export const CartListContextProvider = ({
     const currentProductPrice = currentValue.quantity * currentValue.productPrice;
     return acc + currentProductPrice;
   }, 0);
+
   return (
     <CartListContext.Provider
       value={{

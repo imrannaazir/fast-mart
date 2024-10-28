@@ -4,6 +4,7 @@ export const generateCartState = (cartList: TCartItem[]): TCartStateItem[] => {
   return (
     cartList?.map((item) => {
       const product = item.product as TProduct;
+
       return {
         _id: item._id,
         productId: product?._id!,

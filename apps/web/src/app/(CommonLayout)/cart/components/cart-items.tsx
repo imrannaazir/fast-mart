@@ -7,7 +7,7 @@ import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
 
 const CartItem = ({ item }: { item: TCartStateItem }) => {
   const { productImg, productTitle, productId, productPrice, quantity } = item;
-  const { isInCart, isLoading, type, updateCartList } = useCartList();
+  const { isInCart, isLoading, updateCartList } = useCartList();
 
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
@@ -50,8 +50,7 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
         <div className="flex items-center justify-between rounded-md p-1">
           <Button
             onClick={() => handleCart("decrement")}
-            loading={isLoading && type === "decrement"}
-            disabled={!isInCart(productId!)}
+            disabled={!isInCart(productId!) || isLoading}
             type="dashed"
             icon={<BiMinus size={14} />}
             size={"middle"}
@@ -59,7 +58,7 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
           <p className="px-3 text-sm">{quantity}</p>
           <Button
             onClick={() => handleCart("add")}
-            loading={isLoading && type === "add"}
+            disabled={isLoading}
             type="dashed"
             icon={<BiPlus size={14} />}
             size={"middle"}

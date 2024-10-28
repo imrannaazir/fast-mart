@@ -14,19 +14,21 @@ export const updateCart = async (productId: string, options: string[], type: Car
       type,
     },
   });
+  revalidatePath("/");
+  revalidatePath("/cart");
   return response;
 };
 
 // clear list
 export const clearCartList = async () => {
   const response = await serverFetcher("/cart-items/clear", { method: "DELETE" });
+  revalidatePath("/");
+  revalidatePath("/cart");
   return response;
 };
 
 // cart list
 export const getMyCartList = async () => {
-  revalidatePath("/");
-  revalidatePath("/cart");
   const response = await serverFetcher<TCartItem[]>("/cart-items");
   return response.data;
 };
