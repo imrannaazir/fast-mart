@@ -5,6 +5,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Option } from '../variant/variant.model';
 import CartItem from './cart-item.model';
 import { UpdateQuery } from 'mongoose';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 // update product to cart
 const updateProductToCart = async (payload: TCartItemInput) => {
@@ -53,7 +54,10 @@ const updateProductToCart = async (payload: TCartItemInput) => {
   // get all cart item of user
   const cartItems = await CartItem.find({
     user,
-  }).populate('product');
+  }).populate({
+    path: 'product',
+    populate: 'media',
+  });
 
   return cartItems;
 };
@@ -76,8 +80,12 @@ const clearCartList = async (userId: string) => {
 
 // get all cart items of user
 const getAllMyCartItems = async (userId: string) => {
-  const cartItems = await CartItem.find({}).populate('product');
-  return cartItems;
+  const cartModelQuery = new QueryBuilder(
+    CartItem.find({ user: userId }),
+    {},
+  ).sort();
+
+  return await cartModelQuery.modelQuery;
 };
 
 const CartItemServices = {

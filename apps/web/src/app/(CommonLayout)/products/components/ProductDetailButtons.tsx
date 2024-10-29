@@ -27,7 +27,7 @@ const ProductDetailButtons = (product: TProduct) => {
   const isAllVariantSelected =
     product?.variants?.length === 0 ? true : product?.variants?.length === selectedVariants?.length ? true : false;
 
-  const { updateCartList, isLoading, type, isInCart } = useCartList();
+  const { updateCartList, isInCart } = useCartList();
 
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
@@ -55,7 +55,6 @@ const ProductDetailButtons = (product: TProduct) => {
         <div className="flex w-full items-center justify-between rounded-md bg-gray-100 p-1">
           <Button
             onClick={() => handleCart("decrement")}
-            loading={isLoading && type === "decrement"}
             disabled={!isAllVariantSelected || !isInCart(product?._id!)}
             type="primary"
             icon={<FaMinus size={12} />}
@@ -64,7 +63,6 @@ const ProductDetailButtons = (product: TProduct) => {
           <p className="text-sm font-semibold">Add To Cart</p>
           <Button
             onClick={() => handleCart("add")}
-            loading={isLoading && type === "add"}
             disabled={!isAllVariantSelected}
             type="primary"
             icon={<FaPlus size={12} />}

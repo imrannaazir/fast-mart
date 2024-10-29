@@ -3,7 +3,7 @@
 import { clearCartList, updateCart } from "@/actions/cart";
 import { generateCartState } from "@/libs/generate-cart-state";
 import { message } from "antd";
-import { createContext, ReactNode, useContext, useState, useTransition } from "react";
+import { createContext, ReactNode, useCallback, useContext, useState, useTransition } from "react";
 import { getErrorMessage } from "@repo/utils/functions";
 import { CartActionType, TCartStateItem } from "@repo/utils/types";
 
@@ -43,39 +43,18 @@ export const CartListContextProvider = ({
   const [type, setType] = useState<CartActionType | undefined>(undefined);
 
   // update cart list
-  const updateCartList = async (payload: TContextPayload) => {
+  const updateCartList = useCallback(async (payload: TContextPayload) => {
     if (isLoading) return;
+
     // update optimistically
-    setType(payload.type);
-    setCartList((prev) => {
-      setPrevCartList(prev);
-      const currentCartItem = prev?.find((item) => item.productId === payload.productId);
-      const randomIdForNewItem = (Math.random() * 1000).toString();
-      const updatedCartItem: TCartStateItem = currentCartItem?.productId
-        ? currentCartItem
-        : {
-            _id: randomIdForNewItem,
-            productId: payload.productId,
-            productPrice: payload.productPrice,
-            productTitle: payload.productTitle,
-            productImg: payload.productImg || "/images/blank-image.png",
-            options: payload.options,
-            quantity: 0,
-          };
-      updatedCartItem.quantity =
-        payload.type === "remove"
-          ? 0
-          : payload.type === "add"
-            ? updatedCartItem.quantity++
-            : updatedCartItem.quantity--;
+    setPrevCartList(cartList);
 
-      const restCartItems = prev.filter((item) => item.productId !== payload.productId);
-
-      return [...restCartItems, ...(updatedCartItem.quantity !== 0 ? [updatedCartItem] : [])];
+    const cartListIds = cartList.map((item) => item.productId);
+    const optimisticallyUpdatedCartList = cartList.map((item) => {
+      if (!cartListIds.includes(item.productId)) {
+        console.log("");
+      }
     });
-
-    console.log(cartList, "77");
-
     startTransition(async () => {
       try {
         const response = await updateCart(payload.productId, payload.options, payload.type);
@@ -95,7 +74,7 @@ export const CartListContextProvider = ({
         setType(undefined);
       }
     });
-  };
+  }, []);
 
   // clear cart list
   const clearCart = async () => {
