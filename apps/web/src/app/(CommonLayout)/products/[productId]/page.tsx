@@ -13,14 +13,14 @@ import { AppButton } from "@/components/ui/AppButton";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { serverFetcher } from "@/libs/server-fetcher";
 
-export const getProduct = async (productId: string) => {
+async function getProduct(productId: string) {
   const response = await serverFetcher<TProduct>(`/products/${productId}`, {
     next: {
       revalidate: 3600,
     },
   });
   return response.data;
-};
+}
 
 const ProductDetailsPage = async ({ params }: { params: { productId: string } }) => {
   const product = await getProduct(params.productId);

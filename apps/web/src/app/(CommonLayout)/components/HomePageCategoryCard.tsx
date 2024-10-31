@@ -1,6 +1,5 @@
 import assets from "@/assets";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
-import Icon from "@/components/ui/LucidIcon";
 import { Apple } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 import { Fragment } from "react";
 import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, Form, Input, Flex, message } from "antd";
+import { Checkbox, Form, Input, Flex } from "antd";
 import assets from "@/assets";
 import Image from "next/image";
 import { AppButton } from "@/components/ui/AppButton";
@@ -16,7 +16,6 @@ const LoginPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
-  console.log(callbackUrl);
 
   const loginPageBreadcrumbItems: TAppBreadcrumbItem[] = [
     {

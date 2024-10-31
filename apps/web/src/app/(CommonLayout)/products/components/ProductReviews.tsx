@@ -60,7 +60,7 @@ const ProductReviews = () => {
       </div>
       <Divider />
       <div className="space-y-4">
-        {new Array(10).fill(null).map((review) => (
+        {new Array(10).fill(null).map((_review) => (
           <AppReviewCard />
         ))}
       </div>

@@ -52,14 +52,15 @@ const updateProductToCart = async (payload: TCartItemInput) => {
   }
 
   // get all cart item of user
-  const cartItems = await CartItem.find({
-    user,
-  }).populate({
-    path: 'product',
-    populate: 'media',
-  });
+  const cartItemsQuery = new QueryBuilder(
+    CartItem.find({ user }).populate({
+      path: 'product',
+      populate: 'media',
+    }),
+    {},
+  ).sort();
 
-  return cartItems;
+  return await cartItemsQuery.modelQuery;
 };
 
 // clear cart list
@@ -81,7 +82,10 @@ const clearCartList = async (userId: string) => {
 // get all cart items of user
 const getAllMyCartItems = async (userId: string) => {
   const cartModelQuery = new QueryBuilder(
-    CartItem.find({ user: userId }),
+    CartItem.find({ user: userId }).populate({
+      path: 'product',
+      populate: 'media',
+    }),
     {},
   ).sort();
 

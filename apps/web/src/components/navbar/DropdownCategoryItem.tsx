@@ -1,7 +1,6 @@
 import { cn } from "@/libs/utils";
 import { FC } from "react";
 import { LiaAngleRightSolid } from "react-icons/lia";
-import Icon from "../ui/LucidIcon";
 import Link from "next/link";
 import { Apple } from "lucide-react";
 
@@ -11,7 +10,7 @@ type TDropDownCategoryItemProps = {
   iconName: string;
   id: string;
 };
-const DropdownCategoryItem: FC<TDropDownCategoryItemProps> = ({ type = "mega", collectionName, iconName, id }) => {
+const DropdownCategoryItem: FC<TDropDownCategoryItemProps> = ({ type = "mega", collectionName, id }) => {
   return (
     <div className="group flex items-center justify-between">
       <div className="flex items-center gap-3 text-gray-500">

@@ -4,7 +4,6 @@ import assets from "@/assets";
 import { Dropdown, theme } from "antd";
 import Image from "next/image";
 import DropdownCategories, { TCollectionDropdownItemProps } from "./DropdownCategories";
-import { useSession } from "next-auth/react";
 const { useToken } = theme;
 
 const NavCategories = ({ collections }: { collections: TCollectionDropdownItemProps[] }) => {
@@ -15,8 +14,6 @@ const NavCategories = ({ collections }: { collections: TCollectionDropdownItemPr
     borderRadius: token.borderRadiusLG,
     boxShadow: token.boxShadowSecondary,
   };
-
-  const session = useSession();
 
   return (
     <div className="flex items-center gap-4">

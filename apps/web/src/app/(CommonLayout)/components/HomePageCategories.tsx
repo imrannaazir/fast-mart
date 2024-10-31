@@ -15,7 +15,7 @@ import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCatego
 export default function HomePageCategories({ collections }: { collections: TCollectionDropdownItemProps[] }) {
   const pagination = {
     clickable: true,
-    renderBullet: function (index: number, className: string) {
+    renderBullet: function (_index: number, className: string) {
       return '<span class="' + className + '">' + "</span>";
     },
   };

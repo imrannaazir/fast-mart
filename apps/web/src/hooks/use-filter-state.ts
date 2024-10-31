@@ -1,6 +1,5 @@
 import { FormProps, useForm } from "antd/es/form/Form";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 export type TFiltersAttribute = {
   priceRange: number[];
@@ -27,7 +26,7 @@ export const useFilterState = (maxPrice: number) => {
   };
 
   // handleValuesChanges
-  const handleValuesChanges: FormProps["onValuesChange"] = (changedValues, values: TFiltersAttribute) => {
+  const handleValuesChanges: FormProps["onValuesChange"] = (_changedValues, values: TFiltersAttribute) => {
     const newParams = new URLSearchParams(searchParams.toString());
 
     filterableFields.forEach((field: keyof TFiltersAttribute) => {

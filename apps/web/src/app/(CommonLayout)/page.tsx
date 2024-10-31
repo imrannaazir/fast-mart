@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import HomeSectionLayout from "@/components/ui/HomeSectionLayout";
 import HomePageHero from "./components/Hero";
 import HomeLeftSideCategoriesBar from "./components/HomeLeftSideCategoriesBar";
@@ -14,38 +15,44 @@ import Container from "@/components/ui/Container";
 import { TCollection } from "@repo/utils/types";
 import { serverFetcher } from "@/libs/server-fetcher";
 
-export const getAllCollections = async () => {
+export const metadata: Metadata = {
+  title: "Home | Fast Mart",
+  description: "Fast Mart home page",
+};
+
+async function getAllCollections() {
   const response = await serverFetcher<TCollection[]>("/collections", {
     next: { revalidate: 3600 },
   });
 
   return response.data;
-};
+}
 
-const HomePage = async () => {
-  const collections = (await getAllCollections()) as TCollection[];
+export default async function HomePage() {
+  const collections = await getAllCollections();
 
   // transform collections data
-  const collectionsDropdownItems: TCollectionDropdownItemProps[] = collections?.map((collection: any) => ({
-    id: collection?._id,
-    name: collection?.title,
+  const collectionsDropdownItems = collections?.map((collection) => ({
+    id: collection?._id!,
+    name: collection?.title!,
     iconName: collection?.icon?.name || "ban",
-    categories: collection?.categories?.map((category: any) => ({
+    categories: collection?.categories?.map((category) => ({
       id: category?._id,
       name: category?.title,
-    })),
-  }));
+    })) as TCollectionDropdownItemProps[],
+  })) as TCollectionDropdownItemProps[];
+
   return (
     <Container>
       <HomePageHero />
-      {/* products  by category */}
+      {/* products by category */}
       <HomeSectionLayout
         className="mt-10"
         leftSideContent={<HomeLeftSideCategoriesBar collections={collectionsDropdownItems} />}
         rightSideContent={<HomeProductsByCategory collections={collectionsDropdownItems} />}
       />
 
-      {/* food Cupboard  */}
+      {/* food Cupboard */}
       <HomeSectionLayout
         className="mt-10"
         leftSideContent={<FoodCupBoardProductsSidebar />}
@@ -65,10 +72,8 @@ const HomePage = async () => {
         leftSideContent={<CustomerCommentsSidebar />}
         rightSideContent={<HomeFeaturedBlogs />}
       />
-      {/* news letter  */}
+      {/* news letter */}
       <HomePageNewsLetter />
     </Container>
   );
-};
-
-export default HomePage;
+}

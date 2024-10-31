@@ -12,7 +12,7 @@ export const generateCartState = (cartList: TCartItem[]): TCartStateItem[] => {
         productTitle: product?.title,
         quantity: item?.quantity,
         options: item?.options,
-        productImg: product?.media![0]?.url! || "/images/blank-image.png",
+        productImg: product?.media?.[0]?.url! || "/images/blank-image.png",
       };
     }) || []
   );

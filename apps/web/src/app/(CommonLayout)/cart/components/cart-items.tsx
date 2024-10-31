@@ -7,7 +7,7 @@ import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
 
 const CartItem = ({ item }: { item: TCartStateItem }) => {
   const { productImg, productTitle, productId, productPrice, quantity } = item;
-  const { isInCart, isLoading, updateCartList } = useCartList();
+  const { isInCart, updateCartList, isLoading } = useCartList();
 
   // handle  add to cart
   const handleCart = (type: CartActionType) => {

@@ -1,7 +1,7 @@
 "use client";
 import { Pagination, PaginationProps } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 type TProductPaginationProps = {
   total: number;

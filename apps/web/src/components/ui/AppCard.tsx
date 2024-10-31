@@ -1,6 +1,5 @@
 import { cn } from "@/libs/utils";
 import { ClassValue } from "clsx";
-import Image from "next/image";
 import { FC } from "react";
 import { AppButton } from "./AppButton";
 import { cva } from "class-variance-authority";

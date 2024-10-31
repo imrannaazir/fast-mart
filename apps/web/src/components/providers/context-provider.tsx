@@ -9,7 +9,6 @@ import { ReactNode } from "react";
 const ContextProvider = async ({ children }: { children: ReactNode }) => {
   const [wishlist, cartList] = await Promise.all([getWishListedProductIds(), getMyCartList()]);
   const cartListState: TCartStateItem[] = generateCartState(cartList!);
-  console.log(cartList, "provider 12");
 
   return (
     <WishlistContextProvider initialWishlist={wishlist}>

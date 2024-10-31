@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
         },
       },
       // authorize
-      async authorize(credentials, req) {
+      async authorize(credentials, _req) {
         const { email, password } = credentials || {};
         if (!email || !password) return null;
         const result = await fetcher<{ accessToken: string; refreshToken: string }>("/auth/login", {
@@ -142,7 +142,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   events: {
-    async signOut({ token }) {
+    async signOut({}) {
       await fetcher("/auth/logout", {
         method: "POST",
       });

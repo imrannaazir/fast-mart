@@ -3,7 +3,7 @@
 import { clearCartList, updateCart } from "@/actions/cart";
 import { generateCartState } from "@/libs/generate-cart-state";
 import { message } from "antd";
-import { createContext, ReactNode, useCallback, useContext, useState, useTransition } from "react";
+import { createContext, ReactNode, useCallback, useContext, useState } from "react";
 import { getErrorMessage } from "@repo/utils/functions";
 import { CartActionType, TCartStateItem } from "@repo/utils/types";
 
@@ -39,7 +39,7 @@ export const CartListContextProvider = ({
 }) => {
   const [cartList, setCartList] = useState<TCartStateItem[]>(initialCartList);
   const [prevCartList, setPrevCartList] = useState<TCartStateItem[]>([]);
-  const [isLoading, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState<CartActionType | undefined>(undefined);
 
   // update cart list
@@ -49,31 +49,55 @@ export const CartListContextProvider = ({
     // update optimistically
     setPrevCartList(cartList);
 
-    const cartListIds = cartList.map((item) => item.productId);
     const optimisticallyUpdatedCartList = cartList.map((item) => {
-      if (!cartListIds.includes(item.productId)) {
-        console.log("");
-      }
-    });
-    startTransition(async () => {
-      try {
-        const response = await updateCart(payload.productId, payload.options, payload.type);
-        if (!response.success) {
-          throw new Error(response.message);
+      if (payload.productId === item.productId) {
+        if (payload.type === "add") {
+          item.quantity = item.quantity + 1;
+        } else if (payload.type === "decrement") {
+          item.quantity = item.quantity - 1;
         } else {
-          const updatedCartState = generateCartState(response?.data!);
-          setCartList(updatedCartState);
-          setPrevCartList([]);
-          message.success(response.message);
-          setType(undefined);
+          item.quantity = 0;
         }
-      } catch (error) {
-        setCartList(prevCartList);
-        setPrevCartList([]);
-        message.error(getErrorMessage(error));
-        setType(undefined);
+
+        return item;
       }
+      return item;
     });
+
+    const cartListProductIds = cartList.map((item) => item.productId);
+    if (!cartListProductIds.includes(payload.productId)) {
+      optimisticallyUpdatedCartList.unshift({
+        ...payload,
+        _id: Math.floor(Math.random() * 1000).toString(),
+        quantity: 1,
+      });
+    }
+
+    // filtered by zero quantity
+    const zeroQuantityFilteredCartList = optimisticallyUpdatedCartList.filter((item) => item.quantity > 0);
+
+    setCartList(zeroQuantityFilteredCartList);
+
+    try {
+      setIsLoading(true);
+      const response = await updateCart(payload.productId, payload.options, payload.type);
+      if (!response.success) {
+        throw new Error(response.message);
+      } else {
+        const updatedCartState = generateCartState(response?.data!);
+        setPrevCartList([]);
+        setCartList(updatedCartState);
+        message.success(response.message);
+        setType(undefined);
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setCartList(prevCartList);
+      setPrevCartList([]);
+      message.error(getErrorMessage(error));
+      setType(undefined);
+      setIsLoading(false);
+    }
   }, []);
 
   // clear cart list
@@ -85,19 +109,20 @@ export const CartListContextProvider = ({
     const previousState = [...cartList];
     setCartList([]);
 
-    startTransition(async () => {
-      try {
-        const response = await clearCartList();
-        if (!response.success) {
-          throw new Error(response.message);
-        }
-        setCartList([]);
-        message.success(response.message);
-      } catch (error) {
-        setCartList(previousState);
-        message.error(getErrorMessage(error));
+    try {
+      setIsLoading(true);
+      const response = await clearCartList();
+      if (!response.success) {
+        throw new Error(response.message);
       }
-    });
+      setCartList([]);
+      setIsLoading(false);
+      message.success(response.message);
+    } catch (error) {
+      setCartList(previousState);
+      message.error(getErrorMessage(error));
+      setIsLoading(false);
+    }
   };
 
   // check is in the cart
