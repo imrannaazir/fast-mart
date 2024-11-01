@@ -1,4 +1,5 @@
 import { useCartList } from "@/contexts/cartlist-context";
+import { debounce } from "@repo/utils/functions";
 import { CartActionType, TCartStateItem } from "@repo/utils/types";
 import { Button, Tag } from "antd";
 import Image from "next/image";
@@ -7,7 +8,7 @@ import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
 
 const CartItem = ({ item }: { item: TCartStateItem }) => {
   const { productImg, productTitle, productId, productPrice, quantity } = item;
-  const { isInCart, updateCartList, isLoading } = useCartList();
+  const { isInCart, updateCartList } = useCartList();
 
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
@@ -20,6 +21,12 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
       type: type,
     });
   };
+
+  // Add to cart
+  const addToCart = debounce(() => handleCart("add"), 300);
+
+  // decrement from cart
+  const decrementFromCart = debounce(() => handleCart("decrement"), 300);
 
   return (
     <div className="grid grid-cols-3 items-center justify-between rounded-lg border p-2 pr-6">
@@ -49,20 +56,14 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-between rounded-md p-1">
           <Button
-            onClick={() => handleCart("decrement")}
-            disabled={!isInCart(productId!) || isLoading}
+            onClick={decrementFromCart}
+            disabled={!isInCart(productId!)}
             type="dashed"
             icon={<BiMinus size={14} />}
             size={"middle"}
           />
           <p className="px-3 text-sm">{quantity}</p>
-          <Button
-            onClick={() => handleCart("add")}
-            disabled={isLoading}
-            type="dashed"
-            icon={<BiPlus size={14} />}
-            size={"middle"}
-          />
+          <Button onClick={addToCart} type="dashed" icon={<BiPlus size={14} />} size={"middle"} />
         </div>
         {/* price  */}
         <h3 className="text-lg font-semibold">${productPrice}</h3>

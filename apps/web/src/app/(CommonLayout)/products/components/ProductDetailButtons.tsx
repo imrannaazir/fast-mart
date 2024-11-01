@@ -2,6 +2,7 @@
 import { useCartList } from "@/contexts/cartlist-context";
 import { useWishlist } from "@/contexts/wishlist-context";
 import { cn } from "@/libs/utils";
+import { debounce } from "@repo/utils/functions";
 import { CartActionType, TProduct } from "@repo/utils/types";
 import { Button, Divider } from "antd";
 import { Info } from "lucide-react";
@@ -41,6 +42,12 @@ const ProductDetailButtons = (product: TProduct) => {
     });
   };
 
+  // Add to cart
+  const addToCart = debounce(() => handleCart("add"), 300);
+
+  // decrement from cart
+  const decrementFromCart = debounce(() => handleCart("decrement"), 300);
+
   return (
     <Fragment>
       {/* error message */}
@@ -54,7 +61,7 @@ const ProductDetailButtons = (product: TProduct) => {
         {/* cart button */}
         <div className="flex w-full items-center justify-between rounded-md bg-gray-100 p-1">
           <Button
-            onClick={() => handleCart("decrement")}
+            onClick={decrementFromCart}
             disabled={!isAllVariantSelected || !isInCart(product?._id!)}
             type="primary"
             icon={<FaMinus size={12} />}
@@ -62,7 +69,7 @@ const ProductDetailButtons = (product: TProduct) => {
           />
           <p className="text-sm font-semibold">Add To Cart</p>
           <Button
-            onClick={() => handleCart("add")}
+            onClick={addToCart}
             disabled={!isAllVariantSelected}
             type="primary"
             icon={<FaPlus size={12} />}

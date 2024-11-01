@@ -21,7 +21,10 @@ async function main() {
       port,
 
       () => {
-        console.log(colors.green.bold(`App listening on port ${port} ✔️`));
+        console.log(
+          colors.green(`Server is running: `),
+          colors.blue.bold(`http://localhost:${port}`),
+        );
       },
     );
     // pink the server

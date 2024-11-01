@@ -10,28 +10,22 @@ import { Menu } from "antd";
 // import { TBrand } from "@/types";
 import { TBrand } from "@repo/utils/types";
 import { Fragment } from "react";
+import { serverFetcher } from "@/libs/server-fetcher";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-
-async function getBrandsData() {
-  const res = await fetch(`${baseUrl}/brands`, {
+export async function getBrandsData() {
+  const res = await serverFetcher<TBrand[]>(`/brands`, {
     next: {
       revalidate: 3600,
     },
   });
 
-  if (!res?.ok) {
-    throw new Error("Failed to fetch Brands");
-  }
-
-  const data = await res.json();
-  return data;
+  return res.data;
 }
 
 const NavigationLinks = async () => {
   // fetch brands data
   const data = await getBrandsData();
-  const brands: TBrand[] = data?.data || [];
+  const brands: TBrand[] = data || [];
 
   // transform into link item
   const brandListLinks = brands?.map((brand) => ({

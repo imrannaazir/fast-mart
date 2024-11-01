@@ -14,3 +14,13 @@ export const hexToRgba = (hex: string, opacity: number) => {
   let b = parseInt(hex.slice(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
+
+export const debounce = (fn: (...args: unknown[]) => void, delay: number) => {
+  let timer: NodeJS.Timeout;
+  return (...args: unknown[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
