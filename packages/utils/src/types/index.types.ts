@@ -12,3 +12,4 @@ export * from "./variant.interfaces";
 export * from "./wishlist-item.interface";
 export * from "./cart.interface";
 export * from "./jwt.interface";
+export * from "./address.interface";
