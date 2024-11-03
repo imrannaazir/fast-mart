@@ -11,6 +11,7 @@ import CollectionRoutes from '../modules/collection/collection.routes';
 import VariantRoutes, { OptionRoutes } from '../modules/variant/variant.routes';
 import WishListRoutes from '../modules/wishlist-item/wishlist-item.routes';
 import CartItemRoute from '../modules/cart-item/cart-item.routes';
+import AddressRoutes from '../modules/address/address.routes';
 
 const router = Router();
 
@@ -72,6 +73,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/cart-items',
     route: CartItemRoute,
+  },
+  {
+    path: '/addresses',
+    route: AddressRoutes,
   },
 ];
 

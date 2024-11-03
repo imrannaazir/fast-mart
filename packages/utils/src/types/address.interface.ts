@@ -8,6 +8,8 @@ export type TAddress = {
   zipCode: string;
   default: boolean;
   addressType: "home" | "work";
-  created?: Date;
-  updated?: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
+
+export type TAddressInput = Omit<TAddress, "_id" | "createdAt" | "updatedAt" | "default" | "userId">;

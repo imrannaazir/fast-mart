@@ -1,60 +1,94 @@
 "use client";
-import { Button, Flex, Form, Input, message, Modal, Select } from "antd";
+import { Button, Flex, Form, Input, message, Modal, Radio, Select } from "antd";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { City, Country, ICity, ICountry, IState, State } from "country-state-city";
-import { TAddress } from "@repo/utils/types";
+import { City, Country, State } from "country-state-city";
+import { TAddressInput, TCommonOption } from "@repo/utils/types";
+import { IoHomeOutline } from "react-icons/io5";
+import { PiSuitcaseSimple } from "react-icons/pi";
+import { addAddress } from "@/actions/address";
+import { getErrorMessage } from "@repo/utils/functions";
 type TAddAddressForm = {
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-console.log(Country.getAllCountries());
-
+const addressTypeButtons = [
+  {
+    label: "Home",
+    value: "home",
+    icon: IoHomeOutline,
+  },
+  {
+    label: "Office",
+    value: "office",
+    icon: PiSuitcaseSimple,
+  },
+];
 const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen }) => {
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
 
-  const { Option } = Select;
-
   const [form] = Form.useForm();
-  const [countries, setCountries] = useState<any[]>([]);
-  const [states, setStates] = useState<any[]>([]);
-  const [cities, setCities] = useState<any[]>([]);
+  const [countries, setCountries] = useState<TCommonOption[]>([]);
+  const [states, setStates] = useState<TCommonOption[]>([]);
+  const [cities, setCities] = useState<TCommonOption[]>([]);
 
   useEffect(() => {
-    setCountries(Country.getAllCountries());
+    const rowCountries = Country.getAllCountries();
+    const formattedCountries = rowCountries.map((country) => ({
+      value: country.isoCode,
+      label: country.name,
+    }));
+
+    setCountries(formattedCountries);
   }, []);
 
   const onCountryChange = (value: string) => {
     form.setFieldsValue({ state: undefined, city: undefined });
-    setStates(State.getStatesOfCountry(value));
+    const rowStatesOfCountry = State.getStatesOfCountry(value);
+    const formattedStates = rowStatesOfCountry.map((state) => ({
+      value: state.isoCode,
+      label: state.name,
+    }));
+    setStates(formattedStates);
   };
 
   const onStateChange = (value: string) => {
     form.setFieldsValue({ city: undefined });
-    setCities(City.getCitiesOfState(form.getFieldValue("country"), value));
+    const rowCities = City.getCitiesOfState(form.getFieldValue("country"), value);
+    const formattedCities = rowCities.map((city) => ({
+      value: city.name,
+      label: city.name,
+    }));
+    setCities(formattedCities);
   };
 
-  const onFinish = (values: TAddress) => {
-    console.log("Success:", values);
-    message.success("Address added successfully!");
-    form.resetFields();
+  const onFinish = async (values: TAddressInput) => {
+    try {
+      const response = await addAddress(values);
+      console.log(response, "222");
+
+      if (response.success) {
+        message.success(response.message);
+        setIsModalOpen(false);
+        form.resetFields();
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error: any) {
+      message.error(getErrorMessage(error?.message!));
+    }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-    message.error("Please fill all required fields correctly.");
+  const filterOption = (input: string, option: any) => {
+    return (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
   };
 
   return (
     <>
-      <Modal title="Add new shipping Address" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} centered>
-        <Form form={form} name="address" onFinish={onFinish} onFinishFailed={onFinishFailed} layout="vertical">
+      <Modal title="Add new shipping Address" open={isModalOpen} footer={null} onCancel={handleCancel} centered>
+        <Form form={form} name="address" onFinish={onFinish} layout="vertical">
           <Form.Item
             name="fullAddress"
             label="Full Address"
@@ -72,16 +106,11 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
             >
               <Select
                 placeholder="Select country"
-                onChange={onCountryChange}
                 showSearch
-                filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
-              >
-                {countries.map((country) => (
-                  <Option key={country.isoCode} value={country.isoCode} label={country.name}>
-                    {country.name}
-                  </Option>
-                ))}
-              </Select>
+                onChange={onCountryChange}
+                options={countries}
+                filterOption={filterOption}
+              />
             </Form.Item>
 
             <Form.Item
@@ -91,17 +120,13 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
               rules={[{ required: true, message: "Please select your state!" }]}
             >
               <Select
+                disabled={!form.getFieldValue("country")}
                 placeholder="Select state"
-                onChange={onStateChange}
                 showSearch
-                filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
-              >
-                {states.map((state) => (
-                  <Option key={state.isoCode} value={state.isoCode} label={state.name}>
-                    {state.name}
-                  </Option>
-                ))}
-              </Select>
+                onChange={onStateChange}
+                filterOption={filterOption}
+                options={states}
+              />
             </Form.Item>
           </Flex>
 
@@ -113,16 +138,12 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
               rules={[{ required: true, message: "Please select your city!" }]}
             >
               <Select
+                disabled={!form.getFieldValue("state")}
                 placeholder="Select city"
                 showSearch
-                filterOption={(input, option) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase())}
-              >
-                {cities.map((city) => (
-                  <Option key={city.name} value={city.name} label={city.name}>
-                    {city.name}
-                  </Option>
-                ))}
-              </Select>
+                filterOption={filterOption}
+                options={cities}
+              />
             </Form.Item>
 
             <Form.Item
@@ -139,13 +160,23 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
             label="Address Type"
             rules={[{ required: true, message: "Please select an address type!" }]}
           >
-            <Select placeholder="Select address type">
-              <Option value="home">Home</Option>
-              <Option value="work">Work</Option>
-            </Select>
+            <Radio.Group size="large" className="flex w-full">
+              {addressTypeButtons.map((button) => (
+                <Radio.Button className="w-full" value={button.value}>
+                  <div className="flex items-center justify-center gap-4">
+                    <span>{<button.icon />}</span>
+                    <span>{button.label}</span>
+                  </div>
+                </Radio.Button>
+              ))}
+            </Radio.Group>
           </Form.Item>
 
-          <Form.Item>
+          <Form.Item
+            style={{
+              marginBottom: 8,
+            }}
+          >
             <Button type="primary" htmlType="submit" className="w-full">
               Add Address
             </Button>

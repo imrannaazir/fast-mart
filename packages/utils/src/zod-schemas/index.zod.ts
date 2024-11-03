@@ -10,3 +10,4 @@ export * from "./tag.validation";
 export * from "./variant.validations";
 export * from "./wishlist.validations";
 export * from "./cart.validations";
+export * from "./address.validation";
