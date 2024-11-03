@@ -13,5 +13,8 @@ router.post(
   validateRequest(addressValidationSchema),
   AddressControllers.addAddress,
 );
+
+// get addresses
+router.get('/', auth(), AddressControllers.getMyAddresses);
 const AddressRoutes = router;
 export default AddressRoutes;

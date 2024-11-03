@@ -1,5 +1,7 @@
 import { z } from "zod";
 const addressSchema = z.object({
+  fullName: z.string(),
+  phoneNumber: z.string(),
   fullAddress: z.string(),
   country: z.string(),
   state: z.string(),

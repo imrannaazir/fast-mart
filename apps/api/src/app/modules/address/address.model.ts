@@ -5,6 +5,14 @@ const addressSchema = new Schema<
   Omit<TAddress, '_id' | 'createdAt' | 'updatedAt'>
 >(
   {
+    fullName: {
+      type: String,
+      required: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: true,
+    },
     fullAddress: {
       type: String,
       required: true,

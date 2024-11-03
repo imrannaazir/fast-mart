@@ -1,6 +1,8 @@
 export type TAddress = {
   _id?: string;
   userId?: string;
+  fullName: string;
+  phoneNumber: string;
   fullAddress: string;
   country: string;
   state: string;

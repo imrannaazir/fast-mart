@@ -17,8 +17,21 @@ const addAddress = catchAsync(async (req, res) => {
   });
 });
 
+// get all addresses
+const getMyAddresses = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const result = await AddressServices.getMyAddresses(userId!);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'My addresses fetched successfully.',
+    data: result,
+  });
+});
 const AddressControllers = {
   addAddress,
+  getMyAddresses,
 };
 
 export default AddressControllers;
