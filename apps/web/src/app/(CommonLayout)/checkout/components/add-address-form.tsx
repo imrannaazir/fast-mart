@@ -89,6 +89,25 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
     <>
       <Modal title="Add new shipping Address" open={isModalOpen} footer={null} onCancel={handleCancel} centered>
         <Form form={form} name="address" onFinish={onFinish} layout="vertical">
+          <Flex gap={16}>
+            <Form.Item
+              className="w-full"
+              name="fullName"
+              label="Full Name"
+              rules={[{ required: true, message: "Please input full name." }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              className="w-full"
+              name="phoneNumber"
+              label="Phone Number"
+              rules={[{ required: true, message: "Please input phone number" }]}
+            >
+              <Input />
+            </Form.Item>
+          </Flex>
           <Form.Item
             name="fullAddress"
             label="Full Address"
@@ -162,7 +181,7 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
           >
             <Radio.Group size="large" className="flex w-full">
               {addressTypeButtons.map((button) => (
-                <Radio.Button className="w-full" value={button.value}>
+                <Radio.Button key={button.value} className="w-full" value={button.value}>
                   <div className="flex items-center justify-center gap-4">
                     <span>{<button.icon />}</span>
                     <span>{button.label}</span>
