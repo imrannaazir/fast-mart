@@ -2,6 +2,7 @@ import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb
 import Container from "@/components/ui/Container";
 import CheckoutSteps from "./components/checkout-steps";
 import { getAllMyAddresses } from "@/actions/address";
+import OrderSummery from "./components/order-summery";
 
 export default async function CheckoutPage() {
   const checkoutBreadcrumbItems: TAppBreadcrumbItem[] = [
@@ -20,7 +21,7 @@ export default async function CheckoutPage() {
         <div className="col-span-3">
           <CheckoutSteps addresses={myAddresses.data!} />
         </div>
-        <div className="">hello</div>
+        <OrderSummery />
       </Container>
     </>
   );
