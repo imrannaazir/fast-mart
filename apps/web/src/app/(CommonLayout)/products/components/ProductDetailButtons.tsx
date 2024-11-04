@@ -33,7 +33,7 @@ const ProductDetailButtons = (product: TProduct) => {
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
     updateCartList({
-      options: [],
+      options: selectedVariants || [],
       productId: product?._id!,
       productImg: product?.media?.[0]?.url!,
       productPrice: product?.price!,

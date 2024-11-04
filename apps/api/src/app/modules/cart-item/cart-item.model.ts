@@ -16,8 +16,7 @@ const cartItemSchema = new Schema<TCartItem>(
     },
     options: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'option',
+        type: String,
       },
     ],
     quantity: {

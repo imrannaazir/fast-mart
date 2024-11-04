@@ -1,21 +1,21 @@
-import { StatusCodes } from 'http-status-codes';
-import AppError from '../../errors/AppError';
-import { TInputVariant, TProduct } from '@repo/utils/types';
-import Product from './product.model';
-import QueryBuilder from '../../builder/QueryBuilder';
 import { ProductSearchableFields } from '@repo/utils/constants';
+import { TInputVariant, TProduct } from '@repo/utils/types';
+import { StatusCodes } from 'http-status-codes';
 import mongoose from 'mongoose';
+import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
+import { TMeta } from '../../utils/sendResponse';
 import Brand from '../brand/brand.model';
 import Category from '../category/category.model';
 import { Collection } from '../collection/collection.models';
 import { Image } from '../image/image.model';
+import Tag from '../tag/tag.model';
 import {
   Option,
   ProductVariantOption,
   Variant,
 } from '../variant/variant.model';
-import Tag from '../tag/tag.model';
-import { TMeta } from '../../utils/sendResponse';
+import Product from './product.model';
 
 // create product
 const createProduct = async (
@@ -257,9 +257,14 @@ const getAllProduct = async (
 
 // get single product by id
 const getSingleProductById = async (id: string): Promise<TProduct> => {
-  const result = await Product.findById(id).populate(
-    'brand createdBy media collections categories variants tags',
-  );
+  const result = await Product.findById(id)
+    .populate('brand createdBy categories tags collections media')
+    .populate({
+      path: 'variants',
+      populate: {
+        path: 'variantId options',
+      },
+    });
 
   if (!result) {
     throw new AppError(

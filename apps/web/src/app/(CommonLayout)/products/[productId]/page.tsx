@@ -1,17 +1,17 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
+import { TImage, TProduct } from "@repo/utils/types";
 import { Fragment } from "react";
 import HomePageTrendingProducts from "../../components/HomePageTrendingProducts";
-import ProductBrandDetails from "../components/ProductBrandDetails";
 import ProductBasicDescription from "../components/ProductBasicDescription";
-import { TImage, TProduct } from "@repo/utils/types";
-import ProductGallery from "../components/ProductGallery";
+import ProductBrandDetails from "../components/ProductBrandDetails";
 import ProductDetailsTab from "../components/ProductDetailsTab";
+import ProductGallery from "../components/ProductGallery";
 // import StickyBox from "react-sticky-box";
-import HomeSectionTop from "../../components/HomeSectionTop";
 import { AppButton } from "@/components/ui/AppButton";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { serverFetcher } from "@/libs/server-fetcher";
+import HomeSectionTop from "../../components/HomeSectionTop";
 
 async function getProduct(productId: string) {
   const response = await serverFetcher<TProduct>(`/products/${productId}`, {

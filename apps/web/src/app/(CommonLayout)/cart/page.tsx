@@ -4,8 +4,8 @@ import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb
 import Container from "@/components/ui/Container";
 import { useCartList } from "@/contexts/cartlist-context";
 import { Button, Card, Empty } from "antd";
-import CartItem from "./components/cart-items";
 import { BiX } from "react-icons/bi";
+import CartItem from "./components/cart-items";
 import CartSummery from "./components/cart-summery";
 
 const CartPage = () => {
@@ -16,6 +16,7 @@ const CartPage = () => {
       href: "/cart",
     },
   ];
+
   return (
     <>
       <AppBreadcrumb items={cartBreadcrumbItems} title="Cart" />

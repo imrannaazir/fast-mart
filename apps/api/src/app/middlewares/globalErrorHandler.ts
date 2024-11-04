@@ -2,13 +2,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
-import handleZodError from '../errors/handleZodError';
 import config from '../config';
-import handleMongooseError from '../errors/handleMongooseError';
-import handleDuplicateKeyError from '../errors/handleDuplicateKeyError';
-import handleCastError from '../errors/handleCastError';
 import AppError from '../errors/AppError';
 import handleAppError from '../errors/handleAppError';
+import handleCastError from '../errors/handleCastError';
+import handleDuplicateKeyError from '../errors/handleDuplicateKeyError';
+import handleMongooseError from '../errors/handleMongooseError';
+import handleZodError from '../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   /* 

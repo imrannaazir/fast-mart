@@ -10,8 +10,10 @@ const OrderSummery = () => {
   const discount = 0;
   const totalPrice = subTotalPrice + shippingFee - discount;
 
+  console.log({ cartList });
+
   return (
-    <Card className="h-fit bg-gray-100">
+    <Card className="mt-8 h-fit bg-gray-100">
       {/* promo code  */}
       <h3 className="mb-2 text-lg font-semibold">Order Summery</h3>
       <div>

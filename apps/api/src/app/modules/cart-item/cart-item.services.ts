@@ -1,11 +1,10 @@
 import { TCartItem, TCartItemInput } from '@repo/utils/types';
-import Product from '../product/product.model';
-import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
-import { Option } from '../variant/variant.model';
-import CartItem from './cart-item.model';
 import { UpdateQuery } from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
+import Product from '../product/product.model';
+import CartItem from './cart-item.model';
 
 // update product to cart
 const updateProductToCart = async (payload: TCartItemInput) => {
@@ -18,7 +17,7 @@ const updateProductToCart = async (payload: TCartItemInput) => {
 
   // check options are exist
 
-  if (options?.length) {
+  /* if (options?.length) {
     const countOptions = await Option.countDocuments({
       _id: { $in: options },
     });
@@ -29,7 +28,7 @@ const updateProductToCart = async (payload: TCartItemInput) => {
         'One or more options not found!',
       );
     }
-  }
+  } */
 
   //   update product to cart
   const updateData: UpdateQuery<TCartItem> = {
@@ -41,10 +40,10 @@ const updateProductToCart = async (payload: TCartItemInput) => {
       : { $inc: { quantity: type === 'add' ? 1 : -1 } }),
   };
   const cartItem = await CartItem.findOneAndUpdate(
-    { user, product },
+    { user, product, options },
     updateData,
     { upsert: true, new: true, runValidators: true },
-  ).populate('options');
+  );
 
   // delete item from cart if quantity is 0
   if (cartItem && cartItem.quantity <= 0) {

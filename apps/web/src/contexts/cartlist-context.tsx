@@ -2,10 +2,10 @@
 
 import { clearCartList, updateCart } from "@/actions/cart";
 import { generateCartState } from "@/libs/generate-cart-state";
+import { compareTwoArrayOfString, getErrorMessage } from "@repo/utils/functions";
+import { CartActionType, TCartStateItem } from "@repo/utils/types";
 import { message } from "antd";
 import { createContext, ReactNode, useCallback, useContext, useState } from "react";
-import { getErrorMessage } from "@repo/utils/functions";
-import { CartActionType, TCartStateItem } from "@repo/utils/types";
 
 type TContextPayload = {
   productId: string;
@@ -50,7 +50,7 @@ export const CartListContextProvider = ({
     setPrevCartList(cartList);
 
     const optimisticallyUpdatedCartList = cartList.map((item) => {
-      if (payload.productId === item.productId) {
+      if (payload.productId === item.productId && compareTwoArrayOfString(payload.options, item.options!)) {
         if (payload.type === "add") {
           item.quantity = item.quantity + 1;
         } else if (payload.type === "decrement") {

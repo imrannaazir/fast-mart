@@ -7,13 +7,12 @@ import { memo } from "react";
 import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
 
 const CartItem = ({ item }: { item: TCartStateItem }) => {
-  const { productImg, productTitle, productId, productPrice, quantity } = item;
+  const { productImg, productTitle, productId, productPrice, quantity, options } = item;
   const { isInCart, updateCartList } = useCartList();
-
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
     updateCartList({
-      options: [],
+      options: options!,
       productId,
       productImg: productImg!,
       productPrice,
@@ -43,11 +42,14 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
         <div>
           <h2 className="text-base font-semibold">{productTitle}</h2>
           <span>
-            {["White", "XL"].map((variant, i) => (
-              <Tag key={i} className="text-xs">
-                {variant}
-              </Tag>
-            ))}
+            {options!.map((variant, i) => {
+              const variantName = variant.split("=");
+              return (
+                <Tag key={i} className="text-xs capitalize">
+                  {variantName[1]}
+                </Tag>
+              );
+            })}
           </span>
         </div>
       </div>
