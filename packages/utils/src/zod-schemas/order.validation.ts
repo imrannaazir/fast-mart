@@ -1,17 +1,10 @@
 import { z } from "zod";
+import { PaymentType } from "../constants/order.constants";
 
-const orderedProduct = z.object({
-  product: z.string(),
-  quantity: z.number().gt(0),
-});
-
-export const createOrderSchema = z.object({
-  buyer_name: z.string(),
-  buyer_contact: z.string(),
-  soldAt: z.string(),
-  products: z.array(orderedProduct),
-  totalCost: z.number(),
-});
-export const createOrderValidationSchema = z.object({
-  body: createOrderSchema,
+export const placeOrderValidation = z.object({
+  body: z.object({
+    cartItemsId: z.array(z.string()),
+    addressId: z.string(),
+    paymentType: z.enum(PaymentType as [string, ...string[]]),
+  }),
 });

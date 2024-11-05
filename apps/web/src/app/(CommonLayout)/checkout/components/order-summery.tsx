@@ -1,17 +1,40 @@
 "use client";
+import { placeOrder } from "@/actions/order";
 import { useCartList } from "@/contexts/cartlist-context";
+import { useOrderContext } from "@/contexts/order-context";
+import { getErrorMessage } from "@repo/utils/functions";
 import { TCartStateItem } from "@repo/utils/types";
-import { Button, Card, Divider, Empty } from "antd";
+import { Button, Card, Divider, Empty, message } from "antd";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const OrderSummery = () => {
+  const { defaultAddress, paymentType } = useOrderContext();
   const { subTotalPrice, cartList } = useCartList();
   const shippingFee = subTotalPrice ? 10 : 0;
   const discount = 0;
   const totalPrice = subTotalPrice + shippingFee - discount;
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  console.log({ cartList });
+  const orderPayload = {
+    cartItemsId: cartList.map((item) => item._id),
+    addressId: defaultAddress,
+    paymentType,
+  };
 
+  const handlePlaceOrder = async () => {
+    setIsLoading(true);
+    try {
+      await placeOrder(orderPayload);
+      setIsLoading(false);
+      router.push("/order-success");
+    } catch (error) {
+      message.error(getErrorMessage(error));
+      setIsLoading(false);
+    }
+  };
   return (
     <Card className="mt-8 h-fit bg-gray-100">
       {/* promo code  */}
@@ -47,7 +70,7 @@ const OrderSummery = () => {
           <span>${totalPrice}</span>
         </p>
       </div>
-      <Button block size="large" type="primary" className="mt-4">
+      <Button block size="large" type="primary" className="mt-4" onClick={handlePlaceOrder} loading={isLoading}>
         Place Order
       </Button>
     </Card>

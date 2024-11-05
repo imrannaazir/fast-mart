@@ -1,5 +1,6 @@
 import { getMyCartList } from "@/actions/cart";
 import { CartListContextProvider } from "@/contexts/cartlist-context";
+import { OrderContextProvider } from "@/contexts/order-context";
 import { WishlistProvider as WishlistContextProvider } from "@/contexts/wishlist-context";
 import { generateCartState } from "@/libs/generate-cart-state";
 import { getWishListedProductIds } from "@/libs/getWishListedProductIds";
@@ -12,7 +13,9 @@ const ContextProvider = async ({ children }: { children: ReactNode }) => {
 
   return (
     <WishlistContextProvider initialWishlist={wishlist}>
-      <CartListContextProvider initialCartList={cartListState}>{children}</CartListContextProvider>
+      <CartListContextProvider initialCartList={cartListState}>
+        <OrderContextProvider>{children}</OrderContextProvider>
+      </CartListContextProvider>
     </WishlistContextProvider>
   );
 };

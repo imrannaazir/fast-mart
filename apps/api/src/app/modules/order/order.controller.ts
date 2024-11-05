@@ -1,40 +1,21 @@
+import { TPlaceOrderInput } from '@repo/utils/types';
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import OrderService from './order.service';
-import { Types } from 'mongoose';
+import OrderServices from './order.service';
 
-// create order
-const createOrder = catchAsync(async (req, res) => {
-  const payload = req.body;
-  const userId = req.user._id;
-  const result = await OrderService.createOrder(
-    payload,
-    userId as Types.ObjectId,
-  );
+const placeOrder = catchAsync(async (req, res) => {
+  const body = req.body as TPlaceOrderInput;
+  const userId = req?.user?._id;
 
+  const response = await OrderServices.placeOrder(body, userId!);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
-    message: 'Order created successfully.',
-    data: result,
+    message: 'Order placed successfully',
+    data: response,
   });
 });
 
-// get all orders
-const getAllOrder = catchAsync(async (req, res) => {
-  const query = req.query;
-  const userId = req.user.email;
-  const result = await OrderService.getAllOrder(query, userId);
-  sendResponse(res, {
-    success: true,
-    statusCode: StatusCodes.OK,
-    message: 'Orders retrieved successfully',
-    data: result,
-  });
-});
-const OrderController = {
-  createOrder,
-  getAllOrder,
-};
-export default OrderController;
+const OrderControllers = { placeOrder };
+export default OrderControllers;

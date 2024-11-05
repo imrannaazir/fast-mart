@@ -1,6 +1,7 @@
 "use client";
 import { useCartList } from "@/contexts/cartlist-context";
 import { Button, Card, Divider, Form, Input, message, Space } from "antd";
+import Link from "next/link";
 
 const CartSummery = () => {
   const { subTotalPrice } = useCartList();
@@ -55,9 +56,11 @@ const CartSummery = () => {
           <span>${totalPrice}</span>
         </p>
       </div>
-      <Button block size="large" type="primary" className="mt-4">
-        Checkout
-      </Button>
+      <Link href={"/checkout"}>
+        <Button block size="large" type="primary" className="mt-4">
+          Checkout
+        </Button>
+      </Link>
     </Card>
   );
 };
