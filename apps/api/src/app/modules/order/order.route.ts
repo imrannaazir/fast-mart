@@ -9,7 +9,7 @@ const router = Router();
 // create order
 router.post(
   '/place',
-  auth('USER'),
+  auth(),
   validateRequest(placeOrderValidation),
   OrderController.placeOrder,
 );
