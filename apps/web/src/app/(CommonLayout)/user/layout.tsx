@@ -1,6 +1,7 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
 import { ReactNode } from "react";
+import UserSidebar from "./components/user-sidebar";
 
 const UserLayout = ({ children }: { children: ReactNode }) => {
   const userBreadcrumb: TAppBreadcrumbItem[] = [
@@ -12,8 +13,8 @@ const UserLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <AppBreadcrumb items={userBreadcrumb} title="User Dashboard" />
-      <Container className="grid grid-cols-4">
-        <aside>sidebar</aside>
+      <Container className="mb-6 grid grid-cols-4">
+        <UserSidebar />
         <div className="col-span-3">{children}</div>
       </Container>
     </>

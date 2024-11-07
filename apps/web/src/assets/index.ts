@@ -25,6 +25,7 @@ const assets = {
       summer_vegetable: "/images/summer_vegetable.jpg",
       login: "/images/log-in.png",
       register: "/images/sign-up.png",
+      user_cover: "/images/user-cover.jpg",
     },
   },
   svg: {
