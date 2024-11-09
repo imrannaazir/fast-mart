@@ -13,9 +13,9 @@ const UserLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <AppBreadcrumb items={userBreadcrumb} title="User Dashboard" />
-      <Container className="mb-6 grid grid-cols-4">
+      <Container className="mb-6 grid grid-cols-4 gap-4">
         <UserSidebar />
-        <div className="col-span-3">{children}</div>
+        <div className="col-span-3 rounded-md bg-gray-100 p-6">{children}</div>
       </Container>
     </>
   );

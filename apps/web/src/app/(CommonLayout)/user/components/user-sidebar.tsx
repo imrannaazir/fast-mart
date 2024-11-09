@@ -1,8 +1,53 @@
+"use client";
 import assets from "@/assets";
-import { Avatar, Divider } from "antd";
-import { Edit } from "lucide-react";
+import { Avatar, Divider, GetProp, Menu, MenuProps } from "antd";
+import { Edit, Heart } from "lucide-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { FiUser } from "react-icons/fi";
+import { LuHome, LuMapPin, LuShoppingBag } from "react-icons/lu";
+
 const UserSidebar = () => {
+  type MenuItem = GetProp<MenuProps, "items">[number];
+  const pathname = usePathname();
+  const pathnameArr = pathname.split("/");
+  const currentPage = pathnameArr[pathnameArr.length - 1];
+  const router = useRouter();
+  const items: MenuItem[] = [
+    {
+      key: "dashboard",
+      icon: <LuHome size={16} />,
+      label: "Dashboard",
+      onClick: () => router.push("/user/dashboard"),
+    },
+    {
+      key: "order",
+      icon: <LuShoppingBag size={16} />,
+      label: "Order",
+      onClick: () => router.push("/user/order"),
+    },
+    {
+      key: "wishlist",
+      icon: <Heart size={16} />,
+      label: "Wishlist",
+      onClick: () => router.push("/user/wishlist"),
+    },
+    {
+      key: "address",
+      icon: <LuMapPin size={16} />,
+      label: "Address",
+
+      onClick: () => router.push("/user/address"),
+    },
+    {
+      key: "profile",
+      icon: <FiUser size={16} />,
+      label: "Profile",
+
+      onClick: () => router.push("/user/profile"),
+    },
+  ];
+
   return (
     <aside className="rounded-md bg-gray-100">
       <div className="relative w-full">
@@ -38,8 +83,16 @@ const UserSidebar = () => {
           <h2 className="text-[22px] font-semibold">Imran Nazir </h2>
           <p className="text-sm font-medium text-gray-500">imrannaaziremon@gmail.com</p>
         </div>
-        <Divider className="" />
-        sidebar
+        <Divider style={{ margin: 10 }} />
+
+        <Menu
+          style={{ border: 0 }}
+          className="bg-transparent"
+          selectedKeys={[currentPage!]}
+          defaultSelectedKeys={["dashboard"]}
+          mode={"vertical"}
+          items={items}
+        />
       </div>
     </aside>
   );
