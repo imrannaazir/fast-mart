@@ -2,10 +2,10 @@ import assets from "@/assets";
 import { cn } from "@/libs/utils";
 import { ClassValue } from "clsx";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 type THomeSectionTop = {
   heading: string;
-  description: string;
+  description: ReactNode;
   className?: ClassValue;
 };
 
