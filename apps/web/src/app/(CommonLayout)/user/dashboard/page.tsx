@@ -27,6 +27,12 @@ const UserDashboard = () => {
       numbers: 3698,
       icon: HiOutlineBuildingStorefront,
     },
+    {
+      id: 4,
+      title: "Total Order",
+      numbers: 3698,
+      icon: HiOutlineBuildingStorefront,
+    },
   ];
   return (
     <div>
@@ -46,7 +52,7 @@ const UserDashboard = () => {
       />
 
       {/* cards */}
-      <div className="mt-6 grid grid-cols-3 gap-6">{data?.map((item) => <Card cardData={item} />)}</div>
+      <div className="mt-6 grid grid-cols-3 gap-6">{data?.map((item) => <Card cardData={item} key={item.id} />)}</div>
     </div>
   );
 };
@@ -59,13 +65,9 @@ const Card = ({ cardData }: { cardData: TCard }) => {
       <div className="flex items-center gap-4">
         <cardData.icon size={56} className="text-primary" />
         <div>
-          <p className="font-medium text-gray-500">{cardData?.title}</p>
+          <p className="z-50 font-medium text-gray-500">{cardData?.title}</p>
           <h3 className="text-lg font-medium">{cardData?.numbers}</h3>
         </div>
-      </div>
-      {/* bg icon */}
-      <div>
-        <cardData.icon size={56} className="text-gray-100" />
       </div>
     </div>
   );
