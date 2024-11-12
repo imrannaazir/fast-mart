@@ -1,8 +1,8 @@
 import { TWishlistItem } from '@repo/utils/types';
-import Product from '../product/product.model';
 import { StatusCodes } from 'http-status-codes';
-import WishlistItem from './wishlist-item.model';
 import AppError from '../../errors/AppError';
+import Product from '../product/product.model';
+import WishlistItem from './wishlist-item.model';
 
 // add product in wishlist
 const toggleProductInWishlist = async (
@@ -54,7 +54,13 @@ const toggleProductInWishlist = async (
 const getAllUserWishlistItems = async (userId: string) => {
   const result = await WishlistItem.find({
     userId,
+  }).populate({
+    path: 'productId',
+    model: 'product',
+    select: 'price  compare_price title',
+    populate: 'media',
   });
+
   return result;
 };
 const WishlistItemServices = {

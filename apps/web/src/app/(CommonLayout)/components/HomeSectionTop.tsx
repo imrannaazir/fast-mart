@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FC, ReactNode } from "react";
 type THomeSectionTop = {
   heading: string;
-  description: ReactNode;
+  description?: ReactNode;
   className?: ClassValue;
 };
 
@@ -22,7 +22,7 @@ const HomeSectionTop: FC<THomeSectionTop> = ({ heading, description, className }
         <span />
       </div>
       {/* description */}
-      <p className="text-sm text-gray-500">{description}</p>
+      {description && <div className="text-sm text-gray-500">{description}</div>}
     </div>
   );
 };

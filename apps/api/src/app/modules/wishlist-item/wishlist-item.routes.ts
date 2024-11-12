@@ -1,8 +1,8 @@
 import { wishlistItemValidationSchema } from '@repo/utils/zod-schemas';
 import { Router } from 'express';
+import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import WishlistControllers from './wishlist-item.controllers';
-import auth from '../../middlewares/auth';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ router.post(
 );
 
 // get all user's wishlist items : GET
-router.get('/:userId', auth(), WishlistControllers.getAllUserWishlistItems);
+router.get('/', auth(), WishlistControllers.getAllUserWishlistItems);
 
 const WishListRoutes = router;
 export default WishListRoutes;

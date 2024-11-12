@@ -2,14 +2,18 @@ import Image from "next/image";
 import AppProductButtons from "./AppProductCardButtons";
 import ProductCardRate from "./ProductCardRate";
 // import ProductCardAddToCartButton from "./ProductCardAddToCartButton";
-import { TAppProductCardProps } from "@/types";
-import Link from "next/link";
 import assets from "@/assets";
+import { cn } from "@/libs/utils";
+import { TAppProductCardProps } from "@/types";
+import { ClassValue } from "clsx";
+import Link from "next/link";
 
-const AppProductCard = ({ product }: { product: TAppProductCardProps }) => {
+const AppProductCard = ({ product, className }: { product: TAppProductCardProps; className?: ClassValue }) => {
   const { compare_price = 0, id = "", price = 0, title = "", photo = assets.images.blank_image } = product || {};
+  console.log(product);
+
   return (
-    <div className="group min-w-[224px] rounded-lg border p-3 text-start text-sm shadow-sm">
+    <div className={cn("group min-w-[224px] rounded-lg border p-3 text-start text-sm shadow-sm", className)}>
       {/* image */}
       <div className="relative mx-auto flex items-center justify-center">
         {/* buttons */}

@@ -1,7 +1,7 @@
-import catchAsync from '../../utils/catchAsync';
-import WishlistItemServices from './wishlist-services';
-import sendResponse from '../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import WishlistItemServices from './wishlist-services';
 
 // toggle product in wishlist
 const toggleProductInWishlist = catchAsync(async (req, res) => {
@@ -23,7 +23,7 @@ const toggleProductInWishlist = catchAsync(async (req, res) => {
 // get all user's wishlist items
 const getAllUserWishlistItems = catchAsync(async (req, res) => {
   // do
-  const userId = req.params.userId;
+  const userId = req.user._id;
   const wishlistItems = await WishlistItemServices.getAllUserWishlistItems(
     userId!,
   );

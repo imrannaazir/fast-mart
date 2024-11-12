@@ -2,6 +2,7 @@
 
 import { toggleProductInWishlist } from "@/actions/wishlist";
 import { getErrorMessage } from "@repo/utils/functions";
+import { TWishlistItem } from "@repo/utils/types";
 import { message } from "antd";
 import {
   createContext,
@@ -30,9 +31,9 @@ export const WishlistProvider = ({
   initialWishlist = [],
 }: {
   children: ReactNode;
-  initialWishlist?: string[];
+  initialWishlist?: TWishlistItem[];
 }) => {
-  const [wishlist, setWishlist] = useState<string[]>(initialWishlist);
+  const [wishlist, setWishlist] = useState<string[]>(initialWishlist?.map((item) => item._id));
   const [isToggling, startTransition] = useTransition();
 
   const isInWishlist = useCallback((productId: string) => wishlist.includes(productId), [wishlist]);
@@ -49,7 +50,7 @@ export const WishlistProvider = ({
           const result = await toggleProductInWishlist({ productId });
 
           if (result.success) {
-            const updatedWishListedProductIds = result?.data?.map((item) => item.productId);
+            const updatedWishListedProductIds = result?.data?.map((item) => item.productId as string);
             setWishlist(updatedWishListedProductIds!);
           } else {
             throw new Error(result.message);

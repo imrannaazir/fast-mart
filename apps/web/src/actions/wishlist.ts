@@ -23,7 +23,7 @@ export const getAllMyWishlistItems = cache(async () => {
   const session = await getServerSession(authOptions);
 
   if (session?.user?.userId) {
-    const myWishlistItems = await serverFetcher<TWishlistItem[]>(`/wishlist-items/${session?.user?.userId}`, {});
+    const myWishlistItems = await serverFetcher<TWishlistItem[]>(`/wishlist-items`, {});
     return myWishlistItems?.data;
   } else {
     return [];
