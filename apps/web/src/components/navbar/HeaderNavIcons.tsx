@@ -1,14 +1,14 @@
 "use client";
 
 import assets from "@/assets";
+import { useCartList } from "@/contexts/cartlist-context";
+import { cn } from "@/libs/utils";
 import { Badge, Dropdown, theme } from "antd";
+import { ClassValue } from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import DropdownCart from "./DropdownCart";
 import DropdownUser from "./DropdownUser";
-import { ClassValue } from "clsx";
-import { cn } from "@/libs/utils";
-import { useCartList } from "@/contexts/cartlist-context";
 const { useToken } = theme;
 const commonStyles: ClassValue = "hidden md:block";
 const HeaderNavbarIcons = () => {
@@ -46,17 +46,7 @@ const HeaderNavbarIcons = () => {
         </Badge>
       </Dropdown>
       <Divider />
-      <Dropdown
-        menu={{}}
-        dropdownRender={() => (
-          <div className="mt-3 max-w-[320px] px-6 py-4" style={contentStyle}>
-            <DropdownUser />
-          </div>
-        )}
-        placement="bottomRight"
-      >
-        <Image src={assets.svg.user} height={24} width={24} alt="user" />
-      </Dropdown>
+      <DropdownUser />
     </div>
   );
 };

@@ -15,19 +15,23 @@ const WishlistPage = async () => {
       />
       {wishlist?.length ? (
         <div className="grid grid-cols-4 gap-4 space-x-4">
-          {wishlist.map((item) => (
-            <AppProductCard
-              className="bg-background"
-              key={item._id}
-              product={{
-                id: (item.productId as TWishlistItemProduct)._id,
-                compare_price: (item.productId as TWishlistItemProduct).compare_price,
-                photo: (item.productId as TWishlistItemProduct)?.media?.[0]?.url!,
-                price: (item.productId as TWishlistItemProduct).price,
-                title: (item.productId as TWishlistItemProduct).title,
-              }}
-            />
-          ))}
+          {wishlist.map((item) => {
+            const { _id, title, compare_price, media, price } = (item.productId as TWishlistItemProduct) || {};
+
+            return (
+              <AppProductCard
+                className="bg-background"
+                key={_id}
+                product={{
+                  id: _id,
+                  compare_price: compare_price,
+                  photo: media?.[0]?.url!,
+                  price: price,
+                  title: title,
+                }}
+              />
+            );
+          })}
         </div>
       ) : (
         <div></div>
