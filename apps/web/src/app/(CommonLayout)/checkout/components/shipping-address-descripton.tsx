@@ -1,11 +1,12 @@
 "use client";
 import { deleteAddress, markAsDefaultAddress } from "@/actions/address";
+import { useOrderContext } from "@/contexts/order-context";
 import { getErrorMessage } from "@repo/utils/functions";
 import { TAddress } from "@repo/utils/types";
 import { Button, Card, Empty, message, Modal, Radio, RadioChangeEvent, Tag } from "antd";
 import { Country, State } from "country-state-city";
 import { MapPin, Trash } from "lucide-react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { BsExclamationCircleFill, BsTelephone } from "react-icons/bs";
 import { IoHomeOutline } from "react-icons/io5";
@@ -14,10 +15,15 @@ import AddAddressForm from "./add-address-form";
 
 type TShippingAddressDescription = {
   addresses: TAddress[];
-  defaultAddress: string;
 };
 
-const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses, defaultAddress }) => {
+const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses }) => {
+  const { defaultAddress, setDefaultAddress } = useOrderContext();
+
+  useEffect(() => {
+    setDefaultAddress(addresses.find((address) => !!address.default)?._id || "");
+  }, [addresses]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAlertModelOpen, setIsAlertModalOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");

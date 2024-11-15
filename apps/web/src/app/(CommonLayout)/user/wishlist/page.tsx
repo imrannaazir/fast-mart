@@ -2,13 +2,14 @@ import { getAllMyWishlistItems } from "@/actions/wishlist";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 
 import { TWishlistItemProduct } from "@repo/utils/types";
+import { Empty } from "antd";
 import HomeSectionTop from "../../components/HomeSectionTop";
 
 const WishlistPage = async () => {
   const wishlist = await getAllMyWishlistItems();
 
   return (
-    <div>
+    <div className="h-full">
       <HomeSectionTop
         heading="My Wishlist History
 "
@@ -34,7 +35,7 @@ const WishlistPage = async () => {
           })}
         </div>
       ) : (
-        <div></div>
+        <Empty />
       )}
     </div>
   );

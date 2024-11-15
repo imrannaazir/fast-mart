@@ -4,7 +4,6 @@ import { Avatar, Divider, GetProp, Menu, MenuProps } from "antd";
 import { Edit, Heart } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { FiUser } from "react-icons/fi";
 import { LuHome, LuMapPin, LuShoppingBag } from "react-icons/lu";
 
 const UserSidebar = () => {
@@ -39,17 +38,10 @@ const UserSidebar = () => {
 
       onClick: () => router.push("/user/address"),
     },
-    {
-      key: "profile",
-      icon: <FiUser size={16} />,
-      label: "Profile",
-
-      onClick: () => router.push("/user/profile"),
-    },
   ];
 
   return (
-    <aside className="rounded-md bg-gray-100">
+    <aside className="sticky top-6 h-fit rounded-md bg-gray-100">
       <div className="relative w-full">
         <Image
           src={assets.images.banners.user_cover}

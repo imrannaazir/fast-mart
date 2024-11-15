@@ -2,6 +2,8 @@
 import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import HomeSectionTop from "../../components/HomeSectionTop";
 import Card, { TCard } from "../components/card";
+import ChangePassword from "../components/change-password";
+import ProfileInformation from "../components/profile-information";
 
 const UserDashboard = () => {
   const data: TCard[] = [
@@ -43,6 +45,10 @@ const UserDashboard = () => {
 
       {/* cards */}
       <div className="mt-6 grid grid-cols-3 gap-6">{data?.map((item) => <Card cardData={item} key={item.id} />)}</div>
+
+      {/* profile information */}
+      <ProfileInformation />
+      <ChangePassword />
     </div>
   );
 };
