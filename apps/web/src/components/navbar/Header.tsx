@@ -1,6 +1,6 @@
-import HeaderSearch from "./HeaderSearch";
-import HeaderNavbarIcons from "./HeaderNavIcons";
 import AppLogo from "../ui/AppLogo";
+import HeaderNavbarIcons from "./HeaderNavIcons";
+import HeaderSearch from "./HeaderSearch";
 import MobileNavMenuDrawer from "./MobileNavMenuDrawer";
 
 const Header = () => {
@@ -10,10 +10,8 @@ const Header = () => {
       <MobileNavMenuDrawer />
       {/* logo */}
       <AppLogo />
-
       {/* search input */}
       <HeaderSearch />
-
       {/* navigation icons */}
       <HeaderNavbarIcons />
     </div>

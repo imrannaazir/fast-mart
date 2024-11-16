@@ -19,7 +19,7 @@ const CartItem = ({ cartItem }: { cartItem: TCartStateItem }) => {
     });
   };
   return (
-    <div className="flex max-w-[320px] gap-[15px]">
+    <div className="flex gap-[15px]">
       {/* image */}
       <Image className="h-[72px] w-[87px] object-cover" src={productImg!} width={87} height={72} alt="product" />
       {/* details */}

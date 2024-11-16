@@ -17,7 +17,7 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
 
   const orderItems = cartList.map((cartItem) => {
     console.log('.............................');
-    console.log(cartItem.product.variants[0]);
+    console.log(cartItem);
 
     return cartItem;
   });

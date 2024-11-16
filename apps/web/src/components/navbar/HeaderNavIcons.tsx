@@ -35,7 +35,7 @@ const HeaderNavbarIcons = () => {
         className={commonStyles}
         menu={{}}
         dropdownRender={() => (
-          <div className={cn("mt-3 max-w-[320px] px-4 py-5")} style={contentStyle}>
+          <div className={cn("mt-3 px-4 py-5")} style={contentStyle}>
             <DropdownCart />
           </div>
         )}
