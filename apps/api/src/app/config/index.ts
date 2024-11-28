@@ -27,4 +27,5 @@ export default {
     email: process.env.SUPER_ADMIN_EMAIL,
     password: process.env.SUPER_ADMIN_PASSWORD,
   },
+  shipping_amount: process.env.SHIPPING_AMOUNT,
 };

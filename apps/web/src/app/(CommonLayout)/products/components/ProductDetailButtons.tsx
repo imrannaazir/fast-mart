@@ -6,6 +6,7 @@ import { debounce } from "@repo/utils/functions";
 import { CartActionType, TProduct } from "@repo/utils/types";
 import { Button, Divider } from "antd";
 import { Info } from "lucide-react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Fragment, useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
@@ -15,8 +16,9 @@ import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 const ProductDetailButtons = (product: TProduct) => {
   const { isInWishlist, toggleWishlist, isToggling } = useWishlist();
   const searchParams = useSearchParams();
+  const stringSearchParams = searchParams.toString();
 
-  const selectedVariants = searchParams.toString().split("&");
+  const selectedVariants = stringSearchParams ? stringSearchParams.split("&") : [];
 
   // handle toggle product  in wishlist
   const handleToggleWishlist = useCallback(() => {
@@ -78,9 +80,11 @@ const ProductDetailButtons = (product: TProduct) => {
         </div>
 
         {/* Buy now button */}
-        <Button type="primary" size="large" className="">
-          Buy Now
-        </Button>
+        <Link href={"/cart"}>
+          <Button type="primary" size="large" className="">
+            Buy Now
+          </Button>
+        </Link>
       </div>
 
       <Divider className="mb-3" />

@@ -79,11 +79,13 @@ const orderItemSchema = new Schema<
       ref: 'product',
       required: true,
     },
-    optionId: {
-      type: Schema.Types.ObjectId,
-      ref: 'option',
-      required: true,
-    },
+    optionIds: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'option',
+        required: true,
+      },
+    ],
     price: {
       type: Number,
       required: true,

@@ -21,20 +21,23 @@ export type TOrder = {
   updatedAt?: Date;
 };
 
+export type TOrderPayload = Omit<TOrder, "_id" | "createdAt" | "updatedAt">;
+
 export type TOrderItem = {
   _id?: string;
   orderId?: string;
   productId?: string;
-  optionId?: string;
+  optionIds?: string[];
   price: number;
   quantity: number;
   totalAmount: number;
   createdAt?: Date;
   updatedAt?: Date;
 };
+export type TOrderItemPayload = Omit<TOrderItem, "_id" | "createdAt" | "updatedAt">;
 
 export type TPlaceOrderInput = {
-  cartItemsId: string[];
+  cartItemIds: string[];
   addressId: string;
   paymentType: TPaymentType;
 };

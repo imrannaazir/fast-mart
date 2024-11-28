@@ -21,7 +21,7 @@ const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses
   const { defaultAddress, setDefaultAddress } = useOrderContext();
 
   useEffect(() => {
-    setDefaultAddress(addresses.find((address) => !!address.default)?._id || "");
+    setDefaultAddress(addresses?.find((address) => !!address.default)?._id || "");
   }, [addresses]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,9 +122,9 @@ const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses
           </Button>
         }
       >
-        {addresses.length > 0 ? (
+        {addresses?.length > 0 ? (
           <Radio.Group className="grid w-full grid-cols-2 gap-6" onChange={onChange} value={defaultAddress}>
-            {addresses.map((address) => {
+            {addresses?.map((address) => {
               const AddressTypeIcon = address.addressType === "home" ? IoHomeOutline : PiSuitcaseSimple;
               return (
                 <Card key={address._id}>

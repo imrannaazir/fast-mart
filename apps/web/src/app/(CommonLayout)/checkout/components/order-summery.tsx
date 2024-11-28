@@ -19,7 +19,7 @@ const OrderSummery = () => {
   const router = useRouter();
 
   const orderPayload = {
-    cartItemsId: cartList.map((item) => item._id),
+    cartItemIds: cartList.map((item) => item._id),
     addressId: defaultAddress,
     paymentType,
   };

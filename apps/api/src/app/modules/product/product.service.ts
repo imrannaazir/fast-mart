@@ -180,8 +180,6 @@ const createProduct = async (
       }
     }
 
-    console.log(payload, '183');
-
     // create product
     const product = await Product.create([payload], { session });
 
