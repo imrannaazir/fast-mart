@@ -10,10 +10,10 @@ import config from '../../config';
 import CartItem from '../cart-item/cart-item.model';
 import { Option } from '../variant/variant.model';
 
+import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
 import { Order, OrderItem } from './order.model';
 
-// place order
 const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
   const orderPayload: TOrderPayload = {
     addressId: payload.addressId,
@@ -94,6 +94,53 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
   }
 };
 
-const OrderServices = { placeOrder };
+const getMyOrders = async (userId: string) => {
+  const orders = await Order.find({
+    userId,
+  });
+
+  return orders;
+};
+
+const getMyOrderById = async (orderId: string, userId: string) => {
+  const order = await Order.findOne({
+    _id: orderId,
+    userId,
+  });
+  if (!order) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'You are unauthorized.');
+  }
+
+  return order;
+};
+
+const getAllAdminOrders = async (query: Record<string, unknown>) => {
+  const orderModelQuery = new QueryBuilder(Order.find(), {})
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+
+  const data = await orderModelQuery.modelQuery;
+
+  const meta = await orderModelQuery.countTotal();
+
+  return { data, meta };
+};
+
+const getAdminOrderById = async (orderId: string) => {
+  const order = await Order.findOne({
+    _id: orderId,
+  });
+  return order;
+};
+
+const OrderServices = {
+  placeOrder,
+  getMyOrders,
+  getMyOrderById,
+  getAllAdminOrders,
+  getAdminOrderById,
+};
 
 export default OrderServices;

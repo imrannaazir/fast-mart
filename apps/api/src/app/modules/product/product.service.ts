@@ -22,16 +22,6 @@ const createProduct = async (
   payload: TProduct,
   userId: string,
 ): Promise<TProduct> => {
-  /* 
-1. check is brand exist 
-2. check are categories  exist
-3. check are collections  exist
-4. check are media  exist
-5. check is variants are exist
-6. check is tags
-7. check is price is smaller then compare price
-*/
-
   // insert  userId into payload
   payload.createdBy = userId;
 

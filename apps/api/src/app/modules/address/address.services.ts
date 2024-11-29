@@ -1,17 +1,13 @@
 import { TAddress } from '@repo/utils/types';
-import Address from './address.model';
+import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
-import { StatusCodes } from 'http-status-codes';
+import Address from './address.model';
 
 // add new address
 const addAddress = async (
   payload: Omit<TAddress, '_id' | 'createdAt' | 'updatedAt'>,
 ) => {
-  /* 
-    1. find default address of user and make false
-  */
-
   await Address.findOneAndUpdate(
     {
       userId: payload.userId,
