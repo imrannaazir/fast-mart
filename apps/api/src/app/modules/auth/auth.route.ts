@@ -1,10 +1,12 @@
-import { Router } from 'express';
-import validateRequest from '../../middlewares/validateRequest';
 import {
   loginValidationSchema,
   refreshTokenValidationSchema,
   registrationValidationSchema,
+  resentVerificationEmailSchema,
+  verifyAccountValidationSchema,
 } from '@repo/utils/zod-schemas';
+import { Router } from 'express';
+import validateRequest from '../../middlewares/validateRequest';
 import AuthController from './auth.controller';
 
 const router = Router();
@@ -16,6 +18,17 @@ router.post(
   AuthController.register,
 );
 
+router.post(
+  '/resent-verification-link',
+  validateRequest(resentVerificationEmailSchema),
+  AuthController.resentVerificationEmail,
+);
+
+router.post(
+  '/verify-account',
+  validateRequest(verifyAccountValidationSchema),
+  AuthController.verifyAccount,
+);
 // login : POST
 router.post(
   '/login',

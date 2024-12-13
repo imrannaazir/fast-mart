@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
-import { TUser } from '@repo/utils/types';
 import { Role, UserStatus } from '@repo/utils/constants';
+import { TUser } from '@repo/utils/types';
+import { Schema, model } from 'mongoose';
 import { hashPassword } from '../auth/auth.utils';
 
 const userSchema = new Schema<TUser>(
@@ -10,6 +10,19 @@ const userSchema = new Schema<TUser>(
       required: true,
       unique: true,
     },
+    phoneNumber: {
+      type: String,
+      unique: true,
+    },
+    firstName: {
+      type: String,
+    },
+    photo: {
+      type: String,
+    },
+    dateOfBirth: {
+      type: Date,
+    },
     password: {
       type: String,
       required: true,
@@ -17,16 +30,13 @@ const userSchema = new Schema<TUser>(
     },
     role: {
       type: String,
-      enum: Role,
+      enum: Object.keys(Role),
       default: 'USER',
     },
     status: {
       type: String,
-      enum: UserStatus,
+      enum: Object.keys(UserStatus),
       default: 'PENDING',
-    },
-    phone_number: {
-      type: String,
     },
   },
   {

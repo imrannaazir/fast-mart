@@ -1,7 +1,7 @@
 import { TRole } from "./user.interface";
 
 export interface JwtPayload {
-  userId: string;
+  _id: string;
   email: string;
   role: TRole;
   iat: number;

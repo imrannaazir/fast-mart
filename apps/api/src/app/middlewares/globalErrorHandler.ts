@@ -11,13 +11,7 @@ import handleMongooseError from '../errors/handleMongooseError';
 import handleZodError from '../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  /* 
-    1. handle zod error
-    2. handle mongoose validation error
-    3. handle duplicate key error
-    4. handle cast error
-    5. handle error that instance of AppError
-    */
+  console.log(error);
 
   const success = false;
   let statusCode = 500;

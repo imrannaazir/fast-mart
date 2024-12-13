@@ -95,9 +95,21 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
 };
 
 const getMyOrders = async (userId: string) => {
-  const orders = await Order.find({
-    userId,
-  });
+  const orders = await Order.aggregate([
+    {
+      $match: {
+        userId,
+      },
+    },
+    {
+      $lookup: {
+        from: 'orderitems',
+        foreignField: 'orderId',
+        localField: '_id',
+        as: 'orderItems',
+      },
+    },
+  ]);
 
   return orders;
 };

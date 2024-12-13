@@ -1,24 +1,41 @@
 import { StatusCodes } from 'http-status-codes';
+import config from '../../config';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import AuthService from './auth.service';
-import config from '../../config';
 
 // register
 const register = catchAsync(async (req, res) => {
-  const { accessToken, refreshToken, user } = await AuthService.register(
-    req.body,
-  );
-
-  res.cookie('refreshToken', refreshToken, {
-    secure: config.NODE_ENV === 'development' ? true : false,
-  });
+  const result = await AuthService.register(req.body);
 
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
-    message: 'User registered successfully.',
-    data: { accessToken, user },
+    message: 'Check your email to verify account.',
+    data: result,
+  });
+});
+
+const resentVerificationEmail = catchAsync(async (req, res) => {
+  const { email } = req.body;
+  const result = AuthService.resentVerificationEmail(email);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Verification link resent successfully.',
+    data: result,
+  });
+});
+
+const verifyAccount = catchAsync(async (req, res) => {
+  const { token } = req.body;
+  await AuthService.verifyAccount(token);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Account Verified successfully.',
+    data: null,
   });
 });
 
@@ -70,6 +87,8 @@ const refreshToken = catchAsync(async (req, res) => {
 });
 const AuthController = {
   register,
+  resentVerificationEmail,
+  verifyAccount,
   login,
   refreshToken,
   logout,

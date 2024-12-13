@@ -1,20 +1,21 @@
 "use client";
+import assets from "@/assets";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { Fragment } from "react";
-import React from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, Form, Input, Flex } from "antd";
-import assets from "@/assets";
-import Image from "next/image";
-import { AppButton } from "@/components/ui/AppButton";
-import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { formRules } from "@/constants/form-roule.constants";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Divider, Flex, Form, Input, message } from "antd";
+import { signIn } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Fragment, useState } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(false);
   const callbackUrl = searchParams.get("callbackUrl") || DEFAULT_LOGIN_REDIRECT;
 
   const loginPageBreadcrumbItems: TAppBreadcrumbItem[] = [
@@ -24,14 +25,20 @@ const LoginPage = () => {
   ];
 
   const onFinish = async (values: any) => {
-    const result = await signIn("credentials", {
+    setIsLoading(true);
+    const result = await signIn("login", {
       email: values.email,
       password: values.password,
       callbackUrl,
       redirect: false,
     });
+
     if (result?.ok) {
       router.push(callbackUrl);
+      setIsLoading(false);
+    } else {
+      setIsLoading(false);
+      message.error("Failed to login!");
     }
   };
 
@@ -52,19 +59,11 @@ const LoginPage = () => {
           <div className="flex items-center justify-center">
             <div className="w-full max-w-[360px] rounded-lg bg-gray-100 p-[41px]">
               <Form size="large" name="login" initialValues={{ remember: true }} onFinish={onFinish}>
-                <Form.Item
-                  initialValue="imrannaaziremon@gmail.com"
-                  name="email"
-                  rules={[{ required: true, message: "Please input your Username!" }]}
-                >
+                <Form.Item initialValue="john@gmail.com" name="email" rules={formRules.email}>
                   <Input prefix={<UserOutlined />} placeholder="email" />
                 </Form.Item>
-                <Form.Item
-                  initialValue="P@ssw0rd"
-                  name="password"
-                  rules={[{ required: true, message: "Please input your Password!" }]}
-                >
-                  <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+                <Form.Item initialValue="P@ssw0rd" name="password" rules={formRules.password}>
+                  <Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" />
                 </Form.Item>
                 <Form.Item>
                   <Flex justify="space-between" align="center">
@@ -76,11 +75,18 @@ const LoginPage = () => {
                 </Form.Item>
 
                 <Form.Item>
-                  <AppButton variant={"secondary"} className="m-0 min-w-full">
-                    Loin
-                  </AppButton>
+                  <Button type="primary" className="w-full" loading={isLoading} htmlType="submit">
+                    Login
+                  </Button>
                 </Form.Item>
               </Form>
+              <Divider />
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-gray-500">Don't have an account?</p>
+                <Link href="/register" className="text-primary text-lg font-medium">
+                  Register
+                </Link>
+              </div>
             </div>
           </div>
         </Container>

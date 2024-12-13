@@ -1,23 +1,37 @@
-import { Role } from "@repo/utils/constants";
 import { z } from "zod";
+import { Role } from "../constants/user.constant";
 
-const userNameValidationSchema = z.object({
-  firstName: z.string(),
-  middleName: z.string().optional(),
-  lastName: z.string(),
-});
 export const registrationSchema = z.object({
   email: z.string().email(),
-  user: z.enum(Role).optional(),
-  role: z.enum(Role).optional(),
   password: z.string().min(4).max(30),
-  name: userNameValidationSchema,
-  profileImage: z.string().optional(),
+  firstName: z.string(),
+  lastName: z.string(),
 });
 
 export const registrationValidationSchema = z.object({
   body: registrationSchema,
 });
+
+export const registerValidation = z.object({
+  body: z.object({
+    email: z.string(),
+    password: z.string(),
+    role: z.enum(Object.keys(Role) as [string, ...string[]]).optional(),
+  }),
+});
+
+export const verifyAccountValidationSchema = z.object({
+  body: z.object({
+    token: z.string({ required_error: "Token is required." }),
+  }),
+});
+
+export const resentVerificationEmailSchema = z.object({
+  body: z.object({
+    email: z.string().email(),
+  }),
+});
+
 export const loginSchema = z.object({
   email: z.string().email().min(2, {
     message: "Username must be at least 2 characters.",
@@ -28,8 +42,6 @@ export const loginSchema = z.object({
       message: "Password must be at lest 4 character.",
     })
     .max(30),
-  role: z.enum(Role).optional(),
-  name: userNameValidationSchema.optional(),
 });
 export const loginValidationSchema = z.object({
   body: loginSchema,

@@ -1,23 +1,38 @@
 "use client";
+import { register } from "@/actions/auth";
+import assets from "@/assets";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { Fragment } from "react";
-import React from "react";
+import { formRules } from "@/constants/form-roule.constants";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Checkbox, Form, Input, Flex } from "antd";
-import assets from "@/assets";
+import { getErrorMessage } from "@repo/utils/functions";
+import { TUser } from "@repo/utils/types";
+import { Button, Checkbox, Divider, Flex, Form, Input, message, Space } from "antd";
 import Image from "next/image";
-import { AppButton } from "@/components/ui/AppButton";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Fragment, useState } from "react";
 
 const RegisterPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const registerPageBreadcrumbItems: TAppBreadcrumbItem[] = [
     {
       title: "Register",
     },
   ];
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  const onFinish = async (values: TUser) => {
+    const result = await register(values);
+    setIsLoading(true);
+
+    if (!result?.success) {
+      message.error(getErrorMessage(result));
+      setIsLoading(false);
+    } else {
+      message.info(getErrorMessage(result));
+      router.push(`/verify-email?e=${values?.email}`);
+    }
   };
   return (
     <Fragment>
@@ -36,15 +51,31 @@ const RegisterPage = () => {
           <div className="flex items-center justify-center">
             <div className="w-full max-w-[360px] rounded-lg bg-gray-100 p-[41px]">
               <Form size="large" name="login" initialValues={{ remember: true }} onFinish={onFinish}>
-                <Form.Item name="username" rules={[{ required: true, message: "Please input your Username!" }]}>
-                  <Input prefix={<UserOutlined />} placeholder="Username" />
+                <Space direction="horizontal">
+                  <Form.Item name="firstName" rules={formRules.firstName}>
+                    <Input placeholder="First name" />
+                  </Form.Item>
+                  <Form.Item name="lastName" rules={formRules.lastName}>
+                    <Input placeholder="Last name" />
+                  </Form.Item>
+                </Space>
+                <Form.Item name="email" rules={formRules.email}>
+                  <Input prefix={<UserOutlined />} placeholder="Email" />
                 </Form.Item>
-                <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
-                  <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+                <Form.Item name="password" rules={formRules.password} hasFeedback>
+                  <Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" />
+                </Form.Item>
+                <Form.Item
+                  name="confirmPassword"
+                  rules={formRules.confirmPassword}
+                  hasFeedback
+                  dependencies={["password"]}
+                >
+                  <Input.Password prefix={<LockOutlined />} type="confirmPassword" placeholder="Confirm password" />
                 </Form.Item>
                 <Form.Item>
                   <Flex justify="space-between" align="center">
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Form.Item name="remember" noStyle>
                       <Checkbox>Remember me</Checkbox>
                     </Form.Item>
                     <a href="">Forgot password</a>
@@ -52,11 +83,19 @@ const RegisterPage = () => {
                 </Form.Item>
 
                 <Form.Item>
-                  <AppButton className="min-w-full" variant={"secondary"}>
+                  <Button htmlType="submit" type="primary" className="w-full" loading={isLoading}>
                     Register
-                  </AppButton>
+                  </Button>
                 </Form.Item>
               </Form>
+
+              <Divider />
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-gray-500">Already have an account?</p>
+                <Link href="/login" className="text-primary text-lg font-medium">
+                  Login
+                </Link>
+              </div>
             </div>
           </div>
         </Container>

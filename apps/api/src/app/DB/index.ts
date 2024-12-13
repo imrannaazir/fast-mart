@@ -1,3 +1,4 @@
+import { Role, UserStatus } from '@repo/utils/constants';
 import { TUser } from '@repo/utils/types';
 import config from '../config';
 import User from '../modules/user/user.model';
@@ -5,13 +6,13 @@ import User from '../modules/user/user.model';
 const superAdminData: TUser = {
   email: config.super_admin.email as string,
   password: config.super_admin.password as string,
-  role: 'SUPER_ADMIN',
-  status: 'ACTIVE',
+  role: Role.SUPER_ADMIN,
+  status: UserStatus.ACTIVE,
 };
 
 export const seedSuperAdmin = async () => {
   try {
-    const isSuperAdminExist = await User.findOne({ role: 'SUPER_ADMIN' });
+    const isSuperAdminExist = await User.findOne({ role: Role.SUPER_ADMIN });
 
     if (!isSuperAdminExist) {
       await User.create(superAdminData);

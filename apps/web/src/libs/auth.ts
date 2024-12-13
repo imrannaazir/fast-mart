@@ -1,8 +1,9 @@
+import { JwtPayload } from "@repo/utils/types";
+import { jwtDecode } from "jwt-decode";
 import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { fetcher } from "./fetcher";
-import { JwtPayload } from "@repo/utils/types";
-import { jwtDecode } from "jwt-decode";
+import { serverFetcher } from "./server-fetcher";
 
 // Custom Error For Force Log out
 class ForceLogoutError extends Error {
@@ -15,7 +16,8 @@ class ForceLogoutError extends Error {
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "login",
+      id: "login",
       credentials: {
         email: {
           label: "Email",
@@ -30,7 +32,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, _req) {
         const { email, password } = credentials || {};
         if (!email || !password) return null;
-        const result = await fetcher<{ accessToken: string; refreshToken: string }>("/auth/login", {
+        const result = await serverFetcher<{ accessToken: string; refreshToken: string }>("/auth/login", {
           method: "POST",
           body: { email, password },
           cache: "no-store",
@@ -47,7 +49,7 @@ export const authOptions: NextAuthOptions = {
         const user: User = {
           accessToken: accessToken,
           refreshToken: refreshToken,
-          id: decodedAccessToken.userId,
+          id: decodedAccessToken._id,
           accessTokenExpiresAt: decodedAccessToken.exp * 1000, // convert to milliseconds
           refreshTokenExpiresAt: decodedRefreshToken.exp * 1000, // convert to milliseconds
         };
@@ -126,7 +128,7 @@ export const authOptions: NextAuthOptions = {
           accessToken: token.accessToken,
 
           user: {
-            userId: decodedAccessToken.userId,
+            userId: decodedAccessToken._id,
             email: decodedAccessToken.email,
           },
         };

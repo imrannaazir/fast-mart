@@ -31,8 +31,6 @@ export const formats = [
   'video',
 ];
 
-export const Role = ['user', 'manager'] as const;
-
 export const icons = [
   'a-arrow-down',
   'a-arrow-up',
