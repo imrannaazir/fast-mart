@@ -57,7 +57,7 @@ const register = async (payload: TUser) => {
     config.jwt_verify_token_expires_in as string,
   );
 
-  const verifyAccountLink = `${user?.role === 'USER' ? config.origin_url_2 : config.origin_url_1}/verify?token=${verifyToken}&&email=${user?.email}`;
+  const verifyAccountLink = `${user?.role === 'USER' ? config.origin_url_2 : config.origin_url_1}/verify?token=${verifyToken}&email=${user?.email}`;
   const emailHtml = `
         <div>
         <p>Dear ${user.email}</p>
@@ -136,7 +136,7 @@ const resentVerificationEmail = async (email: string) => {
     config.jwt_verify_token_expires_in as string,
   );
 
-  const verifyAccountLink = `${isUserRegistered?.role === 'USER' ? config.origin_url_2 : config?.origin_url_1}/verify?token=${verifyToken}`;
+  const verifyAccountLink = `${isUserRegistered?.role === 'USER' ? config.origin_url_2 : config?.origin_url_1}/verify?token=${verifyToken}&email=${isUserRegistered?.email}`;
   const emailHtml = `
         <div>
         <p>Dear ${isUserRegistered.email}</p>

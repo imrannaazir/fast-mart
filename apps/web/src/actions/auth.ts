@@ -21,3 +21,15 @@ export const resendVerificationMail = async (email: string) => {
   });
   return response;
 };
+
+export const verifyAccount = async (token: string) => {
+  const response = await serverFetcher("/auth/verify-account", {
+    method: "POST",
+    body: {
+      token,
+    },
+    cache: "no-store",
+  });
+
+  return response;
+};
