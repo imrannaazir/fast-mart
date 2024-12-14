@@ -46,7 +46,7 @@ const userSchema = new Schema<TUser>(
 
 // hash password using pre hook
 userSchema.pre('save', async function () {
-  this.password = await hashPassword(this.password);
+  this.password = await hashPassword(this.password!);
 });
 
 // disallow password and password change at

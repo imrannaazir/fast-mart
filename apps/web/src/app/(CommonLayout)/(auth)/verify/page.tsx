@@ -11,6 +11,7 @@ function VerifyPage() {
 
   const handleVerify = async () => {
     const result = await verifyAccount(token!);
+
     if (!result?.success) {
       setStatus("error");
     } else {

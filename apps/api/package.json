@@ -10,7 +10,9 @@
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts",
     "lint:fix": "eslint src --fix",
     "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
-    "prettier:fix": "prettier --write src"
+    "prettier:fix": "prettier --write src",
+    "seed:admin": "ts-node-dev --transpile-only ./src/app/DB/seed-super-admin.ts",
+    "seed:icon": "ts-node-dev --transpile-only ./src/app/DB/seed-icons.ts"
   },
   "dependencies": {
     "@repo/utils": "*",

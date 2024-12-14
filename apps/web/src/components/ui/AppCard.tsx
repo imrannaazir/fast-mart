@@ -1,10 +1,10 @@
 import { cn } from "@/libs/utils";
+import { THeroCoverProps } from "@/types";
+import { cva } from "class-variance-authority";
 import { ClassValue } from "clsx";
+import Link from "next/link";
 import { FC } from "react";
 import { AppButton } from "./AppButton";
-import { cva } from "class-variance-authority";
-import Link from "next/link";
-import { THeroCoverProps } from "@/types";
 
 // Define the variant type
 type AppCardVariant = "primary" | "secondary" | "accent";

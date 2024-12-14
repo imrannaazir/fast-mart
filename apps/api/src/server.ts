@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 
+import colors from 'colors';
 import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './app';
 import config from './app/config';
-import colors from 'colors';
-import { keepServerAlive, seedSuperAdmin } from './app/DB';
+import { keepServerAlive } from './app/DB/pink-server';
 let server: Server;
 const port = process.env.PORT || 3000;
 async function main() {
@@ -16,7 +16,6 @@ async function main() {
       );
     }
     await mongoose.connect(config.database_url as string);
-    await seedSuperAdmin();
     server = app.listen(
       port,
 

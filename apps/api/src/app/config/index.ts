@@ -28,6 +28,7 @@ export default {
   super_admin: {
     email: process.env.SUPER_ADMIN_EMAIL,
     password: process.env.SUPER_ADMIN_PASSWORD,
+    phone_number: process.env.SUPER_ADMIN_PHONE_NUMBER,
   },
   shipping_amount: process.env.SHIPPING_AMOUNT,
   my_email_address: process.env.MY_EMAIL_ADDRESS,
