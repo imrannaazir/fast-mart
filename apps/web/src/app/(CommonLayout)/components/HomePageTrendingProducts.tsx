@@ -1,8 +1,9 @@
+import assets from "@/assets";
+import apiCall from "@/libs/api";
+import { cn } from "@/libs/utils";
+import { TProduct } from "@repo/utils/types";
 import Image from "next/image";
 import SidebarSectionHeader from "./SidebarSectionHeader";
-import { cn } from "@/libs/utils";
-import apiCall from "@/libs/api";
-import { TProduct } from "@repo/utils/types";
 
 const getProducts = async () => {
   const response = await apiCall<TProduct[]>("/products", {
@@ -22,27 +23,29 @@ const HomePageTrendingProducts = async () => {
       <SidebarSectionHeader level="Trending Products" />
       {/* trending products */}
       <div>
-        {products.map((product, i) => (
-          <div className="flex items-center gap-6" key={product._id}>
-            {/* image    */}
-            <Image
-              className="h-[70px] object-contain"
-              src={product.media?.[0]?.url!}
-              alt="products"
-              width={90}
-              height={70}
-            />
-            {/* details  */}
-            <div className={cn("py-4", i !== 0 && "border-t-[1.2px] border-dashed border-gray-400")}>
-              {/* title */}
-              <h6 className="max-w-[133px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
-                Dates Medjoul Premium Imported
-              </h6>
-              <p className="text-sm text-gray-700">450 G</p>
-              <p className="text-primary text-sm font-semibold">$ 50.20</p>
+        {products.map((product, i) => {
+          return (
+            <div className="flex items-center gap-6" key={product._id}>
+              {/* image    */}
+              <Image
+                className="h-[70px] object-contain"
+                src={product.media?.[0]?.url! || assets?.images?.blank_image}
+                alt="products"
+                width={90}
+                height={70}
+              />
+              {/* details  */}
+              <div className={cn("py-4", i !== 0 && "border-t-[1.2px] border-dashed border-gray-400")}>
+                {/* title */}
+                <h6 className="max-w-[133px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
+                  Dates Medjoul Premium Imported
+                </h6>
+                <p className="text-sm text-gray-700">450 G</p>
+                <p className="text-primary text-sm font-semibold">$ 50.20</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

@@ -1,13 +1,13 @@
 "use client";
-import React, { FC, useCallback, useMemo } from "react";
+import { collections } from "@/constants/db";
+import { filterableFields, useFilterState } from "@/hooks/use-filter-state";
 import { Button, Flex, Form } from "antd";
 import Card from "antd/es/card/Card";
-import SidebarSectionHeader from "../../components/SidebarSectionHeader";
-import { collections } from "@/constants/db";
 import { useRouter, useSearchParams } from "next/navigation";
-import { filterableFields, useFilterState } from "@/hooks/use-filter-state";
-import PriceRangeFilter from "./PriceRangeFilter";
+import { FC, useCallback, useMemo } from "react";
+import SidebarSectionHeader from "../../components/SidebarSectionHeader";
 import FilterSection from "./FilterSection";
+import PriceRangeFilter from "./PriceRangeFilter";
 
 type TSideBarFilterProps = {
   maxPrice: number;

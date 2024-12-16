@@ -13,11 +13,19 @@ export interface FetcherOptions<TBody = unknown> {
 
 export interface ApiResponse<T> {
   data: T | null;
+  meta?: TMeta;
   success: boolean;
   message: string;
   error?: unknown;
   statusCode: number;
 }
+
+export type TMeta = {
+  page: number;
+  total: number;
+  totalPage: number;
+  limit: number;
+};
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -51,6 +59,7 @@ export async function fetcher<TResponse, TBody = unknown>(
     if (response.ok) {
       return {
         data: result.data,
+        meta: result?.meta,
         success: true,
         message: result.message || "Request successful",
         statusCode: response.status,

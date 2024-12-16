@@ -5,8 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo } from "react";
 
 const sortByOptions = [
-  { label: "Most Popularity", id: 1, sortBy: "d", sortOrder: "asc" },
-  { label: "Less Popularity", id: 2, sortBy: "", sortOrder: "desc" },
   { label: "Latest", id: 3, sortBy: "createdAt", sortOrder: "desc" },
   { label: "Oldest", id: 4, sortBy: "createdAt", sortOrder: "asc" },
   { label: "Low to High Price", id: 5, sortBy: "price", sortOrder: "asc" },

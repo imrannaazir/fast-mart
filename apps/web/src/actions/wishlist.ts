@@ -5,7 +5,6 @@ import { TWishlistItem } from "@repo/utils/types";
 import { wishlistItemSchema, z } from "@repo/utils/zod-schemas";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
-import { cache } from "react";
 
 export const toggleProductInWishlist = async (body: z.infer<typeof wishlistItemSchema>) => {
   revalidatePath("/");
@@ -19,7 +18,7 @@ export const toggleProductInWishlist = async (body: z.infer<typeof wishlistItemS
 };
 
 // get current user wishlist items
-export const getAllMyWishlistItems = cache(async () => {
+export const getAllMyWishlistItems = async () => {
   const session = await getServerSession(authOptions);
 
   if (session?.user?.userId) {
@@ -28,4 +27,4 @@ export const getAllMyWishlistItems = cache(async () => {
   } else {
     return [];
   }
-});
+};

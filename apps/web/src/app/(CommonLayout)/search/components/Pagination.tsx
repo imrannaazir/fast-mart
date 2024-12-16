@@ -28,8 +28,9 @@ const ProductPagination: FC<TProductPaginationProps> = ({ defaultCurrent, defaul
       className="my-6"
       total={total}
       defaultPageSize={Number(searchParams.get("limit")) || defaultPageSize}
-      defaultCurrent={Number(searchParams.get("limit")) || defaultCurrent}
+      defaultCurrent={Number(searchParams.get("page")) || defaultCurrent}
       onChange={onPaginationChange}
+      hideOnSinglePage
     />
   );
 };
