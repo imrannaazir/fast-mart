@@ -97,16 +97,95 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
 const getMyOrders = async (userId: string) => {
   const orders = await Order.aggregate([
     {
-      $match: {
-        userId,
+      $match: { userId },
+    },
+    // Step 1: Lookup to populate OrderItems for each Order
+    {
+      $lookup: {
+        from: 'orderitems', // Collection name for OrderItem
+        localField: '_id',
+        foreignField: 'orderId',
+        as: 'orderItems',
+      },
+    },
+    // Step 2: Unwind the orderItems array for further lookups
+    {
+      $unwind: {
+        path: '$orderItems',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    // Step 3: Lookup to populate Product data in each OrderItem
+    {
+      $lookup: {
+        from: 'products', // Collection name for Product
+        localField: 'orderItems.productId',
+        foreignField: '_id',
+        as: 'orderItems.product',
+      },
+    },
+    // Step 4: Unwind the Product array (one product per orderItem)
+    {
+      $unwind: {
+        path: '$orderItems.product',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    // Step 5: Lookup to populate Options for the OrderItem's optionIds
+    {
+      $lookup: {
+        from: 'options', // Collection name for Option
+        localField: 'orderItems.optionIds',
+        foreignField: '_id',
+        as: 'orderItems.options',
+      },
+    },
+    // Step 6: Group back all OrderItems into an array for each Order
+    {
+      $group: {
+        _id: '$_id',
+        addressId: { $first: '$addressId' },
+        userId: { $first: '$userId' },
+        paymentStatus: { $first: '$paymentStatus' },
+        paymentType: { $first: '$paymentType' },
+        totalAmount: { $first: '$totalAmount' },
+        orderItems: {
+          $push: {
+            _id: '$orderItems._id',
+            product: '$orderItems.product',
+            options: '$orderItems.options',
+            price: '$orderItems.price',
+            quantity: '$orderItems.quantity',
+            totalAmount: '$orderItems.totalAmount',
+          },
+        },
+      },
+    },
+    // Optional: Lookup to get User data for the Order
+    {
+      $lookup: {
+        from: 'users', // Collection name for User
+        localField: 'userId',
+        foreignField: '_id',
+        as: 'user',
       },
     },
     {
-      $lookup: {
-        from: 'orderitems',
-        foreignField: 'orderId',
-        localField: '_id',
-        as: 'orderItems',
+      $unwind: {
+        path: '$user',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    // Optional: Project the final fields you want
+    {
+      $project: {
+        _id: 1,
+        addressId: 1,
+        user: { name: '$user.name', email: '$user.email' }, // Simplified user data
+        totalAmount: 1,
+        paymentType: 1,
+        paymentStatus: 1,
+        orderItems: 1,
       },
     },
   ]);

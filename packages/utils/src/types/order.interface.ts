@@ -1,3 +1,6 @@
+import { TProduct } from "./product.interface";
+import { TOption } from "./variant.interfaces";
+
 export type TOrderStatus = "PLACED" | "PROCESSING" | "SHIPPING" | "DELIVERED";
 export type TPaymentStatus = "PAID" | "UNPAID";
 export type TPaymentType = "NET_BANKING" | "CARD" | "COD";
@@ -13,6 +16,7 @@ export type TOrder = {
   shippingAmount?: number; // shipping amount
   netAmount?: number; // gross + shipping amount
   status: TOrderStatus;
+  orderItems?: TOrderItem[];
   paymentStatus: TPaymentStatus;
   paymentType: TPaymentType;
   orderShippedAt?: Date;
@@ -27,6 +31,8 @@ export type TOrderItem = {
   _id?: string;
   orderId?: string;
   productId?: string;
+  product?: TProduct;
+  options?: TOption[];
   optionIds?: string[];
   price: number;
   quantity: number;
