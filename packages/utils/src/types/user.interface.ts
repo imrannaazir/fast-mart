@@ -17,3 +17,5 @@ export type TUser = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type TUpdateUserPayload = Pick<TUser, "firstName" | "lastName" | "phoneNumber" | "dateOfBirth">;

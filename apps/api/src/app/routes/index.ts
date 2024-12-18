@@ -1,17 +1,18 @@
 import { Router } from 'express';
+import AddressRoutes from '../modules/address/address.routes';
 import AuthRoutes from '../modules/auth/auth.route';
-import ProductRoutes from '../modules/product/product.route';
 import BrandRoutes from '../modules/brand/brand.route';
+import CartItemRoute from '../modules/cart-item/cart-item.routes';
 import CategoryRoutes from '../modules/category/category.route';
-import TagRoutes from '../modules/tag/tag.route';
-import OrderRoute from '../modules/order/order.route';
+import CollectionRoutes from '../modules/collection/collection.routes';
 import IconRoutes from '../modules/icon/icon.routes';
 import ImageRoutes from '../modules/image/image.routes';
-import CollectionRoutes from '../modules/collection/collection.routes';
+import OrderRoute from '../modules/order/order.route';
+import ProductRoutes from '../modules/product/product.route';
+import TagRoutes from '../modules/tag/tag.route';
+import UserRoutes from '../modules/user/user.routes';
 import VariantRoutes, { OptionRoutes } from '../modules/variant/variant.routes';
 import WishListRoutes from '../modules/wishlist-item/wishlist-item.routes';
-import CartItemRoute from '../modules/cart-item/cart-item.routes';
-import AddressRoutes from '../modules/address/address.routes';
 
 const router = Router();
 
@@ -77,6 +78,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/addresses',
     route: AddressRoutes,
+  },
+  {
+    path: '/users',
+    route: UserRoutes,
   },
 ];
 
