@@ -15,5 +15,15 @@ const updateUserDetails = catchAsync(async (req, res) => {
   });
 });
 
-const UserControllers = { updateUserDetails };
+const getMyData = catchAsync(async (req, res) => {
+  const userId = req.user._id;
+  const result = await UserServices.getMyData(userId!);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Your profile data has been retrieved!',
+    data: result,
+  });
+});
+const UserControllers = { updateUserDetails, getMyData };
 export default UserControllers;

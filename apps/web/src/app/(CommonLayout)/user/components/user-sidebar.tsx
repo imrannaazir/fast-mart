@@ -1,5 +1,6 @@
 "use client";
 import assets from "@/assets";
+import { useUser } from "@/contexts/user-context";
 import { Avatar, Divider, GetProp, Menu, MenuProps } from "antd";
 import { Edit, Heart } from "lucide-react";
 import Image from "next/image";
@@ -39,7 +40,7 @@ const UserSidebar = () => {
       onClick: () => router.push("/user/address"),
     },
   ];
-
+  const { user } = useUser();
   return (
     <aside className="sticky top-6 h-fit rounded-md bg-gray-100">
       <div className="relative w-full">
@@ -72,8 +73,10 @@ const UserSidebar = () => {
       <div className="p-4">
         {/* user details  */}
         <div className="mt-12 text-center">
-          <h2 className="text-[22px] font-semibold">Imran Nazir </h2>
-          <p className="text-sm font-medium text-gray-500">imrannaaziremon@gmail.com</p>
+          <h2 className="text-[22px] font-semibold">
+            {user?.firstName || "Not added"} {user?.lastName || ""}{" "}
+          </h2>
+          <p className="text-sm font-medium text-gray-500">{user?.email}</p>
         </div>
         <Divider style={{ margin: 10 }} />
 

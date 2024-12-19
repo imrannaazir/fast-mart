@@ -10,6 +10,7 @@ const UserLayout = ({ children }: { children: ReactNode }) => {
       href: "/user/dashboard",
     },
   ];
+
   return (
     <>
       <AppBreadcrumb items={userBreadcrumb} title="User Dashboard" />

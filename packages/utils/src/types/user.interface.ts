@@ -9,7 +9,7 @@ export type TUser = {
   firstName: string;
   lastName: string;
   photo?: string;
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   password?: string;
   role: TRole;
   status: TUserStatus;

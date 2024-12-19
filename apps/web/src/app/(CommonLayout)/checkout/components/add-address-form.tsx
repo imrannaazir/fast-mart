@@ -1,12 +1,12 @@
 "use client";
-import { Button, Flex, Form, Input, message, Modal, Radio, Select } from "antd";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { City, Country, State } from "country-state-city";
-import { TAddressInput, TCommonOption } from "@repo/utils/types";
-import { IoHomeOutline } from "react-icons/io5";
-import { PiSuitcaseSimple } from "react-icons/pi";
 import { addAddress } from "@/actions/address";
 import { getErrorMessage } from "@repo/utils/functions";
+import { TAddressInput, TCommonOption } from "@repo/utils/types";
+import { Button, Flex, Form, Input, message, Modal, Radio, Select } from "antd";
+import { City, Country, State } from "country-state-city";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { IoHomeOutline } from "react-icons/io5";
+import { PiSuitcaseSimple } from "react-icons/pi";
 type TAddAddressForm = {
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
@@ -67,7 +67,6 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
   const onFinish = async (values: TAddressInput) => {
     try {
       const response = await addAddress(values);
-      console.log(response, "222");
 
       if (response.success) {
         message.success(response.message);

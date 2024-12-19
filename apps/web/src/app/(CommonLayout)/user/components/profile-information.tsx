@@ -1,25 +1,42 @@
 "use client";
-import { Button, DatePicker, Form, FormProps, Input } from "antd";
+import { updateProfile } from "@/actions/user";
+import { useUser } from "@/contexts/user-context";
+import { getErrorMessage } from "@repo/utils/functions";
+import { TUser } from "@repo/utils/types";
+import { Button, DatePicker, Form, FormProps, Input, message } from "antd";
 import dayjs from "dayjs";
 import { Edit, X } from "lucide-react";
 import { useState } from "react";
-type FieldType = {
-  firstName: string;
-  lastName: string;
-  phoneNumber?: string;
-  dateOfBirth?: string;
-};
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-  console.log("Success:", values);
-};
+type FieldType = Pick<TUser, "firstName" | "lastName" | "phoneNumber" | "dateOfBirth">;
+const dateFormat = "YYYY/MM/DD";
+
 const ProfileInformation = () => {
   const [isDisabled, setIsDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { user, setUser } = useUser();
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
+    setLoading(true);
+    values.dateOfBirth = values.dateOfBirth ? dayjs(values?.dateOfBirth, dateFormat).toISOString() : undefined;
+    const response = await updateProfile(values);
+    if (response?.success) {
+      message.success(getErrorMessage(response));
+      console.log(response?.data, "from 23");
+
+      setUser(response?.data!);
+      setIsDisabled(true);
+      setLoading(false);
+    } else {
+      message.error(getErrorMessage(response));
+      setLoading(false);
+    }
+  };
   return (
     <div className="mt-6">
       <div className="flex w-full items-center justify-between">
         <h2 className="text-lg font-medium">Profile Information </h2>
         <Button
           danger={!isDisabled}
+          disabled={loading}
           type="primary"
           shape="circle"
           onClick={() => setIsDisabled(!isDisabled)}
@@ -30,30 +47,30 @@ const ProfileInformation = () => {
         disabled={isDisabled}
         onFinish={onFinish}
         initialValues={{
-          firstName: "Imran",
-          lastName: "Nazir",
-          phoneNumber: "+8801405580607",
-          dateOfBirth: dayjs("2001-05-16"),
+          firstName: user?.firstName || "",
+          lastName: user?.lastName || "",
+          phoneNumber: user?.phoneNumber || "",
+          dateOfBirth: user?.dateOfBirth ? dayjs(user?.dateOfBirth, dateFormat) : null,
         }}
         layout="vertical"
         className="grid gap-x-6 md:grid-cols-2"
       >
         <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
-          <Input />
+          <Input placeholder="Enter first name" />
         </Form.Item>
 
         <Form.Item label="Last Name" name="lastName" rules={[{ required: true }]}>
-          <Input />
+          <Input placeholder="Enter last name" />
         </Form.Item>
         <Form.Item label="Phone Number" name="phoneNumber" rules={[{ min: 9 }]}>
-          <Input />
+          <Input placeholder="Enter phone number" />
         </Form.Item>
         <Form.Item label="Date Of Birth" name="dateOfBirth">
-          <DatePicker className="w-full" />
+          <DatePicker className="w-full" format={dateFormat} />
         </Form.Item>
         {!isDisabled && (
           <Form.Item label=" ">
-            <Button type="primary" htmlType="submit">
+            <Button loading={loading} type="primary" htmlType="submit">
               Save
             </Button>
           </Form.Item>

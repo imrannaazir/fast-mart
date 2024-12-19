@@ -17,8 +17,12 @@ const userSchema = new Schema<TUser>(
     firstName: {
       type: String,
     },
-    photo: {
+    lastName: {
       type: String,
+    },
+    photo: {
+      type: Schema.Types.ObjectId,
+      ref: 'image',
     },
     dateOfBirth: {
       type: Date,

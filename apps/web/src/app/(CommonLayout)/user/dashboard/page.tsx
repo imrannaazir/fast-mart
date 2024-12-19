@@ -1,4 +1,5 @@
 "use client";
+import { useUser } from "@/contexts/user-context";
 import { HiOutlineBuildingStorefront } from "react-icons/hi2";
 import HomeSectionTop from "../../components/HomeSectionTop";
 import Card, { TCard } from "../components/card";
@@ -26,6 +27,8 @@ const UserDashboard = () => {
       icon: HiOutlineBuildingStorefront,
     },
   ];
+  const { user } = useUser();
+
   return (
     <div>
       <HomeSectionTop
@@ -33,7 +36,10 @@ const UserDashboard = () => {
         description={
           <div className="text-[15px]">
             <div className="mb-1">
-              Hello, <span className="text-black">Vicki E. Pope</span>
+              Hello,{" "}
+              <span className="text-black">
+                {user?.firstName || ""} {user?.lastName || ""}
+              </span>
             </div>
             <p>
               From your My Account Dashboard you have the ability to view a snapshot of your recent account activity and

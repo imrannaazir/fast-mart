@@ -3,7 +3,7 @@ import z from "zod";
 export const profileUpdateValidation = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  dateOfBirth: z.date().optional(),
+  dateOfBirth: z.string().optional(),
   phoneNumber: z.string().optional(),
 });
 
