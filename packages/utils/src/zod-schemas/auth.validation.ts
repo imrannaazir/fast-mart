@@ -52,3 +52,12 @@ export const refreshTokenValidationSchema = z.object({
     refreshToken: z.string().optional(),
   }),
 });
+
+export const changePasswordValidationSchema = z.object({
+  password: z.string(),
+  oldPassword: z.string(),
+});
+
+export const changePasswordValidationSchemaApi = z.object({
+  body: changePasswordValidationSchema,
+});

@@ -1,5 +1,5 @@
 import { UserStatus } from '@repo/utils/constants';
-import { TLoginUser, TUser } from '@repo/utils/types';
+import { TChangePasswordPayload, TLoginUser, TUser } from '@repo/utils/types';
 import { StatusCodes } from 'http-status-codes';
 import { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
@@ -30,7 +30,7 @@ const register = async (payload: TUser) => {
     );
   }
 
-  const hashedPassword = await hashPassword(payload.password);
+  const hashedPassword = await hashPassword(payload.password!);
 
   payload.password = hashedPassword;
 
@@ -180,7 +180,7 @@ const login = async (payload: TLoginUser) => {
   }
 
   // decoded password and check
-  const isMatched = await verifyPassword(password, isUserExist.password);
+  const isMatched = await verifyPassword(password, isUserExist.password!);
 
   if (!isMatched) {
     throw new AppError(
@@ -256,11 +256,38 @@ const refreshToken = async (token: string) => {
   return { accessToken, refreshToken };
 };
 
+// change password
+const changePassword = async (
+  payload: Pick<TChangePasswordPayload, 'oldPassword' | 'password'>,
+  userId: string,
+) => {
+  const user = await User.findById(userId).select('+password');
+  const isPasswordMatched = await verifyPassword(
+    payload.oldPassword,
+    user?.password!,
+  );
+  if (!isPasswordMatched) {
+    throw new AppError(
+      StatusCodes.UNAUTHORIZED,
+      'Your provided password did not matched!',
+    );
+  }
+
+  const hashedPassword = await hashPassword(payload.password);
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { password: hashedPassword },
+    { new: true },
+  );
+  return updatedUser;
+};
 const AuthService = {
   register,
   login,
   refreshToken,
   verifyAccount,
   resentVerificationEmail,
+  changePassword,
 };
 export default AuthService;

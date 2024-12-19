@@ -3,6 +3,12 @@ export type TLoginUser = {
   password: string;
 };
 
+export type TChangePasswordPayload = {
+  oldPassword: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export type TSession = {
   id: number;
   userId: string;

@@ -1,7 +1,7 @@
 "use server";
 
 import { serverFetcher } from "@/libs/server-fetcher";
-import { TUser } from "@repo/utils/types";
+import { TChangePasswordPayload, TUser } from "@repo/utils/types";
 
 export const register = async (data: TUser) => {
   const response = await serverFetcher("/auth/register", {
@@ -29,6 +29,16 @@ export const verifyAccount = async (token: string) => {
       token,
     },
     cache: "no-store",
+  });
+
+  return response;
+};
+
+export const changePassword = async (payload: Pick<TChangePasswordPayload, "oldPassword" | "password">) => {
+  const response = await serverFetcher<TUser>("/auth/change-password", {
+    cache: "no-store",
+    body: payload,
+    method: "POST",
   });
 
   return response;

@@ -1,4 +1,5 @@
 import {
+  changePasswordValidationSchemaApi,
   loginValidationSchema,
   refreshTokenValidationSchema,
   registrationValidationSchema,
@@ -6,6 +7,7 @@ import {
   verifyAccountValidationSchema,
 } from '@repo/utils/zod-schemas';
 import { Router } from 'express';
+import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import AuthController from './auth.controller';
 
@@ -46,5 +48,14 @@ router.post(
 
 // logout
 router.post('/logout', AuthController.logout);
+
+// change password
+router.post(
+  '/change-password',
+  auth(),
+  validateRequest(changePasswordValidationSchemaApi),
+  AuthController.changePassword,
+);
+
 const AuthRoutes = router;
 export default AuthRoutes;
