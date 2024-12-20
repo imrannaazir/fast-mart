@@ -2,6 +2,7 @@
 
 import assets from "@/assets";
 import { useCartList } from "@/contexts/cartlist-context";
+import { useWishlist } from "@/contexts/wishlist-context";
 import { cn } from "@/libs/utils";
 import { Badge, Dropdown, theme } from "antd";
 import { ClassValue } from "clsx";
@@ -14,6 +15,7 @@ const commonStyles: ClassValue = "hidden md:block";
 const HeaderNavbarIcons = () => {
   const { token } = useToken();
   const { totalItems } = useCartList();
+  const { wishlist } = useWishlist();
 
   const contentStyle: React.CSSProperties = {
     backgroundColor: token.colorBgElevated,
@@ -28,7 +30,9 @@ const HeaderNavbarIcons = () => {
       </Link>
       <Divider />
       <Link className={commonStyles} href="/wishlist">
-        <Image src={assets.svg.love} height={24} width={24} alt="love" />
+        <Badge count={wishlist?.length} className="mr-2 cursor-pointer">
+          <Image src={assets.svg.love} height={24} width={24} alt="love" />
+        </Badge>
       </Link>
       <Divider />
       <Dropdown

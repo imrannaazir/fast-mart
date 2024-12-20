@@ -17,7 +17,7 @@ const ContextProvider = async ({ children }: { children: ReactNode }) => {
     <WishlistContextProvider initialWishlist={wishlist!}>
       <CartListContextProvider initialCartList={cartListState}>
         <OrderContextProvider>
-          <UserContextProvider initialUser={user}>{children}</UserContextProvider>
+          <UserContextProvider initialUser={user!}>{children}</UserContextProvider>
         </OrderContextProvider>
       </CartListContextProvider>
     </WishlistContextProvider>

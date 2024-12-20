@@ -5,7 +5,7 @@ import { generateCartState } from "@/libs/generate-cart-state";
 import { compareTwoArrayOfString, getErrorMessage } from "@repo/utils/functions";
 import { CartActionType, TCartStateItem } from "@repo/utils/types";
 import { message } from "antd";
-import { createContext, ReactNode, useCallback, useContext, useState } from "react";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
 
 type TContextPayload = {
   productId: string;
@@ -37,7 +37,10 @@ export const CartListContextProvider = ({
   children: ReactNode;
   initialCartList: TCartStateItem[];
 }) => {
-  const [cartList, setCartList] = useState<TCartStateItem[]>(initialCartList);
+  const [cartList, setCartList] = useState<TCartStateItem[]>([]);
+  useEffect(() => {
+    setCartList(initialCartList);
+  }, [initialCartList]);
   const [prevCartList, setPrevCartList] = useState<TCartStateItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState<CartActionType | undefined>(undefined);

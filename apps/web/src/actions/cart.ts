@@ -29,6 +29,11 @@ export const clearCartList = async () => {
 
 // cart list
 export const getMyCartList = async () => {
-  const response = await serverFetcher<TCartItem[]>("/cart-items");
+  const response = await serverFetcher<TCartItem[]>("/cart-items", {
+    next: {
+      tags: ["cart"],
+    },
+  });
+
   return response.data;
 };

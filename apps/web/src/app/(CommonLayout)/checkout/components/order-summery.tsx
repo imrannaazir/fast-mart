@@ -32,6 +32,7 @@ const OrderSummery = () => {
       console.log(result);
 
       setIsLoading(false);
+
       router.push("/order-success");
     } catch (error) {
       message.error(getErrorMessage(error));

@@ -7,7 +7,7 @@ export const getMyData = async () => {
   const response = await serverFetcher<TUser>("/users/me", {
     cache: "no-store",
   });
-  const user = response.data || {};
+  const user = response.data;
   return user;
 };
 
