@@ -19,7 +19,7 @@ const AppProductCard = ({ product, className }: { product: TAppProductCardProps;
         {photo && (
           <Link href={`/products/${id}`}>
             <Image
-              className="aspect-[16/14] w-full rounded-lg object-cover transition-all duration-300 group-hover:scale-105"
+              className="aspect-[16/14] w-full rounded-sm object-cover transition-all duration-300"
               src={photo}
               width={158}
               height={122}
@@ -29,7 +29,7 @@ const AppProductCard = ({ product, className }: { product: TAppProductCardProps;
         )}
       </div>
       {/* info */}
-      <Link href={`/products/${id}`} className="flex flex-col justify-between gap-2">
+      <Link href={`/products/${id}`} className="mt-2 flex flex-col justify-between gap-2">
         {/* title */}
         <h3 className="font-semibold">{title}</h3>
 
