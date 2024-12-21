@@ -1,3 +1,4 @@
+import assets from "@/assets";
 import { light_colors } from "@/constants/colors.constant";
 import { TOrder, TOrderItem } from "@repo/utils/types";
 import { Card, Tag } from "antd";
@@ -10,8 +11,6 @@ type TOrderCardProps = {
 };
 
 const OrderCard: FC<TOrderCardProps> = ({ order }) => {
-  console.log(order?.orderItems);
-
   return (
     <Card bordered={false}>
       {/* top */}
@@ -29,7 +28,14 @@ const OrderCard: FC<TOrderCardProps> = ({ order }) => {
         </div>
       </div>
 
-      {order?.orderItems?.map((item) => <OrderItem orderItem={item} key={item?._id} />)}
+      {order?.orderItems?.map((item, i) => {
+        console.log(i);
+
+        if (i === 5) {
+          console.log(item, "in blah");
+        }
+        return <OrderItem orderItem={item} key={item?._id} />;
+      })}
     </Card>
   );
 };
@@ -41,8 +47,8 @@ const OrderItem = ({ orderItem }: { orderItem: TOrderItem }) => {
     <Card className="mt-6 bg-gray-100">
       <div className="flex items-center gap-4">
         <Image
-          className="size-[180px] object-cover"
-          src={"https://themes.pixelstrap.com/fastkart/assets/images/vegetable/product/1.png"}
+          className="rounded-ms size-[180px] border object-cover shadow-sm"
+          src={orderItem?.product?.media?.[0]?.url || assets?.images?.blank_image}
           width={180}
           height={180}
           alt="product"
@@ -55,7 +61,7 @@ const OrderItem = ({ orderItem }: { orderItem: TOrderItem }) => {
           <p
             className=""
             dangerouslySetInnerHTML={{
-              __html: orderItem?.product?.description!,
+              __html: orderItem?.product?.description! || "",
             }}
           ></p>
           <div className="mt-4 space-y-1">

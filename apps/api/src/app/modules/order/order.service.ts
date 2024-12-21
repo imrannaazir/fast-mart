@@ -131,6 +131,17 @@ const getMyOrders = async (userId: string) => {
         preserveNullAndEmptyArrays: true,
       },
     },
+
+    // Step 5: Lookup to populate Media for the Product's media field
+    {
+      $lookup: {
+        from: 'images', // Collection name for Media
+        localField: 'orderItems.product.media', // Assuming Product has a field `media` with media IDs
+        foreignField: '_id',
+        as: 'orderItems.product.media',
+      },
+    },
+
     // Step 5: Lookup to populate Options for the OrderItem's optionIds
     {
       $lookup: {
