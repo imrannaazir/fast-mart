@@ -7,6 +7,8 @@ const assets = {
       category_card: "/images/category-card-bg.png",
       login_bg: "/images/log-in-bg.png",
     },
+    about_1: "/images/about-1.jpg",
+    about_2: "/images/about-2.jpg",
     banners: {
       eggs: "/images/eggs-banner.jpg",
       fresh_fruits: "/images/fresh-fruits.jpg",
