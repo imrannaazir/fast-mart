@@ -28,12 +28,7 @@ const OrderCard: FC<TOrderCardProps> = ({ order }) => {
         </div>
       </div>
 
-      {order?.orderItems?.map((item, i) => {
-        console.log(i);
-
-        if (i === 5) {
-          console.log(item, "in blah");
-        }
+      {order?.orderItems?.map((item) => {
         return <OrderItem orderItem={item} key={item?._id} />;
       })}
     </Card>

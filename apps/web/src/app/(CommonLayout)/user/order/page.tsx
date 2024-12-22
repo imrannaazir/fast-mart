@@ -19,7 +19,11 @@ const OrderPage = async () => {
     <div>
       <HomeSectionTop heading="My Orders History" description="" />
       {orders?.length ? (
-        <div className="mt-6 grid gap-6">{orders?.map((order) => <OrderCard order={order} key={order?._id} />)}</div>
+        <div className="mt-6 grid gap-6">
+          {orders?.map((order) => {
+            return <OrderCard order={order} key={order?._id} />;
+          })}
+        </div>
       ) : (
         <Empty />
       )}
