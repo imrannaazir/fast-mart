@@ -1,9 +1,9 @@
 "use client";
 
 import AppBlogCard from "@/components/ui/AppBlogCard";
-import HomeSectionTop from "./HomeSectionTop";
 import AppSlider from "@/components/ui/AppSlider";
 import { SwiperSlide } from "swiper/react";
+import HomeSectionTop from "./HomeSectionTop";
 
 const HomeFeaturedBlogs = () => {
   const breakpoints = {
@@ -20,7 +20,7 @@ const HomeFeaturedBlogs = () => {
       spaceBetween: 20,
     },
     1280: {
-      slidesPerView: 2,
+      slidesPerView: 3,
       spaceBetween: 20,
     },
   };

@@ -1,3 +1,4 @@
+import Container from "@/components/ui/Container";
 import { Carousel } from "antd";
 import SectionTitle from "./stats-title";
 import TeamMemberCard from "./team-member-card";
@@ -30,7 +31,7 @@ const teamMembers = [
 
 const TeamSlider = () => {
   return (
-    <div className="py-20">
+    <Container className="py-20">
       <SectionTitle subtitle="Our Creative Team" title="Fastmart Team Member" />
       <div className="mt-12">
         <Carousel
@@ -59,7 +60,7 @@ const TeamSlider = () => {
           ))}
         </Carousel>
       </div>
-    </div>
+    </Container>
   );
 };
 

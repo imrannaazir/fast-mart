@@ -1,10 +1,11 @@
 import assets from "@/assets";
+import Container from "@/components/ui/Container";
 import { Leaf, Truck } from "lucide-react";
 import Image from "next/image";
 
 const AboutHero = () => {
   return (
-    <div className="relative py-12">
+    <Container className="relative py-12">
       <div className=" ">
         <div className="grid grid-cols-12 items-center gap-8">
           {/* Images Section */}
@@ -68,7 +69,7 @@ const AboutHero = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
