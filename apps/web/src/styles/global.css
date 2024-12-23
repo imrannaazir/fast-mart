@@ -45,30 +45,6 @@
     -webkit-transition-delay: 0.175s;
     transition-delay: 0.175s;
   }
-
-  /* carouselStyles css */
-  .custom-carousel {
-    font-size: 100px;
-    position: relative;
-    background-color: gray;
-  }
-  .slick-dots {
-    position: absolute;
-    background-color: brown;
-    top: 170px;
-  }
-
-  .slick-active li button {
-    background: #ff0000; /* Active dot color */
-  }
-
-  .custom-carousel .slick-dots li button:before {
-    color: transparent;
-  }
-
-  .custom-carousel .slick-dots li.slick-active button:before {
-    color: transparent;
-  }
 }
 
 * {
@@ -103,6 +79,47 @@
 }
 
 /* ant design collapse padding */
-.custom-collapse .ant-collapse-content-box {
-  padding: 12px;
+.custom-dots {
+  @apply -mb-8 flex items-center justify-center gap-2 !important;
 }
+
+.custom-dots li {
+  @apply h-2 w-2 rounded-full bg-gray-200 !important;
+}
+
+.custom-dots li.slick-active {
+  @apply w-6 bg-teal-500 !important;
+}
+
+.slick-slide {
+  @apply flex justify-center !important;
+}
+
+/* 
+
+
+.custom-dots {
+  @apply -mb-4 mt-8 flex items-center justify-center gap-2 bg-red-300 !important;
+}
+
+.custom-dots li {
+  @apply h-2 w-2 rounded-full bg-gray-200 transition-all duration-300 !important;
+}
+
+.custom-dots li button {
+  @apply h-full w-full !important;
+}
+
+.custom-dots li.slick-active {
+  @apply w-8 rounded-full bg-teal-500 !important;
+}
+
+.custom-dots li:not(.slick-active):hover {
+  @apply bg-teal-200 !important;
+}
+
+.slick-slide {
+  @apply flex justify-center !important;
+}
+
+*/

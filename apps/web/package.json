@@ -12,7 +12,7 @@
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.12.0",
     "@repo/utils": "*",
-    "antd": "^5.22.5",
+    "antd": "^5.22.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "country-state-city": "^3.2.1",
@@ -37,7 +37,6 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.0.0",
     "eslint-config-next": "14.2.4",

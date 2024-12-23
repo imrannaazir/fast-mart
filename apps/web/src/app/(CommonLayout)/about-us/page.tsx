@@ -2,6 +2,7 @@ import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb
 import Container from "@/components/ui/Container";
 import AboutHero from "./components/hero";
 import Stats from "./components/stats";
+import TeamSlider from "./components/team-members";
 
 const AboutPage = () => {
   const aboutPageBreadcrumbsItems: TAppBreadcrumbItem[] = [
@@ -18,6 +19,9 @@ const AboutPage = () => {
         <AboutHero />
       </Container>
       <Stats />
+      <Container>
+        <TeamSlider />
+      </Container>
     </>
   );
 };
