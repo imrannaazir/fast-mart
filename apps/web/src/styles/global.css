@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -79,7 +80,7 @@
 }
 
 /* ant design collapse padding */
-.custom-dots {
+/* .custom-dots {
   @apply -mb-8 flex items-center justify-center gap-2 !important;
 }
 
@@ -88,18 +89,16 @@
 }
 
 .custom-dots li.slick-active {
-  @apply w-6 bg-teal-500 !important;
+  @apply w-8 rounded-full bg-teal-500 !important;
 }
 
 .slick-slide {
   @apply flex justify-center !important;
 }
-
-/* 
-
+ */
 
 .custom-dots {
-  @apply -mb-4 mt-8 flex items-center justify-center gap-2 bg-red-300 !important;
+  @apply -mb-12 mt-8 flex items-center justify-center gap-2 !important;
 }
 
 .custom-dots li {
@@ -107,7 +106,7 @@
 }
 
 .custom-dots li button {
-  @apply h-full w-full !important;
+  @apply h-full w-full bg-teal-500 !important;
 }
 
 .custom-dots li.slick-active {
@@ -121,5 +120,3 @@
 .slick-slide {
   @apply flex justify-center !important;
 }
-
-*/

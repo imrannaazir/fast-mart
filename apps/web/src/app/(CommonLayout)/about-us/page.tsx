@@ -3,6 +3,7 @@ import Container from "@/components/ui/Container";
 import AboutHero from "./components/hero";
 import Stats from "./components/stats";
 import TeamSlider from "./components/team-members";
+import Testimonials from "./components/testimonials";
 
 const AboutPage = () => {
   const aboutPageBreadcrumbsItems: TAppBreadcrumbItem[] = [
@@ -22,6 +23,7 @@ const AboutPage = () => {
       <Container>
         <TeamSlider />
       </Container>
+      <Testimonials />
     </>
   );
 };

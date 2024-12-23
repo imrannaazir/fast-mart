@@ -15,6 +15,9 @@ const config: Config = {
         primary: light_colors.primary,
         secondary: light_colors.secondary,
       },
+      fontFamily: {
+        pacifico: ["Pacifico", "cursive"],
+      },
     },
   },
   plugins: [],

@@ -30,37 +30,34 @@ const teamMembers = [
 
 const TeamSlider = () => {
   return (
-    <div className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionTitle subtitle="Our Creative Team" title="Fastkart Team Member" />
-        <div className="mt-12">
-          <Carousel
-            autoplay
-            autoplaySpeed={2000}
-            dots={{ className: "custom-dots" }}
-            slidesToShow={3}
-            responsive={[
-              {
-                breakpoint: 1024,
-                settings: {
-                  slidesToShow: 2,
-                },
+    <div className="py-20">
+      <SectionTitle subtitle="Our Creative Team" title="Fastmart Team Member" />
+      <div className="mt-12">
+        <Carousel
+          autoplay
+          dots={{ className: "custom-dots" }}
+          slidesToShow={3}
+          responsive={[
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 2,
               },
-              {
-                breakpoint: 640,
-                settings: {
-                  slidesToShow: 1,
-                },
+            },
+            {
+              breakpoint: 640,
+              settings: {
+                slidesToShow: 1,
               },
-            ]}
-          >
-            {teamMembers.map((member, index) => (
-              <div key={index}>
-                <TeamMemberCard {...member} />
-              </div>
-            ))}
-          </Carousel>
-        </div>
+            },
+          ]}
+        >
+          {teamMembers.map((member, index) => (
+            <div key={index}>
+              <TeamMemberCard {...member} />
+            </div>
+          ))}
+        </Carousel>
       </div>
     </div>
   );
