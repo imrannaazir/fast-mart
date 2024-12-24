@@ -9,10 +9,10 @@ type TAppReviewCard = {
 };
 const AppReviewCard: FC<TAppReviewCard> = ({ className }) => {
   return (
-    <div className={cn(className, "flex w-full gap-6 rounded-lg bg-gray-100 p-6")}>
+    <div className={cn(className, "flex w-full gap-6 rounded-lg bg-gray-100 p-6 shadow-md")}>
       {/* image */}
       <Image
-        className="rounded-full"
+        className="rounded-full border shadow-sm"
         src={"https://themes.pixelstrap.com/fastkart/assets/images/review/1.jpg"}
         width={70}
         height={70}

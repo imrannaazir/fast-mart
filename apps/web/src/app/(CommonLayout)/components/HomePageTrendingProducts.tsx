@@ -28,20 +28,23 @@ const HomePageTrendingProducts = async () => {
             <div className="flex items-center gap-6" key={product._id}>
               {/* image    */}
               <Image
-                className="h-[70px] object-contain"
+                className="aspect-square w-[70px] rounded-md border object-cover shadow-sm"
                 src={product.media?.[0]?.url! || assets?.images?.blank_image}
                 alt="products"
-                width={90}
+                width={70}
                 height={70}
               />
               {/* details  */}
               <div className={cn("py-4", i !== 0 && "border-t-[1.2px] border-dashed border-gray-400")}>
                 {/* title */}
                 <h6 className="max-w-[133px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
-                  Dates Medjoul Premium Imported
+                  {product?.title}{" "}
                 </h6>
-                <p className="text-sm text-gray-700">450 G</p>
-                <p className="text-primary text-sm font-semibold">$ 50.20</p>
+                <p className="text-sm text-gray-700">
+                  {" "}
+                  {product?.weight} {product?.unit}
+                </p>
+                <p className="text-primary text-sm font-semibold">$ {product?.price}</p>
               </div>
             </div>
           );

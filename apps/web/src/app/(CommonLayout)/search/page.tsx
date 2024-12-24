@@ -27,7 +27,6 @@ const SearchPage = async ({ searchParams }: { searchParams: { q: string } }) => 
   const products = response?.data;
   const meta = response?.meta;
 
-  console.log({ meta });
   const skip = meta?.limit! * (meta?.page! - 1);
   return (
     <>

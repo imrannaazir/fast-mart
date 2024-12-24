@@ -8,10 +8,8 @@ import ProductBrandDetails from "../components/ProductBrandDetails";
 import ProductDetailsTab from "../components/ProductDetailsTab";
 import ProductGallery from "../components/ProductGallery";
 // import StickyBox from "react-sticky-box";
-import { AppButton } from "@/components/ui/AppButton";
-import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { serverFetcher } from "@/libs/server-fetcher";
-import HomeSectionTop from "../../components/HomeSectionTop";
+import RelatedProducts from "./components/related-products";
 
 async function getProduct(productId: string) {
   const response = await serverFetcher<TProduct>(`/products/${productId}`, {
@@ -49,7 +47,7 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
     <Fragment>
       <AppBreadcrumb items={breadcrumbItems} title={product?.title as string} />
       <Container className="">
-        <div className="grid grid-cols-4 pb-6">
+        <div className="relative grid grid-cols-4 pb-6">
           {/* left  */}
           <section className="col-span-3">
             <div className="grid grid-cols-2 gap-6">
@@ -61,7 +59,7 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
             <ProductDetailsTab product={product as unknown as TProduct} />
           </section>
           {/* right */}
-          <section>
+          <section className="sticky top-6 h-fit space-y-6">
             <ProductBrandDetails
               name={product?.brand?.name as string}
               description={product?.brand?.description as string}
@@ -72,31 +70,7 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
             </StickyBox> */}
           </section>
         </div>
-        {/* related products */}
-        <div className="flex h-full flex-col justify-between">
-          <HomeSectionTop
-            heading="Related Products"
-            description="A virtual assistant collects the products from your list"
-          />
-
-          <div className="mt-6 grid grid-cols-5 gap-4">
-            {new Array(5).fill(null).map((_item, i) => (
-              <AppProductCard
-                key={i}
-                product={{
-                  compare_price: 54,
-                  id: "1",
-                  photo: "https://themes.pixelstrap.com/fastkart/assets/images/cake/product/2.png",
-                  price: 45,
-                  title: "Chocolate Brownie Cake",
-                }}
-              />
-            ))}
-          </div>
-          <div className="mt-4 flex justify-center pb-4 md:justify-end">
-            <AppButton className="">View More</AppButton>
-          </div>
-        </div>
+        <RelatedProducts />
       </Container>
     </Fragment>
   );

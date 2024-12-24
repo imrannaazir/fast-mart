@@ -1,6 +1,6 @@
+import AppReviewCard from "@/components/ui/AppReviewCard";
 import { Divider, Flex, Progress, Rate } from "antd";
 import { FaStar } from "react-icons/fa";
-import AppReviewCard from "@/components/ui/AppReviewCard";
 const ProductReviews = () => {
   const ratingsProgress = [
     {
