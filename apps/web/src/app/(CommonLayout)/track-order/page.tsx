@@ -1,7 +1,9 @@
+"use client";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { Package } from "lucide-react";
+import { useState } from "react";
 import OrderDetails from "./components/order-details";
+import OrderSearch from "./components/order-search";
 import OrderStatus from "./components/order-status";
 
 const TrackOrder = () => {
@@ -12,6 +14,13 @@ const TrackOrder = () => {
     },
   ];
 
+  const [orderData, setOrderData] = useState<{ orderId: string } | null>(null);
+
+  const handleSearch = (orderId: string) => {
+    // In a real app, you would fetch order data here
+    setOrderData({ orderId });
+  };
+
   return (
     <>
       <AppBreadcrumb className="" items={trackOrderBreadcrumbItems} title="Track Order" />
@@ -19,13 +28,7 @@ const TrackOrder = () => {
         <Container className="w-full">
           <div className="w-full">
             {/* Header */}
-            <div className="mb-8 text-center">
-              <div className="mb-4 flex justify-center">
-                <Package className="h-12 w-12" />
-              </div>
-              <h1 className="mb-2 text-3xl font-bold text-gray-900">Track Your Order</h1>
-              <p className="text-gray-600">Order ID: #FKT89562</p>
-            </div>
+            <OrderSearch onSearch={handleSearch} />
 
             <div className="w-full">
               {/* Order Status */}

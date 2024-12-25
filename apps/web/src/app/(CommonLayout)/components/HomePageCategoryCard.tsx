@@ -7,7 +7,7 @@ import Link from "next/link";
 const HomePageCategoryCard = ({ collection }: { collection: TCollectionDropdownItemProps }) => {
   return (
     <Link
-      href={`/collection/${collection?.id}`}
+      href={`/search?collections=${collection?.id}`}
       className={`hover:bg-primary hover:text-background group relative mb-10 flex h-[134px] w-[174px] flex-col items-center justify-center gap-4 rounded-md bg-gray-100 text-gray-800 transition-colors duration-300`}
     >
       <Image

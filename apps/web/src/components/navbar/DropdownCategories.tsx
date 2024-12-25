@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
-import DropdownCategoryItem from "./DropdownCategoryItem";
-import { FC } from "react";
 import { cn } from "@/libs/utils";
+import Link from "next/link";
+import { FC } from "react";
+import DropdownCategoryItem from "./DropdownCategoryItem";
 export type TCollectionDropdownItemProps = {
   id: string;
   name: string;
@@ -35,14 +35,17 @@ const DropdownCategories: FC<TDropDownCategoriesProps> = ({ type = "mega", colle
           >
             <div
               className={cn(
-                type === "mega" ? "bg-background ml-9 h-full w-full rounded-md px-4 py-5 shadow-lg" : "hidden"
+                type === "mega" ? "bg-background ml-9 h-fit w-full rounded-md px-4 py-5 shadow-lg" : "hidden"
               )}
             >
               <h3 className="text-base font-semibold">{collection?.name}</h3>
               <ul className="mt-3 list-disc space-y-2 pl-4 text-base">
                 {collection?.categories?.map((category) => (
                   <li key={category?.id}>
-                    <Link className="hover:text-primary" href={`category/${category?.id}`}>
+                    <Link
+                      className="hover:text-primary"
+                      href={`search?collections=${collection?.id}&categories=${category?.id}`}
+                    >
                       {category?.name}
                     </Link>
                   </li>

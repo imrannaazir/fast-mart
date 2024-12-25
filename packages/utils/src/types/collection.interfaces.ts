@@ -9,6 +9,7 @@ export type TCollection = {
   image?: TImage;
   icon?: TIcon;
   categories?: TCategory[];
+  noOfProducts?: number;
   createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;

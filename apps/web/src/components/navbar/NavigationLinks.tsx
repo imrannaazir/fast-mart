@@ -1,16 +1,16 @@
-import { AiOutlineHome } from "react-icons/ai";
-import { TbBrandAngular, TbMessageQuestion } from "react-icons/tb";
+import { Menu } from "antd";
 import { ClassValue } from "clsx";
+import Link from "next/link";
+import { AiOutlineHome } from "react-icons/ai";
 import { LuBadgeInfo } from "react-icons/lu";
 import { PiTruck } from "react-icons/pi";
-import NavigationLinkItem from "./NavigationLinkItem";
+import { TbBrandAngular, TbMessageQuestion } from "react-icons/tb";
 import DropdownNavigationLink from "./DropdownNavigationLink";
-import Link from "next/link";
-import { Menu } from "antd";
+import NavigationLinkItem from "./NavigationLinkItem";
 // import { TBrand } from "@/types";
+import { serverFetcher } from "@/libs/server-fetcher";
 import { TBrand } from "@repo/utils/types";
 import { Fragment } from "react";
-import { serverFetcher } from "@/libs/server-fetcher";
 
 export async function getBrandsData() {
   const res = await serverFetcher<TBrand[]>(`/brands`, {
@@ -31,7 +31,7 @@ const NavigationLinks = async () => {
   const brandListLinks = brands?.map((brand) => ({
     id: brand?._id as string,
     label: brand?.name,
-    path: brand?.name?.split(" ").join("-").toLowerCase(),
+    path: `/search?brands=${brand?._id}`,
     logo: brand?.logo?.url,
   }));
 
@@ -55,7 +55,7 @@ const NavigationLinks = async () => {
     {
       id: 3,
       label: "Brands",
-      path: "/brands",
+      path: "#",
       icon: <TbBrandAngular className={iconClassName} />,
       children: brandListLinks,
     },

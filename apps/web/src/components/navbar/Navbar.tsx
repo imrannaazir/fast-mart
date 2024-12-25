@@ -1,19 +1,18 @@
+import { serverFetcher } from "@/libs/server-fetcher";
+import { TCollection } from "@repo/utils/types";
+import { Suspense } from "react";
 import { FaWhatsapp } from "react-icons/fa";
+import { TCollectionDropdownItemProps } from "./DropdownCategories";
 import NavCategories from "./NavCategories";
 import NavigationLinks from "./NavigationLinks";
-import { Suspense } from "react";
-import { TCollectionDropdownItemProps } from "./DropdownCategories";
-import apiCall from "@/libs/api";
-import { TCollection } from "@repo/utils/types";
-export const getAllCollections = async () => {
-  const response = await apiCall<TCollection[]>("/collections", {
-    next: { revalidate: 3600 },
+
+const Navbar = async () => {
+  const response = await serverFetcher<TCollection[]>("/collections", {
+    // next: { revalidate: 3600 },
+    cache: "no-store",
   });
 
-  return response.data;
-};
-const Navbar = async () => {
-  const collections = (await getAllCollections()) as TCollection[];
+  const collections = response.data || [];
   const collectionsDropdownItems: TCollectionDropdownItemProps[] = collections?.map((collection: any) => ({
     id: collection?._id,
     name: collection?.title,

@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { serverFetcher } from "@/libs/server-fetcher";
 import { TAppProductCardProps } from "@/types";
-import { TProduct } from "@repo/utils/types";
+import { TBrand, TCategory, TCollection, TProduct } from "@repo/utils/types";
 import queryString from "query-string";
 import ProductPagination from "./components/Pagination";
 import SelectSortBy from "./components/SelectSortBy";
@@ -18,22 +18,34 @@ const searchBreadcrumbItems: TAppBreadcrumbItem[] = [
 ];
 const SearchPage = async ({ searchParams }: { searchParams: { q: string } }) => {
   const searchTerm = searchParams.q;
-  console.log(searchParams);
   const query = queryString.stringify({
     searchTerm,
   });
 
+  const brandResponse = await serverFetcher<TBrand[]>(`/brands`, {
+    cache: "no-store",
+  });
+  const collectionResponse = await serverFetcher<TCollection[]>("/collections", {
+    cache: "no-store",
+  });
+
+  const categoryResponse = await serverFetcher<TCategory[]>("/categories", {
+    cache: "no-store",
+  });
+  const brands = brandResponse?.data || [];
+  const collections = collectionResponse?.data || [];
+  const categories = categoryResponse?.data || [];
   const response = await serverFetcher<TProduct[]>(`/products?${query}`);
   const products = response?.data;
   const meta = response?.meta;
-
   const skip = meta?.limit! * (meta?.page! - 1);
+
   return (
     <>
       <AppBreadcrumb title={`Search Results for "${searchParams.q || "All"}"`} items={searchBreadcrumbItems} />
       <Container className="flex gap-6">
         {/* left */}
-        <SideBarFilter maxPrice={823} />
+        <SideBarFilter brands={brands} collections={collections} categories={categories} maxPrice={823} />
         {/* right */}
         <section className="w-full">
           {/* header  */}

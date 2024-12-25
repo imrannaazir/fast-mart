@@ -1,12 +1,12 @@
-import { PipelineStage } from 'mongoose';
-import { Collection } from './collection.models';
-import AppError from '../../errors/AppError';
-import { StatusCodes } from 'http-status-codes';
-import { TMeta } from '../../utils/sendResponse';
-import { Image } from '../image/image.model';
-import Icon from '../icon/icon.model';
-import config from '../../config';
 import { TCollection, TDeleteManyReturnType } from '@repo/utils/types';
+import { StatusCodes } from 'http-status-codes';
+import { PipelineStage } from 'mongoose';
+import config from '../../config';
+import AppError from '../../errors/AppError';
+import { TMeta } from '../../utils/sendResponse';
+import Icon from '../icon/icon.model';
+import { Image } from '../image/image.model';
+import { Collection } from './collection.models';
 
 // create collection
 const createCollection = async (
@@ -65,7 +65,7 @@ const getAllCollections = async (
       $lookup: {
         from: 'categories', // The name of the categories collection
         localField: '_id', // Field in the collection schema
-        foreignField: 'collection', // Field in the category schema
+        foreignField: 'collections', // Field in the category schema
         as: 'categories', // The array field to add categories
       },
     },

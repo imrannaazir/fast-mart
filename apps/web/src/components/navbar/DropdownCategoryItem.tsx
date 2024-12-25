@@ -1,8 +1,8 @@
 import { cn } from "@/libs/utils";
+import { Apple } from "lucide-react";
+import Link from "next/link";
 import { FC } from "react";
 import { LiaAngleRightSolid } from "react-icons/lia";
-import Link from "next/link";
-import { Apple } from "lucide-react";
 
 type TDropDownCategoryItemProps = {
   type?: "mega" | "simple";
@@ -16,7 +16,7 @@ const DropdownCategoryItem: FC<TDropDownCategoryItemProps> = ({ type = "mega", c
       <div className="flex items-center gap-3 text-gray-500">
         <Apple className="h-[23px] w-[23px]" />
         {/* <Icon className="w-[23px] h-[23px] " name={iconName as any} /> */}
-        <Link href={`/collection/${id}`}>
+        <Link href={`/search?collections=${id}`}>
           <button className="relative flex items-center text-[17px]">
             <div className="transition-width bg-primary/50 absolute bottom-[1px] h-[3px] w-0 duration-300 ease-linear group-hover:w-[40px]" />
 

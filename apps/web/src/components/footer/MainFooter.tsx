@@ -1,9 +1,9 @@
-import Link from "next/link";
-import CompanyDescription from "./CompanyDescription";
-import FooterContactUs from "./FooterContactUs";
-import AppLinkButton from "../ui/AppLinkButton";
 import apiCall from "@/libs/api";
 import { TCollection } from "@repo/utils/types";
+import Link from "next/link";
+import AppLinkButton from "../ui/AppLinkButton";
+import CompanyDescription from "./CompanyDescription";
+import FooterContactUs from "./FooterContactUs";
 
 export const getAllCollections = async () => {
   const response = await apiCall<TCollection[]>("/collections", {
@@ -18,7 +18,7 @@ const MainFooter = async () => {
   const collectionLinks = collections?.map((collection: any) => ({
     id: collection?._id,
     label: collection?.title,
-    path: `/collection/${collection?._id}`,
+    path: `/search?collection=${collection?._id}`,
   }));
   const footerLinks = [
     {

@@ -1,12 +1,12 @@
+import { TCategory, TDeleteManyReturnType } from '@repo/utils/types';
 import { StatusCodes } from 'http-status-codes';
-import AppError from '../../errors/AppError';
-import Category from './category.model';
 import mongoose, { PipelineStage, Types } from 'mongoose';
+import config from '../../config';
+import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
 import { Collection } from '../collection/collection.models';
 import { Image } from '../image/image.model';
-import config from '../../config';
-import { TCategory, TDeleteManyReturnType } from '@repo/utils/types';
+import Category from './category.model';
 
 // create category
 const createCategory = async (

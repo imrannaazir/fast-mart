@@ -79,24 +79,7 @@
   transition: opacity 0.5s ease-in-out;
 }
 
-/* ant design collapse padding */
-/* .custom-dots {
-  @apply -mb-8 flex items-center justify-center gap-2 !important;
-}
-
-.custom-dots li {
-  @apply h-2 w-2 rounded-full bg-gray-200 !important;
-}
-
-.custom-dots li.slick-active {
-  @apply w-8 rounded-full bg-teal-500 !important;
-}
-
-.slick-slide {
-  @apply flex justify-center !important;
-}
- */
-
+/* slider  */
 .custom-dots {
   @apply -mb-12 mt-8 flex items-center justify-center gap-2 !important;
 }

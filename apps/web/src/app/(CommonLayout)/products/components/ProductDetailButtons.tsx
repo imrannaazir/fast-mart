@@ -2,7 +2,7 @@
 import { useCartList } from "@/contexts/cartlist-context";
 import { useWishlist } from "@/contexts/wishlist-context";
 import { cn } from "@/libs/utils";
-import { debounce } from "@repo/utils/functions";
+import { compareTwoArrayOfString, debounce } from "@repo/utils/functions";
 import { CartActionType, TProduct } from "@repo/utils/types";
 import { Button, Divider } from "antd";
 import { Info } from "lucide-react";
@@ -30,7 +30,13 @@ const ProductDetailButtons = (product: TProduct) => {
   const isAllVariantSelected =
     product?.variants?.length === 0 ? true : product?.variants?.length === selectedVariants?.length ? true : false;
 
-  const { updateCartList, isInCart } = useCartList();
+  const { updateCartList, isInCart, cartList } = useCartList();
+  const selectedCartItem = cartList?.find(
+    (cartItem) => cartItem?.productId === product?._id && compareTwoArrayOfString(cartItem?.options!, selectedVariants)
+  );
+  console.log({
+    selectedCartItem,
+  });
 
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
@@ -69,7 +75,7 @@ const ProductDetailButtons = (product: TProduct) => {
             icon={<FaMinus size={12} />}
             size={"middle"}
           />
-          <p className="text-sm font-semibold">Add To Cart</p>
+          <p className="text-sm font-semibold">{selectedCartItem?.quantity || "Add To Cart"}</p>
           <Button
             onClick={addToCart}
             disabled={!isAllVariantSelected}

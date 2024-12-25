@@ -1,7 +1,7 @@
 import { light_colors } from "@/constants/colors.constant";
 import { Button, Collapse, Form, Slider } from "antd";
-import SidebarSectionHeader from "../../components/SidebarSectionHeader";
 import { FC } from "react";
+import SidebarSectionHeader from "../../components/SidebarSectionHeader";
 
 type TPriceRangeFilterProps = {
   maxPrice: number;
@@ -11,18 +11,17 @@ type TPriceRangeFilterProps = {
 const PriceRangeFilter: FC<TPriceRangeFilterProps> = ({ maxPrice, maxRange, minRange }) => {
   return (
     <Collapse
-      className="custom-collapse"
       style={{
         backgroundColor: light_colors.background,
         borderColor: "#e5e7eb",
       }}
-      size="middle"
+      size="small"
       expandIconPosition="end"
       defaultActiveKey={["1"]}
       items={[
         {
           key: "1",
-          label: <SidebarSectionHeader border={false} level="Price Range" className="text-lg font-medium" />,
+          label: <SidebarSectionHeader border={false} level="Price Range" className="text-base font-medium" />,
           children: (
             <>
               <Form.Item style={{ margin: 0 }} initialValue={[minRange, maxRange]} name="priceRange">

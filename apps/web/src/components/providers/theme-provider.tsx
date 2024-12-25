@@ -19,7 +19,7 @@ const ThemeProvider: FC<TThemeProviderProps> = ({ children }) => {
         defaultColor: "#fadb14",
       },
       Collapse: {
-        padding: 12,
+        padding: 0,
       },
     },
   };
