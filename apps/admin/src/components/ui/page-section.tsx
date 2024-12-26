@@ -10,7 +10,7 @@ type TPageSectionProps = {
 };
 const PageSection: FC<TPageSectionProps> = ({ children, className, title }) => {
   return (
-    <section className={cn("bg-background rounded-lg border p-6 shadow-sm", className)}>
+    <section className={cn("bg-background border-foreground/20 rounded-xl border p-6 shadow-md", className)}>
       {title && <Label>{title}</Label>}
       {children}
     </section>

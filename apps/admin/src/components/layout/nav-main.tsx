@@ -25,38 +25,40 @@ export function NavMain() {
       <SidebarMenu>
         {items.map((item) =>
           item?.children?.length ? (
-            <Collapsible key={item?.label} asChild className="group/collapsible">
-              <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton tooltip={item?.label}>
-                    {item?.icon && item.icon}
-                    <span>{item?.label}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenuSub>
-                    {item?.children?.map((subItem) => {
-                      const isActive = pathname.includes(`${item?.href}/${subItem?.href}`);
-                      const Icon = isActive ? CircleDot : Circle;
-                      return (
-                        <SidebarMenuSubItem key={subItem.label}>
-                          <SidebarMenuSubButton isActive={isActive} asChild>
-                            <Link to={`${item?.href}/${subItem?.href}`}>
-                              <span>
-                                <Icon className="h-3 w-3" />
-                              </span>
+            <Link key={item?.label} to={item?.href}>
+              <Collapsible asChild className="group/collapsible">
+                <SidebarMenuItem>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip={item?.label}>
+                      {item?.icon && item.icon}
+                      <span>{item?.label}</span>
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      {item?.children?.map((subItem) => {
+                        const isActive = pathname.includes(`${item?.href}/${subItem?.href}`);
+                        const Icon = isActive ? CircleDot : Circle;
+                        return (
+                          <SidebarMenuSubItem key={subItem.label}>
+                            <SidebarMenuSubButton isActive={isActive} asChild>
+                              <Link to={`${item?.href}/${subItem?.href}`}>
+                                <span>
+                                  <Icon className="h-3 w-3" />
+                                </span>
 
-                              <span>{subItem.label}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      );
-                    })}
-                  </SidebarMenuSub>
-                </CollapsibleContent>
-              </SidebarMenuItem>
-            </Collapsible>
+                                <span>{subItem.label}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        );
+                      })}
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            </Link>
           ) : (
             <Link key={item?.label} to={item?.href as string}>
               <SidebarMenuItem>

@@ -1,21 +1,24 @@
-import { Fragment } from "react/jsx-runtime";
-import { cartCards } from "@/constant/constant";
+import BestSellingProducts from "@/components/dashboard/BestSellingProducts";
 import ChartCard from "@/components/dashboard/ChartCard";
 import DashboardCategory from "@/components/dashboard/DashboardCategory";
 import RevenueReport from "@/components/dashboard/RevenueReport";
-import BestSellingProducts from "@/components/dashboard/BestSellingProducts";
+import { cartCards } from "@/constant/constant";
 
 const HomePage = () => {
-  // cart cards data
-
   return (
-    <Fragment>
-      {/* cart cards section */}
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="space-y-6 py-8">
+      {/* Header */}
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">Welcome back to your dashboard overview.</p>
+      </div>
+
+      {/* Stats Cards */}
+      <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {cartCards?.map((card) => <ChartCard data={card} key={card?.id} />)}
       </section>
 
-      {/* categories */}
+      {/* Categories */}
       <DashboardCategory />
 
       {/* Revenue report and best selling products */}
@@ -23,7 +26,7 @@ const HomePage = () => {
         <RevenueReport />
         <BestSellingProducts />
       </div>
-    </Fragment>
+    </div>
   );
 };
 

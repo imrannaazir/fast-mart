@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { hexToRgba } from "@repo/utils/functions";
 import { IconType } from "react-icons/lib";
 
@@ -12,29 +11,42 @@ export type TChartCard = {
 
 const ChartCard = ({ data }: { data: TChartCard }) => {
   return (
-    <div className="bg-background rounded-xl p-6 duration-300 hover:-translate-y-1 hover:shadow-sm">
-      {/* body */}
-      <div
-        className={cn(`flex items-center justify-between border-l-[3.5px] pl-4`)}
-        style={{
-          borderColor: data?.color,
-        }}
-      >
-        {/* content */}
-        <div>
-          <p className="text-gray-400">{data?.title}</p>
-          <h1 className="text-[26px] font-semibold text-gray-700">{data?.number}</h1>
+    <div className="bg-card relative overflow-hidden rounded-xl p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+      <div className="relative z-10">
+        <div className="flex items-center justify-between">
+          {/* Icon */}
+          <div
+            className="rounded-lg p-3"
+            style={{
+              backgroundColor: hexToRgba(data?.color, 0.1),
+            }}
+          >
+            <data.icon size={28} style={{ color: data?.color }} />
+          </div>
+
+          {/* Indicator line */}
+          <div
+            className="h-1 w-16 rounded-full"
+            style={{
+              backgroundColor: hexToRgba(data?.color, 0.2),
+            }}
+          />
         </div>
-        {/* icon */}
-        <div
-          className="rounded-md p-2"
-          style={{
-            backgroundColor: hexToRgba(data?.color, 0.1),
-          }}
-        >
-          <data.icon size={24} style={{ color: data?.color }} />
+
+        {/* Content */}
+        <div className="mt-4">
+          <p className="text-muted-foreground text-sm font-medium">{data?.title}</p>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight">{data?.number}</h2>
         </div>
       </div>
+
+      {/* Background decoration */}
+      <div
+        className="absolute bottom-0 right-0 h-32 w-32 translate-x-1/4 translate-y-1/4 transform rounded-full opacity-10"
+        style={{
+          backgroundColor: data?.color,
+        }}
+      />
     </div>
   );
 };

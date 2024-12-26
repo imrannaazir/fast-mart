@@ -1,5 +1,5 @@
-import { FC, useMemo, useRef } from "react";
 import JoditEditor from "jodit-react";
+import { FC, useMemo, useRef } from "react";
 import { SetFieldValue } from "react-hook-form";
 
 type TTextEditorProps = {
@@ -15,6 +15,7 @@ const TextEditor: FC<TTextEditorProps> = ({ value, setValue, fieldName = "descri
       readonly: false,
       height: "200px",
       toolbarAdaptive: false,
+      statusbar: false,
       buttons: [
         "ai-commands",
         "paragraph",

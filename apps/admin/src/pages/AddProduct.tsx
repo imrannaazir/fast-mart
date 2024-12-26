@@ -4,22 +4,22 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import AddVariant from "@/components/forms/product/AddVariant";
+import SelectBrand from "@/components/forms/product/SelectBrand";
+import SelectCategories from "@/components/forms/product/SelectCategories";
+import SelectCollections from "@/components/forms/product/SelectCollections";
+import SelectTags from "@/components/forms/product/SelectTags";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
-import { useCreateProductMutation } from "@/redux/features/product/productApi";
-import { createProductSchema } from "@repo/utils/zod-schemas";
-import TextEditor from "@/components/ui/text-editor";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import TextEditor from "@/components/ui/text-editor";
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
-import AddVariant from "@/components/forms/product/AddVariant";
-import SelectCollections from "@/components/forms/product/SelectCollections";
-import SelectCategories from "@/components/forms/product/SelectCategories";
-import SelectBrand from "@/components/forms/product/SelectBrand";
-import SelectTags from "@/components/forms/product/SelectTags";
+import { useCreateProductMutation } from "@/redux/features/product/productApi";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createProductSchema } from "@repo/utils/zod-schemas";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const AddProductPage = () => {
@@ -46,11 +46,13 @@ const AddProductPage = () => {
       toast.error("Failed to create.", { id: toastId });
     }
   };
+  const isDirty = form.formState.isDirty;
+  console.log(isDirty, "50");
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create Product" action={<Action />}>
+        <Page size={"sm"} title="Create Product" action={<Action />}>
           {/* form content */}
           <div className="flex gap-4">
             <div className="w-[66%] space-y-6">
@@ -180,7 +182,11 @@ const AddProductPage = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {ProductUnit?.map((item) => <SelectItem value={item}>{item}</SelectItem>)}
+                            {ProductUnit?.map((item) => (
+                              <SelectItem key={item} value={item}>
+                                {item}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
 
@@ -221,7 +227,11 @@ const AddProductPage = () => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {ProductStatus?.map((item) => <SelectItem value={item}>{item}</SelectItem>)}
+                          {ProductStatus?.map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
 
