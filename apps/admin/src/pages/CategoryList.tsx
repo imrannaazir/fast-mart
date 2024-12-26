@@ -1,5 +1,5 @@
-import { CategoryDataTable } from "@/components/dataTable/category/data-table";
 import { columns } from "@/components/dataTable/category/columns";
+import { CategoryDataTable } from "@/components/dataTable/category/data-table";
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
@@ -53,7 +53,7 @@ const CategoryListPage = () => {
 
 const CategoryAction = () => {
   return (
-    <Link to="/contents/add-category/new">
+    <Link to="/contents/categories/add-category">
       <Button size={"sm"}>Create Category</Button>;
     </Link>
   );

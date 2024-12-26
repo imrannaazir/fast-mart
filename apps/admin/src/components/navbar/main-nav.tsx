@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
+import paths from "@/routes/admin.routes";
+import sidebarGenerator from "@/utils/sidebarGenerator";
 import { Circle, Settings } from "lucide-react";
+import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
-import sidebarGenerator from "@/utils/sidebarGenerator";
-import paths from "@/routes/admin.routes";
-import { ReactNode } from "react";
 
 export default function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const routes = sidebarGenerator(paths);
+
   const { pathname } = useLocation();
 
   let sidebarNavRoute: ReactNode;

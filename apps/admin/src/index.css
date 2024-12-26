@@ -13,8 +13,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    /* Shopify green */
-    --primary: 140 100% 40%;
+    --primary: 0 0% 19%;
+
     --primary-foreground: 0 0% 100%;
 
     /* Subtle grays for secondary elements */
@@ -45,19 +45,19 @@
     /* Border and input colors */
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 140 100% 40%;
+    --ring: 220 13% 91%;
 
     --radius: 0.5rem;
 
     /* Sidebar specific colors */
     --sidebar-background: 0 0% 90%;
     --sidebar-foreground: 0 0% 0%;
-    --sidebar-primary: 140 100% 40%;
+    --sidebar-primary: 220 13% 91%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 13% 86%;
     --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 140 100% 40%;
+    --sidebar-border: 0 0% 60%;
+    --sidebar-ring: 220 13% 91%;
   }
 
   .dark {
@@ -70,8 +70,7 @@
     --popover: 0 0% 13%;
     --popover-foreground: 0 0% 100%;
 
-    /* Shopify green in dark mode */
-    --primary: 140 100% 40%;
+    --primary: 220 13% 91%;
     --primary-foreground: 0 0% 100%;
 
     /* Darker grays for secondary elements */
@@ -102,17 +101,17 @@
     /* Dark mode border and input colors */
     --border: 220 13% 16%;
     --input: 220 13% 16%;
-    --ring: 140 100% 40%;
+    --ring: 220 13% 91%;
 
     /* Sidebar colors in dark mode */
     --sidebar-background: 220 13% 16%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 140 100% 40%;
+    --sidebar-primary: 220 13% 91%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 13% 21%;
     --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 220 13% 21%;
-    --sidebar-ring: 140 100% 40%;
+    --sidebar-ring: 220 13% 91%;
   }
 }
 

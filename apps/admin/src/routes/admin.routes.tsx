@@ -3,27 +3,26 @@ import HomePage from "@/pages/Home";
 import ProductDetails from "@/pages/ProductDetails";
 import ProductList from "@/pages/ProductList";
 // import UpdateProduct from "@/pages/UpdateProduct";
+import AddBrandsPage from "@/pages/AddBrand";
+import AddCategoryPage from "@/pages/AddCategory";
+import AddCollectionPage from "@/pages/AddCollection";
+import AddCustomer from "@/pages/AddCustomer";
+import AddImagePage from "@/pages/AddImage";
+import AddOrderPage from "@/pages/AddOrderPage";
+import BrandListPage from "@/pages/BrandList";
+import CategoryListPage from "@/pages/CategoryList";
+import CollectionListPage from "@/pages/CollectionList";
+import CustomerListPage from "@/pages/CustomerList";
+import ImageListPage from "@/pages/ImageList";
+import { TPath } from "@/types";
 import { BarChart2, Home, Images, ShoppingBag, User } from "lucide-react";
 import { IoMdPricetag } from "react-icons/io";
-import AddOrderPage from "@/pages/AddOrderPage";
-import { TPath } from "@/types";
 import AnalyticsPage from "../pages/Analytics";
-import AddCustomer from "@/pages/AddCustomer";
-import CustomerListPage from "@/pages/CustomerList";
-import AddImagePage from "@/pages/AddImage";
-import ImageListPage from "@/pages/ImageList";
-import AddCollectionPage from "@/pages/AddCollection";
-import CollectionListPage from "@/pages/CollectionList";
-import AddCategoryPage from "@/pages/AddCategory";
-import CategoryListPage from "@/pages/CategoryList";
-import BrandListPage from "@/pages/BrandList";
-import AddBrandsPage from "@/pages/AddBrand";
-import AddVariantPage from "@/pages/AddVariant";
 
 const paths: TPath[] = [
   {
+    path: "/",
     icon: <Home className="mr-2 h-4 w-4" />,
-    index: true,
     element: <HomePage />,
   },
   {
@@ -37,6 +36,8 @@ const paths: TPath[] = [
     label: "Orders",
     path: "orders",
     children: [
+      { index: true, element: <p>Order list</p> },
+      { path: "list", label: "List", element: <p>Order list</p> },
       {
         label: "Add",
         path: "new",
@@ -49,6 +50,10 @@ const paths: TPath[] = [
     label: "Product",
     path: "products",
     children: [
+      {
+        index: true,
+        element: <ProductList />,
+      },
       {
         path: `new`,
         label: "Add",
@@ -84,6 +89,7 @@ const paths: TPath[] = [
         label: "List",
         element: <CustomerListPage />,
       },
+      { index: true, element: <CustomerListPage /> },
     ],
   },
   {
@@ -95,45 +101,64 @@ const paths: TPath[] = [
         index: true,
         element: <ImageListPage />,
       },
-      {
-        path: "add-image",
-        element: <AddImagePage />,
-      },
+
       {
         label: "Images",
         path: "images",
-        element: <ImageListPage />,
+        children: [
+          {
+            index: true,
+            element: <ImageListPage />,
+          },
+          {
+            path: "add-image",
+            element: <AddImagePage />,
+          },
+        ],
       },
-      {
-        path: "add-collection/:id",
-        element: <AddCollectionPage />,
-      },
+
       {
         label: "Collections",
         path: "collections",
-        element: <CollectionListPage />,
+        children: [
+          {
+            index: true,
+            element: <CollectionListPage />,
+          },
+          {
+            path: "add-collection",
+            element: <AddCollectionPage />,
+          },
+        ],
       },
-      {
-        path: "add-category/:id",
-        element: <AddCategoryPage />,
-      },
+
       {
         label: "Categories",
         path: "categories",
-        element: <CategoryListPage />,
-      },
-      {
-        path: "add-brand/:id",
-        element: <AddBrandsPage />,
+        children: [
+          {
+            index: true,
+            element: <CategoryListPage />,
+          },
+          {
+            path: "add-category",
+            element: <AddCategoryPage />,
+          },
+        ],
       },
       {
         label: "Brands",
         path: "brands",
-        element: <BrandListPage />,
-      },
-      {
-        path: "add-variant",
-        element: <AddVariantPage />,
+        children: [
+          {
+            index: true,
+            element: <BrandListPage />,
+          },
+          {
+            path: "add-brand",
+            element: <AddBrandsPage />,
+          },
+        ],
       },
     ],
   },

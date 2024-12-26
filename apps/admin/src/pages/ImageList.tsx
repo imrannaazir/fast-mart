@@ -1,6 +1,8 @@
 import { columns } from "@/components/dataTable/image/columns";
 import { ImageDataTable } from "@/components/dataTable/image/data-table";
 import Page from "@/components/layout/Page";
+import UploadSingleImage from "@/components/ui/image-upload";
+import LoadingButton from "@/components/ui/loading-button";
 import {
   selectLimit,
   selectOrderBy,
@@ -14,8 +16,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TImage } from "@repo/utils/types";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
-import UploadSingleImage from "@/components/ui/image-upload";
-import LoadingButton from "@/components/ui/loading-button";
 
 const ImageListPage = () => {
   const [skip, setSkip] = useState(true);
@@ -57,7 +57,7 @@ const ImageAction = () => {
   return (
     <div>
       <UploadSingleImage fieldValue={""} fieldName="image" loader={<LoadingButton />}>
-        <div className="btn-primary">Upload Image</div>
+        <div className="">Upload Image</div>
       </UploadSingleImage>
     </div>
   );

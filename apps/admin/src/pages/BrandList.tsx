@@ -53,7 +53,7 @@ const BrandListPage = () => {
 
 const CollectionAction = () => {
   return (
-    <Link to="/contents/add-brand/new">
+    <Link to="/contents/brands/add-brand">
       <Button size={"sm"}>Create brand</Button>;
     </Link>
   );

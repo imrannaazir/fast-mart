@@ -52,7 +52,7 @@ const CollectionListPage = () => {
 
 const CollectionAction = () => {
   return (
-    <Link to="/contents/add-collection/new">
+    <Link to="/contents/collections/add-collection">
       <Button size={"sm"}>Create collection</Button>;
     </Link>
   );
