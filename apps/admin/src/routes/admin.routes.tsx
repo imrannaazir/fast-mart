@@ -6,9 +6,7 @@ import ProductList from "@/pages/ProductList";
 import AddBrandsPage from "@/pages/AddBrand";
 import AddCategoryPage from "@/pages/AddCategory";
 import AddCollectionPage from "@/pages/AddCollection";
-import AddCustomer from "@/pages/AddCustomer";
 import AddImagePage from "@/pages/AddImage";
-import AddOrderPage from "@/pages/AddOrderPage";
 import BrandListPage from "@/pages/BrandList";
 import CategoryListPage from "@/pages/CategoryList";
 import CollectionListPage from "@/pages/CollectionList";
@@ -18,7 +16,6 @@ import OrderListPage from "@/pages/order-list-page";
 import { TPath } from "@/types";
 import { BarChart2, Home, Images, ShoppingBag, User } from "lucide-react";
 import { IoMdPricetag } from "react-icons/io";
-import AnalyticsPage from "../pages/Analytics";
 
 const paths: TPath[] = [
   {
@@ -36,15 +33,13 @@ const paths: TPath[] = [
     icon: <ShoppingBag className="mr-2 h-4 w-4" />,
     label: "Orders",
     path: "orders",
-    children: [
-      { index: true, element: <OrderListPage /> },
-      { path: "list", label: "List", element: <OrderListPage /> },
-      {
-        label: "Add",
-        path: "new",
-        element: <AddOrderPage />,
-      },
-    ],
+    element: <OrderListPage />,
+  },
+  {
+    icon: <User className="mr-2 h-4 w-4" />,
+    label: "Customers",
+    path: "customers",
+    element: <CustomerListPage />,
   },
   {
     icon: <IoMdPricetag className="mr-2 h-4 w-4" />,
@@ -65,34 +60,14 @@ const paths: TPath[] = [
         label: "List",
         element: <ProductList />,
       },
-      /* {
-        path: "update/:id",
-        element: <UpdateProduct />,
-      }, */
+
       {
         path: ":id",
         element: <ProductDetails />,
       },
     ],
   },
-  {
-    icon: <User className="mr-2 h-4 w-4" />,
-    label: "Customers",
-    path: "customers",
-    children: [
-      {
-        path: "new",
-        label: "Add",
-        element: <AddCustomer />,
-      },
-      {
-        path: "list",
-        label: "List",
-        element: <CustomerListPage />,
-      },
-      { index: true, element: <CustomerListPage /> },
-    ],
-  },
+
   {
     icon: <Images className="mr-2 h-4 w-4" />,
     label: "Contents",
@@ -167,7 +142,7 @@ const paths: TPath[] = [
     icon: <BarChart2 className="mr-2 h-4 w-4" />,
     label: "Analytics",
     path: "analytics",
-    element: <AnalyticsPage />,
+    element: <HomePage />,
   },
 ];
 export default paths;

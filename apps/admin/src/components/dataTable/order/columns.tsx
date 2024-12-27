@@ -1,16 +1,13 @@
-// import { ColumnDef } from "@tanstack/react-table";
 // import { Checkbox } from "@/components/ui/checkbox";
 // import { TOrder } from "@/types/order.type";
+// import { ColumnDef } from "@tanstack/react-table";
 
 // export const columns: ColumnDef<TOrder>[] = [
 //   {
 //     id: "select",
 //     header: ({ table }) => (
 //       <Checkbox
-//         checked={
-//           table.getIsAllPageRowsSelected() ||
-//           (table.getIsSomePageRowsSelected() && "indeterminate")
-//         }
+//         checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
 //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
 //         aria-label="Select all"
 //       />
@@ -29,15 +26,14 @@
 //     accessorKey: "products",
 //     header: "Product",
 //     cell: ({ row }) => {
-//       const dummyImage =
-//         "https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg";
+//       const dummyImage = "https://t3.ftcdn.net/jpg/03/45/05/92/360_F_345059232_CPieT8RIWOUk4JqBkkWkIETYAkmz2b75.jpg";
 
 //       return (
 //         <div className="flex -space-x-5 rtl:space-x-reverse">
 //           {row.original.products.slice(0.3).map((product) => (
 //             <div key={product.product._id}>
 //               <img
-//                 className="w-10 h-10 border-2   rounded-full border-gray-800"
+//                 className="h-10 w-10 rounded-full border-2 border-gray-800"
 //                 src={product.product.image ? product.product.image : dummyImage}
 //                 alt=""
 //               />
@@ -45,7 +41,7 @@
 //           ))}
 
 //           {row.original.products.length > 3 && (
-//             <div className="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800">
+//             <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-gray-700 text-xs font-medium text-white hover:bg-gray-600 dark:border-gray-800">
 //               +99
 //             </div>
 //           )}
@@ -59,9 +55,7 @@
 //     cell: ({ row }) => {
 //       const contactNo = row.getValue("buyer_contact");
 
-//       return (
-//         <div className="font-semibold">{(contactNo as string) || "N/A"}</div>
-//       );
+//       return <div className="font-semibold">{(contactNo as string) || "N/A"}</div>;
 //     },
 //   },
 //   {
@@ -72,10 +66,7 @@
 //   {
 //     header: "Quantity",
 //     cell: ({ row }) => {
-//       const quantity = row.original.products.reduce(
-//         (total, product) => product.quantity + total,
-//         0
-//       );
+//       const quantity = row.original.products.reduce((total, product) => product.quantity + total, 0);
 //       return <p>{quantity}</p>;
 //     },
 //   },

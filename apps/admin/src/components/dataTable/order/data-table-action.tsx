@@ -9,12 +9,7 @@
 //   DropdownMenuTrigger,
 // } from "@/components/ui/dropdown-menu";
 // import Modal from "@/components/ui/modal";
-// import {
-//   onClose,
-//   onOpen,
-//   selectCollectionName,
-//   selectIsOpen,
-// } from "@/redux/features/modal/modalSlice";
+// import { onClose, onOpen, selectCollectionName, selectIsOpen } from "@/redux/features/modal/modalSlice";
 // import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
 // import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 // import { TProduct } from "@/types/product.type";
@@ -63,12 +58,7 @@
 //       >
 //         <SellProductForm productQuantity={selectedProduct.quantity} />
 //       </Modal>
-//       <AlertModal
-//         isLoading={isLoading}
-//         isOpen={isOpen}
-//         onClose={() => setIsOpen(false)}
-//         onConfirm={onDelete}
-//       />
+//       <AlertModal isLoading={isLoading} isOpen={isOpen} onClose={() => setIsOpen(false)} onConfirm={onDelete} />
 //       <DropdownMenu>
 //         <DropdownMenuTrigger asChild>
 //           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -84,10 +74,7 @@
 //           >
 //             <DollarSign size={14} /> Sell
 //           </DropdownMenuItem>
-//           <DropdownMenuItem
-//             onClick={() => setIsOpen(true)}
-//             className="flex items-center gap-2"
-//           >
+//           <DropdownMenuItem onClick={() => setIsOpen(true)} className="flex items-center gap-2">
 //             <Trash2 size={14} /> Delete
 //           </DropdownMenuItem>
 //           {/* <DropdownMenuItem className="flex items-center gap-2">
