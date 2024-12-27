@@ -11,7 +11,7 @@ import handleMongooseError from '../errors/handleMongooseError';
 import handleZodError from '../errors/handleZodError';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
-  console.log(error);
+  // console.log(error);
 
   const success = false;
   let statusCode = 500;

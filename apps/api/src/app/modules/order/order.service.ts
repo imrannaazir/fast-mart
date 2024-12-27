@@ -158,6 +158,7 @@ const getMyOrders = async (userId: string) => {
         addressId: { $first: '$addressId' },
         userId: { $first: '$userId' },
         paymentStatus: { $first: '$paymentStatus' },
+        status: { $first: '$status' },
         paymentType: { $first: '$paymentType' },
         totalAmount: { $first: '$totalAmount' },
         orderItems: {
@@ -196,6 +197,7 @@ const getMyOrders = async (userId: string) => {
         totalAmount: 1,
         paymentType: 1,
         paymentStatus: 1,
+        status: 1,
         orderItems: 1,
       },
     },

@@ -1,39 +1,45 @@
+import { TOrder } from "@repo/utils/types";
+import dayjs from "dayjs";
 import { Check, Home, Package, Truck } from "lucide-react";
 import React from "react";
 
-const steps = [
-  {
-    icon: Package,
-    title: "Order Confirmed",
-    date: "March 14, 2024 - 10:30 AM",
-    description: "Your order has been confirmed",
-    completed: true,
-  },
-  {
-    icon: Check,
-    title: "Processing",
-    date: "March 14, 2024 - 2:45 PM",
-    description: "Your order is being processed",
-    completed: true,
-  },
-  {
-    icon: Truck,
-    title: "In Transit",
-    date: "March 15, 2024 - Expected",
-    description: "Your order is on the way",
-    completed: false,
-    active: true,
-  },
-  {
-    icon: Home,
-    title: "Delivered",
-    date: "March 16, 2024 - Expected",
-    description: "Package will be delivered",
-    completed: false,
-  },
-];
+type TOrderStatusProps = { order: TOrder };
 
-const OrderStatus: React.FC = () => {
+const OrderStatus: React.FC<TOrderStatusProps> = ({ order }) => {
+  const format = "MMMM D, YYYY - h:mm A";
+  console.log(!!order?.createdAt, "here 10");
+
+  const steps = [
+    {
+      icon: Package,
+      title: "Order Confirmed",
+      date: dayjs(order?.createdAt).format(format),
+      description: "Your order has been confirmed",
+      completed: order?.createdAt ? true : false,
+    },
+    {
+      icon: Check,
+      title: "Processing",
+      date: "December 28, 2024 - 2:45 PM",
+      description: "Your order is being processed",
+      completed: true,
+    },
+    {
+      icon: Truck,
+      title: "In Transit",
+      date: "December 29, 2024 - Expected",
+      description: "Your order is on the way",
+      completed: false,
+      active: true,
+    },
+    {
+      icon: Home,
+      title: "Delivered",
+      date: "December 30, 2024 - Expected",
+      description: "Package will be delivered",
+      completed: false,
+    },
+  ];
   return (
     <div className="mb-8 rounded-xl bg-white p-6 shadow-sm">
       <h2 className="mb-6 text-xl font-semibold text-gray-900">Shipping Status</h2>

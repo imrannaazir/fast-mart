@@ -1,5 +1,6 @@
 const assets = {
   images: {
+    logo: "/images/fast-mart-logo.png",
     payment: "/images/payment.png",
     blank_image: "/images/blank-image.png",
     sales_manager: "/images/sales_manager.jpg",

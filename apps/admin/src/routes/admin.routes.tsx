@@ -14,6 +14,7 @@ import CategoryListPage from "@/pages/CategoryList";
 import CollectionListPage from "@/pages/CollectionList";
 import CustomerListPage from "@/pages/CustomerList";
 import ImageListPage from "@/pages/ImageList";
+import OrderListPage from "@/pages/order-list-page";
 import { TPath } from "@/types";
 import { BarChart2, Home, Images, ShoppingBag, User } from "lucide-react";
 import { IoMdPricetag } from "react-icons/io";
@@ -36,8 +37,8 @@ const paths: TPath[] = [
     label: "Orders",
     path: "orders",
     children: [
-      { index: true, element: <p>Order list</p> },
-      { path: "list", label: "List", element: <p>Order list</p> },
+      { index: true, element: <OrderListPage /> },
+      { path: "list", label: "List", element: <OrderListPage /> },
       {
         label: "Add",
         path: "new",

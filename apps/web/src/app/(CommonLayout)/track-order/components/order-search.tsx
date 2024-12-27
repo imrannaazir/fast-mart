@@ -1,19 +1,19 @@
 "use client";
+
+import { Button, Form, Input } from "antd";
 import { Package, Search } from "lucide-react";
-import React, { useState } from "react";
+import { FC } from "react";
 
 interface OrderSearchProps {
   onSearch: (orderId: string) => void;
+  isLoading: boolean;
 }
 
-const OrderSearch: React.FC<OrderSearchProps> = ({ onSearch }) => {
-  const [orderId, setOrderId] = useState("");
+const OrderSearch: FC<OrderSearchProps> = ({ onSearch, isLoading }) => {
+  const [form] = Form.useForm();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (orderId.trim()) {
-      onSearch(orderId);
-    }
+  const handleSubmit = ({ orderId }: { orderId: string }) => {
+    onSearch(orderId.trim());
   };
 
   return (
@@ -21,25 +21,27 @@ const OrderSearch: React.FC<OrderSearchProps> = ({ onSearch }) => {
       <div className="mb-4 flex justify-center">
         <Package className="h-12 w-12 text-teal-600" />
       </div>
-      <h1 className="mb-6 text-3xl font-bold text-gray-900">Track Your Order</h1>
+      <h1 className="mb-6 text-3xl font-bold">Track Your Order</h1>
 
-      <form onSubmit={handleSubmit} className="mx-auto max-w-md">
-        <div className="relative">
-          <input
-            type="text"
-            value={orderId}
-            onChange={(e) => setOrderId(e.target.value)}
+      <Form form={form} onFinish={handleSubmit} className="mx-auto max-w-md">
+        <Form.Item
+          name="orderId"
+          rules={[
+            {
+              required: true,
+              message: "Please enter your order ID",
+            },
+          ]}
+        >
+          <Input
             placeholder="Enter your order ID (e.g., FKT89562)"
-            className="w-full rounded-lg border-2 border-gray-200 px-4 py-3 pl-4 pr-12 text-gray-800 placeholder-gray-400 transition-colors focus:border-teal-500 focus:outline-none"
+            suffix={
+              <Button loading={isLoading} htmlType="submit" type="primary" icon={<Search className="h-5 w-5" />} />
+            }
+            className="rounded-lg py-2 pl-4 pr-2"
           />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md bg-teal-500 p-2 text-white transition-colors hover:bg-teal-600"
-          >
-            <Search className="h-5 w-5" />
-          </button>
-        </div>
-      </form>
+        </Form.Item>
+      </Form>
     </div>
   );
 };

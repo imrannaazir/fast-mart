@@ -1,21 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import baseApi from "./features/api/baseApi";
 import authSlice from "./features/auth/authSlice";
-import {
-  persistReducer,
-  persistStore,
-  /*  FLUSH,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-  REHYDRATE, */
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import filterSlice from "./features/filter/filterSlice";
+import headerReducer from "./features/header/header-slice";
+import { alertModalReducer } from "./features/modal/alertModal.slice";
 import modalSlice from "./features/modal/modalSlice";
 import tagSlice from "./features/tag/tagSlice";
-import filterSlice from "./features/filter/filterSlice";
-import { alertModalReducer } from "./features/modal/alertModal.slice";
 
 const persistConfig = {
   key: "auth",
@@ -31,6 +23,7 @@ const store = configureStore({
     tags: tagSlice,
     filter: filterSlice,
     alertModal: alertModalReducer,
+    header: headerReducer,
   },
   middleware: (getDefaultMiddlewares) =>
     getDefaultMiddlewares({

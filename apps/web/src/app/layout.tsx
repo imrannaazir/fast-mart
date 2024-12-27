@@ -1,6 +1,6 @@
+import { Providers } from "@/components/providers/providers";
 import type { Metadata } from "next";
 import "../styles/global.css";
-import { Providers } from "@/components/providers/providers";
 
 export const metadata: Metadata = {
   title: "Fast Mart",

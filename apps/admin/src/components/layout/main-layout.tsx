@@ -1,9 +1,19 @@
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Outlet } from "react-router-dom";
+import { setIsDirty } from "@/redux/features/header/header-slice";
+import { useAppDispatch } from "@/redux/hooks";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import AppHeader from "./app-header";
 import { AppSidebar } from "./app-sidebar";
 
 export default function MainLayout() {
+  const dispatch = useAppDispatch();
+  const pathname = useLocation();
+  // clear header state
+  useEffect(() => {
+    dispatch(setIsDirty(false));
+  }, [dispatch, pathname]);
+
   return (
     <SidebarProvider>
       <AppSidebar />

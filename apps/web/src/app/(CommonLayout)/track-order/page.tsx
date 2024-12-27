@@ -1,6 +1,10 @@
 "use client";
+import { getSingleOrder } from "@/actions/order";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
+import { getErrorMessage } from "@repo/utils/functions";
+import { TOrder } from "@repo/utils/types";
+import { message } from "antd";
 import { useState } from "react";
 import OrderDetails from "./components/order-details";
 import OrderSearch from "./components/order-search";
@@ -14,11 +18,19 @@ const TrackOrder = () => {
     },
   ];
 
-  const [orderData, setOrderData] = useState<{ orderId: string } | null>(null);
+  const [orderData, setOrderData] = useState<TOrder | null>(null);
+  const [loading, setLoading] = useState(false);
+  const handleSearch = async (orderId: string) => {
+    setLoading(true);
+    const result = await getSingleOrder(orderId);
+    if (result?.success) {
+      setOrderData(result?.data);
+    } else {
+      message?.error(getErrorMessage(result));
+      setOrderData(null);
+    }
 
-  const handleSearch = (orderId: string) => {
-    // In a real app, you would fetch order data here
-    setOrderData({ orderId });
+    setLoading(false);
   };
 
   return (
@@ -28,14 +40,16 @@ const TrackOrder = () => {
         <Container className="w-full">
           <div className="w-full">
             {/* Header */}
-            <OrderSearch onSearch={handleSearch} />
+            <OrderSearch isLoading={loading} onSearch={handleSearch} />
 
             <div className="w-full">
               {/* Order Status */}
-              <div className="w-full *:w-full">
-                <OrderStatus />
-                <OrderDetails />
-              </div>
+              {orderData && (
+                <div className="w-full *:w-full">
+                  <OrderStatus order={orderData} />
+                  <OrderDetails />
+                </div>
+              )}
 
               {/* Map */}
             </div>
