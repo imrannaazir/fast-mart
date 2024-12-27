@@ -2,10 +2,10 @@
 import assets from "@/assets";
 import { useUser } from "@/contexts/user-context";
 import { Avatar, Divider, GetProp, Menu, MenuProps } from "antd";
-import { Edit, Heart } from "lucide-react";
+import { Edit, Heart, LucideHome } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { LuHome, LuMapPin, LuShoppingBag } from "react-icons/lu";
+import { LuMapPin, LuShoppingBag } from "react-icons/lu";
 
 const UserSidebar = () => {
   type MenuItem = GetProp<MenuProps, "items">[number];
@@ -16,7 +16,7 @@ const UserSidebar = () => {
   const items: MenuItem[] = [
     {
       key: "dashboard",
-      icon: <LuHome size={16} />,
+      icon: <LucideHome size={16} />,
       label: "Dashboard",
       onClick: () => router.push("/user/dashboard"),
     },
