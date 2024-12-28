@@ -44,12 +44,13 @@ const getMyOrderById = catchAsync(async (req, res) => {
 const getAllAdminOrders = catchAsync(async (req, res) => {
   const orderId = req.params.orderId;
 
-  const response = await OrderServices.getAllAdminOrders(req.query);
+  const result = await OrderServices.getAllAdminOrders(req.query);
   sendResponse(res, {
     success: true,
-    statusCode: StatusCodes.CREATED,
+    statusCode: StatusCodes.OK,
     message: 'Orders retrieved successfully',
-    data: response,
+    data: result?.data,
+    meta: result?.meta,
   });
 });
 

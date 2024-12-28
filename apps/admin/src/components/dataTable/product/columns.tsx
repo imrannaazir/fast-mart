@@ -1,10 +1,10 @@
-import { ColumnDef } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import moment from "moment";
-import CategoryDataTableAction from "./data-table-action";
-import { TBrand, TCategory, TCollection, TImage, TProduct, TProductStatus } from "@repo/utils/types";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { TBrand, TCategory, TCollection, TImage, TProduct, TProductStatus } from "@repo/utils/types";
+import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
+import ProductDataTableAction from "./data-table-action";
 
 export const columns: ColumnDef<TProduct>[] = [
   // select column
@@ -103,7 +103,7 @@ export const columns: ColumnDef<TProduct>[] = [
     id: "action",
     header: "Action",
     cell: ({ row }) => {
-      return <CategoryDataTableAction row={row} />;
+      return <ProductDataTableAction row={row} />;
     },
   },
 ];

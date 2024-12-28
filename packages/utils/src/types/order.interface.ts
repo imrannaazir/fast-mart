@@ -1,4 +1,5 @@
 import { TProduct } from "./product.interface";
+import { TUser } from "./user.interface";
 import { TOption } from "./variant.interfaces";
 
 export type TOrderStatus = "PLACED" | "PROCESSING" | "SHIPPING" | "DELIVERED";
@@ -7,7 +8,7 @@ export type TPaymentType = "NET_BANKING" | "CARD" | "COD";
 
 export type TOrder = {
   _id?: string;
-  userId?: string;
+  userId?: string | TUser;
   paymentTransactionId?: string;
   addressId?: string;
   totalAmount?: number; // total price of items

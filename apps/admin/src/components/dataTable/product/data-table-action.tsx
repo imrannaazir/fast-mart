@@ -9,17 +9,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaEllipsis } from "react-icons/fa6";
-import { Row } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/redux/hooks";
 import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
-import { toast } from "sonner";
 import { useDeleteProductByIdMutation } from "@/redux/features/product/productApi";
+import { useAppDispatch } from "@/redux/hooks";
 import { TProduct } from "@repo/utils/types";
+import { Row } from "@tanstack/react-table";
+import { FaEllipsis } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
-const CategoryDataTableAction = ({ row }: { row: Row<TProduct> }) => {
+const ProductDataTableAction = ({ row }: { row: Row<TProduct> }) => {
   const [deleteSingleProduct] = useDeleteProductByIdMutation();
   const productId = row.original._id;
   const dispatch = useAppDispatch();
@@ -86,4 +86,4 @@ const CategoryDataTableAction = ({ row }: { row: Row<TProduct> }) => {
   );
 };
 
-export default CategoryDataTableAction;
+export default ProductDataTableAction;

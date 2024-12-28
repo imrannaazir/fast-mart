@@ -219,7 +219,13 @@ const getMyOrderById = async (orderId: string, userId: string) => {
 };
 
 const getAllAdminOrders = async (query: Record<string, unknown>) => {
-  const orderModelQuery = new QueryBuilder(Order.find(), {})
+  const orderModelQuery = new QueryBuilder(
+    Order.find().populate({
+      path: 'userId',
+      select: 'firstName lastName',
+    }),
+    {},
+  )
     .filter()
     .sort()
     .fields()

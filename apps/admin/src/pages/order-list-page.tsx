@@ -1,4 +1,4 @@
-import { columns } from "@/components/dataTable/product/columns";
+import { columns } from "@/components/dataTable/order/columns";
 import Page from "@/components/layout/Page";
 import {
   selectLimit,
@@ -9,9 +9,10 @@ import {
   setMeta,
 } from "@/redux/features/filter/filterSlice";
 
-import { ProductDataTable } from "@/components/dataTable/product/data-table";
-import { useGetAllProductQuery } from "@/redux/features/product/productApi";
+import { OrderDataTable } from "@/components/dataTable/order/data-table";
+import { useGetAllOrdersQuery } from "@/redux/features/order/order-api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { TOrder } from "@repo/utils/types";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 
@@ -35,7 +36,7 @@ const OrderListPage = () => {
     searchTerm,
   });
 
-  const { data, isFetching } = useGetAllProductQuery(query, { skip });
+  const { data, isFetching } = useGetAllOrdersQuery(query, { skip });
 
   useEffect(() => {
     setSkip(false);
@@ -44,12 +45,12 @@ const OrderListPage = () => {
   useEffect(() => {
     dispatch(setMeta(data?.meta));
   }, [data?.meta, dispatch]);
-  const products = data?.data || [];
+  const orders = (data?.data || []) as TOrder[];
 
   return (
     <Page title="Orders">
       <div className="mx-auto">
-        <ProductDataTable columns={columns} data={products} isLoading={isFetching} />
+        <OrderDataTable columns={columns} data={orders} isLoading={isFetching} />
       </div>
     </Page>
   );
