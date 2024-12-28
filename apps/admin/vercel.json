@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
+  "buildCommand": "cd ../.. && yarn install && yarn turbo run build --filter=admin...",
+  "outputDirectory": "dist",
+  "installCommand": "yarn install",
+  "framework": "vite"
 }
