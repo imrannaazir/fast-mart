@@ -51,14 +51,14 @@ const paths: TPath[] = [
         element: <ProductList />,
       },
       {
-        path: `new`,
-        label: "Add",
-        element: <AddProduct />,
-      },
-      {
         path: `list`,
         label: "List",
         element: <ProductList />,
+      },
+      {
+        path: `new`,
+        label: "Add",
+        element: <AddProduct />,
       },
 
       {

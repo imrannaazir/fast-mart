@@ -224,7 +224,7 @@ const getAllAdminOrders = async (query: Record<string, unknown>) => {
       path: 'userId',
       select: 'firstName lastName',
     }),
-    {},
+    query,
   )
     .filter()
     .sort()

@@ -1,4 +1,5 @@
-import { columns } from "@/components/dataTable/product/columns";
+import { columns } from "@/components/dataTable/user/columns";
+import { UserDataTable } from "@/components/dataTable/user/data-table";
 import Page from "@/components/layout/Page";
 import {
   selectLimit,
@@ -9,8 +10,7 @@ import {
   setMeta,
 } from "@/redux/features/filter/filterSlice";
 
-import { ProductDataTable } from "@/components/dataTable/product/data-table";
-import { useGetAllProductQuery } from "@/redux/features/product/productApi";
+import { useGetAllUsersQuery } from "@/redux/features/user/user-api";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
@@ -35,7 +35,7 @@ const CustomerListPage = () => {
     searchTerm,
   });
 
-  const { data, isFetching } = useGetAllProductQuery(query, { skip });
+  const { data, isFetching } = useGetAllUsersQuery(query, { skip });
 
   useEffect(() => {
     setSkip(false);
@@ -44,12 +44,12 @@ const CustomerListPage = () => {
   useEffect(() => {
     dispatch(setMeta(data?.meta));
   }, [data?.meta, dispatch]);
-  const products = data?.data || [];
+  const users = data?.data || [];
 
   return (
-    <Page title="Orders">
+    <Page title="Customer">
       <div className="mx-auto">
-        <ProductDataTable columns={columns} data={products} isLoading={isFetching} />
+        <UserDataTable columns={columns} data={users} isLoading={isFetching} />
       </div>
     </Page>
   );

@@ -13,5 +13,6 @@ router.patch(
 );
 
 router.get('/me', auth(), UserControllers.getMyData);
+router.get('/all', auth('ADMIN', 'SUPER_ADMIN'), UserControllers.getAllUser);
 const UserRoutes = router;
 export default UserRoutes;

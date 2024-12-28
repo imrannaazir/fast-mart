@@ -7,9 +7,9 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 import { logIn, logOut } from "../auth/authSlice";
-import { jwtDecode } from "jwt-decode";
 
 const url = import.meta.env.VITE_API_URL;
 
@@ -90,6 +90,7 @@ const baseApi = createApi({
     "Collections",
     "Variants",
     "Options",
+    "Users",
   ],
   endpoints: () => ({}),
 });

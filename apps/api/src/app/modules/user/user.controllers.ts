@@ -25,5 +25,16 @@ const getMyData = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const UserControllers = { updateUserDetails, getMyData };
+const getAllUser = catchAsync(async (req, res) => {
+  const result = await UserServices.getAllUsers(req.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'All user retrieved successfully.',
+    data: result?.data,
+    meta: result?.meta,
+  });
+});
+
+const UserControllers = { updateUserDetails, getMyData, getAllUser };
 export default UserControllers;

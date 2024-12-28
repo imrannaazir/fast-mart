@@ -53,7 +53,7 @@ export const columns: ColumnDef<TProduct>[] = [
     cell: ({ row }) => {
       const status: TProductStatus = row.original.status;
       return (
-        <Badge variant={status === "ARCHIVED" ? "destructive" : status === "DRAFT" ? "secondary" : "default"}>
+        <Badge variant={status === "ARCHIVED" ? "destructive" : status === "DRAFT" ? "pending" : "success"}>
           {status}
         </Badge>
       );
