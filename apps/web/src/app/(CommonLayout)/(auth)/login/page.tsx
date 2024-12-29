@@ -2,7 +2,7 @@
 import assets from "@/assets";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { formRules } from "@/constants/form-roule.constants";
+import { formRules } from "@/constants/form-rule.constants";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Divider, Flex, Form, Input, message } from "antd";

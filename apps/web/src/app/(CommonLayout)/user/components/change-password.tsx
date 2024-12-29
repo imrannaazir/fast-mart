@@ -1,6 +1,6 @@
 "use client";
 import { changePassword } from "@/actions/auth";
-import { formRules } from "@/constants/form-roule.constants";
+import { formRules } from "@/constants/form-rule.constants";
 import { LockOutlined } from "@ant-design/icons";
 import { getErrorMessage } from "@repo/utils/functions";
 import { TChangePasswordPayload } from "@repo/utils/types";

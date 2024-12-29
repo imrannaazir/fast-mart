@@ -3,7 +3,7 @@ import { register } from "@/actions/auth";
 import assets from "@/assets";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { formRules } from "@/constants/form-roule.constants";
+import { formRules } from "@/constants/form-rule.constants";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { getErrorMessage } from "@repo/utils/functions";
 import { TUser } from "@repo/utils/types";
