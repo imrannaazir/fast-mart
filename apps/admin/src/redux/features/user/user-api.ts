@@ -10,7 +10,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Users"],
     }),
+    // get my data
+    getMyData: builder?.query({
+      query: () => ({
+        url: `/users/me`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllUsersQuery } = userApi;
+export const { useGetAllUsersQuery, useGetMyDataQuery } = userApi;

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { useUploadSingleImageMutation } from "@/redux/features/image/image.api";
-import { Dispatch, FC, ReactNode, SetStateAction, useEffect, useState } from "react";
-import { toast } from "sonner";
-import { Button } from "./button";
+import { ClassValue } from "clsx";
 import { LucideImagePlus, Trash } from "lucide-react";
+import { Dispatch, FC, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { ClassValue } from "clsx";
+import { toast } from "sonner";
+import { Button } from "./button";
 
 type TUploadImageProps = {
   isDisable?: boolean;
@@ -105,7 +105,7 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
   } else if (!children && !loader && type === "multi" && typeof imageUrl !== "string") {
     const uploadArea = (
       <label htmlFor={fieldName} className="cursor-pointer">
-        <div className={cn("flex h-[200px] items-center justify-center rounded-md border-2 border-dashed")}>
+        <div className={cn("border-1 flex h-[200px] items-center justify-center rounded-md border-dashed")}>
           {isImageUploading ? (
             <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin duration-500" />
           ) : (

@@ -4,19 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { createBrandSchema, createProductSchema } from "@repo/utils/zod-schemas";
-import { z } from "zod";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { UseFormReturn, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateBrandMutation } from "@/redux/features/brand/brandApi";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
-import { FC } from "react";
-import { useAppDispatch } from "@/redux/hooks";
+import { useCreateBrandMutation } from "@/redux/features/brand/brandApi";
 import { onClose } from "@/redux/features/modal/modalSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createBrandSchema, createProductSchema } from "@repo/utils/zod-schemas";
+import { FC } from "react";
+import { UseFormReturn, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { z } from "zod";
 type TAddBrandPageProps = {
   isInModal?: boolean;
   productForm?: UseFormReturn<z.infer<typeof createProductSchema>>;
@@ -54,7 +54,7 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create brand" action={<Action />} isInModal={isInModal}>
+        <Page title="Create brand" size={"sm"} action={<Action />} isInModal={isInModal}>
           <div className="flex gap-4">
             <div className="w-[66%]">
               <PageSection>
@@ -110,12 +110,7 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
                   render={() => (
                     <FormItem>
                       <FormLabel>Logo</FormLabel>
-                      <UploadSingleImage
-                        fieldValue={""}
-                        setValue={form.setValue}
-                        className="w-[200px]"
-                        fieldName="logo"
-                      />
+                      <UploadSingleImage fieldValue={""} setValue={form.setValue} className=" " fieldName="logo" />
                     </FormItem>
                   )}
                 />

@@ -13,7 +13,7 @@ const DashboardCategory = () => {
   const collections = data?.data || [];
 
   return (
-    <Card>
+    <Card className="max-w-full">
       <DashboardCardHeader title="Categories" description="Browse top categories" />
       <CardContent>
         <Swiper

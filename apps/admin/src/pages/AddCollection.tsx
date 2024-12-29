@@ -4,21 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { createCollectionSchema, createProductSchema } from "@repo/utils/zod-schemas";
-import { z } from "zod";
-import { toast } from "sonner";
-import { useCreateCollectionMutation } from "@/redux/features/collection/collection.api";
-import { useNavigate } from "react-router-dom";
 import IconPicker from "@/components/contents/IconPicker";
-import { zodResolver } from "@hookform/resolvers/zod";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
+import { cn } from "@/lib/utils";
+import { useCreateCollectionMutation } from "@/redux/features/collection/collection.api";
+import { onClose } from "@/redux/features/modal/modalSlice";
+import { useAppDispatch } from "@/redux/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createCollectionSchema, createProductSchema } from "@repo/utils/zod-schemas";
 import { FC } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
-import { useAppDispatch } from "@/redux/hooks";
-import { onClose } from "@/redux/features/modal/modalSlice";
-import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { z } from "zod";
 
 type AddCollectionPageProps = {
   isInModal?: boolean;
@@ -58,7 +58,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({ isInModal = false, prod
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create Collection" action={<Action />} isInModal={isInModal}>
+        <Page size={"sm"} title="Create Collection" action={<Action />} isInModal={isInModal}>
           {/* form content */}
           <div className={cn(isInModal ? "my-4 flex justify-end" : "hidden")}>
             <Action />

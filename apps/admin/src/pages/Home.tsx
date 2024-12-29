@@ -1,7 +1,6 @@
 import ChartCard from "@/components/dashboard/chart-card";
 import { CustomerInsights } from "@/components/dashboard/customer-insights";
 import DashboardHeader from "@/components/dashboard/dashbaord-header";
-import DashboardCategory from "@/components/dashboard/dashboard-category";
 import { RecentOrders } from "@/components/dashboard/recent-orders";
 import { RevenueReport } from "@/components/dashboard/revenue-report";
 import { TopProducts } from "@/components/dashboard/top-products";
@@ -19,7 +18,7 @@ const HomePage = () => {
       </section>
 
       {/* Categories */}
-      <DashboardCategory />
+      {/* <DashboardCategory /> */}
 
       <div className=" ">
         <div className="mt-8 grid gap-8 lg:grid-cols-2">
