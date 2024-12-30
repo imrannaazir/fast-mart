@@ -16,7 +16,7 @@ const Navbar = async () => {
   const collectionsDropdownItems: TCollectionDropdownItemProps[] = collections?.map((collection: any) => ({
     id: collection?._id,
     name: collection?.title,
-    iconName: collection?.icon?.name || "ban",
+    iconName: collection?.icon || "Ban",
     categories: collection?.categories?.map((category: any) => ({
       id: category?._id,
       name: category?.title,

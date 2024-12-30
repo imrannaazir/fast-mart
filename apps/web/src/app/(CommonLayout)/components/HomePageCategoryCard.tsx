@@ -1,6 +1,6 @@
 import assets from "@/assets";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
-import { Apple } from "lucide-react";
+import LucidIcon from "@/components/ui/LucidIcon";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,9 +17,8 @@ const HomePageCategoryCard = ({ collection }: { collection: TCollectionDropdownI
         height={134}
         alt=""
       />
-      {/* <Icon name={collection?.iconName as any} size={50} /> */}
+      <LucidIcon name={collection?.iconName as any} size={50} />
 
-      <Apple size={50} />
       <h3 className="text-[15px] font-semibold">{collection?.name}</h3>
     </Link>
   );

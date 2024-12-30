@@ -13,6 +13,7 @@ import CollectionListPage from "@/pages/CollectionList";
 import CustomerListPage from "@/pages/CustomerList";
 import ImageListPage from "@/pages/ImageList";
 import OrderListPage from "@/pages/order-list-page";
+import Playground from "@/pages/playground";
 import { TPath } from "@/types";
 import { BarChart2, Home, Images, ShoppingBag, User } from "lucide-react";
 import { IoMdPricetag } from "react-icons/io";
@@ -22,6 +23,10 @@ const paths: TPath[] = [
     path: "/",
     icon: <Home className="mr-2 h-4 w-4" />,
     element: <HomePage />,
+  },
+  {
+    path: "/playground",
+    element: <Playground />,
   },
   {
     icon: <Home className="mr-2 h-4 w-4" />,

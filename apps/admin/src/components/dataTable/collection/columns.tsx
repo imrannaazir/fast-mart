@@ -1,9 +1,9 @@
-import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import moment from "moment";
 import Icon from "@/components/ui/lucide-icon";
-import CollectionDataTableAction from "./data-table-action";
 import { TCollection } from "@repo/utils/types";
+import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
+import CollectionDataTableAction from "./data-table-action";
 
 export const columns: ColumnDef<TCollection>[] = [
   // select column
@@ -49,7 +49,7 @@ export const columns: ColumnDef<TCollection>[] = [
     header: "Icon",
     cell: ({ row }) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const iconName: any = row?.original?.icon?.name || "ban";
+      const iconName: any = row?.original?.icon || "Ban";
       return <Icon className="h-4 w-4 text-gray-600" name={iconName} />;
     },
   },

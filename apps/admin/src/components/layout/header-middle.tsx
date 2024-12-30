@@ -1,8 +1,8 @@
 import { selectHeader } from "@/redux/features/header/header-slice";
 import { useAppSelector } from "@/redux/hooks";
-import { BadgeInfo, Search } from "lucide-react";
+import { BadgeInfo } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import HeaderSearch from "./header-search";
 
 const HeaderMiddle = () => {
   const { isDirty } = useAppSelector(selectHeader);
@@ -24,13 +24,7 @@ const HeaderMiddle = () => {
       </div>
     </div>
   ) : (
-    <div className="relative">
-      <Search className="text-muted-foreground absolute left-2 top-[13px] h-4 w-4" />
-      <Input
-        placeholder="Search"
-        className="bg-primary border-muted/20 text-muted rounded-lg pl-7 focus-visible:ring-0 focus-visible:ring-offset-0"
-      />
-    </div>
+    <HeaderSearch />
   );
 };
 

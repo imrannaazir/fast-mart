@@ -5,7 +5,6 @@ import BrandRoutes from '../modules/brand/brand.route';
 import CartItemRoute from '../modules/cart-item/cart-item.routes';
 import CategoryRoutes from '../modules/category/category.route';
 import CollectionRoutes from '../modules/collection/collection.routes';
-import IconRoutes from '../modules/icon/icon.routes';
 import ImageRoutes from '../modules/image/image.routes';
 import OrderRoute from '../modules/order/order.route';
 import ProductRoutes from '../modules/product/product.route';
@@ -50,10 +49,6 @@ const routerModules: TRouteModule[] = [
   {
     path: '/orders',
     route: OrderRoute,
-  },
-  {
-    path: '/icons',
-    route: IconRoutes,
   },
   {
     path: '/images',

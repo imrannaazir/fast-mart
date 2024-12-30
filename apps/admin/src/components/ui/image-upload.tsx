@@ -105,7 +105,9 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
   } else if (!children && !loader && type === "multi" && typeof imageUrl !== "string") {
     const uploadArea = (
       <label htmlFor={fieldName} className="cursor-pointer">
-        <div className={cn("border-1 flex h-[200px] items-center justify-center rounded-md border-dashed")}>
+        <div
+          className={cn("border-foreground flex h-[200px] items-center justify-center rounded-md border border-dashed")}
+        >
           {isImageUploading ? (
             <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin duration-500" />
           ) : (
@@ -146,11 +148,15 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
   } else {
     UploadingButton = (
       <label htmlFor={fieldName} className="cursor-pointer">
-        <div className={cn("mt-2 flex h-[200px] items-center justify-center rounded-md border-2 border-dashed")}>
+        <div
+          className={cn(
+            "border-foreground mt-2 flex h-[200px] items-center justify-center rounded-md border border-dashed"
+          )}
+        >
           {isImageUploading ? (
             <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin duration-500" />
           ) : imageUrl ? (
-            <img className="max-h-[180px]" src={imageUrl as string} />
+            <img className="h-full w-full object-cover" src={imageUrl as string} />
           ) : (
             <LucideImagePlus className="h-10 w-10 text-gray-500" />
           )}

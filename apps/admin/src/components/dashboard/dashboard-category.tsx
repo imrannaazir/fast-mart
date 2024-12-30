@@ -45,7 +45,7 @@ const DashboardCategory = () => {
                 ))
             : collections?.map((collection) => (
                 <SwiperSlide key={collection?._id}>
-                  <CategoryCard iconName={collection?.icon?.name || "combine"} collectionName={collection?.title} />
+                  <CategoryCard iconName={collection?.icon || "Ban"} collectionName={collection?.title} />
                 </SwiperSlide>
               ))}
         </Swiper>

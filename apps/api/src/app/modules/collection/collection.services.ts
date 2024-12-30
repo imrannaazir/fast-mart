@@ -4,7 +4,6 @@ import { PipelineStage } from 'mongoose';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
-import Icon from '../icon/icon.model';
 import { Image } from '../image/image.model';
 import { Collection } from './collection.models';
 
@@ -20,16 +19,6 @@ const createCollection = async (
       throw new AppError(
         StatusCodes.NOT_FOUND,
         `No image founded by id: ${payload.image}`,
-      );
-    }
-  }
-  // check icon id is valid
-  if (payload.icon) {
-    const isIconExist = await Icon.findById(payload.icon);
-    if (!isIconExist) {
-      throw new AppError(
-        StatusCodes.NOT_FOUND,
-        `No icon founded by id: ${payload.icon}`,
       );
     }
   }
@@ -87,15 +76,7 @@ const getAllCollections = async (
         as: 'image',
       },
     },
-    // lookup pipeline for icon
-    {
-      $lookup: {
-        from: 'icons', // table name would be plural
-        localField: 'icon',
-        foreignField: '_id',
-        as: 'icon',
-      },
-    },
+
     // add field pipeline
     {
       $addFields: {
@@ -104,9 +85,6 @@ const getAllCollections = async (
         },
         image: {
           $arrayElemAt: ['$image', 0],
-        },
-        icon: {
-          $arrayElemAt: ['$icon', 0],
         },
       },
     },

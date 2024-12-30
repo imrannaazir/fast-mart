@@ -46,12 +46,6 @@ const NavigationLinks = async () => {
       path: "/",
       icon: <AiOutlineHome className={iconClassName} />,
     },
-    /*  {
-      id: 2,
-      label: "Shop",
-      path: "/categories",
-      icon: <HiOutlineShoppingBag className={iconClassName} />,
-    }, */
     {
       id: 3,
       label: "Brands",

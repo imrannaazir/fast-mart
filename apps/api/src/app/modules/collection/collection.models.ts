@@ -14,8 +14,7 @@ const collectionSchema = new Schema<TCollection>(
       type: String,
     },
     icon: {
-      type: Schema.Types.ObjectId,
-      ref: 'icon',
+      type: String,
     },
     image: {
       type: Schema.Types.ObjectId,

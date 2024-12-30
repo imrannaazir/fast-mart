@@ -1,59 +1,35 @@
-import IconLoader from "@/pages/icon-loader";
+import { cn } from "@/lib/utils";
+import { createCollectionSchema } from "@repo/utils/zod-schemas";
+import * as LucidIcons from "lucide-react";
+import { ChevronLeft, ChevronRight, icons } from "lucide-react";
+import { FC, useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "../ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandItem } from "../ui/command";
 import { FormControl } from "../ui/form";
 import { Input } from "../ui/input";
+import Icon from "../ui/lucide-icon";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { ScrollArea } from "../ui/scroll-area";
 import SearchInput from "../ui/search-input";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import Icon from "../ui/lucide-icon";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { ChangeEvent, FC, useEffect, useState } from "react";
-import { useGetAllIconsQuery } from "@/redux/features/icon/icon.api";
-import queryString from "query-string";
-import debounce from "@/lib/debounce";
-import { selectSearchTerm, updateSearchTerm } from "@/redux/features/filter/filterSlice";
-import { cn } from "@/lib/utils";
-import { UseFormSetValue } from "react-hook-form";
-import { z } from "zod";
-import { createCollectionSchema } from "@repo/utils/zod-schemas";
-import { TIcon } from "@repo/utils/types";
 
 type TIconPickerProps = {
   setValue: UseFormSetValue<z.infer<typeof createCollectionSchema>>;
 };
 
 const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
-  const dispatch = useAppDispatch();
-  const searchTerm = useAppSelector(selectSearchTerm);
-  const [iconName, setIconName] = useState("");
-  const [skip, setSkip] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
-  const query = queryString.stringify({
-    searchTerm,
-    sort: "name",
-    limit: 100,
-    page,
-  });
-  const { data, isFetching } = useGetAllIconsQuery(query, { skip });
 
-  const icons: TIcon[] = data?.data || [];
+  const skip = (page - 1) * 100;
+  const iconList = Object?.entries(icons)
+    ?.map(([name]) => name)
+    .filter((name) => name.toLowerCase().includes(searchTerm.trim().toLowerCase()))
+    .slice(skip, skip + 100);
+  const [iconName, setIconName] = useState("");
 
-  const onSetSearchTerm = (...args: unknown[]) => {
-    const searchTerm = (args[0] as ChangeEvent<HTMLInputElement>).target.value;
-    dispatch(updateSearchTerm(searchTerm));
-  };
-
-  const debouncedSearchTerm = debounce(onSetSearchTerm, 1000);
-
-  useEffect(() => {
-    setSkip(false);
-  }, [query]);
-
-  useEffect(() => {
-    setPage(1);
-  }, [searchTerm]);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -68,69 +44,62 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className="mb-4 max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width]">
-        <SearchInput>
-          <Input className="h-9 pl-8" placeholder="Search" onChange={debouncedSearchTerm} />
-        </SearchInput>
+      <PopoverContent className="max-h-[--radix-popover-content-available-height] w-[--radix-popover-trigger-width]">
+        <div className="flex gap-4">
+          <SearchInput>
+            <Input
+              value={searchTerm}
+              className="h-9 pl-8"
+              placeholder="Search"
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </SearchInput>
+          <div className="flex gap-2 *:h-9 *:w-9">
+            <Button disabled={page < 2} onClick={() => setPage(page - 1)} variant="outline" size="icon">
+              <ChevronLeft />
+            </Button>
+            <Button variant="outline" size="icon" onClick={() => setPage(page + 1)}>
+              <ChevronRight />
+            </Button>
+          </div>
+        </div>
+
         <Command>
-          <CommandEmpty className={cn(isFetching && "hidden", "mt-6 text-center")}>No icons founded.</CommandEmpty>
+          <CommandEmpty className={cn("mt-6 text-center")}>No icons founded.</CommandEmpty>
           <CommandGroup>
-            <div className="custom-scrollbar max-h-[200px] overflow-y-scroll">
-              {isFetching ? (
-                <IconLoader />
-              ) : (
-                <div className="flex flex-wrap gap-4 py-4">
-                  {
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    icons.map((icon: any) => {
-                      return (
-                        <CommandItem
-                          key={icon._id}
-                          onSelect={() => {
-                            setValue("icon", icon._id);
-                            setIconName(icon.name);
-                          }}
-                        >
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button variant={"outline"} size={"icon"} className="bg-muted">
-                                  <Icon name={icon?.name} />
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>{(icon?.name as string).split("-").join(" ")}</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </CommandItem>
-                      );
-                    })
-                  }
-                </div>
-              )}
-              {/* pagination */}
-              {!isFetching && data?.meta && data?.meta?.total > 100 ? (
-                <div className="flex justify-center">
-                  <div className="mt-4 space-x-4">
-                    <Button disabled={page <= 1} onClick={() => setPage(page - 1)} variant={"outline"} size={"icon"}>
-                      <FaAngleLeft />
-                    </Button>
-                    <Button className="bg-muted text-xl" size={"icon"} variant={"outline"} disabled={true}>
-                      {page}
-                    </Button>
-                    <Button
-                      disabled={data?.meta && page >= data?.meta?.totalPage}
-                      onClick={() => setPage(page + 1)}
-                      variant={"outline"}
-                      size={"icon"}
+            <ScrollArea className="h-64 w-full rounded-md">
+              <div className="flex flex-wrap justify-between">
+                {// eslint-disable-next-line @typescript-eslint/no-explicit-any
+                iconList?.slice(0, 100)?.map((icon) => {
+                  return (
+                    <CommandItem
+                      key={icon}
+                      onSelect={() => {
+                        setValue("icon", icon);
+                        setIconName(icon);
+                      }}
                     >
-                      <FaAngleRight className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-              ) : null}
-            </div>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={iconName === icon ? "default" : "outline"}
+                              size={"icon"}
+                              className={iconName === icon ? "" : "bg-muted"}
+                            >
+                              <Icon name={icon as keyof typeof LucidIcons.icons} />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{icon}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </CommandItem>
+                  );
+                })}
+              </div>
+            </ScrollArea>
           </CommandGroup>
         </Command>
       </PopoverContent>

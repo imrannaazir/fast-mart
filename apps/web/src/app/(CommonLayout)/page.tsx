@@ -1,19 +1,19 @@
-import { Metadata } from "next";
-import HomeSectionLayout from "@/components/ui/HomeSectionLayout";
-import HomePageHero from "./components/Hero";
-import HomeLeftSideCategoriesBar from "./components/HomeLeftSideCategoriesBar";
-import HomeProductsByCategory from "./components/HomeProductsByCategory";
-import FoodCupBoardProducts from "./components/FoodCupboardProducts";
-import FoodCupBoardProductsSidebar from "./components/FoodCupboardProductsSidebar";
-import HomeBestSellerProductsSideBanner from "./components/HomeBestSellerProductsSideBanner";
-import BestSellerProductsSection from "./components/BestSellerProductsSection";
-import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
-import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
-import HomePageNewsLetter from "./components/HomePageNewsLetter";
 import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 import Container from "@/components/ui/Container";
-import { TCollection } from "@repo/utils/types";
+import HomeSectionLayout from "@/components/ui/HomeSectionLayout";
 import { serverFetcher } from "@/libs/server-fetcher";
+import { TCollection } from "@repo/utils/types";
+import { Metadata } from "next";
+import BestSellerProductsSection from "./components/BestSellerProductsSection";
+import CustomerCommentsSidebar from "./components/CustomerCommentsSidebar";
+import FoodCupBoardProducts from "./components/FoodCupboardProducts";
+import FoodCupBoardProductsSidebar from "./components/FoodCupboardProductsSidebar";
+import HomePageHero from "./components/Hero";
+import HomeBestSellerProductsSideBanner from "./components/HomeBestSellerProductsSideBanner";
+import HomeFeaturedBlogs from "./components/HomeFeaturedBlogs";
+import HomeLeftSideCategoriesBar from "./components/HomeLeftSideCategoriesBar";
+import HomePageNewsLetter from "./components/HomePageNewsLetter";
+import HomeProductsByCategory from "./components/HomeProductsByCategory";
 
 export const metadata: Metadata = {
   title: "Home | Fast Mart",
@@ -35,7 +35,7 @@ export default async function HomePage() {
   const collectionsDropdownItems = collections?.map((collection) => ({
     id: collection?._id!,
     name: collection?.title!,
-    iconName: collection?.icon?.name || "ban",
+    iconName: collection?.icon || "Ban",
     categories: collection?.categories?.map((category) => ({
       id: category?._id,
       name: category?.title,

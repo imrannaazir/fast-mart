@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/libs/utils";
+import { icons } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
 import DropdownCategoryItem from "./DropdownCategoryItem";
@@ -22,7 +23,7 @@ const DropdownCategories: FC<TDropDownCategoriesProps> = ({ type = "mega", colle
           <DropdownCategoryItem
             type={type}
             collectionName={collection?.name}
-            iconName={collection?.iconName as string}
+            iconName={collection?.iconName as keyof typeof icons}
             id={collection?.id}
           />
           {/* drop down of category list of a single collections*/}
