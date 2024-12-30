@@ -1,4 +1,4 @@
-import { Bell, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -14,7 +14,7 @@ import { useGetMyDataQuery } from "@/redux/features/user/user-api";
 import { useAppDispatch } from "@/redux/hooks";
 import { TUser } from "@repo/utils/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import { NotificationDropdown } from "./notification-dropdown";
 
 const HeaderEnd = () => {
   const dispatch = useAppDispatch();
@@ -32,9 +32,7 @@ const HeaderEnd = () => {
   }
   return (
     <div className="flex items-center justify-end gap-2">
-      <Button className="h-9" variant={"default"} size={"icon"}>
-        <Bell />
-      </Button>
+      <NotificationDropdown />
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <div className="bg-primary text-background flex items-center justify-between gap-2 rounded-lg p-1 pr-2">
