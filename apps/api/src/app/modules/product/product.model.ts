@@ -71,7 +71,7 @@ const productSchema = new Schema<TProduct>(
 
     status: {
       type: String,
-      enum: ProductStatus,
+      enum: Object.values(ProductStatus),
       default: 'DRAFT',
     },
   },

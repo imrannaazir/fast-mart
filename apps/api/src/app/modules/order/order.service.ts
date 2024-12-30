@@ -87,6 +87,7 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
     });
     await session.commitTransaction();
     await session.endSession();
+    return newOrder;
   } catch (error: any) {
     await session.abortTransaction();
     await session.endSession();

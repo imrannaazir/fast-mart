@@ -20,7 +20,7 @@ const orderSchema = new Schema<Omit<TOrder, '_id' | 'createdAt' | 'updatedAt'>>(
     },
     status: {
       type: String,
-      enum: OrderStatus,
+      enum: Object.values(OrderStatus),
       default: 'PLACED',
     },
     paymentStatus: {

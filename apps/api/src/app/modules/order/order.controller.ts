@@ -8,12 +8,12 @@ const placeOrder = catchAsync(async (req, res) => {
   const body = req.body as TPlaceOrderInput;
   const userId = req?.user?._id;
 
-  const response = await OrderServices.placeOrder(body, userId!);
+  const result = await OrderServices.placeOrder(body, userId!);
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
     message: 'Order placed successfully',
-    data: response,
+    data: result,
   });
 });
 

@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { ProductStatus, ProductUnit } from "@repo/utils/constants";
+import { z } from "zod";
 
 const variantValidationSchema = z.object({
   variantId: z.string(),
@@ -21,7 +21,7 @@ export const createProductSchema = z.object({
   variants: z.array(variantValidationSchema).optional(),
   variant: variantValidationSchema.optional(),
 
-  status: z.enum(ProductStatus).optional(),
+  status: z.enum(Object.values(ProductStatus) as [string]).optional(),
 
   brand: z.string().optional(),
   categories: z.array(z.string()).optional(),

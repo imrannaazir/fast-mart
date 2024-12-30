@@ -27,9 +27,7 @@ const OrderSummery = () => {
   const handlePlaceOrder = async () => {
     setIsLoading(true);
     try {
-      const result = await placeOrder(orderPayload);
-
-      console.log(result);
+      await placeOrder(orderPayload);
 
       setIsLoading(false);
 

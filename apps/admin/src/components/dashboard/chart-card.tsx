@@ -9,7 +9,7 @@ export type TChartCard = {
   color: string;
 };
 
-const ChartCard = ({ data }: { data: TChartCard }) => {
+const ChartCard = ({ data, isLoading }: { data: TChartCard; isLoading: boolean }) => {
   return (
     <div className="bg-card relative overflow-hidden rounded-xl p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="relative z-10">
@@ -36,7 +36,11 @@ const ChartCard = ({ data }: { data: TChartCard }) => {
         {/* Content */}
         <div className="mt-4">
           <p className="text-muted-foreground text-sm font-medium">{data?.title}</p>
-          <h2 className="mt-2 text-3xl font-bold tracking-tight">{data?.number}</h2>
+          {isLoading ? (
+            <h2 className="bg-muted mt-2 h-9 w-24 animate-pulse rounded-md"></h2>
+          ) : (
+            <h2 className="mt-2 text-3xl font-bold tracking-tight">{data?.number}</h2>
+          )}
         </div>
       </div>
 

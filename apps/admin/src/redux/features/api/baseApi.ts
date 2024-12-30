@@ -91,6 +91,7 @@ const baseApi = createApi({
     "Variants",
     "Options",
     "Users",
+    "Dashboard",
   ],
   endpoints: () => ({}),
 });

@@ -1,13 +1,13 @@
 import { ProductStatus, ProductUnit } from "../constants/product.constant";
-import { TImage } from "./image.interface";
-import { TProductVariant } from "./variant.interfaces";
+import { TBrand } from "./brand.interface";
 import { TCategory } from "./category.interface";
 import { TCollection } from "./collection.interfaces";
-import { TBrand } from "./brand.interface";
+import { TImage } from "./image.interface";
 import { TTag } from "./tag.interface";
 import { TUser } from "./user.interface";
+import { TProductVariant } from "./variant.interfaces";
 
-export type TProductStatus = (typeof ProductStatus)[number];
+export type TProductStatus = (typeof ProductStatus)[keyof typeof ProductStatus];
 export type TProductUnit = (typeof ProductUnit)[number];
 export type TInputVariant = {
   variantId: string;
