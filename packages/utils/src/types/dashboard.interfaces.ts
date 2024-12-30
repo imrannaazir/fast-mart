@@ -4,3 +4,9 @@ export type TDashboardInsights = {
   totalOrders: number;
   totalRevenue: number;
 };
+
+export type TCustomerInsights = {
+  active: number;
+  pending: number;
+  blocked: number;
+};

@@ -6,35 +6,70 @@ import { Label, Pie, PieChart } from "recharts";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { useGetCustomerInsightsQuery } from "@/redux/features/dashboard/dashboard-api";
+import { TCustomerInsights } from "@repo/utils/types";
+import { Skeleton } from "../ui/skeleton";
 import { DashboardCardHeader } from "./card-header";
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-];
-
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-} satisfies ChartConfig;
-
 export function CustomerInsights() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+  const { data, isFetching, error } = useGetCustomerInsightsQuery("");
+  const customerInsights = data?.data as TCustomerInsights;
+
+  const chartData = [
+    { status: "active", users: customerInsights?.active, fill: "var(--color-active)" },
+    { status: "pending", users: customerInsights?.pending, fill: "var(--color-pending)" },
+    { status: "blocked", users: customerInsights?.blocked, fill: "var(--color-blocked)" },
+  ];
+
+  const chartConfig = {
+    users: {
+      label: "Visitors",
+    },
+    active: {
+      label: "Active",
+      color: "hsl(var(--chart-1))",
+    },
+    pending: {
+      label: "Pending",
+      color: "hsl(var(--chart-2))",
+    },
+    blocked: {
+      label: "Blocked",
+      color: "hsl(var(--chart-3))",
+    },
+  } satisfies ChartConfig;
+
+  const totalUsers = chartData.reduce((acc, curr) => acc + curr.users, 0);
+
+  let content: React.ReactNode;
+  if (isFetching) {
+    content = <Skeleton className="mx-auto aspect-square max-h-[250px] rounded-full" />;
+  } else if (!isFetching && !error) {
+    content = (
+      <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+        <PieChart>
+          <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+          <Pie data={chartData} dataKey="users" nameKey="status" innerRadius={60} strokeWidth={5}>
+            <Label
+              content={({ viewBox }) => {
+                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                  return (
+                    <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
+                      <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
+                        {totalUsers.toLocaleString()}
+                      </tspan>
+                      <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
+                        Customers
+                      </tspan>
+                    </text>
+                  );
+                }
+              }}
+            />
+          </Pie>
+        </PieChart>
+      </ChartContainer>
+    );
+  }
 
   return (
     <Card className="flex flex-col">
@@ -43,36 +78,12 @@ export function CustomerInsights() {
 "
         description="All customers insights in the fastmart"
       />
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
-          <PieChart>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="visitors" nameKey="browser" innerRadius={60} strokeWidth={5}>
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
-                        <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
-                          {totalVisitors.toLocaleString()}
-                        </tspan>
-                        <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
-                          Visitors
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
-        </ChartContainer>
-      </CardContent>
+      <CardContent className="flex-1 pb-0">{content}</CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Customer insights <TrendingUp className="h-4 w-4" />
         </div>
-        <div className="text-muted-foreground leading-none">Showing total visitors for the last 6 months</div>
+        <div className="text-muted-foreground leading-none">Showing total users status insights!</div>
       </CardFooter>
     </Card>
   );

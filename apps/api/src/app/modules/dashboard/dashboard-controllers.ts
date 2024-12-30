@@ -11,6 +11,15 @@ const getDashboardInsights = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getCustomerInsights = catchAsync(async (req, res) => {
+  const result = await DashboardServices.getCustomerInsights();
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Customer insights retrieved successfully.',
+    data: result,
+  });
+});
 
-const DashboardControllers = { getDashboardInsights };
+const DashboardControllers = { getDashboardInsights, getCustomerInsights };
 export default DashboardControllers;

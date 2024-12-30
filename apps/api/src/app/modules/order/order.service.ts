@@ -223,7 +223,7 @@ const getAllAdminOrders = async (query: Record<string, unknown>) => {
   const orderModelQuery = new QueryBuilder(
     Order.find().populate({
       path: 'userId',
-      select: 'firstName lastName',
+      select: 'firstName lastName email',
     }),
     query,
   )

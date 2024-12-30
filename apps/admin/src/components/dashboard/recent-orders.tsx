@@ -1,27 +1,33 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useGetAllOrdersQuery } from "@/redux/features/order/order-api";
+import { getErrorMessage } from "@repo/utils/functions";
+import { TOrder } from "@repo/utils/types";
+import { ShoppingCart } from "lucide-react";
+import { ReactNode } from "react";
 import { Card, CardContent } from "../ui/card";
+import { Empty } from "../ui/empty";
 import { DashboardCardHeader } from "./card-header";
+import RecentOrderItem from "./recent-order-item";
+import RecentOrderItemSkeleton from "./recent-order-item-skeleton";
 
 export function RecentOrders() {
+  const { data, isFetching, error } = useGetAllOrdersQuery("limit=5");
+  const orders = (data?.data || []) as TOrder[];
+
+  let content: ReactNode;
+  if (isFetching) {
+    content = Array.from({ length: 5 })?.map((_, i) => <RecentOrderItemSkeleton key={i} />);
+  } else if (!isFetching && error) {
+    content = <p className="text-destructive text-center">{getErrorMessage(error)}</p>;
+  } else if (!isFetching && !error && orders?.length === 0) {
+    content = <Empty title="No order" description="There is no recent sale!" icon={ShoppingCart} />;
+  } else if (!isFetching && orders?.length) {
+    content = orders?.map((order) => <RecentOrderItem key={order?._id} order={order} />);
+  }
   return (
     <Card>
       <DashboardCardHeader title="Recent sales" description="Showing recent orders" />
       <CardContent>
-        <div className="space-y-8">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="flex items-center">
-              <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
-                <AvatarImage src="/avatars/02.png" alt="Avatar" />
-                <AvatarFallback>JL</AvatarFallback>
-              </Avatar>
-              <div className="ml-4 space-y-1">
-                <p className="text-sm font-medium leading-none">Jackson Lee</p>
-                <p className="text-muted-foreground text-sm">jackson.lee@email.com</p>
-              </div>
-              <div className="ml-auto font-medium">+$39.00</div>
-            </div>
-          ))}
-        </div>
+        <div className="space-y-8">{content}</div>
       </CardContent>
     </Card>
   );

@@ -9,6 +9,11 @@ router.get(
   auth('ADMIN', 'SUPER_ADMIN'),
   DashboardControllers.getDashboardInsights,
 );
+router.get(
+  '/customers/insights',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  DashboardControllers.getCustomerInsights,
+);
 
 const DashboardRoutes = router;
 export default DashboardRoutes;

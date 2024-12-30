@@ -1,5 +1,5 @@
-import { ProductStatus, Role } from '@repo/utils/constants';
-import { TDashboardInsights } from '@repo/utils/types';
+import { ProductStatus, Role, UserStatus } from '@repo/utils/constants';
+import { TCustomerInsights, TDashboardInsights } from '@repo/utils/types';
 import { Order } from '../order/order.model';
 import Product from '../product/product.model';
 import User from '../user/user.model';
@@ -37,5 +37,23 @@ const getDashboardInsights = async (): Promise<TDashboardInsights> => {
   };
 };
 
-const DashboardServices = { getDashboardInsights };
+const getCustomerInsights = async (): Promise<TCustomerInsights> => {
+  const active = await User.countDocuments({
+    status: UserStatus.ACTIVE,
+  });
+  const pending = await User.countDocuments({
+    status: UserStatus.PENDING,
+  });
+  const blocked = await User.countDocuments({
+    status: UserStatus.BLOCKED,
+  });
+
+  return {
+    active,
+    pending,
+    blocked,
+  };
+};
+
+const DashboardServices = { getDashboardInsights, getCustomerInsights };
 export default DashboardServices;
