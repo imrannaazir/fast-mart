@@ -15,5 +15,10 @@ router.get(
   DashboardControllers.getCustomerInsights,
 );
 
+router.get(
+  '/revenue/insights',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  DashboardControllers.getRevenueInMonths,
+);
 const DashboardRoutes = router;
 export default DashboardRoutes;

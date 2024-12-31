@@ -18,7 +18,15 @@ export const dashboardApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Dashboard"],
     }),
+
+    getRevenueInsights: builder.query({
+      query: () => ({
+        url: `/dashboard/revenue/insights`,
+        method: "GET",
+      }),
+      providesTags: ["Dashboard"],
+    }),
   }),
 });
 
-export const { useGetDashboardInsightsQuery, useGetCustomerInsightsQuery } = dashboardApi;
+export const { useGetDashboardInsightsQuery, useGetCustomerInsightsQuery, useGetRevenueInsightsQuery } = dashboardApi;
