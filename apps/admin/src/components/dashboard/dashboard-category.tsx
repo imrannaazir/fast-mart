@@ -2,8 +2,8 @@ import { useGetAllCollectionsQuery } from "@/redux/features/collection/collectio
 import "@/styles/categorySlider.css";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Card, CardContent } from "../ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import Icon from "../ui/lucide-icon";
 import { Skeleton } from "../ui/skeleton";
 import { DashboardCardHeader } from "./card-header";
@@ -16,39 +16,30 @@ const DashboardCategory = () => {
     <Card className="max-w-full">
       <DashboardCardHeader title="Categories" description="Browse top categories" />
       <CardContent>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={25}
-          breakpoints={{
-            640: {
-              slidesPerView: 4,
-              spaceBetween: 25,
-            },
-            768: {
-              slidesPerView: 5,
-              spaceBetween: 25,
-            },
-            1024: {
-              slidesPerView: 10,
-              spaceBetween: 25,
-            },
+        <Carousel
+          opts={{
+            align: "start",
           }}
-          className="mySwiper"
+          className="w-full"
         >
-          {isFetching
-            ? Array(10)
-                .fill(0)
-                .map((_item, index) => (
-                  <SwiperSlide key={index}>
-                    <CategoryCardSkeleton />
-                  </SwiperSlide>
-                ))
-            : collections?.map((collection) => (
-                <SwiperSlide key={collection?._id}>
-                  <CategoryCard iconName={collection?.icon || "Ban"} collectionName={collection?.title} />
-                </SwiperSlide>
-              ))}
-        </Swiper>
+          <CarouselContent>
+            {isFetching
+              ? Array(10)
+                  .fill(0)
+                  .map((_item, index) => (
+                    <CarouselItem key={index} className="basis-1/2 md:basis-1/2 lg:basis-1/6">
+                      <CategoryCardSkeleton />
+                    </CarouselItem>
+                  ))
+              : collections?.map((collection) => (
+                  <CarouselItem key={collection?._id} className="basis-[100%] md:basis-1/2 lg:basis-1/6">
+                    <CategoryCard iconName={collection?.icon || "Ban"} collectionName={collection?.title} />
+                  </CarouselItem>
+                ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-0" />
+          <CarouselNext className="absolute right-0" />
+        </Carousel>
       </CardContent>
     </Card>
   );

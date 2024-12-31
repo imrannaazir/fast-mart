@@ -31,16 +31,16 @@ const HeaderEnd = () => {
     return <HeaderEndSkeleton />;
   }
   return (
-    <div className="flex items-center justify-end gap-2">
+    <div className="col-span-3 flex items-center justify-end gap-2 lg:col-span-2">
       <NotificationDropdown />
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
-          <div className="bg-primary text-background flex items-center justify-between gap-2 rounded-lg p-1 pr-2">
+          <div className="bg-primary text-background flex items-center justify-between gap-2 rounded-lg p-1 md:pr-2">
             <Avatar className="h-7 w-7 rounded-lg">
               <AvatarImage src={me?.photo?.url} />
               <AvatarFallback>{me?.firstName?.slice(0, 1)}</AvatarFallback>
             </Avatar>
-            <p className="text-sm font-medium">{`${me?.firstName || ""} ${me?.lastName || ""}`}</p>
+            <p className="hidden text-sm font-medium md:block">{`${me?.firstName || ""} ${me?.lastName || ""}`}</p>
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="z-[999] w-56" side="bottom" align="end">

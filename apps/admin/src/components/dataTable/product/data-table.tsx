@@ -1,16 +1,16 @@
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { useState } from "react";
 import TableSkeleton from "@/components/ui/table-skeleton";
-import ProductDataTableToolbar from "../data-table-toolbar";
-import DataTableHeader from "../data-table-header";
-import { useAppDispatch } from "@/redux/hooks";
-import { DataTablePagination } from "../data-table-pagination";
-import { setIsLoading, setIsOpen } from "@/redux/features/modal/alertModal.slice";
-import { toast } from "sonner";
-import { useDeleteBulkProductsMutation } from "@/redux/features/product/productApi";
 import { cn } from "@/lib/utils";
+import { setIsLoading, setIsOpen } from "@/redux/features/modal/alertModal.slice";
+import { useDeleteBulkProductsMutation } from "@/redux/features/product/productApi";
+import { useAppDispatch } from "@/redux/hooks";
+import { useState } from "react";
+import { toast } from "sonner";
+import DataTableHeader from "../data-table-header";
+import { DataTablePagination } from "../data-table-pagination";
+import ProductDataTableToolbar from "../data-table-toolbar";
 
 interface ProductDataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

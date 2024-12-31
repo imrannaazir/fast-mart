@@ -4,7 +4,7 @@ import HeaderMiddle from "./header-middle";
 
 const AppHeader = () => {
   return (
-    <header className="bg-secondary-foreground sticky top-0 z-[99] grid h-16 shrink-0 grid-cols-3 items-center justify-between gap-2 rounded-b-sm border-b px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+    <header className="bg-secondary-foreground sticky top-0 z-[99] grid h-16 shrink-0 grid-cols-12 items-center justify-between gap-2 rounded-b-sm border-b px-4 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
       {/* breadcrumbs */}
       <AppBreadCrumbs />
       <HeaderMiddle />
