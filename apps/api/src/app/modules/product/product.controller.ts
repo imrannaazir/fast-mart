@@ -2,7 +2,6 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import ProductService from './product.service';
-import { Types } from 'mongoose';
 
 // create product
 const createProduct = catchAsync(async (req, res) => {
@@ -91,6 +90,19 @@ const deleteBulkProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+// get top products
+const getTopProducts = catchAsync(async (req, res) => {
+  const query = req.query;
+  const result = await ProductService.getTopProducts(query);
+  sendResponse(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'Top products retrieved successfully.',
+    data: result,
+  });
+});
+
 const ProductController = {
   createProduct,
   getAllProduct,
@@ -99,6 +111,7 @@ const ProductController = {
   updateProductById,
   getHighestProductPrice,
   deleteBulkProduct,
+  getTopProducts,
 };
 
 export default ProductController;

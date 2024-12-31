@@ -334,6 +334,65 @@ const deleteBulkProduct = async (
   return { deletedProductCount: result.deletedCount };
 };
 
+const getTopProducts = async (query: Record<string, unknown>) => {
+  const page = query?.page ? Number(query?.page) : 1;
+  const limit = query?.limit ? Number(query?.limit) : 5;
+  const skip = (page - 1) * limit;
+  const products = await Product.aggregate([
+    {
+      $match: {},
+    },
+    {
+      $lookup: {
+        from: 'images',
+        localField: 'media',
+        foreignField: '_id',
+        as: 'media',
+      },
+    },
+
+    {
+      $lookup: {
+        from: 'orderitems',
+        localField: '_id',
+        foreignField: 'productId',
+        as: 'orderItems',
+      },
+    },
+    {
+      $addFields: {
+        sales: {
+          $size: '$orderItems',
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        title: 1,
+        sales: 1,
+        media: {
+          url: 1,
+        },
+        price: 1,
+      },
+    },
+    {
+      $sort: {
+        sales: -1,
+      },
+    },
+    {
+      $skip: skip,
+    },
+    {
+      $limit: limit,
+    },
+  ]);
+
+  return products;
+};
+
 const ProductService = {
   createProduct,
   getAllProduct,
@@ -342,6 +401,7 @@ const ProductService = {
   updateProductById,
   getHighestProductPrice,
   deleteBulkProduct,
+  getTopProducts,
 };
 
 export default ProductService;

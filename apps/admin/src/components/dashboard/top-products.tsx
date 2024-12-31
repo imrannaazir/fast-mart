@@ -1,36 +1,41 @@
+import { useGetTopProductsQuery } from "@/redux/features/product/productApi";
+import { getErrorMessage } from "@repo/utils/functions";
+import { TTopProduct } from "@repo/utils/types";
 import { Package } from "lucide-react";
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { Progress } from "../ui/progress";
+import { Empty } from "../ui/empty";
 import { DashboardCardHeader } from "./card-header";
-
-const products = [
-  { name: "Wireless Earbuds", sales: 1234, percentage: 85 },
-  { name: "Smart Watch", sales: 987, percentage: 72 },
-  { name: "Laptop Stand", sales: 756, percentage: 61 },
-  { name: "Phone Case", sales: 543, percentage: 45 },
-  { name: "Portable Charger", sales: 432, percentage: 38 },
-  { name: "Portable Charger", sales: 432, percentage: 38 },
-];
+import RecentOrderItemSkeleton from "./recent-order-item-skeleton";
+import TopProductItem from "./top-product-item";
 
 export function TopProducts() {
+  const { data, isFetching, error } = useGetTopProductsQuery(``);
+  const products = (data?.data || []) as TTopProduct[];
+
+  let content: ReactNode;
+  if (isFetching) {
+    content = Array.from({ length: 5 })?.map((_, i) => <RecentOrderItemSkeleton key={i} />);
+  } else if (!isFetching && error) {
+    content = <p className="text-destructive text-center">{getErrorMessage(error)}</p>;
+  } else if (!isFetching && !error && products?.length === 0) {
+    content = (
+      <Empty title="No products" description="There is no product founded!" icon={Package}>
+        <Link to={"/products/new"}>
+          <Button size={"sm"}>Add Product</Button>
+        </Link>
+      </Empty>
+    );
+  } else if (!isFetching && products?.length) {
+    content = products.map((product) => <TopProductItem key={product?._id} product={product} />);
+  }
   return (
     <Card>
       <DashboardCardHeader title="Top products" description="Showing most sold products" />
       <CardContent>
-        <div className="space-y-8">
-          {products.map((product) => (
-            <div key={product.name} className="flex items-center">
-              <Package className="text-muted-foreground mr-4 h-4 w-4" />
-              <div className="flex-1 space-y-1">
-                <p className="text-sm font-medium leading-none">{product.name}</p>
-                <p className="text-muted-foreground text-sm">{product.sales} sales</p>
-              </div>
-              <div className="ml-auto w-24">
-                <Progress value={product.percentage} className="h-2" />
-              </div>
-            </div>
-          ))}
-        </div>
+        <div className="space-y-8">{content}</div>
       </CardContent>
     </Card>
   );

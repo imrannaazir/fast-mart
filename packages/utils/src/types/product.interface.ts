@@ -37,3 +37,5 @@ export type TProduct = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type TTopProduct = Pick<TProduct, "_id" | "title" | "price" | "media"> & { sales: number };

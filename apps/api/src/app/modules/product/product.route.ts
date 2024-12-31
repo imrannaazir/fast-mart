@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import validateRequest from '../../middlewares/validateRequest';
 import {
   createProductValidationSchema,
   deleteBulkProductValidationSchema,
 } from '@repo/utils/zod-schemas';
-import ProductController from './product.controller';
+import { Router } from 'express';
 import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validateRequest';
+import ProductController from './product.controller';
 
 const router = Router();
 
@@ -17,8 +17,14 @@ router.post(
   ProductController.createProduct,
 );
 
-// get all product : POST
+// get all product : GET
 router.get('/', ProductController.getAllProduct);
+// get top product : GET
+router.get(
+  '/top-products',
+  auth('ADMIN', 'SUPER_ADMIN'),
+  ProductController.getTopProducts,
+);
 
 //get highest product price
 router.get('/highest-price', ProductController.getHighestProductPrice);

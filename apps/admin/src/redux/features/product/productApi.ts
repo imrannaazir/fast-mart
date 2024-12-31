@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types";
-import baseApi from "../api/baseApi";
 import { TOption, TVariant } from "@repo/utils/types";
+import baseApi from "../api/baseApi";
 
 export const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -37,6 +37,15 @@ export const productApi = baseApi.injectEndpoints({
     getAllProduct: builder.query({
       query: (query) => ({
         url: `/products?${query}`,
+        method: "GET",
+      }),
+      providesTags: ["Products"],
+    }),
+
+    // get top products
+    getTopProducts: builder.query({
+      query: (query) => ({
+        url: `/products/top-products?${query}`,
         method: "GET",
       }),
       providesTags: ["Products"],
@@ -126,4 +135,5 @@ export const {
   useGetAllVariantsQuery,
   useGetAllOptionsQuery,
   useCreateOptionMutation,
+  useGetTopProductsQuery,
 } = productApi;
