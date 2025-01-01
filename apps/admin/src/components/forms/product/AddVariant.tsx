@@ -1,18 +1,18 @@
 import { useGetAllOptionsQuery, useGetAllVariantsQuery } from "@/redux/features/product/productApi";
 import { FC, useEffect, useState } from "react";
 
-import { UseFormReturn } from "react-hook-form";
-import { createProductSchema } from "@repo/utils/zod-schemas";
-import { useAppDispatch } from "@/redux/hooks";
-import { onOpen } from "@/redux/features/modal/modalSlice";
-import CreateVariant from "./CreateVariant";
-import CreateOption from "./CreateOption";
 import { Button } from "@/components/ui/button";
-import ProductVariantPreview from "./ProductVariantPreview";
-import { cn } from "@/lib/utils";
 import OptionSelector from "@/components/ui/option-selector";
-import { z } from "zod";
+import { cn } from "@/lib/utils";
+import { onOpen } from "@/redux/features/modal/modalSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { TLabelValuePair } from "@/types";
+import { createProductSchema } from "@repo/utils/zod-schemas";
+import { UseFormReturn } from "react-hook-form";
+import { z } from "zod";
+import CreateOption from "./CreateOption";
+import CreateVariant from "./CreateVariant";
+import ProductVariantPreview from "./ProductVariantPreview";
 
 type TAddVariantProps = {
   form: UseFormReturn<z.infer<typeof createProductSchema>>;
@@ -104,7 +104,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   }, [variantId]);
 
   return (
-    <>
+    <div>
       <div className={cn("mb-4 space-y-4", !productVariants.length && "hidden")}>
         {productVariants?.length &&
           productVariants?.map((variant) => (
@@ -142,7 +142,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
           Add
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

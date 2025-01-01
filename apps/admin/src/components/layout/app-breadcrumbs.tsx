@@ -24,7 +24,7 @@ const AppBreadCrumbs = () => {
   ];
 
   return (
-    <div className="flex items-center gap-2 lg:col-span-2">
+    <div className="flex items-center gap-2 lg:col-span-3">
       <SidebarTrigger className="text-background -ml-1" />
       <Separator orientation="vertical" className="mr-2 hidden h-4 lg:block" />
       <Breadcrumb className="hidden lg:block">

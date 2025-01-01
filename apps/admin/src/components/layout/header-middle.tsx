@@ -31,7 +31,7 @@ const HeaderMiddle = () => {
     content = <HeaderSearch />;
   }
 
-  return <div className="col-span-8 lg:col-span-8">{content}</div>;
+  return <div className="col-span-8 lg:col-span-7">{content}</div>;
 };
 
 export default HeaderMiddle;

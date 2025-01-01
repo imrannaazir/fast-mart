@@ -76,8 +76,8 @@ const AddProductPage = () => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Page size={"sm"} title="Create Product" action={<Action />}>
           {/* form content */}
-          <div className="flex gap-4">
-            <div className="w-[66%] space-y-6">
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="space-y-6 lg:w-[66%]">
               {/* basic info */}
               <PageSection className="space-y-4">
                 {/* title */}
@@ -233,7 +233,7 @@ const AddProductPage = () => {
               </PageSection>
             </div>
             {/* right side */}
-            <div className="flex-grow space-y-6">
+            <div className="space-y-6 lg:flex-grow">
               {/* status */}
               <PageSection>
                 <FormField
