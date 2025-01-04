@@ -1,12 +1,13 @@
 "use client";
 
 import assets from "@/assets";
+import { TCollection } from "@repo/utils/types";
 import { Dropdown, theme } from "antd";
 import Image from "next/image";
-import DropdownCategories, { TCollectionDropdownItemProps } from "./DropdownCategories";
+import DropdownCategories from "./DropdownCategories";
 const { useToken } = theme;
 
-const NavCategories = ({ collections }: { collections: TCollectionDropdownItemProps[] }) => {
+const NavCategories = ({ collections }: { collections: TCollection[] }) => {
   const { token } = useToken();
 
   const contentStyle: React.CSSProperties = {

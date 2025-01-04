@@ -17,7 +17,7 @@ const AppProductCard = ({ product, className }: { product: TAppProductCardProps;
         {/* buttons */}
         <AppProductButtons id={id} />
         {photo && (
-          <Link href={`/products/${id}`}>
+          <Link href={`/products/${id}`} className="w-full">
             <Image
               className="aspect-[16/14] w-full rounded-sm object-cover transition-all duration-300"
               src={photo}

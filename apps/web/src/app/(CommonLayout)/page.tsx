@@ -29,7 +29,7 @@ async function getAllCollections() {
 }
 
 export default async function HomePage() {
-  const collections = await getAllCollections();
+  const collections = (await getAllCollections()) || [];
 
   // transform collections data
   const collectionsDropdownItems = collections?.map((collection) => ({
@@ -48,7 +48,7 @@ export default async function HomePage() {
       {/* products by category */}
       <HomeSectionLayout
         className="mt-10"
-        leftSideContent={<HomeLeftSideCategoriesBar collections={collectionsDropdownItems} />}
+        leftSideContent={<HomeLeftSideCategoriesBar collections={collections} />}
         rightSideContent={<HomeProductsByCategory collections={collectionsDropdownItems} />}
       />
 

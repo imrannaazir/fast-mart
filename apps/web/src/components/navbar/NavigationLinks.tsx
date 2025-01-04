@@ -8,25 +8,10 @@ import { TbBrandAngular, TbMessageQuestion } from "react-icons/tb";
 import DropdownNavigationLink from "./DropdownNavigationLink";
 import NavigationLinkItem from "./NavigationLinkItem";
 // import { TBrand } from "@/types";
-import { serverFetcher } from "@/libs/server-fetcher";
 import { TBrand } from "@repo/utils/types";
 import { Fragment } from "react";
 
-export async function getBrandsData() {
-  const res = await serverFetcher<TBrand[]>(`/brands`, {
-    next: {
-      revalidate: 3600,
-    },
-  });
-
-  return res.data;
-}
-
-const NavigationLinks = async () => {
-  // fetch brands data
-  const data = await getBrandsData();
-  const brands: TBrand[] = data || [];
-
+const NavigationLinks = async ({ brands }: { brands: TBrand[] }) => {
   // transform into link item
   const brandListLinks = brands?.map((brand) => ({
     id: brand?._id as string,

@@ -1,10 +1,16 @@
+import assets from "@/assets";
+import { TCollection } from "@repo/utils/types";
+import Image from "next/image";
 import Link from "next/link";
+import { FC } from "react";
 import { BiHome } from "react-icons/bi";
 import CategoryDrawer from "./CategoryDrawer";
-import Image from "next/image";
-import assets from "@/assets";
 
-const MobileMenu = () => {
+type TMobileMenuProps = {
+  collections: TCollection[];
+};
+
+const MobileMenu: FC<TMobileMenuProps> = ({ collections }) => {
   return (
     <div className="bg-primary text-background fixed bottom-0 z-50 flex w-full items-center justify-center gap-4 py-[10px] md:hidden">
       {/* home */}
@@ -13,7 +19,7 @@ const MobileMenu = () => {
         <span>Home</span>
       </Link>
       {/* category */}
-      <CategoryDrawer />
+      <CategoryDrawer collections={collections} />
       {/* search */}
       <Link href={"/"} className="flex flex-col items-center justify-center">
         <Image src={assets.svg.magnifying_glass} alt="wishlist" width={20} height={20} />

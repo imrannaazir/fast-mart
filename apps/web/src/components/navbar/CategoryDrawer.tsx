@@ -1,11 +1,19 @@
 "use client";
+import { TCollection } from "@repo/utils/types";
+import { Drawer, Menu } from "antd";
+import { ItemType, MenuItemType } from "antd/es/menu/interface";
+import { icons } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
-import { Drawer } from "antd";
 import { BiX } from "react-icons/bi";
-import NavigationLinks from "./NavigationLinks";
 import { PiSquaresFour } from "react-icons/pi";
+import LucidIcon from "../ui/LucidIcon";
 
-const CategoryDrawer: React.FC = () => {
+type TCategoryDrawerProps = {
+  collections: TCollection[];
+};
+
+const CategoryDrawer: React.FC<TCategoryDrawerProps> = ({ collections }) => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -15,6 +23,19 @@ const CategoryDrawer: React.FC = () => {
   const onClose = () => {
     setOpen(false);
   };
+
+  const items: ItemType<MenuItemType>[] =
+    collections?.map((item) => {
+      return {
+        label: <Link href={`/search?collections=${item?._id}`}>{item?.title}</Link>,
+        key: item?._id!,
+        icon: <LucidIcon name={item?.icon as keyof typeof icons} />,
+        children: item?.categories?.map((category) => ({
+          label: <Link href={`search?collections=${item?._id}&categories=${category?._id}`}>{item?.title}</Link>,
+          key: category?._id,
+        })),
+      };
+    }) || [];
 
   return (
     <div className="lg:hidden">
@@ -27,7 +48,7 @@ const CategoryDrawer: React.FC = () => {
       <Drawer
         title={
           <div className="flex items-center justify-between">
-            <h3 className="text-primary font-semibold">Menu</h3>
+            <h3 className="text-primary font-semibold">Categories</h3>
             <BiX size={30} onClick={onClose} className="cursor-pointer text-gray-500" />
           </div>
         }
@@ -37,7 +58,7 @@ const CategoryDrawer: React.FC = () => {
         placement="left"
         width={277}
       >
-        <NavigationLinks />
+        <Menu className="lg:hidden" style={{ width: 256 }} mode="inline" items={items} />
       </Drawer>
     </div>
   );

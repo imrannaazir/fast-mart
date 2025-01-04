@@ -1,11 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import { TBrand } from "@repo/utils/types";
 import { Drawer } from "antd";
+import React, { useState } from "react";
 import { BiX } from "react-icons/bi";
 import { FaBars } from "react-icons/fa";
 import NavigationLinks from "./NavigationLinks";
 
-const MobileNavMenuDrawer: React.FC = () => {
+type TMobileNavMenuDrawerProps = {
+  brands: TBrand[];
+};
+
+const MobileNavMenuDrawer: React.FC<TMobileNavMenuDrawerProps> = ({ brands }) => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -36,7 +41,7 @@ const MobileNavMenuDrawer: React.FC = () => {
         placement="left"
         width={277}
       >
-        <NavigationLinks />
+        <NavigationLinks brands={brands} />
       </Drawer>
     </div>
   );

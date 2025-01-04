@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/libs/utils";
+import { TCollection } from "@repo/utils/types";
 import { icons } from "lucide-react";
 import Link from "next/link";
 import { FC } from "react";
@@ -12,12 +13,21 @@ export type TCollectionDropdownItemProps = {
 };
 type TDropDownCategoriesProps = {
   type?: "mega" | "simple";
-  collections: TCollectionDropdownItemProps[];
+  collections: TCollection[];
 };
 const DropdownCategories: FC<TDropDownCategoriesProps> = ({ type = "mega", collections }) => {
+  const collectionsDropdownItems: TCollectionDropdownItemProps[] = collections?.map((collection: any) => ({
+    id: collection?._id,
+    name: collection?.title,
+    iconName: collection?.icon || "Ban",
+    categories: collection?.categories?.map((category: any) => ({
+      id: category?._id,
+      name: category?.title,
+    })),
+  }));
   return (
     <div className="w-[300px] space-y-4">
-      {collections?.map((collection) => (
+      {collectionsDropdownItems?.map((collection) => (
         <div key={collection?.id} className="group">
           {/* dropdown of collection list  */}
           <DropdownCategoryItem
