@@ -123,7 +123,7 @@ const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses
         }
       >
         {addresses?.length > 0 ? (
-          <Radio.Group className="grid w-full grid-cols-2 gap-6" onChange={onChange} value={defaultAddress}>
+          <Radio.Group className="grid w-full gap-6 lg:grid-cols-2" onChange={onChange} value={defaultAddress}>
             {addresses?.map((address) => {
               const AddressTypeIcon = address.addressType === "home" ? IoHomeOutline : PiSuitcaseSimple;
               return (

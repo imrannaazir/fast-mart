@@ -6,15 +6,16 @@ import { LuRefreshCw } from "react-icons/lu";
 
 import { light_colors } from "@/constants/colors.constant";
 import { useWishlist } from "@/contexts/wishlist-context";
+import { cn } from "@/libs/utils";
+import { Loader2 } from "lucide-react";
 import { Fragment, useMemo } from "react";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
-
 const AppProductButtons = ({ id }: { id: string }) => {
   // chose favorite icon
   const router = useRouter();
   const { isInWishlist, toggleWishlist, isToggling } = useWishlist();
 
-  const FavoriteIcon = isInWishlist(id) ? MdFavorite : MdFavoriteBorder;
+  const FavoriteIcon = isToggling ? Loader2 : isInWishlist(id) ? MdFavorite : MdFavoriteBorder;
 
   // optimize unnecessary re rendering
   const buttons = useMemo(
@@ -33,7 +34,16 @@ const AppProductButtons = ({ id }: { id: string }) => {
       },
       {
         label: "Wishlist",
-        icon: <FavoriteIcon className={isInWishlist(id) ? "text-pink-600" : ""} size={16} />,
+        icon: (
+          <FavoriteIcon
+            className={cn(
+              "cursor-pointer",
+              isInWishlist(id) && !isToggling && "text-pink-600",
+              isToggling && "animate-spin"
+            )}
+            size={16}
+          />
+        ),
         onClickHandler: toggleWishlist,
         isLoading: isToggling,
       },

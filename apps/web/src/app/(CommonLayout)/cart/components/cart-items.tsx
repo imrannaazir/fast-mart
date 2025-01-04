@@ -1,12 +1,14 @@
 import { useCartList } from "@/contexts/cartlist-context";
+import { cn } from "@/libs/utils";
 import { debounce } from "@repo/utils/functions";
 import { CartActionType, TCartStateItem } from "@repo/utils/types";
 import { Button, Tag } from "antd";
+import { ClassValue } from "clsx";
 import Image from "next/image";
 import { memo } from "react";
 import { BiMinus, BiPlus, BiTrash } from "react-icons/bi";
 
-const CartItem = ({ item }: { item: TCartStateItem }) => {
+const CartItem = ({ item, className }: { item: TCartStateItem; className?: ClassValue }) => {
   const { productImg, productTitle, productId, productPrice, quantity, options } = item;
   const { isInCart, updateCartList } = useCartList();
   // handle  add to cart
@@ -28,8 +30,8 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
   const decrementFromCart = debounce(() => handleCart("decrement"), 300);
 
   return (
-    <div className="grid grid-cols-3 items-center justify-between rounded-lg border p-2 pr-6">
-      <div className="col-span-2 flex items-center gap-4">
+    <div className={cn("flex w-full items-center justify-between rounded-lg border p-2 pr-6", className)}>
+      <div className="flex items-center gap-4">
         <Image
           height={80}
           width={80}
@@ -55,7 +57,7 @@ const CartItem = ({ item }: { item: TCartStateItem }) => {
       </div>
 
       {/* actions button */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div className="flex items-center justify-between rounded-md p-1">
           <Button
             onClick={decrementFromCart}

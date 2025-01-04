@@ -7,9 +7,9 @@ const AboutHero = () => {
   return (
     <Container className="relative py-12">
       <div className=" ">
-        <div className="grid grid-cols-12 items-center gap-8">
+        <div className="grid items-center gap-8 lg:grid-cols-2">
           {/* Images Section */}
-          <div className="col-span-6">
+          <div className=" ">
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <Image
@@ -33,7 +33,7 @@ const AboutHero = () => {
           </div>
 
           {/* Content Section */}
-          <div className="col-span-6">
+          <div className="">
             <div className="space-y-6">
               <div>
                 <h2 className="mb-2 text-lg font-medium text-gray-600">About Us</h2>

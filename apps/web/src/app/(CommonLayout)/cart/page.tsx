@@ -20,10 +20,10 @@ const CartPage = () => {
   return (
     <>
       <AppBreadcrumb items={cartBreadcrumbItems} title="Cart" />
-      <Container className="mb-6 grid grid-cols-4 gap-6">
+      <Container className="mb-6 grid grid-cols-4 gap-6 overflow-x-auto">
         {/* main */}
         <Card
-          className="col-span-3"
+          className="col-span-4 md:col-span-2 lg:col-span-3"
           title={
             <h2>
               Cart <span>({totalItems} items)</span>
@@ -48,15 +48,15 @@ const CartPage = () => {
             </div>
           )}
           {/* items  */}
-          <div className="space-y-3">
+          <div className="space-y-3 overflow-x-auto">
             {cartList.map((item) => (
-              <CartItem key={item._id} item={item} />
+              <CartItem className="min-w-[500px]" key={item._id} item={item} />
             ))}
           </div>
         </Card>
         {/* right side */}
 
-        <CartSummery />
+        <CartSummery className="col-span-4 md:col-span-2 lg:col-span-1" />
       </Container>
     </>
   );

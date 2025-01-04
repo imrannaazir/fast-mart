@@ -36,7 +36,7 @@ const TrackOrder = () => {
   return (
     <>
       <AppBreadcrumb className="" items={trackOrderBreadcrumbItems} title="Track Order" />
-      <div className="flex items-center justify-center rounded-xl bg-gradient-to-b from-blue-50 to-white p-8 shadow-lg">
+      <div className="flex items-center justify-center rounded-xl bg-gradient-to-b from-blue-50 to-white shadow-lg">
         <Container className="w-full">
           <div className="w-full">
             {/* Header */}

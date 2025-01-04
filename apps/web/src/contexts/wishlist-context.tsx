@@ -51,6 +51,7 @@ export const WishlistProvider = ({
       startTransition(async () => {
         try {
           const result = await toggleProductInWishlist({ productId });
+          console.log({ result }, "54");
 
           if (result.success) {
             const updatedWishListedProductIds = result?.data?.map((item) => item.productId as string);

@@ -19,7 +19,7 @@ export default async function WishlistPage() {
       <AppBreadcrumb items={wishlistBreadcrumbItems} title="Wishlist" />
       <Container className="">
         {wishlist?.length ? (
-          <div className="mb-6 grid grid-cols-5 gap-6">
+          <div className="mb-6 grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {wishlist.map((item) => {
               const { _id, title, compare_price, media, price } = (item.productId as TWishlistItemProduct) || {};
 

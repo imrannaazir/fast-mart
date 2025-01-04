@@ -1,7 +1,7 @@
+import { getAllMyAddresses } from "@/actions/address";
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
 import CheckoutSteps from "./components/checkout-steps";
-import { getAllMyAddresses } from "@/actions/address";
 import OrderSummery from "./components/order-summery";
 
 export default async function CheckoutPage() {
@@ -17,11 +17,11 @@ export default async function CheckoutPage() {
   return (
     <>
       <AppBreadcrumb title="Checkout" items={checkoutBreadcrumbItems} />
-      <Container className="mb-6 grid grid-cols-4 gap-4">
-        <div className="col-span-3">
+      <Container className="mb-6 flex flex-col gap-4 md:flex-row">
+        <div className="flex-grow">
           <CheckoutSteps addresses={myAddresses.data!} />
         </div>
-        <OrderSummery />
+        <OrderSummery className="sticky top-4 min-w-[320px]" />
       </Container>
     </>
   );

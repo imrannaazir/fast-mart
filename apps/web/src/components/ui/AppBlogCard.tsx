@@ -1,8 +1,13 @@
+import { cn } from "@/libs/utils";
+import { ClassValue } from "clsx";
 import Image from "next/image";
-
-const AppBlogCard = () => {
+import { FC } from "react";
+type TAppBlogCardProps = {
+  className?: ClassValue;
+};
+const AppBlogCard: FC<TAppBlogCardProps> = ({ className }) => {
   return (
-    <div className="group">
+    <div className={cn("group", className)}>
       <div className="w-full overflow-hidden rounded-md border">
         <Image
           className="aspect-square rounded-md object-cover transition-all duration-300 group-hover:rotate-3 group-hover:scale-110"

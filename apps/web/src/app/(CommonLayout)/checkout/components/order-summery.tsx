@@ -2,14 +2,16 @@
 import { placeOrder } from "@/actions/order";
 import { useCartList } from "@/contexts/cartlist-context";
 import { useOrderContext } from "@/contexts/order-context";
+import { cn } from "@/libs/utils";
 import { getErrorMessage } from "@repo/utils/functions";
 import { TCartStateItem } from "@repo/utils/types";
 import { Button, Card, Divider, Empty, message } from "antd";
+import { ClassValue } from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const OrderSummery = () => {
+const OrderSummery = ({ className }: { className?: ClassValue }) => {
   const { defaultAddress, paymentType } = useOrderContext();
   const { subTotalPrice, cartList } = useCartList();
   const shippingFee = subTotalPrice ? 10 : 0;
@@ -38,11 +40,11 @@ const OrderSummery = () => {
     }
   };
   return (
-    <Card className="mt-8 h-fit bg-gray-100">
+    <Card className={cn("mt-8 h-fit bg-gray-100", className)}>
       {/* promo code  */}
       <h3 className="mb-2 text-lg font-semibold">Order Summery</h3>
       <div>
-        <div className="space-y-2">
+        <div className="mb-2 space-y-2">
           {!!cartList.length && cartList?.map((item) => <CartItem key={item._id} cartItem={item} />)}
         </div>
         {!cartList.length && <Empty className="min-w-[288px]" image={Empty.PRESENTED_IMAGE_SIMPLE} />}

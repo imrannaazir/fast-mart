@@ -67,7 +67,7 @@ const DropdownUser = () => {
           {session?.user?.email?.slice(0, 1)?.toUpperCase()}
         </Avatar>
       ) : (
-        <Image src={assets.svg.user} height={24} width={24} alt="user" />
+        <Image className="cursor-pointer" src={assets.svg.user} height={24} width={24} alt="user" />
       )}
     </Dropdown>
   );

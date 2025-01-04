@@ -1,9 +1,16 @@
 "use client";
 import { useCartList } from "@/contexts/cartlist-context";
+import { cn } from "@/libs/utils";
 import { Button, Card, Divider, Form, Input, message, Space } from "antd";
+import { ClassValue } from "clsx";
 import Link from "next/link";
+import { FC } from "react";
 
-const CartSummery = () => {
+type TCartSummeryProps = {
+  className?: ClassValue;
+};
+
+const CartSummery: FC<TCartSummeryProps> = ({ className }) => {
   const { subTotalPrice } = useCartList();
   const shippingFee = subTotalPrice ? 10 : 0;
   const discount = 0;
@@ -13,7 +20,7 @@ const CartSummery = () => {
   };
 
   return (
-    <Card className="max-h-[319px] bg-gray-100">
+    <Card className={cn("max-h-[319px] bg-gray-100", className)}>
       {/* promo code  */}
       <h3 className="mb-2 text-lg font-semibold">Promo Code</h3>
 

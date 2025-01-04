@@ -185,7 +185,7 @@ const FaqsPage = () => {
         </div>
 
         <div className="grid grid-cols-5">
-          <div className="sticky top-4 col-span-2 h-fit py-4">
+          <div className="col-span-5 h-fit py-4 lg:sticky lg:top-4 lg:col-span-2">
             <h1 className="text-5xl font-bold">Frequently Asked Questions</h1>
             <p className="mt-2 text-gray-500">
               We are answering most frequent questions. No worries if you not find exact one. You can find out more by
@@ -195,7 +195,7 @@ const FaqsPage = () => {
               </Link>
             </p>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-5 lg:col-span-3">
             <Collapse
               bordered={false}
               defaultActiveKey={["1"]}
