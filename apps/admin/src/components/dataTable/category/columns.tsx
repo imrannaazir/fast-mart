@@ -1,8 +1,8 @@
-import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { TCategory, TCollection } from "@repo/utils/types";
+import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import CategoryDataTableAction from "./data-table-action";
-import { TCategory, TCollection } from "@repo/utils/types";
 
 export const columns: ColumnDef<TCategory>[] = [
   // select column
@@ -35,7 +35,7 @@ export const columns: ColumnDef<TCategory>[] = [
       const imageUrl =
         row.original?.image?.url || "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
       return (
-        <div className="flex items-center justify-start gap-2">
+        <div className="mr-6 flex items-center justify-start gap-2 lg:mr-0">
           <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
           <div>
             <p className="font-semibold text-gray-700">{title}</p>

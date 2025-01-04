@@ -13,7 +13,7 @@ const DashboardCategory = () => {
   const collections = data?.data || [];
 
   return (
-    <Card className="max-w-full">
+    <Card className="group max-w-full">
       <DashboardCardHeader title="Categories" description="Browse top categories" />
       <CardContent>
         <Carousel
@@ -37,8 +37,10 @@ const DashboardCategory = () => {
                   </CarouselItem>
                 ))}
           </CarouselContent>
-          <CarouselPrevious className="absolute left-0" />
-          <CarouselNext className="absolute right-0" />
+          <div className="hidden group-hover:block">
+            <CarouselPrevious className="left-0 opacity-0" />
+            <CarouselNext className="right-0 opacity-0" />
+          </div>
         </Carousel>
       </CardContent>
     </Card>
@@ -77,48 +79,3 @@ const CategoryCardSkeleton = () => {
 };
 
 export default DashboardCategory;
-
-/* 
-
-<section className="bg-card rounded-xl p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-xl font-semibold tracking-tight">Categories</h3>
-        <div className="bg-primary/10 h-1 w-16 rounded-full" />
-      </div>
-
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={25}
-        breakpoints={{
-          640: {
-            slidesPerView: 4,
-            spaceBetween: 25,
-          },
-          768: {
-            slidesPerView: 5,
-            spaceBetween: 25,
-          },
-          1024: {
-            slidesPerView: 10,
-            spaceBetween: 25,
-          },
-        }}
-        className="mySwiper"
-      >
-        {isFetching
-          ? Array(10)
-              .fill(0)
-              .map((_item, index) => (
-                <SwiperSlide key={index}>
-                  <CategoryCardSkeleton />
-                </SwiperSlide>
-              ))
-          : collections?.map((collection) => (
-              <SwiperSlide key={collection?._id}>
-                <CategoryCard iconName={collection?.icon?.name || "combine"} collectionName={collection?.title} />
-              </SwiperSlide>
-            ))}
-      </Swiper>
-    </section>
-
-*/

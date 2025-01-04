@@ -31,7 +31,7 @@ export const columns: ColumnDef<TOrder>[] = [
     accessorKey: "Order",
     header: "Order",
     cell: ({ row }) => {
-      return <Link to={`#`} className="font-semibold hover:underline">{`# ${row?.original?._id}`}</Link>;
+      return <Link to={`#`} className="text-nowrap font-semibold hover:underline">{`# ${row?.original?._id}`}</Link>;
     },
   },
   {
@@ -40,7 +40,7 @@ export const columns: ColumnDef<TOrder>[] = [
     cell: ({ row }) => {
       const date = row.original.createdAt;
       const now = moment(date).format("MMMM Do YYYY");
-      return <p>{now}</p>;
+      return <p className="text-nowrap">{now}</p>;
     },
   },
   {
@@ -48,7 +48,7 @@ export const columns: ColumnDef<TOrder>[] = [
     header: "Customer",
     cell: ({ row }) => {
       const user = row.original?.userId as TUser;
-      return <p>{`${user?.firstName} ${user?.lastName}`}</p>;
+      return <p className="text-nowrap">{`${user?.firstName} ${user?.lastName}`}</p>;
     },
   },
 

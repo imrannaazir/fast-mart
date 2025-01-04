@@ -84,7 +84,7 @@ export function NotificationDropdown() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="z-[999] mt-0 w-[380px]" align="end">
+      <DropdownMenuContent className="z-[999] mt-0 w-[330px] sm:w-[380]" align="end">
         <DropdownMenuLabel className="flex items-center justify-between">
           <span>Notifications</span>
           {unreadCount > 0 && (

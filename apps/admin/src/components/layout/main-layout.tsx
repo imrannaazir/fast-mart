@@ -17,7 +17,7 @@ export default function MainLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="flex w-full flex-1 flex-col">
         <AppHeader />
         <div className="bg-muted flex-1 overflow-auto p-4">
           <Outlet />

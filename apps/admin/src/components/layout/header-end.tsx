@@ -31,7 +31,7 @@ const HeaderEnd = () => {
     return <HeaderEndSkeleton />;
   }
   return (
-    <div className="col-span-3 flex items-center justify-end gap-2 lg:col-span-2">
+    <div className="col-span-3 flex items-center justify-end gap-2 xl:col-span-2">
       <NotificationDropdown />
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
@@ -73,7 +73,7 @@ export default HeaderEnd;
 
 const HeaderEndSkeleton = () => {
   return (
-    <div className="bg-foreground ml-auto flex h-9 items-center justify-between gap-2 rounded-lg px-2">
+    <div className="bg-foreground col-span-3 ml-auto flex h-9 items-center justify-between gap-2 rounded-lg px-2 xl:col-span-2">
       <div className="bg-muted-foreground h-7 w-7 animate-pulse rounded-full"></div>
       <div className="bg-muted-foreground h-3 w-16 animate-pulse rounded-full"></div>
     </div>

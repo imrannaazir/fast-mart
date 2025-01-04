@@ -1,10 +1,10 @@
-import { Table, flexRender } from "@tanstack/react-table";
-import { TableHead, TableHeader, TableRow } from "../ui/table";
-import { FC, useEffect } from "react";
-import { Button } from "../ui/button";
-import { useAppDispatch } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
 import { setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
+import { useAppDispatch } from "@/redux/hooks";
+import { Table, flexRender } from "@tanstack/react-table";
+import { FC, useEffect } from "react";
+import { Button } from "../ui/button";
+import { TableHead, TableHeader, TableRow } from "../ui/table";
 
 type TDataTableHeaderProps<TData> = {
   table: Table<TData>;
@@ -43,7 +43,7 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({ table, fn }) => {
                     className={cn(i === 1 && isSelected ? "opacity-100" : "opacity-0")}
                   >{`${selectedRows.length} selected`}</div>
                 ) : (
-                  <div>
+                  <div className="text-nowrap">
                     {" "}
                     {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </div>

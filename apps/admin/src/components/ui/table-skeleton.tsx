@@ -1,6 +1,6 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { Skeleton } from "./skeleton";
 import { FC } from "react";
+import { Skeleton } from "./skeleton";
 
 type TTableSkeletonProps = {
   columnNo: number;
@@ -22,7 +22,7 @@ const TableSkeleton: FC<TTableSkeletonProps> = ({ columnNo, rowNo }) => {
       {generateArrByLength(rowNo).map((item) => (
         <TableRow key={item}>
           {generateArrByLength(columnNo).map((item) => (
-            <TableCell key={item}>
+            <TableCell key={item} className="">
               <Skeleton className={`h-4 w-[${100 / columnNo}]%`} />
             </TableCell>
           ))}

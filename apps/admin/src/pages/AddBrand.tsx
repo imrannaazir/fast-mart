@@ -55,8 +55,8 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Page title="Create brand" size={"sm"} action={<Action />} isInModal={isInModal}>
-          <div className="flex gap-4">
-            <div className="w-[66%]">
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="lg:w-[66%]">
               <PageSection>
                 {/* name */}
                 <FormField

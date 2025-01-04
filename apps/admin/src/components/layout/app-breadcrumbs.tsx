@@ -24,16 +24,15 @@ const AppBreadCrumbs = () => {
   ];
 
   return (
-    <div className="flex items-center gap-2 lg:col-span-3">
+    <div className="flex items-center gap-2 xl:col-span-4">
       <SidebarTrigger className="text-background -ml-1" />
-      <Separator orientation="vertical" className="mr-2 hidden h-4 lg:block" />
-      <Breadcrumb className="hidden lg:block">
+      <Separator orientation="vertical" className="mr-2 hidden h-4 xl:block" />
+      <Breadcrumb className="hidden xl:block">
         <BreadcrumbList className="text-xs sm:gap-1">
           <BreadcrumbItem className="cursor-pointer">
             <Link to={"/"}>
               <BreadcrumbLink className="flex items-center gap-1">
                 <Home className="h-4 w-4" />
-                Home
               </BreadcrumbLink>
             </Link>
           </BreadcrumbItem>

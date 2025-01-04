@@ -10,12 +10,12 @@ import {
   setMeta,
 } from "@/redux/features/filter/filterSlice";
 
+import { ProductDataTable } from "@/components/dataTable/product/data-table";
+import { useGetAllProductQuery } from "@/redux/features/product/productApi";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useGetAllProductQuery } from "@/redux/features/product/productApi";
-import { ProductDataTable } from "@/components/dataTable/product/data-table";
 
 const ProductListPage = () => {
   // invoke hooks
@@ -60,7 +60,7 @@ const ProductListPage = () => {
 const ProductAction = () => {
   return (
     <Link to="/products/new">
-      <Button size={"sm"}>Add product</Button>;
+      <Button size={"sm"}>Add product</Button>
     </Link>
   );
 };

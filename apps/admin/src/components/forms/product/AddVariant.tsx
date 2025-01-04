@@ -111,11 +111,12 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
             <ProductVariantPreview key={variant.variantId} productVariant={variant} form={form} />
           ))}
       </div>
-      <div className="flex items-center space-x-4">
+      <div className="grid gap-4 *:w-full lg:grid-cols-2">
         {/* PREVIEW  */}
 
         {/* select variant name */}
         <OptionSelector
+          width="w-full"
           onAdd={handleOnVariantAdd}
           isDisable={optionsValue?.length > 0}
           label="Name"
@@ -128,6 +129,7 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
 
         {/* select variant option */}
         <OptionSelector
+          width="w-full"
           onAdd={handleOnOptionAdd}
           label="Options"
           isDisable={!variantId}

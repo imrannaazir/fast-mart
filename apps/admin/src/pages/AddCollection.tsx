@@ -63,8 +63,8 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({ isInModal = false, prod
           <div className={cn(isInModal ? "my-4 flex justify-end" : "hidden")}>
             <Action />
           </div>
-          <div className="flex gap-4">
-            <div className="w-[66%]">
+          <div className="flex flex-col gap-4 lg:flex-row">
+            <div className="lg:w-[66%]">
               <PageSection>
                 {/* title */}
                 <FormField

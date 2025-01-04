@@ -35,7 +35,10 @@ export const columns: ColumnDef<TUser>[] = [
         <div className="flex items-center justify-start gap-2">
           <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
           <div>
-            <Link to={`#`} className="font-semibold hover:underline">{`${firstName} ${lastName}`}</Link>
+            <Link
+              to={`#`}
+              className="mr-6 text-nowrap font-semibold hover:underline"
+            >{`${firstName} ${lastName}`}</Link>
           </div>
         </div>
       );
@@ -47,7 +50,7 @@ export const columns: ColumnDef<TUser>[] = [
     header: "Email",
     cell: ({ row }) => {
       const email = row.original.email;
-      return <p>{email}</p>;
+      return <p className="">{email}</p>;
     },
   },
   {
