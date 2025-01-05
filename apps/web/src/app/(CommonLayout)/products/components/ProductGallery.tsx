@@ -47,7 +47,7 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ media, className }) => 
           shape="circle"
           type="primary"
           color="primary"
-          className="absolute left-4 top-1/2"
+          className="absolute left-2 top-1/2"
           icon={<ChevronLeft size={14} />}
         />
 
@@ -56,7 +56,7 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ media, className }) => 
           shape="circle"
           type="primary"
           color="primary"
-          className="absolute right-4 top-1/2"
+          className="absolute right-2 top-1/2"
           icon={<ChevronRight size={14} />}
         />
       </div>
