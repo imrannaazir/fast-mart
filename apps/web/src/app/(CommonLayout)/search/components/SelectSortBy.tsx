@@ -1,6 +1,8 @@
 "use client";
+import { cn } from "@/libs/utils";
 import { Select, SelectProps } from "antd";
 import Form from "antd/es/form";
+import { ClassValue } from "clsx";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo } from "react";
 
@@ -11,7 +13,7 @@ const sortByOptions = [
   { label: "High To Low Price", id: 6, sortBy: "price", sortOrder: "desc" },
 ];
 
-const SelectSortBy = () => {
+const SelectSortBy = ({ className }: { className?: ClassValue }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [form] = Form.useForm();
@@ -47,8 +49,8 @@ const SelectSortBy = () => {
   }, [searchParams, updateUrlParams]);
 
   return (
-    <Form form={form} initialValues={{ sort: currentSortByOption?.id }}>
-      <Form.Item name="sort" label="Sort By">
+    <Form form={form} initialValues={{ sort: currentSortByOption?.id }} className={cn(className)}>
+      <Form.Item name="sort">
         <Select onChange={onSelectOption} className="min-w-[160px]" placeholder="Select a option">
           {sortByOptions.map((option) => (
             <Select.Option key={option.id} value={option.id}>

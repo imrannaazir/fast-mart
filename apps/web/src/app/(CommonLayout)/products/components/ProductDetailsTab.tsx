@@ -29,7 +29,7 @@ const ProductDetailsTab: FC<TProductDetailsTabProps> = ({ product }) => {
       children: <ProductReviews />,
     },
   ];
-  return <Tabs className="pr-6" onChange={onChange} type="card" size="large" items={items} />;
+  return <Tabs className="" onChange={onChange} type="card" size="large" items={items} />;
 };
 
 export default ProductDetailsTab;

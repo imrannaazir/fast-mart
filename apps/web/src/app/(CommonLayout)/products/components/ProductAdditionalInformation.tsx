@@ -1,6 +1,6 @@
-import React from "react";
-import { Table } from "antd";
 import type { TableColumnsType } from "antd";
+import { Table } from "antd";
+import React from "react";
 
 interface FixedDataType {
   key: React.Key;
@@ -13,7 +13,6 @@ const fixedColumns: TableColumnsType<FixedDataType> = [
     title: "Name",
     dataIndex: "name",
     fixed: true,
-    width: 300,
   },
   {
     title: "Description",

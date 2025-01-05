@@ -51,13 +51,13 @@ const LoginPage = () => {
           backgroundImage: `url(${assets.images.bg.login_bg})`,
         }}
       >
-        <Container className="grid grid-cols-3">
+        <Container className="flex justify-center">
           {/* form */}
-          <div className="col-span-2 flex items-center justify-center">
+          <div className="hidden flex-grow items-center justify-center md:flex">
             <Image alt="login" src={assets.images.banners.login} width={550} height={465} />
           </div>
-          <div className="flex items-center justify-center">
-            <div className="w-full max-w-[360px] rounded-lg bg-gray-100 p-[41px]">
+          <div className="flex w-full items-center justify-center sm:max-w-[440px]">
+            <div className="w-full min-w-full rounded-lg bg-gray-100 p-[41px]">
               <Form size="large" name="login" initialValues={{ remember: true }} onFinish={onFinish}>
                 <Form.Item initialValue="john@gmail.com" name="email" rules={formRules.email}>
                   <Input prefix={<UserOutlined />} placeholder="email" />

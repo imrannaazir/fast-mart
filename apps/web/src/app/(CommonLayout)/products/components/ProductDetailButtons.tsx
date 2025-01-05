@@ -8,7 +8,7 @@ import { Button, Divider } from "antd";
 import { Info } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Fragment, useCallback } from "react";
+import { useCallback } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { LuRefreshCw } from "react-icons/lu";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
@@ -57,7 +57,7 @@ const ProductDetailButtons = (product: TProduct) => {
   const decrementFromCart = debounce(() => handleCart("decrement"), 300);
 
   return (
-    <Fragment>
+    <div>
       {/* error message */}
       {!isAllVariantSelected && (
         <p className="mt-4 flex items-center gap-1 text-red-500">
@@ -65,7 +65,7 @@ const ProductDetailButtons = (product: TProduct) => {
           <Info size={12} /> Please select all variants.
         </p>
       )}
-      <div className={cn("grid w-full grid-cols-2 gap-4", isAllVariantSelected ? "mt-6" : "mt-4")}>
+      <div className={cn("flex w-full gap-4", isAllVariantSelected ? "mt-6" : "mt-4")}>
         {/* cart button */}
         <div className="flex w-full items-center justify-between rounded-md bg-gray-100 p-1">
           <Button
@@ -106,7 +106,7 @@ const ProductDetailButtons = (product: TProduct) => {
         </Button>
       </div>
       <Divider className="mt-3" />
-    </Fragment>
+    </div>
   );
 };
 

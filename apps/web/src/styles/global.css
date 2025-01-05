@@ -55,30 +55,6 @@
   font-family: "Public Sans", sans-serif;
 }
 
-/* magnifier */
-.magnifying-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
-.magnifying-container:hover .magnifying-glass {
-  opacity: 1;
-}
-
-.magnifying-glass {
-  z-index: 10;
-  position: absolute;
-  background-repeat: no-repeat;
-  background-color: white;
-  border-style: solid;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
 /* slider  */
 .custom-dots {
   @apply -mb-12 mt-8 flex items-center justify-center gap-2 !important;
@@ -102,4 +78,17 @@
 
 .slick-slide {
   @apply flex justify-center !important;
+}
+
+/* hide scroll bar */
+@layer utilities {
+  /* hide scroll bar on chrome , safari and opera  */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }

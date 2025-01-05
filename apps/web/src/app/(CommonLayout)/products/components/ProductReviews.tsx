@@ -32,7 +32,7 @@ const ProductReviews = () => {
   return (
     <div>
       <h2 className="text-xl font-semibold"> 2 Review For iPhone 15 Max pro</h2>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid gap-6 lg:grid-cols-2">
         <div className="flex items-center gap-6">
           <h1 className="text-8xl">3.50</h1>
           <div>

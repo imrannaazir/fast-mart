@@ -12,7 +12,7 @@ type TMobileMenuProps = {
 
 const MobileMenu: FC<TMobileMenuProps> = ({ collections }) => {
   return (
-    <div className="bg-primary text-background fixed bottom-0 z-50 flex w-full items-center justify-center gap-4 py-[10px] md:hidden">
+    <div className="bg-primary text-background fixed bottom-0 z-50 flex w-full items-center justify-center gap-4 px-4 py-[10px] text-xs md:hidden">
       {/* home */}
       <Link href={"/"} className="flex flex-col items-center justify-center">
         <BiHome className="h-5 w-5" />
@@ -28,7 +28,7 @@ const MobileMenu: FC<TMobileMenuProps> = ({ collections }) => {
       {/* wishlist */}
       <Link href={"/"} className="flex flex-col items-center justify-center">
         <Image src={assets.svg.hearth} alt="wishlist" width={20} height={20} />
-        <span>My Wishlist</span>
+        <span>Wishlist</span>
       </Link>
       {/* cart */}
       <Link href={"/"} className="flex flex-col items-center justify-center">

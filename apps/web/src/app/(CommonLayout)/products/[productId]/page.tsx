@@ -1,14 +1,10 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { TImage, TProduct } from "@repo/utils/types";
+import { TProduct } from "@repo/utils/types";
 import { Fragment } from "react";
-import HomePageTrendingProducts from "../../components/HomePageTrendingProducts";
-import ProductBasicDescription from "../components/ProductBasicDescription";
-import ProductBrandDetails from "../components/ProductBrandDetails";
-import ProductDetailsTab from "../components/ProductDetailsTab";
-import ProductGallery from "../components/ProductGallery";
 // import StickyBox from "react-sticky-box";
 import { serverFetcher } from "@/libs/server-fetcher";
+import ProductImageGallery from "../components/ProductGallery";
 import RelatedProducts from "./components/related-products";
 
 async function getProduct(productId: string) {
@@ -45,31 +41,10 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
   }
   return (
     <Fragment>
-      <AppBreadcrumb items={breadcrumbItems} title={product?.title as string} />
+      <AppBreadcrumb className="hidden sm:block" items={breadcrumbItems} title={product?.title as string} />
       <Container className="">
-        <div className="relative grid grid-cols-4 pb-6">
-          {/* left  */}
-          <section className="col-span-3">
-            <div className="grid grid-cols-2 gap-6">
-              {/* product images */}
-              {<ProductGallery media={product?.media as TImage[]} />}
-              {/* product description */}
-              <ProductBasicDescription product={product as unknown as TProduct} />
-            </div>
-            <ProductDetailsTab product={product as unknown as TProduct} />
-          </section>
-          {/* right */}
-          <section className="sticky top-6 h-fit space-y-6">
-            <ProductBrandDetails
-              name={product?.brand?.name as string}
-              description={product?.brand?.description as string}
-              img={product?.brand?.logo?.url as string}
-            />
-            <HomePageTrendingProducts />
-            {/* <StickyBox className="space-y-6" offsetTop={24}>
-            </StickyBox> */}
-          </section>
-        </div>
+        <ProductImageGallery media={product?.media!} />
+
         <RelatedProducts />
       </Container>
     </Fragment>
@@ -77,3 +52,29 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
 };
 
 export default ProductDetailsPage;
+/* 
+
+ <Fragment>
+      <AppBreadcrumb className="hidden sm:block" items={breadcrumbItems} title={product?.title as string} />
+      <Container className="">
+        <div className="grid lg:grid-cols-3 lg:gap-4">
+          <div className="grid lg:col-span-2 lg:grid-cols-2 lg:gap-4">
+            <ProductImageGallery media={product?.media!} />
+            <div>
+              <ProductBasicDescription product={product!} />
+              <ProductDetailsTab product={product!} />
+            </div>
+          </div>
+          <div className="hidden space-y-4 lg:block">
+            <ProductBrandDetails
+              name={product?.brand?.name!}
+              description={product?.brand?.description!}
+              img={product?.brand?.logo?.url!}
+            />
+            <HomePageTrendingProducts />
+          </div>
+        </div>
+        <RelatedProducts />
+      </Container>
+    </Fragment>
+*/

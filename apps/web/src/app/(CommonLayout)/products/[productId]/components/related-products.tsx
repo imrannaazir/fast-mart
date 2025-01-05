@@ -19,7 +19,7 @@ const RelatedProducts = async () => {
         description="A virtual assistant collects the products from your list"
       />
 
-      <div className="mt-6 grid grid-cols-5 gap-4">
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {products?.map((product) => {
           const { compare_price, _id, price, title, media } = product || {};
           const productCardData: TAppProductCardProps = {

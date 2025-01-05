@@ -1,25 +1,36 @@
 "use client";
-import { filterableFields, useFilterState } from "@/hooks/use-filter-state";
+import { useFilterState } from "@/hooks/use-filter-state";
+import { cn } from "@/libs/utils";
 import { TBrand, TCategory, TCollection } from "@repo/utils/types";
-import { Button, Flex, Form } from "antd";
+import { Flex, Form } from "antd";
 import Card from "antd/es/card/Card";
-import { useRouter, useSearchParams } from "next/navigation";
-import { FC, useCallback, useMemo } from "react";
+import { ClassValue } from "clsx";
+import { useSearchParams } from "next/navigation";
+import { FC, useMemo } from "react";
 import SidebarSectionHeader from "../../components/SidebarSectionHeader";
 import FilterSection from "./FilterSection";
 import PriceRangeFilter from "./PriceRangeFilter";
+import ClearFilterButton from "./clear-filter-button";
 
 type TSideBarFilterProps = {
   maxPrice: number;
   brands: TBrand[];
   collections: TCollection[];
   categories: TCategory[];
+  className?: ClassValue;
+  header?: "hide" | "show";
 };
 
-const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice, brands, collections, categories }) => {
-  const router = useRouter();
+const SideBarFilter: FC<TSideBarFilterProps> = ({
+  maxPrice,
+  brands,
+  className,
+  collections,
+  categories,
+  header = "show",
+}) => {
   const searchParams = useSearchParams();
-  const { form, handleValuesChanges, clearFilters, roundedMaxPrice } = useFilterState(maxPrice);
+  const { form, handleValuesChanges, roundedMaxPrice } = useFilterState(maxPrice);
 
   const memoizedCollections = useMemo(
     () =>
@@ -51,20 +62,10 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice, brands, collections,
     []
   );
 
-  // handle clear filters
-  const handleClearFilter = useCallback(() => {
-    clearFilters();
-    const newParams = new URLSearchParams(searchParams.toString());
-    filterableFields.forEach((field) => {
-      newParams.delete(field);
-    });
-    router.push(`/search?${newParams}`, { scroll: false });
-  }, []);
-
   return (
-    <aside className="mb-6 min-w-[300px]">
+    <aside className={cn("mb-6 min-w-[300px]", className)}>
       <Form onValuesChange={handleValuesChanges} form={form} className="space-y-4">
-        <Card size="small">
+        <Card className={cn(header === "hide" ? "hidden" : "block")} size="small">
           <Form.Item
             style={{
               margin: 0,
@@ -73,9 +74,7 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({ maxPrice, brands, collections,
           >
             <Flex style={{ justifyContent: "space-between", alignItems: "center" }}>
               <SidebarSectionHeader border={false} level="Filter" className="text-base font-medium" />
-              <Button className="text-primary m-0 p-0 font-semibold" type="link" onClick={handleClearFilter}>
-                Clear All
-              </Button>
+              <ClearFilterButton maxPrice={maxPrice} />
             </Flex>
           </Form.Item>
         </Card>

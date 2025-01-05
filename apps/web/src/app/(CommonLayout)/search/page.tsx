@@ -9,6 +9,7 @@ import queryString from "query-string";
 import ProductPagination from "./components/Pagination";
 import SelectSortBy from "./components/SelectSortBy";
 import SideBarFilter from "./components/SideBarFilter";
+import MobileFilterMenu from "./components/mobile-filter-menu";
 
 const searchBreadcrumbItems: TAppBreadcrumbItem[] = [
   {
@@ -45,9 +46,22 @@ const SearchPage = async ({ searchParams }: { searchParams: { q: string } }) => 
       <AppBreadcrumb title={`Search Results for "${searchParams.q || "All"}"`} items={searchBreadcrumbItems} />
       <Container className="flex gap-6">
         {/* left */}
-        <SideBarFilter brands={brands} collections={collections} categories={categories} maxPrice={823} />
+        <SideBarFilter
+          className="hidden lg:block"
+          brands={brands}
+          collections={collections}
+          categories={categories}
+          maxPrice={823}
+        />
         {/* right */}
         <section className="w-full">
+          <MobileFilterMenu
+            className="mb-4 lg:hidden"
+            brands={brands}
+            collections={collections}
+            categories={categories}
+            maxPrice={823}
+          />
           {/* header  */}
           <div className="flex justify-between">
             <span>
@@ -56,7 +70,7 @@ const SearchPage = async ({ searchParams }: { searchParams: { q: string } }) => 
             <SelectSortBy />
           </div>
           {/* products list */}
-          <div className="grid grid-cols-1 gap-x-6 gap-y-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
             {products?.map((product) => {
               const { compare_price, _id, price, title, media } = product || {};
               const productCardData: TAppProductCardProps = {

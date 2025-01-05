@@ -1,9 +1,9 @@
-import { TProduct, TProductVariantOption } from "@repo/utils/types";
-import { Divider, Rate } from "antd";
-import ProductVariants from "./ProductVariants";
-import ProductDetailButtons from "./ProductDetailButtons";
 import assets from "@/assets";
 import { calculateOfferPercentage } from "@repo/utils/functions";
+import { TProduct, TProductVariantOption } from "@repo/utils/types";
+import { Divider, Rate } from "antd";
+import ProductDetailButtons from "./ProductDetailButtons";
+import ProductVariants from "./ProductVariants";
 
 const ProductBasicDescription = ({ product }: { product: TProduct }) => {
   const offerPercentage = calculateOfferPercentage(product?.price, product?.compare_price!);
@@ -11,7 +11,7 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
   const markupDescription = { __html: product?.description?.slice(0, 1000) || "" };
 
   return (
-    <div className="pr-6">
+    <div className="">
       {/* offer */}
       <p className="text-secondary bg-secondary/10 w-fit rounded-md px-[15px] py-[9px] text-sm">
         {offerPercentage}% Off
@@ -41,9 +41,9 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
       {/* buttons */}
       <ProductDetailButtons {...product} />
       {/* payment secure */}
-      <div>
+      <div className="">
         <h3 className="mb-4 font-semibold">Guaranteed Safe Checkout</h3>
-        <img src={assets.images.payment} />
+        <img className="w-full" src={assets.images.payment} />
       </div>
     </div>
   );
