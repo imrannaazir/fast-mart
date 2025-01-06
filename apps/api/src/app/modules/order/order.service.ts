@@ -1,6 +1,7 @@
 import {
   TOrderItemPayload,
   TOrderPayload,
+  TPaymentTransaction,
   TPlaceOrderInput,
   TProduct,
 } from '@repo/utils/types';
@@ -12,6 +13,7 @@ import { Option } from '../variant/variant.model';
 
 import QueryBuilder from '../../builder/QueryBuilder';
 import AppError from '../../errors/AppError';
+import PaymentTransaction from '../paymentTransaction/payment-transaction.model';
 import { Order, OrderItem } from './order.model';
 
 const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
@@ -19,7 +21,7 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
     addressId: payload.addressId,
     userId: userId,
     status: 'PLACED',
-    paymentStatus: 'UNPAID',
+    paymentStatus: payload?.transactionId ? 'PAID' : 'UNPAID',
     paymentType: payload.paymentType,
     shippingAmount: Number(config.shipping_amount),
   };
@@ -54,6 +56,33 @@ const placeOrder = async (payload: TPlaceOrderInput, userId: string) => {
     const newOrder = await Order.create([orderPayload], {
       session,
     });
+
+    // create transaction
+    let transaction;
+    if (payload?.transactionId) {
+      const transactionPayload: Omit<
+        TPaymentTransaction,
+        '_id' | 'createdAt' | 'updatedAt'
+      > = {
+        amount: orderPayload.netAmount,
+        paymentType: payload.paymentType,
+        transactionId: payload.transactionId,
+        orderId: newOrder?.[0]?._id,
+      };
+      transaction = await PaymentTransaction.create([transactionPayload], {
+        session,
+      });
+    }
+
+    if (transaction) {
+      await Order?.findByIdAndUpdate(
+        newOrder?.[0]?._id,
+        { transaction: transaction?.[0]?._id },
+        {
+          session,
+        },
+      );
+    }
 
     const orderItems: TOrderItemPayload[] = await Promise.all(
       cartList.map(async (cartItem) => {

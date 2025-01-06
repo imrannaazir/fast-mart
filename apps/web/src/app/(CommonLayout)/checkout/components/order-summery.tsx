@@ -13,10 +13,8 @@ import { useState } from "react";
 
 const OrderSummery = ({ className }: { className?: ClassValue }) => {
   const { defaultAddress, paymentType } = useOrderContext();
-  const { subTotalPrice, cartList } = useCartList();
-  const shippingFee = subTotalPrice ? 10 : 0;
-  const discount = 0;
-  const totalPrice = subTotalPrice + shippingFee - discount;
+  const { subTotalPrice, cartList, totalPrice, discount, shippingFee } = useCartList();
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -74,9 +72,11 @@ const OrderSummery = ({ className }: { className?: ClassValue }) => {
           <span>${totalPrice}</span>
         </p>
       </div>
-      <Button block size="large" type="primary" className="mt-4" onClick={handlePlaceOrder} loading={isLoading}>
-        Place Order
-      </Button>
+      {paymentType === "COD" && (
+        <Button block size="large" type="primary" className="mt-4" onClick={handlePlaceOrder} loading={isLoading}>
+          Place Order
+        </Button>
+      )}
     </Card>
   );
 };

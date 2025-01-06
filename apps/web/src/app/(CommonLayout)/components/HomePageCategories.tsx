@@ -25,7 +25,7 @@ export default function HomePageCategories({ collections }: { collections: TColl
           },
         ]}
       >
-        {collections?.map((collection) => <HomePageCategoryCard collection={collection} />)}
+        {collections?.map((collection) => <HomePageCategoryCard key={collection?.id} collection={collection} />)}
       </Carousel>
     </div>
   );

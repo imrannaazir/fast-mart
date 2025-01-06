@@ -25,6 +25,9 @@ type TCartListContext = {
   updateCartList: (payload: TContextPayload) => Promise<void>;
   clearCart: () => Promise<void>;
   isInCart: (productId: string) => boolean;
+  shippingFee: number;
+  discount: number;
+  totalPrice: number;
 };
 
 const CartListContext = createContext<TCartListContext | undefined>(undefined);
@@ -144,6 +147,10 @@ export const CartListContextProvider = ({
     return acc + currentProductPrice;
   }, 0);
 
+  const shippingFee = subTotalPrice ? 10 : 0;
+  const discount = 0;
+  const totalPrice = subTotalPrice + shippingFee - discount;
+
   return (
     <CartListContext.Provider
       value={{
@@ -155,6 +162,9 @@ export const CartListContextProvider = ({
         isInCart,
         totalItems,
         subTotalPrice,
+        shippingFee,
+        discount,
+        totalPrice,
       }}
     >
       {children}

@@ -62,7 +62,7 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ media, className }) => 
       </div>
       <div className="no-scrollbar mt-2 flex gap-2 overflow-x-auto">
         {sliderImages?.map((img, i) => (
-          <div>
+          <div key={i}>
             <Button
               className={cn("h-20 w-20 p-1", i === currentSlide && "border-primary")}
               onClick={() => handleThumbnailClick(i)}

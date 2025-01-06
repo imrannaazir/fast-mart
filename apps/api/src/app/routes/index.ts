@@ -8,6 +8,7 @@ import CollectionRoutes from '../modules/collection/collection.routes';
 import DashboardRoutes from '../modules/dashboard/dashboard.routes';
 import ImageRoutes from '../modules/image/image.routes';
 import OrderRoute from '../modules/order/order.route';
+import PaymentTransactionRoutes from '../modules/paymentTransaction/payment-transaction.routes';
 import ProductRoutes from '../modules/product/product.route';
 import TagRoutes from '../modules/tag/tag.route';
 import UserRoutes from '../modules/user/user.routes';
@@ -82,6 +83,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/dashboard',
     route: DashboardRoutes,
+  },
+  {
+    path: '/transactions',
+    route: PaymentTransactionRoutes,
   },
 ];
 

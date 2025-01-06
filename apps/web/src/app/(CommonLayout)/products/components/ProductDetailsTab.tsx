@@ -24,7 +24,7 @@ const ProductDetailsTab: FC<TProductDetailsTabProps> = ({ product }) => {
       children: <ProductAdditionalInformation />,
     },
     {
-      label: `Review(2)`,
+      label: `Review(6)`,
       key: "3",
       children: <ProductReviews />,
     },

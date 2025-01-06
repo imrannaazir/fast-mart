@@ -33,4 +33,5 @@ export default {
   shipping_amount: process.env.SHIPPING_AMOUNT,
   my_email_address: process.env.MY_EMAIL_ADDRESS,
   email_app_password: process.env.EMAIL_APP_PASSWORD,
+  stripe_api_secret_key: process.env.STRIPE_API_SECRET_KEY,
 };

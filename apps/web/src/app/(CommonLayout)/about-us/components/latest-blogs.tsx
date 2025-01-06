@@ -29,8 +29,8 @@ const LatestBlogs = () => {
           ]}
         >
           {[...Array(5)].map((_, i) => (
-            <div className="px-4">
-              <AppBlogCard key={i} />
+            <div key={i} className="px-4">
+              <AppBlogCard />
             </div>
           ))}
         </Carousel>

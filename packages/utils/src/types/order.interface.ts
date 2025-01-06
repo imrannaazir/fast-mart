@@ -19,6 +19,7 @@ export type TOrder = {
   status: TOrderStatus;
   orderItems?: TOrderItem[];
   paymentStatus: TPaymentStatus;
+  transaction?: string;
   paymentType: TPaymentType;
   orderShippedAt?: Date;
   orderDeliveredAt?: Date;
@@ -47,4 +48,5 @@ export type TPlaceOrderInput = {
   cartItemIds: string[];
   addressId: string;
   paymentType: TPaymentType;
+  transactionId?: string;
 };

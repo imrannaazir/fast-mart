@@ -53,6 +53,10 @@ const orderSchema = new Schema<Omit<TOrder, '_id' | 'createdAt' | 'updatedAt'>>(
       type: Number,
       required: true,
     },
+    transaction: {
+      type: Schema.Types.ObjectId,
+      ref: 'paymentTransaction',
+    },
     orderDeliveredAt: {
       type: Date,
     },
@@ -74,6 +78,7 @@ const orderItemSchema = new Schema<
       ref: 'order',
       required: true,
     },
+
     productId: {
       type: Schema.Types.ObjectId,
       ref: 'product',

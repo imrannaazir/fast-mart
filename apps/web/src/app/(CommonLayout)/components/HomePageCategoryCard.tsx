@@ -18,7 +18,6 @@ const HomePageCategoryCard = ({ collection }: { collection: TCollectionDropdownI
         alt=""
       />
       <LucidIcon name={collection?.iconName as any} size={50} />
-
       <h3 className="text-[15px] font-semibold">{collection?.name}</h3>
     </Link>
   );

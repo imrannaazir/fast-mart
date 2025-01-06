@@ -10,6 +10,7 @@ export * from "./icons.interface";
 export * from "./image.interface";
 export * from "./jwt.interface";
 export * from "./order.interface";
+export * from "./payment-transaction.interfaces";
 export * from "./product.interface";
 export * from "./tag.interface";
 export * from "./user.interface";

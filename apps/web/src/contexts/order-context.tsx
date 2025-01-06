@@ -13,7 +13,7 @@ const OrderContext = createContext<TOrderContext | undefined>(undefined);
 
 export const OrderContextProvider = ({ children }: { children: ReactNode }) => {
   const [defaultAddress, setDefaultAddress] = useState("");
-  const [paymentType, setPaymentType] = useState<TPaymentType>("COD");
+  const [paymentType, setPaymentType] = useState<TPaymentType>("CARD");
   return (
     <OrderContext.Provider
       value={{

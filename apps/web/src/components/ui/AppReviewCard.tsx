@@ -5,9 +5,15 @@ import { FC } from "react";
 import { ClassNameValue } from "tailwind-merge";
 
 type TAppReviewCard = {
+  id: string;
+  avatar: string;
+  fullName: string;
+  dateTime: string;
+  rating: number;
+  comment: string;
   className?: ClassNameValue;
 };
-const AppReviewCard: FC<TAppReviewCard> = ({ className }) => {
+const AppReviewCard: FC<TAppReviewCard> = ({ className, avatar, fullName, dateTime, rating, comment }) => {
   return (
     <div
       className={cn(
@@ -18,7 +24,7 @@ const AppReviewCard: FC<TAppReviewCard> = ({ className }) => {
       {/* image */}
       <Image
         className="aspect-square h-[70px] w-[70px] rounded-full border object-cover shadow-sm"
-        src={"https://themes.pixelstrap.com/fastkart/assets/images/review/1.jpg"}
+        src={avatar}
         width={70}
         height={70}
         alt="profile pic"
@@ -27,22 +33,19 @@ const AppReviewCard: FC<TAppReviewCard> = ({ className }) => {
         {/*  */}
         <div className="flex flex-col justify-between sm:flex-row sm:items-center md:flex-col md:items-start lg:justify-center">
           <div className="flex items-center gap-2 text-sm">
-            <h3 className="text-primary text-base font-semibold">Jack Doe</h3>
-            <p className="text-gray-500">29 Sep 2023 06:34:PM</p>
+            <h3 className="text-primary text-base font-semibold">{fullName}</h3>
+            <p className="text-gray-500">{dateTime}</p>
           </div>
 
           {/* rating */}
           <Rate
-            value={4.1}
+            value={rating}
             style={{
               fontSize: 16,
             }}
           />
         </div>
-        <p>
-          Honestly, I regret buying this item. The quality is subpar, and it feels like a waste of money. I wouldn't
-          recommend it to anyone.
-        </p>
+        <p>{comment}</p>
       </div>
     </div>
   );

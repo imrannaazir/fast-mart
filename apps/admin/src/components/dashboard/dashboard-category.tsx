@@ -1,7 +1,5 @@
 import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
 import "@/styles/categorySlider.css";
-import "swiper/css";
-import "swiper/css/pagination";
 import { Card, CardContent } from "../ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
 import Icon from "../ui/lucide-icon";
