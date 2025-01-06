@@ -1,6 +1,7 @@
 "use client";
 
 import AppBlogCard from "@/components/ui/AppBlogCard";
+import { blogPosts } from "@/constants/db";
 import { Carousel } from "antd";
 import HomeSectionTop from "./HomeSectionTop";
 
@@ -30,9 +31,9 @@ const HomeFeaturedBlogs = () => {
             },
           ]}
         >
-          {[...Array(5)].map((_, i) => (
-            <div className="px-4">
-              <AppBlogCard key={i} />
+          {blogPosts.map((post) => (
+            <div key={post?.id} className="px-4">
+              <AppBlogCard post={post} />
             </div>
           ))}
         </Carousel>

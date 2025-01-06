@@ -1,5 +1,6 @@
 import AppBlogCard from "@/components/ui/AppBlogCard";
 import Container from "@/components/ui/Container";
+import { blogPosts } from "@/constants/db";
 import { Carousel } from "antd";
 import SectionTitle from "./stats-title";
 
@@ -28,9 +29,9 @@ const LatestBlogs = () => {
             },
           ]}
         >
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className="px-4">
-              <AppBlogCard />
+          {blogPosts.map((blog) => (
+            <div key={blog?.id} className="px-4">
+              <AppBlogCard post={blog} />
             </div>
           ))}
         </Carousel>

@@ -1,5 +1,6 @@
 export * from "./address.interface";
 export * from "./auth.interface";
+export * from "./blog.interfaces";
 export * from "./brand.interface";
 export * from "./cart.interface";
 export * from "./category.interface";
