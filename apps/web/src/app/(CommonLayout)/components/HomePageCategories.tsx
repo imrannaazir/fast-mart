@@ -5,22 +5,47 @@ import HomePageCategoryCard from "./HomePageCategoryCard";
 
 export default function HomePageCategories({ collections }: { collections: TCollectionDropdownItemProps[] }) {
   return (
-    <div className="mt-6">
+    <div className="">
       <Carousel
+        className="md pb-0 pt-6"
         autoplay
-        dots={{ className: "custom-dots" }}
-        slidesToShow={3}
+        dots={false}
+        slidesToShow={5}
         responsive={[
           {
-            breakpoint: 1024,
+            breakpoint: 1280,
+            settings: {
+              slidesToShow: 6,
+            },
+          },
+          {
+            breakpoint: 1080,
+            settings: {
+              slidesToShow: 5,
+            },
+          },
+          {
+            breakpoint: 920,
+            settings: {
+              slidesToShow: 4,
+            },
+          },
+          {
+            breakpoint: 740,
+            settings: {
+              slidesToShow: 3,
+            },
+          },
+          {
+            breakpoint: 565,
             settings: {
               slidesToShow: 2,
             },
           },
           {
-            breakpoint: 640,
+            breakpoint: 390,
             settings: {
-              slidesToShow: 1,
+              slidesToShow: 1.7,
             },
           },
         ]}
