@@ -126,7 +126,7 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
               imageUrl.length > 1 && i === 0 && "col-span-2 row-span-2 h-[400px]"
             )}
           >
-            <img src={img.url} />
+            <img className="h-full w-full rounded-md object-cover" src={img.url} />
 
             <Button
               type="reset"

@@ -33,7 +33,7 @@ export const columns: ColumnDef<TUser>[] = [
       const imageUrl = photo?.url || "https://i.pinimg.com/564x/0c/bb/aa/0cbbaab0deff7f188a7762d9569bf1b3.jpg";
       return (
         <div className="flex items-center justify-start gap-2">
-          <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
+          <img className="h-10 w-10 rounded-md border-2 border-gray-100 object-cover" src={imageUrl} alt="" />
           <div>
             <Link
               to={`#`}

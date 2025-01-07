@@ -72,11 +72,21 @@ const getAllCategory = async (
     : {};
 
   // filtering condition
-  const filterCondition = query.collection
+  const collections = (
+    typeof query?.collections === 'string'
+      ? [query?.collections]
+      : (query?.collections as string[])?.length
+        ? query?.collections
+        : []
+  ) as string[];
+  const filterCondition = query.collections
     ? {
-        collection: new mongoose.Types.ObjectId(query.collection as string), // for filtering with _id should be object id
+        $or: collections?.map((collection) => ({
+          collections: new mongoose.Types.ObjectId(collection as string),
+        })),
       }
     : {};
+  console.log(filterCondition, 80);
 
   // sorting condition
   const sortingCondition: Record<string, 1 | mongoose.Expression.Meta | -1> =
@@ -118,9 +128,9 @@ const getAllCategory = async (
     {
       $lookup: {
         from: 'collections',
-        localField: 'collection',
+        localField: 'collections',
         foreignField: '_id',
-        as: 'collection',
+        as: 'collections',
       },
     },
 
@@ -132,9 +142,6 @@ const getAllCategory = async (
         },
         image: {
           $arrayElemAt: ['$image', 0], // image become array take only it's first element
-        },
-        collection: {
-          $arrayElemAt: ['$collection', 0],
         },
       },
     },

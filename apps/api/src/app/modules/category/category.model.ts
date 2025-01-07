@@ -29,7 +29,7 @@ const categorySchema = new Schema<TCategory>(
       ref: 'user',
     },
   },
-  { timestamps: true, suppressReservedKeysWarning: true },
+  { timestamps: true },
 );
 
 // models

@@ -1,14 +1,14 @@
-import { FC, useState } from "react";
 import { Check, CheckIcon, ChevronsUpDown, Loader2, PlusCircle } from "lucide-react";
+import { FC, useState } from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { TLabelValuePair } from "@/types";
+import { ClassValue } from "clsx";
 import { Badge } from "./badge";
 import { Label } from "./label";
-import { ClassValue } from "clsx";
 type TOptionSelector = {
   options: TLabelValuePair[];
   setValue: (value: string | string[]) => void;
@@ -67,7 +67,6 @@ const OptionSelector: FC<TOptionSelector> = ({
           <Command>
             <CommandInput placeholder="Search options" />
             <CommandList>
-              <CommandEmpty> No result</CommandEmpty>
               <CommandGroup>
                 {/*add new option button  */}
                 <CommandItem>
@@ -81,7 +80,9 @@ const OptionSelector: FC<TOptionSelector> = ({
                   Loading <Loader2 className="h-4 w-4 animate-spin" />
                 </CommandItem>
 
+                {!options?.length && <p className="px-2 py-2 text-center">{`No ${label?.toLowerCase()}.`}</p>}
                 {/* mapping options */}
+
                 <div className={cn(isLoading ? "hidden" : "block")}>
                   {options?.map((option) => {
                     let isSelected = false;
@@ -93,6 +94,7 @@ const OptionSelector: FC<TOptionSelector> = ({
                     }
                     return (
                       <CommandItem
+                        className="cursor-pointer"
                         key={option.value}
                         onSelect={() => {
                           if (isSelected) {

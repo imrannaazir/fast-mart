@@ -14,12 +14,9 @@ import PageSection from "@/components/ui/page-section";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TextEditor from "@/components/ui/text-editor";
 import { ProductStatus, ProductUnit } from "@/constant/product.constant";
-import { setIsDirty } from "@/redux/features/header/header-slice";
 import { useCreateProductMutation } from "@/redux/features/product/productApi";
-import { useAppDispatch } from "@/redux/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createProductSchema } from "@repo/utils/zod-schemas";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -27,7 +24,6 @@ import { z } from "zod";
 
 const AddProductPage = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [createProduct] = useCreateProductMutation();
 
   const form = useForm<z.infer<typeof createProductSchema>>({
@@ -61,15 +57,15 @@ const AddProductPage = () => {
       toast.error("Failed to create.", { id: toastId });
     }
   };
-  const isDirty = form.formState.isDirty;
+  // const isDirty = form.formState.isDirty;
 
-  useEffect(() => {
-    if (isDirty) {
-      dispatch(setIsDirty(true));
-    } else {
-      dispatch(setIsDirty(false));
-    }
-  }, [dispatch, isDirty]);
+  // useEffect(() => {
+  //   if (isDirty) {
+  //     dispatch(setIsDirty(true));
+  //   } else {
+  //     dispatch(setIsDirty(false));
+  //   }
+  // }, [dispatch, isDirty]);
 
   return (
     <Form {...form}>

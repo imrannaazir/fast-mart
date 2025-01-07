@@ -71,7 +71,7 @@ export const CartListContextProvider = ({
     });
 
     const cartListProductIds = cartList.map((item) => item.productId);
-    if (!cartListProductIds.includes(payload.productId)) {
+    if (!cartListProductIds?.includes(payload?.productId)) {
       optimisticallyUpdatedCartList.unshift({
         ...payload,
         _id: Math.floor(Math.random() * 1000).toString(),

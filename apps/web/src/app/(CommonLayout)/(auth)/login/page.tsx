@@ -59,10 +59,10 @@ const LoginPage = () => {
           <div className="flex w-full items-center justify-center sm:max-w-[440px]">
             <div className="w-full min-w-full rounded-lg bg-gray-100 p-[41px]">
               <Form size="large" name="login" initialValues={{ remember: true }} onFinish={onFinish}>
-                <Form.Item initialValue="john@gmail.com" name="email" rules={formRules.email}>
+                <Form.Item initialValue={process.env.DEMO_EMAIL} name="email" rules={formRules.email}>
                   <Input prefix={<UserOutlined />} placeholder="email" />
                 </Form.Item>
-                <Form.Item initialValue="P@ssw0rd" name="password" rules={formRules.password}>
+                <Form.Item initialValue={process.env.DEMO_PASSWORD} name="password" rules={formRules.password}>
                   <Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" />
                 </Form.Item>
                 <Form.Item>

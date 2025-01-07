@@ -24,8 +24,8 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "imrannaaziremon@gmail.com",
-      password: "P@ssw0rd",
+      email: import.meta.env.VITE_APP_DEMO_EMAIL,
+      password: import.meta.env.VITE_APP_DEMO_PASSWORD,
     },
   });
 

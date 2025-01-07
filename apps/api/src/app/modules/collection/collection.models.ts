@@ -6,7 +6,7 @@ const collectionSchema = new Schema<TCollection>(
   {
     title: {
       type: String,
-      unique: true,
+      // unique: true,
       required: true,
       text: true,
     },

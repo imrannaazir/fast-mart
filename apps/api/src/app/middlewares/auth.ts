@@ -47,7 +47,7 @@ const auth = (...requiredRole: TRole[]) => {
       throw new AppError(StatusCodes.UNAUTHORIZED, 'Your is not verified!');
     }
 
-    if (requiredRole.length > 0 && !requiredRole.includes(decoded.role)) {
+    if (requiredRole.length > 0 && !requiredRole?.includes(decoded?.role)) {
       throw new AppError(StatusCodes.FORBIDDEN, 'Access denied.');
     }
 

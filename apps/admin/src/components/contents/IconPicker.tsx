@@ -26,8 +26,8 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
   const skip = (page - 1) * 100;
   const iconList = Object?.entries(icons)
     ?.map(([name]) => name)
-    .filter((name) => name.toLowerCase().includes(searchTerm.trim().toLowerCase()))
-    .slice(skip, skip + 100);
+    ?.filter((name) => name?.toLowerCase()?.includes(searchTerm?.trim()?.toLowerCase()))
+    ?.slice(skip, skip + 100);
   const [iconName, setIconName] = useState("");
 
   return (

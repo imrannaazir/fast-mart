@@ -1,11 +1,11 @@
+import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
-import HomeSectionTop from "./HomeSectionTop";
+import apiCall from "@/libs/api";
+import { TAppProductCardProps } from "@/types";
+import { TProduct } from "@repo/utils/types";
 import HomePageCategories from "./HomePageCategories";
 import HomePageOfferCards from "./HomePageOfferCards";
-import { TCollectionDropdownItemProps } from "@/components/navbar/DropdownCategories";
-import { TAppProductCardProps } from "@/types";
-import apiCall from "@/libs/api";
-import { TProduct } from "@repo/utils/types";
+import HomeSectionTop from "./HomeSectionTop";
 
 const getProducts = async () => {
   const response = await apiCall<TProduct[]>("/products", {
@@ -43,6 +43,7 @@ const HomeProductsByCategory = async ({ collections }: { collections: TCollectio
       {/* top header  */}
       <HomeSectionTop className="mt-6" heading="Bowse By Categories" description="Top Categories Of The Week" />
       <HomePageCategories collections={collections} />
+
       <HomePageOfferCards />
     </div>
   );

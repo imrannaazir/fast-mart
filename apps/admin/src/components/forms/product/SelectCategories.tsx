@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import OptionSelector from "@/components/ui/option-selector";
+import AddCategoryPage from "@/pages/AddCategory";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
-import { FC } from "react";
-import { UseFormReturn } from "react-hook-form";
-import AddCategoryPage from "@/pages/AddCategory";
 import { TLabelValuePair } from "@/types";
+import queryString from "query-string";
+import { FC, useMemo } from "react";
+import { UseFormReturn } from "react-hook-form";
 
 type TSelectCategoriesProps = {
   form: UseFormReturn<any>;
@@ -14,7 +15,17 @@ type TSelectCategoriesProps = {
 
 const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {
   const dispatch = useAppDispatch();
-  const { data: categoriesData, isFetching } = useGetAllCategoriesQuery(undefined);
+  const collections = form.getValues("collections") as string[];
+
+  const query = useMemo(() => {
+    return queryString.stringify({
+      collections,
+    });
+  }, [collections]);
+
+  const { data: categoriesData, isFetching } = useGetAllCategoriesQuery(query, {
+    skip: !collections?.length,
+  });
 
   // handle on category add
   const handleOnCategoryAdd = () => {
@@ -46,7 +57,7 @@ const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {
       options={categories as TLabelValuePair[]}
       setValue={handleSetCategories}
       value={form.watch("categories") || []}
-      isDisable={false}
+      isDisable={!collections?.length}
       isLoading={isFetching}
       type="multi"
       width="w-full"

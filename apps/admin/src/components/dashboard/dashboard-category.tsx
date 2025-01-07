@@ -25,19 +25,22 @@ const DashboardCategory = () => {
               ? Array(10)
                   .fill(0)
                   .map((_item, index) => (
-                    <CarouselItem key={index} className="basis-1/2 md:basis-1/2 lg:basis-1/6">
+                    <CarouselItem key={index} className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6">
                       <CategoryCardSkeleton />
                     </CarouselItem>
                   ))
               : collections?.map((collection) => (
-                  <CarouselItem key={collection?._id} className="basis-[100%] md:basis-1/2 lg:basis-1/6">
+                  <CarouselItem
+                    key={collection?._id}
+                    className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/5 xl:basis-1/6"
+                  >
                     <CategoryCard iconName={collection?.icon || "Ban"} collectionName={collection?.title} />
                   </CarouselItem>
                 ))}
           </CarouselContent>
           <div className="hidden group-hover:block">
-            <CarouselPrevious className="left-0 opacity-0" />
-            <CarouselNext className="right-0 opacity-0" />
+            <CarouselPrevious className="left-0" />
+            <CarouselNext className="right-0" />
           </div>
         </Carousel>
       </CardContent>

@@ -38,7 +38,7 @@ export function NavMain() {
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       {item?.children?.map((subItem) => {
-                        const isActive = pathname.includes(`${item?.href}/${subItem?.href}`);
+                        const isActive = pathname?.includes(`${item?.href}/${subItem?.href}`);
                         const Icon = isActive ? CircleDot : Circle;
                         return (
                           <SidebarMenuSubItem key={subItem.label}>
@@ -62,7 +62,7 @@ export function NavMain() {
           ) : (
             <Link key={item?.label} to={item?.href as string}>
               <SidebarMenuItem>
-                <SidebarMenuButton isActive={pathname.includes(item?.href as string)} tooltip={item?.label}>
+                <SidebarMenuButton isActive={pathname?.includes(item?.href as string)} tooltip={item?.label}>
                   {item?.icon && item?.icon}
                   <span>{item?.label}</span>
                 </SidebarMenuButton>

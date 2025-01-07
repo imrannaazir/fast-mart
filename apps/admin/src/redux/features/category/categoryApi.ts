@@ -1,13 +1,13 @@
 import { TResponseRedux } from "@/types";
-import baseApi from "../api/baseApi";
 import { TCategory } from "@repo/utils/types";
+import baseApi from "../api/baseApi";
 
 const categoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     //get all category
     getAllCategories: builder.query({
       query: (params) => ({
-        url: "/categories",
+        url: `/categories`,
         method: "GET",
         params: params,
       }),

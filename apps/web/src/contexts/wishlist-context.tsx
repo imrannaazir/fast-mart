@@ -39,7 +39,7 @@ export const WishlistProvider = ({
 
   const [isToggling, startTransition] = useTransition();
 
-  const isInWishlist = useCallback((productId: string) => wishlist.includes(productId), [wishlist]);
+  const isInWishlist = useCallback((productId: string) => wishlist?.includes(productId), [wishlist]);
 
   // toggle product in wish list
   const toggleWishlist = useCallback(
@@ -47,7 +47,9 @@ export const WishlistProvider = ({
       if (isToggling) return;
 
       // Optimistic update
-      setWishlist((prev) => (prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]));
+      setWishlist((prev) =>
+        prev?.includes(productId) ? prev?.filter((id) => id !== productId) : [...prev, productId]
+      );
       startTransition(async () => {
         try {
           const result = await toggleProductInWishlist({ productId });
@@ -63,7 +65,7 @@ export const WishlistProvider = ({
           // Revert optimistic update on error
           message.error(getErrorMessage(error));
           setWishlist((prev) =>
-            prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
+            prev?.includes(productId) ? prev?.filter((id) => id !== productId) : [...prev, productId]
           );
         }
       });

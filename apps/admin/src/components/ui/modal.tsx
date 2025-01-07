@@ -12,6 +12,8 @@ const Modal = () => {
     }
   };
 
+  console.log(isOpen);
+
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent className={cn("custom-scrollbar max-h-[90%] overflow-y-scroll", className)}>

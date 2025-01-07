@@ -16,10 +16,10 @@ export async function middleware(request: NextRequest) {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
 
   // check is privet route
-  const isPrivetRoute = privateRoutes.includes(nextUrl.pathname);
+  const isPrivetRoute = privateRoutes?.includes(nextUrl?.pathname);
 
   // check is auth route
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes?.includes(nextUrl?.pathname);
 
   if (nextUrl.pathname === ROOT_ROUTE) {
     return null;

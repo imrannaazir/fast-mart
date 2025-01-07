@@ -1,13 +1,13 @@
 import OptionSelector from "@/components/ui/option-selector";
 import { onOpen } from "@/redux/features/modal/modalSlice";
+import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
 import { useAppDispatch } from "@/redux/hooks";
+import { TLabelValuePair } from "@/types";
+import { createProductSchema } from "@repo/utils/zod-schemas";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
-import { useGetAllTagQuery } from "@/redux/features/tag/tagApi";
-import CreateTag from "./CreateTag";
 import { z } from "zod";
-import { createProductSchema } from "@repo/utils/zod-schemas";
-import { TLabelValuePair } from "@/types";
+import CreateTag from "./CreateTag";
 
 type TSelectTagsProps = {
   form: UseFormReturn<z.infer<typeof createProductSchema>>;
@@ -19,6 +19,8 @@ const SelectTags: FC<TSelectTagsProps> = ({ form }) => {
 
   // handle on tag add
   const handleOnTagAdd = () => {
+    console.log("here clicking");
+
     dispatch(
       onOpen({
         title: "Create Tag",

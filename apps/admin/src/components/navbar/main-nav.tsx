@@ -31,7 +31,7 @@ export default function MainNav({ className, ...props }: React.HTMLAttributes<HT
                     <NavLink
                       className={cn(
                         "flex items-center rounded-md py-2 pl-6 font-semibold",
-                        pathname.includes(`${item.href}/${child?.href}`) ? "bg-background" : ""
+                        pathname?.includes(`${item?.href}/${child?.href}`) ? "bg-background" : ""
                       )}
                       to={`/${item.href}/${child?.href}`}
                       key={i}
@@ -52,7 +52,7 @@ export default function MainNav({ className, ...props }: React.HTMLAttributes<HT
           <NavLink
             className={cn(
               "flex w-[235px] items-center gap-2 rounded-md px-2 py-2 font-semibold",
-              pathname.includes(item.href) ? "bg-background" : ""
+              pathname?.includes(item?.href) ? "bg-background" : ""
             )}
             to={item?.href}
             key={item?.href}

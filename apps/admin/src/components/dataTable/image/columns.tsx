@@ -1,9 +1,9 @@
-import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Link } from "lucide-react";
-import { toast } from "sonner";
-import moment from "moment";
 import { TImage } from "@repo/utils/types";
+import { ColumnDef } from "@tanstack/react-table";
+import { Link } from "lucide-react";
+import moment from "moment";
+import { toast } from "sonner";
 
 export const columns: ColumnDef<TImage>[] = [
   // select column
@@ -36,7 +36,7 @@ export const columns: ColumnDef<TImage>[] = [
       const imageUrl = row.original.url;
       return (
         <div className="flex justify-start gap-2">
-          <img className="h-10 w-10 rounded-md border-2 border-gray-100" src={imageUrl} alt="" />
+          <img className="h-10 w-10 rounded-md border-2 border-gray-100 object-cover" src={imageUrl} alt="" />
           <div>
             <p className="font-semibold text-gray-700">{fileName}</p>
             <h3 className="font-semibold uppercase text-gray-500">{format}</h3>
