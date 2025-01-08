@@ -19,7 +19,6 @@ const DataTableHeader: FC<TDataTableHeaderProps<any>> = ({ table, fn }) => {
   const idsToDelete = selectedRows.map((item) => item.original._id);
 
   // handle on open
-
   const onOpen = () => {
     dispatch(setIsOpen(true));
   };
