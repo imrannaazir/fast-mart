@@ -31,7 +31,7 @@ const ProductBrandDetails: React.FC<TProductBrandDetailsProps> = ({
           </div>
         </div>
       </div>
-      <div className="text-gray-700" dangerouslySetInnerHTML={markupDescription} />{" "}
+      <div className="max-h-[100px] overflow-y-hidden text-gray-700" dangerouslySetInnerHTML={markupDescription} />{" "}
     </div>
   );
 };

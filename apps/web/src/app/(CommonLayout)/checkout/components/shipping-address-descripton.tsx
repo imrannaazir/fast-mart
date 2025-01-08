@@ -29,6 +29,7 @@ const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses
   const [alertTitle, setAlertTitle] = useState("");
   const [addressId, setAddressId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [alertDescription, setAlertDescription] = useState("");
   const [actionType, setActionType] = useState<"delete" | "markAsDefault" | undefined>(undefined);
 
@@ -117,7 +118,7 @@ const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses
       <Card
         className="mt-0 bg-gray-100"
         extra={
-          <Button type="primary" icon={<BiPlus />} onClick={showModal}>
+          <Button type="primary" icon={<BiPlus />} onClick={showModal} disabled={isAdding}>
             Add new
           </Button>
         }
@@ -166,7 +167,12 @@ const ShippingAddressDescription: FC<TShippingAddressDescription> = ({ addresses
         )}
       </Card>
 
-      <AddAddressForm isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <AddAddressForm
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        isLoading={isAdding}
+        setIsLoading={setIsAdding}
+      />
       <Modal
         okType={actionType === "delete" ? "danger" : "primary"}
         centered

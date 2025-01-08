@@ -61,11 +61,13 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
           </div>
           {/* brand */}
           <div className="sticky top-4 hidden h-fit space-y-4 md:block">
-            <ProductBrandDetails
-              name={product?.brand?.name!}
-              description={product?.brand?.description!}
-              img={product?.brand?.logo?.url!}
-            />
+            {product?.brand?._id && (
+              <ProductBrandDetails
+                name={product?.brand?.name!}
+                description={product?.brand?.description!}
+                img={product?.brand?.logo?.url!}
+              />
+            )}
             <HomePageTrendingProducts />
           </div>
         </div>
@@ -77,29 +79,3 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
 };
 
 export default ProductDetailsPage;
-/* 
-
- <Fragment>
-      <AppBreadcrumb className="hidden sm:block" items={breadcrumbItems} title={product?.title as string} />
-      <Container className="">
-        <div className="grid lg:grid-cols-3 lg:gap-4">
-          <div className="grid lg:col-span-2 lg:grid-cols-2 lg:gap-4">
-            <ProductImageGallery media={product?.media!} />
-            <div>
-              <ProductBasicDescription product={product!} />
-              <ProductDetailsTab product={product!} />
-            </div>
-          </div>
-          <div className="hidden space-y-4 lg:block">
-            <ProductBrandDetails
-              name={product?.brand?.name!}
-              description={product?.brand?.description!}
-              img={product?.brand?.logo?.url!}
-            />
-            <HomePageTrendingProducts />
-          </div>
-        </div>
-        <RelatedProducts />
-      </Container>
-    </Fragment>
-*/

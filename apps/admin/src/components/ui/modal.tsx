@@ -16,7 +16,7 @@ const Modal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent className={cn("custom-scrollbar max-h-[90%] overflow-y-scroll", className)}>
+      <DialogContent className={cn("custom-scrollbar z-[999] max-h-[90%] overflow-y-scroll", className)}>
         <DialogHeader>
           <DialogTitle className="capitalize">{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

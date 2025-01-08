@@ -8,7 +8,7 @@ const router = Router();
 
 router.post(
   '/create-payment-intent',
-  auth(),
+  auth('USER'),
   validateRequest(createPaymentIntentValidationSchema),
   PaymentTransactionControllers.createPaymentIntent,
 );

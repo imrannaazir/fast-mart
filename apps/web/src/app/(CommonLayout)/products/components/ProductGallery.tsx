@@ -31,7 +31,7 @@ const ProductImageGallery: FC<TProductGalleryProps> = ({ media, className }) => 
   };
 
   return (
-    <div className={cn("max-w-4xl rounded-md border p-2", className)}>
+    <div className={cn("h-fit max-w-4xl rounded-md border p-2", className)}>
       <div className="relative">
         <Carousel
           beforeChange={(_currentSlide, nextSlide) => {

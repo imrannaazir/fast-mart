@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import TextEditor from "@/components/ui/text-editor";
+import { cn } from "@/lib/utils";
 import { useCreateBrandMutation } from "@/redux/features/brand/brandApi";
 import { onClose } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
@@ -55,6 +56,9 @@ const AddBrandPage: FC<TAddBrandPageProps> = ({ isInModal, productForm }) => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Page title="Create brand" size={"sm"} action={<Action />} isInModal={isInModal}>
+          <div className={cn(isInModal ? "my-4 flex justify-end" : "hidden")}>
+            <Action />
+          </div>
           <div className="flex flex-col gap-4 lg:flex-row">
             <div className="lg:w-[66%]">
               <PageSection>

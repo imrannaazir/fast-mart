@@ -17,7 +17,7 @@ export const DEFAULT_LOGIN_REDIRECT = "/";
  * These routes require authentication
  * @types {string[]}
  */
-export const privateRoutes = ["/cart", "/wishlist", "/checkout", "/order-success"];
+export const privateRoutes = ["/cart", "/wishlist", "/checkout", "/order-success", "/user/*"];
 
 /**
  * The prefix for api authentication routes

@@ -106,7 +106,9 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
     const uploadArea = (
       <label htmlFor={fieldName} className="cursor-pointer">
         <div
-          className={cn("border-foreground flex h-[200px] items-center justify-center rounded-md border border-dashed")}
+          className={cn(
+            "border-foreground flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
+          )}
         >
           {isImageUploading ? (
             <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin duration-500" />
@@ -122,11 +124,11 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
           <div
             key={img._id}
             className={cn(
-              "relative flex h-[200px] items-center justify-center rounded-md border p-4",
-              imageUrl.length > 1 && i === 0 && "col-span-2 row-span-2 h-[400px]"
+              "relative flex aspect-square items-center justify-center rounded-md border p-4",
+              imageUrl.length > 1 && i === 0 && "col-span-2 row-span-2"
             )}
           >
-            <img className="h-full w-full rounded-md object-cover" src={img.url} />
+            <img className="aspect-square w-full rounded-md object-cover" src={img.url} />
 
             <Button
               type="reset"

@@ -10,6 +10,8 @@ import { PiSuitcaseSimple } from "react-icons/pi";
 type TAddAddressForm = {
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const addressTypeButtons = [
@@ -24,7 +26,7 @@ const addressTypeButtons = [
     icon: PiSuitcaseSimple,
   },
 ];
-const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen }) => {
+const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen, isLoading, setIsLoading }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -65,6 +67,7 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
   };
 
   const onFinish = async (values: TAddressInput) => {
+    setIsLoading(true);
     try {
       const response = await addAddress(values);
 
@@ -72,10 +75,13 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
         message.success(response.message);
         setIsModalOpen(false);
         form.resetFields();
+        setIsLoading(false);
       } else {
+        setIsLoading(false);
         throw new Error(response.message);
       }
     } catch (error: any) {
+      setIsLoading(false);
       message.error(getErrorMessage(error?.message!));
     }
   };
@@ -87,7 +93,7 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
   return (
     <>
       <Modal title="Add new shipping Address" open={isModalOpen} footer={null} onCancel={handleCancel} centered>
-        <Form form={form} name="address" onFinish={onFinish} layout="vertical">
+        <Form form={form} name="address" onFinish={onFinish} layout="vertical" disabled={isLoading}>
           <Flex gap={16}>
             <Form.Item
               className="w-full"
@@ -195,7 +201,7 @@ const AddAddressForm: React.FC<TAddAddressForm> = ({ isModalOpen, setIsModalOpen
               marginBottom: 8,
             }}
           >
-            <Button type="primary" htmlType="submit" className="w-full">
+            <Button type="primary" htmlType="submit" className="w-full" loading={isLoading}>
               Add Address
             </Button>
           </Form.Item>

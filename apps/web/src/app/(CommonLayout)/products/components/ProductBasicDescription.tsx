@@ -33,7 +33,7 @@ const ProductBasicDescription = ({ product }: { product: TProduct }) => {
         </div>
       </div>
       {/* description */}
-      <div className="mt-4 text-gray-700" dangerouslySetInnerHTML={markupDescription} />
+      <div className="mt-4 max-h-[100px] overflow-y-hidden text-gray-700" dangerouslySetInnerHTML={markupDescription} />
 
       <Divider />
       {/* variants */}
