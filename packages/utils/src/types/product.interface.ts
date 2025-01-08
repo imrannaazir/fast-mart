@@ -1,4 +1,6 @@
+import z from "zod";
 import { ProductStatus, ProductUnit } from "../constants/product.constant";
+import { createProductSchema } from "../zod-schemas/product.validation";
 import { TBrand } from "./brand.interface";
 import { TCategory } from "./category.interface";
 import { TCollection } from "./collection.interfaces";
@@ -39,3 +41,5 @@ export type TProduct = {
 };
 
 export type TTopProduct = Pick<TProduct, "_id" | "title" | "price" | "media"> & { sales: number };
+
+export type TProductFieldValues = z.infer<typeof createProductSchema>;
