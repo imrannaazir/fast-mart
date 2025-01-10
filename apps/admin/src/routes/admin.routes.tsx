@@ -9,7 +9,9 @@ import AddCollectionPage from "@/pages/AddCollection";
 import AddImagePage from "@/pages/AddImage";
 import BrandDetailsPage from "@/pages/brand-details-page";
 import BrandListPage from "@/pages/BrandList";
+import CategoryDetailsPage from "@/pages/category-details-page";
 import CategoryListPage from "@/pages/CategoryList";
+import CollectionDetailsPage from "@/pages/collection-details-page";
 import CollectionListPage from "@/pages/CollectionList";
 import CustomerListPage from "@/pages/CustomerList";
 import ImageListPage from "@/pages/ImageList";
@@ -111,6 +113,10 @@ const paths: TPath[] = [
             path: "add-collection",
             element: <AddCollectionPage />,
           },
+          {
+            path: ":id",
+            element: <CollectionDetailsPage />,
+          },
         ],
       },
 
@@ -125,6 +131,10 @@ const paths: TPath[] = [
           {
             path: "add-category",
             element: <AddCategoryPage />,
+          },
+          {
+            path: ":id",
+            element: <CategoryDetailsPage />,
           },
         ],
       },

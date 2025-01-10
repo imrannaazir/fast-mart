@@ -1,11 +1,11 @@
-import { Router } from 'express';
-import CategoryController from './category.controller';
-import validateRequest from '../../middlewares/validateRequest';
 import {
   createCategoryValidationSchema,
   deleteManyValidationSchema,
 } from '@repo/utils/zod-schemas';
+import { Router } from 'express';
 import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validateRequest';
+import CategoryController from './category.controller';
 
 const router = Router();
 
@@ -19,6 +19,7 @@ router.post(
 
 // get all categories
 router.get('/', CategoryController.getAllCategory);
+router.get('/:id', CategoryController.getSingleCategory);
 
 // delete single category : DELETE
 router.delete('/:id', auth(), CategoryController.deleteSingleCategory);

@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import auth from '../../middlewares/auth';
-import validateRequest from '../../middlewares/validateRequest';
 import {
   createCollectionValidationSchema,
   deleteManyValidationSchema,
 } from '@repo/utils/zod-schemas';
+import { Router } from 'express';
+import auth from '../../middlewares/auth';
+import validateRequest from '../../middlewares/validateRequest';
 import CollectionControllers from './collection.controllers';
 
 const router = Router();
@@ -19,6 +19,7 @@ router.post(
 
 // get all collection
 router.get('/', CollectionControllers.getAllCollections);
+router.get('/:id', CollectionControllers.getSingleCollection);
 
 // delete many collection
 router.delete(

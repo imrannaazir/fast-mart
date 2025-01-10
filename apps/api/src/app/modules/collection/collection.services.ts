@@ -123,6 +123,11 @@ const getAllCollections = async (
   return { result, meta };
 };
 
+const getSingleCollection = async (id: string) => {
+  const collection = await Collection.findById(id).populate('image');
+  return collection;
+};
+
 // delete single collection
 const deleteSingleCollection = async (
   id: string,
@@ -172,5 +177,6 @@ const CollectionServices = {
   getAllCollections,
   deleteSingleCollection,
   deleteManyCollection,
+  getSingleCollection,
 };
 export default CollectionServices;

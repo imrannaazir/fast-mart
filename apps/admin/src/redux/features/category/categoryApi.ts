@@ -18,6 +18,18 @@ const categoryApi = baseApi.injectEndpoints({
       providesTags: ["Categories"],
     }),
 
+    getSingleCategory: builder.query({
+      query: (id: string) => ({
+        url: `/categories/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TCategory>) => ({
+        data: response.data,
+        meta: response.meta,
+      }),
+      providesTags: ["Categories"],
+    }),
+
     // create new category
     createCategory: builder.mutation({
       query: (data) => ({
@@ -52,6 +64,7 @@ const categoryApi = baseApi.injectEndpoints({
 export const {
   useCreateCategoryMutation,
   useGetAllCategoriesQuery,
+  useGetSingleCategoryQuery,
   useDeleteManyCategoriesMutation,
   useDeleteSingleCategoryMutation,
 } = categoryApi;

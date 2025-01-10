@@ -9,15 +9,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaEllipsis } from "react-icons/fa6";
-import { Row } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/redux/hooks";
-import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
-import { toast } from "sonner";
 import { useDeleteSingleCategoryMutation } from "@/redux/features/category/categoryApi";
+import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { TCategory } from "@repo/utils/types";
+import { Row } from "@tanstack/react-table";
+import { FaEllipsis } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
   const [deleteSingleCategory] = useDeleteSingleCategoryMutation();
@@ -44,7 +44,7 @@ const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
   };
   // on update
   const onUpdate = () => {
-    navigate(`/contents/add-collection/${categoryId}`);
+    navigate(`/contents/categories/${categoryId}`);
   };
 
   // on delete
@@ -75,7 +75,7 @@ const CategoryDataTableAction = ({ row }: { row: Row<TCategory> }) => {
       <DropdownMenuContent className="absolute -right-5 w-[200px]">
         <DropdownMenuGroup>
           {collectionActions.map((action, i) => (
-            <DropdownMenuItem key={i} onClick={action.fn} className={cn(action.className)}>
+            <DropdownMenuItem key={i} onClick={action.fn} className={cn("cursor-pointer", action.className)}>
               {action.icon}
               <span>{action.title}</span>
             </DropdownMenuItem>

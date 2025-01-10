@@ -1,3 +1,5 @@
+import z from "zod";
+import { createCollectionSchema } from "../zod-schemas/collection.validations";
 import { TCategory } from "./category.interface";
 import { TImage } from "./image.interface";
 
@@ -13,3 +15,5 @@ export type TCollection = {
   createdAt?: Date;
   updatedAt?: Date;
 };
+
+export type TCollectionFieldValues = z.infer<typeof createCollectionSchema>;

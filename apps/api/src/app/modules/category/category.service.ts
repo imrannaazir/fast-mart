@@ -1,6 +1,6 @@
 import { TCategory, TDeleteManyReturnType } from '@repo/utils/types';
 import { StatusCodes } from 'http-status-codes';
-import mongoose, { PipelineStage, Types } from 'mongoose';
+import mongoose, { PipelineStage } from 'mongoose';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
@@ -11,7 +11,7 @@ import Category from './category.model';
 // create category
 const createCategory = async (
   payload: TCategory,
-  userId: Types.ObjectId,
+  userId: string,
 ): Promise<TCategory> => {
   // check is collection id valid
   const isCollectionsExist = await Collection.find({
@@ -181,6 +181,11 @@ const getAllCategory = async (
   return { meta, result };
 };
 
+const getSingleCategory = async (id: string) => {
+  const category = await Category.findById(id).populate('image');
+  return category;
+};
+
 // delete single category
 const deleteSingleCategory = async (id: string): Promise<TCategory | null> => {
   // check is category exist
@@ -219,6 +224,7 @@ const deleteManyCategories = async (
 const CategoryService = {
   createCategory,
   getAllCategory,
+  getSingleCategory,
   deleteSingleCategory,
   deleteManyCategories,
 };

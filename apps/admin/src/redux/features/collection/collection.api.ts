@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types";
-import baseApi from "../api/baseApi";
 import { TCollection } from "@repo/utils/types";
+import baseApi from "../api/baseApi";
 
 const collectionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -23,6 +23,17 @@ const collectionApi = baseApi.injectEndpoints({
       transformResponse: (response: TResponseRedux<TCollection[]>) => ({
         data: response.data,
         meta: response.meta,
+      }),
+    }),
+
+    getSingleCollection: builder.query({
+      query: (id: string) => ({
+        url: `/collections/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Collections"],
+      transformResponse: (response: TResponseRedux<TCollection>) => ({
+        data: response.data,
       }),
     }),
 
@@ -52,4 +63,5 @@ export const {
   useGetAllCollectionsQuery,
   useDeleteManyCollectionsMutation,
   useDeleteSingleCollectionMutation,
+  useGetSingleCollectionQuery,
 } = collectionApi;

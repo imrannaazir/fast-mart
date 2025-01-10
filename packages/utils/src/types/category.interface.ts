@@ -1,6 +1,7 @@
-import { Types } from "mongoose";
-import { TImage } from "./image.interface";
+import z from "zod";
+import { createCategorySchema } from "../zod-schemas/category.validation";
 import { TCollection } from "./collection.interfaces";
+import { TImage } from "./image.interface";
 
 export type TCategory = {
   _id: string;
@@ -8,8 +9,10 @@ export type TCategory = {
   collections: string[] | TCollection[];
   description?: string;
   image?: TImage;
-  createdBy: Types.ObjectId;
+  createdBy: string;
   noOfProducts?: number;
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type TCategoryFieldsValues = z.infer<typeof createCategorySchema>;
