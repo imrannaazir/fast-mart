@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { useUploadSingleImageMutation } from "@/redux/features/image/image.api";
 import { ClassValue } from "clsx";
 import { LucideImagePlus, Trash } from "lucide-react";
-import { Dispatch, FC, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { toast } from "sonner";
@@ -17,31 +17,27 @@ type TUploadImageProps = {
   loader?: ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValue?: UseFormSetValue<any>;
-  fieldValue: string | string[];
-  type?: "single" | "multi";
+  fieldValue: string;
+  url: string;
 };
 
-type TImageUrl = { _id: string; url: string };
-
-const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, children, loader, fieldValue, type }) => {
+const UploadSingleImage: FC<TUploadImageProps> = ({
+  fieldName,
+  setValue,
+  className,
+  children,
+  loader,
+  fieldValue,
+  url,
+}) => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const UploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
   // local state
   const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | TImageUrl[]>(type === "multi" ? [] : "");
+  const [imageUrl, setImageUrl] = useState<string>(url);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const [UploadImage] = useUploadSingleImageMutation();
-
-  // handle remove image
-  const handleRemoveImage = (_id: string) => {
-    const filteredImageUrls = (imageUrl as TImageUrl[]).filter((imageUrl) => imageUrl._id !== _id);
-    const filteredFieldValue = (fieldValue as string[]).filter((value) => value !== _id);
-    setImageUrl(filteredImageUrls);
-    if (setValue) {
-      setValue(fieldName, filteredFieldValue);
-    }
-  };
 
   useEffect(() => {
     (async () => {
@@ -69,17 +65,8 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
 
             if (res.success) {
               toast.success("Image uploaded.", { duration: 2000 });
-              if (setValue && fieldName && type === "multi" && typeof fieldValue === "object") {
-                setValue(fieldName, [...fieldValue, res.data._id]);
-                (setImageUrl as Dispatch<SetStateAction<any>>)([
-                  ...imageUrl,
-                  { _id: res.data._id as string, url: res.data.url as string },
-                ]);
-              } else {
-                setImageUrl(res.data.url);
-                if (setValue) {
-                  setValue(fieldName, res.data._id);
-                }
+              if (setValue) {
+                setValue(fieldName, res.data._id);
               }
             }
 
@@ -92,7 +79,7 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
         }
       }
     })();
-  }, [UploadPreset, cloudName, fieldName, fieldValue, image, imageUrl, setValue, type, UploadImage]);
+  }, [UploadPreset, cloudName, fieldName, fieldValue, image, imageUrl, setValue, UploadImage]);
 
   let UploadingButton: ReactNode = null;
 
@@ -102,51 +89,6 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
     } else {
       UploadingButton = children;
     }
-  } else if (!children && !loader && type === "multi" && typeof imageUrl !== "string") {
-    const uploadArea = (
-      <label htmlFor={fieldName} className="cursor-pointer">
-        <div
-          className={cn(
-            "border-foreground flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
-          )}
-        >
-          {isImageUploading ? (
-            <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin duration-500" />
-          ) : (
-            <LucideImagePlus className="h-10 w-10 text-gray-500" />
-          )}
-        </div>
-      </label>
-    );
-    UploadingButton = imageUrl.length ? (
-      <div className={cn("grid items-center gap-2", imageUrl.length > 1 ? "grid-cols-4" : "grid-cols-2")}>
-        {imageUrl.map((img, i) => (
-          <div
-            key={img._id}
-            className={cn(
-              "relative flex aspect-square items-center justify-center rounded-md border p-4",
-              imageUrl.length > 1 && i === 0 && "col-span-2 row-span-2"
-            )}
-          >
-            <img className="aspect-square w-full rounded-md object-cover" src={img.url} />
-
-            <Button
-              type="reset"
-              onClick={() => handleRemoveImage(img._id)}
-              size={"icon"}
-              variant={"destructive"}
-              className="absolute right-2 top-2"
-            >
-              <Trash className="h-4 w-4" />
-            </Button>
-          </div>
-        ))}
-
-        {uploadArea}
-      </div>
-    ) : (
-      uploadArea
-    );
   } else {
     UploadingButton = (
       <label htmlFor={fieldName} className="cursor-pointer">
@@ -192,19 +134,14 @@ const UploadImage: FC<TUploadImageProps> = ({ fieldName, setValue, className, ch
             setValue(fieldName, "");
           }
           setImageUrl("");
-          // setImage(null);
         }}
         variant={"destructive"}
         size={"icon"}
-        className={cn(
-          !imageUrl ? "hidden" : "absolute left-2 top-2",
-          !setValue && "hidden",
-          type === "multi" && "hidden"
-        )}
+        className={cn(!imageUrl ? "hidden" : "absolute left-2 top-2", !setValue && "hidden")}
       >
         <Trash className="h-4 w-4" />
       </Button>
     </div>
   );
 };
-export default UploadImage;
+export default UploadSingleImage;

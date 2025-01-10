@@ -16,19 +16,12 @@ const AddProductPage = () => {
     price: 0,
     title: "",
     brand: "",
-
-    // compare_price: undefined,
-    // description: undefined,
-    // media: undefined,
-    // price: undefined,
-    // quantity: undefined,
-    // status: undefined,
-    // title: '',
-    // unit: undefined,
-    // variants: undefined,
-    // weight: undefined,
+    quantity: 0,
+    compare_price: 0,
+    description: "",
+    weight: 0,
   };
-  return <ProductForm title="Add product" defaultValues={defaultValues} />;
+  return <ProductForm title="Add product" defaultValues={defaultValues} images={[]} />;
 };
 
 export default AddProductPage;

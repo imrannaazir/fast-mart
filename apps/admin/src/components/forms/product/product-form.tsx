@@ -9,7 +9,6 @@ import SelectBrand from "@/components/forms/product/SelectBrand";
 import SelectCategories from "@/components/forms/product/SelectCategories";
 import SelectCollections from "@/components/forms/product/SelectCollections";
 import SelectTags from "@/components/forms/product/SelectTags";
-import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import TextEditor from "@/components/ui/text-editor";
@@ -22,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import ProductFormSkeleton from "@/components/skeletons/product-form-skeleton";
+import UploadMultiImage, { TImageUrl } from "@/components/ui/multi-image-upload";
 import { TProductFieldValues } from "@repo/utils/types";
 import { FC, useEffect } from "react";
 
@@ -29,9 +29,10 @@ type TProductFormProps = {
   title: string;
   isLoading?: boolean;
   defaultValues: TProductFieldValues;
+  images: TImageUrl[];
 };
 
-const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues }) => {
+const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues, images }) => {
   const navigate = useNavigate();
   const [createProduct] = useCreateProductMutation();
 
@@ -41,7 +42,8 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues })
 
   useEffect(() => {
     Object.entries(defaultValues)?.map(([key, value]) => form.setValue(key as keyof TProductFieldValues, value));
-  }, [defaultValues, form, form.formState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
 
   // on submit handler
   const onSubmit = async (data: TProductFieldValues) => {
@@ -106,11 +108,11 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues })
                   render={({ field }) => (
                     <FormItem className="relative">
                       <FormLabel>Media</FormLabel>
-                      <UploadSingleImage
+                      <UploadMultiImage
                         fieldName="media"
                         setValue={form.setValue}
-                        type="multi"
                         fieldValue={field.value || []}
+                        images={images || []}
                       />
                     </FormItem>
                   )}
@@ -188,7 +190,7 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues })
                     render={({ field }) => (
                       <FormItem className="w-[200px]">
                         <FormLabel className="font-[200]">Unit</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select unit" />
@@ -233,7 +235,7 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues })
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Status</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select onValueChange={field.onChange} defaultValue={field.value} value={field?.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select a status" />

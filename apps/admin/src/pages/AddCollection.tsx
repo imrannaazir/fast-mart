@@ -5,8 +5,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 import IconPicker from "@/components/contents/IconPicker";
-import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
+import UploadSingleImage from "@/components/ui/single-image-upload";
 import TextEditor from "@/components/ui/text-editor";
 import { cn } from "@/lib/utils";
 import { useCreateCollectionMutation } from "@/redux/features/collection/collection.api";
@@ -22,10 +22,11 @@ import { z } from "zod";
 
 type AddCollectionPageProps = {
   isInModal?: boolean;
+  imgUrl: string;
   productForm?: UseFormReturn<z.infer<typeof createProductSchema>>;
 };
 
-const AddCollectionPage: FC<AddCollectionPageProps> = ({ isInModal = false, productForm }) => {
+const AddCollectionPage: FC<AddCollectionPageProps> = ({ isInModal = false, productForm, imgUrl }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [createCollection] = useCreateCollectionMutation();
@@ -114,7 +115,7 @@ const AddCollectionPage: FC<AddCollectionPageProps> = ({ isInModal = false, prod
                   render={() => (
                     <FormItem className="relative">
                       <FormLabel>Image</FormLabel>
-                      <UploadSingleImage fieldValue={""} fieldName="image" setValue={form.setValue} />
+                      <UploadSingleImage url={imgUrl} fieldValue={""} fieldName="image" setValue={form.setValue} />
                     </FormItem>
                   )}
                 />

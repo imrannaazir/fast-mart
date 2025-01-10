@@ -1,6 +1,6 @@
 import { TResponseRedux } from "@/types";
-import baseApi from "../api/baseApi";
 import { TBrand } from "@repo/utils/types";
+import baseApi from "../api/baseApi";
 
 const brandApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,6 +13,16 @@ const brandApi = baseApi.injectEndpoints({
       transformResponse: (response: TResponseRedux<TBrand[]>) => ({
         data: response.data,
         meta: response.meta,
+      }),
+      providesTags: ["Brands"],
+    }),
+    getSingleBrand: builder.query({
+      query: (id: string) => ({
+        url: `/brands/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TBrand>) => ({
+        data: response.data,
       }),
       providesTags: ["Brands"],
     }),
@@ -53,4 +63,5 @@ export const {
   useCreateBrandMutation,
   useDeleteManyBrandsMutation,
   useDeleteSingleBrandMutation,
+  useGetSingleBrandQuery,
 } = brandApi;

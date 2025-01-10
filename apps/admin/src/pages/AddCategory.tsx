@@ -6,8 +6,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 import SelectCollections from "@/components/forms/product/SelectCollections";
-import UploadSingleImage from "@/components/ui/image-upload";
 import PageSection from "@/components/ui/page-section";
+import UploadSingleImage from "@/components/ui/single-image-upload";
 import TextEditor from "@/components/ui/text-editor";
 import { useCreateCategoryMutation } from "@/redux/features/category/categoryApi";
 import {} from "@/redux/features/collection/collection.api";
@@ -24,9 +24,10 @@ import { z } from "zod";
 type TAddCategoryPageProps = {
   isInModal?: boolean;
   productForm?: UseFormReturn<z.infer<typeof createProductSchema>>;
+  imgUrl: string;
 };
 
-const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm }) => {
+const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm, imgUrl }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -103,7 +104,7 @@ const AddCategoryPage: FC<TAddCategoryPageProps> = ({ isInModal, productForm }) 
                   render={() => (
                     <FormItem className="relative">
                       <FormLabel>Image</FormLabel>
-                      <UploadSingleImage fieldValue={""} fieldName="image" setValue={form.setValue} />
+                      <UploadSingleImage url={imgUrl} fieldValue={""} fieldName="image" setValue={form.setValue} />
                     </FormItem>
                   )}
                 />

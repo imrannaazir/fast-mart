@@ -1,13 +1,17 @@
 import ProductForm from "@/components/forms/product/product-form";
+import { TImageUrl } from "@/components/ui/multi-image-upload";
 import { useGetProductByIdQuery } from "@/redux/features/product/productApi";
-import { TProduct, TProductFieldValues } from "@repo/utils/types";
+import { TProduct, TProductFieldValues, TProductVariantOption } from "@repo/utils/types";
 import { useParams } from "react-router-dom";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isFetching } = useGetProductByIdQuery(id, { skip: !id });
   const product = data?.data as TProduct;
-
+  const variants = (product?.variants as TProductVariantOption[])?.map((variant) => ({
+    variantId: variant?.options[0]?.variantId,
+    options: variant?.options?.map((option) => option?._id as string),
+  }));
   const defaultValues: TProductFieldValues = {
     price: product?.price,
     title: product?.title,
@@ -21,10 +25,19 @@ const ProductDetails = () => {
     status: product?.status,
     tags: product?.tags?.map((tag) => tag?._id as string) || [],
     unit: product?.unit,
-    // variant: product?.variants?.map((variant)=>variant),
     weight: product?.weight,
+    variants,
   };
-  return <ProductForm title={product?.title} isLoading={isFetching} defaultValues={defaultValues} />;
+
+  const images: TImageUrl[] =
+    product?.media?.map((img) => ({
+      _id: img?._id as string,
+      url: img?.url,
+    })) || [];
+
+  console.log(defaultValues);
+
+  return <ProductForm images={images} title={product?.title} isLoading={isFetching} defaultValues={defaultValues} />;
 };
 
 export default ProductDetails;

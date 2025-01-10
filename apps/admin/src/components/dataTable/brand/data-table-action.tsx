@@ -9,15 +9,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FaEllipsis } from "react-icons/fa6";
-import { Row } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/redux/hooks";
-import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
-import { toast } from "sonner";
 import { useDeleteSingleBrandMutation } from "@/redux/features/brand/brandApi";
+import { setIsLoading, setIsOpen, setOnConfirm } from "@/redux/features/modal/alertModal.slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { TBrand } from "@repo/utils/types";
+import { Row } from "@tanstack/react-table";
+import { FaEllipsis } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const BrandDataTableAction = ({ row }: { row: Row<TBrand> }) => {
   const [deleteSingleBrand] = useDeleteSingleBrandMutation();
@@ -44,7 +44,7 @@ const BrandDataTableAction = ({ row }: { row: Row<TBrand> }) => {
   };
   // on update
   const onUpdate = () => {
-    navigate(`/contents/add-brand/${brandId}`);
+    navigate(`/contents/brands/${brandId}`);
   };
 
   // on delete
@@ -52,7 +52,7 @@ const BrandDataTableAction = ({ row }: { row: Row<TBrand> }) => {
     dispatch(setOnConfirm(onConfirm));
     dispatch(setIsOpen(true));
   };
-  const collectionActions = [
+  const brandsActions = [
     {
       title: "Edit brand",
       icon: <BiEdit className="mr-2 h-4 w-4" />,
@@ -74,8 +74,8 @@ const BrandDataTableAction = ({ row }: { row: Row<TBrand> }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="absolute -right-5 w-[200px]">
         <DropdownMenuGroup>
-          {collectionActions.map((action, i) => (
-            <DropdownMenuItem key={i} onClick={action.fn} className={cn(action.className)}>
+          {brandsActions.map((action, i) => (
+            <DropdownMenuItem key={i} onClick={action.fn} className={cn("cursor-pointer", action.className)}>
               {action.icon}
               <span>{action.title}</span>
             </DropdownMenuItem>

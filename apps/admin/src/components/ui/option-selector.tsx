@@ -44,7 +44,9 @@ const OptionSelector: FC<TOptionSelector> = ({
           {
             <Button disabled={isDisable} variant={"outline"} role="combobox" className={cn("justify-between", width)}>
               {value && type === "single" ? (
-                options.find((option) => option.value === value)?.label
+                <Badge variant={"secondary"} className="rounded-sm px-1 font-normal">
+                  {options.find((option) => option.value === value)?.label}
+                </Badge>
               ) : value && type === "multi" && typeof value === "object" && value.length ? (
                 <div className="space-x-2">
                   {value?.map((item) => {

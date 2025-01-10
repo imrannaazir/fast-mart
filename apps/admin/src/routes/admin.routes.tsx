@@ -7,6 +7,7 @@ import AddBrandsPage from "@/pages/AddBrand";
 import AddCategoryPage from "@/pages/AddCategory";
 import AddCollectionPage from "@/pages/AddCollection";
 import AddImagePage from "@/pages/AddImage";
+import BrandDetailsPage from "@/pages/brand-details-page";
 import BrandListPage from "@/pages/BrandList";
 import CategoryListPage from "@/pages/CategoryList";
 import CollectionListPage from "@/pages/CollectionList";
@@ -138,6 +139,10 @@ const paths: TPath[] = [
           {
             path: "add-brand",
             element: <AddBrandsPage />,
+          },
+          {
+            path: ":id",
+            element: <BrandDetailsPage />,
           },
         ],
       },

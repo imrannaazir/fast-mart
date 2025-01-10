@@ -1,11 +1,11 @@
+import {
+  createBrandValidationSchema,
+  deleteManyValidationSchema,
+} from '@repo/utils/zod-schemas';
 import { Router } from 'express';
+import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
 import BrandController from './brand.controller';
-import auth from '../../middlewares/auth';
-import {
-  deleteManyValidationSchema,
-  createBrandValidationSchema,
-} from '@repo/utils/zod-schemas';
 
 const router = Router();
 
@@ -19,6 +19,8 @@ router.post(
 
 // get all brand : GET
 router.get('/', BrandController.getAllBrands);
+
+router.get('/:id', BrandController.getSingleBrand);
 
 // delete single brand : DELETE
 router.delete('/:id', auth(), BrandController.deleteSingleBrand);

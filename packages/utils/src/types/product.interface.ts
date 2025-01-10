@@ -7,7 +7,7 @@ import { TCollection } from "./collection.interfaces";
 import { TImage } from "./image.interface";
 import { TTag } from "./tag.interface";
 import { TUser } from "./user.interface";
-import { TProductVariant } from "./variant.interfaces";
+import { TProductVariantOption } from "./variant.interfaces";
 
 export type TProductStatus = (typeof ProductStatus)[keyof typeof ProductStatus];
 export type TProductUnit = (typeof ProductUnit)[number];
@@ -30,7 +30,7 @@ export type TProduct = {
   unit: TProductUnit;
 
   media?: TImage[];
-  variants?: [TInputVariant] | string[] | TProductVariant[];
+  variants?: [TInputVariant] | string[] | TProductVariantOption[];
   categories?: TCategory[];
   collections?: TCollection[];
   brand?: TBrand;

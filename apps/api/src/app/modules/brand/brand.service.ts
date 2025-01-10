@@ -1,10 +1,10 @@
-import { StatusCodes } from 'http-status-codes';
-import AppError from '../../errors/AppError';
-import Brand from './brand.model';
-import mongoose, { PipelineStage } from 'mongoose';
-import { TMeta } from '../../utils/sendResponse';
-import config from '../../config';
 import { TBrand, TDeleteManyReturnType } from '@repo/utils/types';
+import { StatusCodes } from 'http-status-codes';
+import mongoose, { PipelineStage } from 'mongoose';
+import config from '../../config';
+import AppError from '../../errors/AppError';
+import { TMeta } from '../../utils/sendResponse';
+import Brand from './brand.model';
 
 const createBrand = async (payload: TBrand): Promise<TBrand> => {
   // create brand
@@ -119,6 +119,11 @@ const getAllBrands = async (
   return { result, meta };
 };
 
+const getSingleBrand = async (id: string) => {
+  const brand = await Brand.findById(id).populate('logo cover_photo');
+  return brand;
+};
+
 // delete single brand
 const deleteSingleBrand = async (id: string): Promise<TBrand | null> => {
   // check is brand is exist
@@ -160,5 +165,6 @@ const BrandService = {
   getAllBrands,
   deleteManyBrand,
   deleteSingleBrand,
+  getSingleBrand,
 };
 export default BrandService;

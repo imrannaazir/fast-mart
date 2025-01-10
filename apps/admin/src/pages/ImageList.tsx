@@ -1,8 +1,8 @@
 import { columns } from "@/components/dataTable/image/columns";
 import { ImageDataTable } from "@/components/dataTable/image/data-table";
 import Page from "@/components/layout/Page";
-import UploadSingleImage from "@/components/ui/image-upload";
 import LoadingButton from "@/components/ui/loading-button";
+import UploadSingleImage from "@/components/ui/single-image-upload";
 import {
   selectLimit,
   selectOrderBy,
@@ -56,7 +56,7 @@ const ImageListPage = () => {
 const ImageAction = () => {
   return (
     <div>
-      <UploadSingleImage fieldValue={""} fieldName="image" loader={<LoadingButton />}>
+      <UploadSingleImage url="" fieldValue={""} fieldName="image" loader={<LoadingButton />}>
         <div className="">Upload Image</div>
       </UploadSingleImage>
     </div>

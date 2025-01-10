@@ -1,6 +1,7 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/ui/loading-button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useGetAllOptionsQuery, useGetAllVariantsQuery } from "@/redux/features/product/productApi";
 import { createProductSchema } from "@repo/utils/zod-schemas";
 import { Trash } from "lucide-react";
@@ -37,35 +38,28 @@ const ProductVariantPreview: FC<TProductVariantPreview> = ({ form, productVarian
       {isVariantLoading ? (
         <LoadingButton className="w-[200px]" />
       ) : (
-        <Button variant={"outline"} disabled className="w-[200px]">
-          {variantData?.data?.[0]?.variant_name}{" "}
+        <Button variant={"outline"} className="w-[200px] disabled:opacity-100" disabled>
+          {variantData?.data?.find((item) => item?._id === productVariant.variantId)?.variant_name}
         </Button>
       )}
-      <Select>
-        <SelectTrigger className="w-[200px]">
-          <SelectValue placeholder="Select a option" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            {isOptionsLoading ? (
-              <SelectItem disabled value="loading">
-                Loading...
-              </SelectItem>
-            ) : (
-              <SelectItem className="" disabled value="loading">
-                {optionsData?.data?.map((option) => (
-                  <SelectItem disabled value={option._id as string}>
-                    {option?.option_name}
-                  </SelectItem>
-                ))}
-              </SelectItem>
-            )}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      <Button variant={"outline"} className="flex-grow justify-start overflow-hidden disabled:opacity-100" disabled>
+        {isOptionsLoading ? (
+          <div className="flex gap-2">
+            <Skeleton className="h-4 w-10" />
+            <Skeleton className="h-4 w-10" />
+            <Skeleton className="h-4 w-10" />
+          </div>
+        ) : (
+          optionsData?.data?.map((option) => (
+            <Badge key={option?._id} variant={"secondary"} className="rounded-sm px-1 font-normal">
+              {option?.option_name}
+            </Badge>
+          ))
+        )}
+      </Button>
 
-      <Button onClick={handleRemoveProductVariant} type="reset" variant={"destructive"}>
-        <Trash className="p-1" />
+      <Button size={"icon"} onClick={handleRemoveProductVariant} type="reset" variant={"destructive"}>
+        <Trash className="" />
       </Button>
     </div>
   );
