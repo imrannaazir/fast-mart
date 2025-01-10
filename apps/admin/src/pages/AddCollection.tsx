@@ -8,7 +8,7 @@ const AddCollectionPage = () => {
     icon: "",
     image: "",
   };
-  return <CollectionForm defaultValues={defaultValues} />;
+  return <CollectionForm title="Create Collection" defaultValues={defaultValues} />;
 };
 
 export default AddCollectionPage;

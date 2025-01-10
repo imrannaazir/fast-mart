@@ -8,7 +8,7 @@ import { TbBrandAngular, TbMessageQuestion } from "react-icons/tb";
 import DropdownNavigationLink from "./DropdownNavigationLink";
 import NavigationLinkItem from "./NavigationLinkItem";
 // import { TBrand } from "@/types";
-import { TBrand } from "@repo/utils/types";
+import { TBrand, TImage } from "@repo/utils/types";
 import { Fragment } from "react";
 
 const NavigationLinks = async ({ brands }: { brands: TBrand[] }) => {
@@ -17,7 +17,7 @@ const NavigationLinks = async ({ brands }: { brands: TBrand[] }) => {
     id: brand?._id as string,
     label: brand?.name,
     path: `/search?brands=${brand?._id}`,
-    logo: brand?.logo?.url,
+    logo: (brand?.logo as TImage)?.url,
   }));
 
   // icon class name

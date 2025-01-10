@@ -17,7 +17,14 @@ const CollectionDetailsPage = () => {
   };
   console.log(defaultValues, "18");
 
-  return <CollectionForm defaultValues={defaultValues} imgUrl={collection?.image?.url} isLoading={isFetching} />;
+  return (
+    <CollectionForm
+      title={collection?.title as string}
+      defaultValues={defaultValues}
+      imgUrl={collection?.image?.url}
+      isLoading={isFetching}
+    />
+  );
 };
 
 export default CollectionDetailsPage;

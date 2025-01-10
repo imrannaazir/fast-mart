@@ -1,5 +1,4 @@
 import OptionSelector from "@/components/ui/option-selector";
-import AddCollectionPage from "@/pages/AddCollection";
 import { useGetAllCollectionsQuery } from "@/redux/features/collection/collection.api";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
@@ -8,6 +7,7 @@ import { createProductSchema } from "@repo/utils/zod-schemas";
 import { FC } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
+import CollectionForm from "./collection-form";
 
 type TSelectCollectionsProps = {
   form: UseFormReturn<z.infer<typeof createProductSchema>>;
@@ -23,7 +23,7 @@ const SelectCollections: FC<TSelectCollectionsProps> = ({ form }) => {
       onOpen({
         title: "Create collection",
         description: "Enter all required information to create new collection in your store.",
-        children: <AddCollectionPage productForm={form} isInModal={true} />,
+        children: <CollectionForm title="Add Collection" productForm={form} isInModal={true} />,
         className: "w-full max-w-6xl mx-4",
       })
     );

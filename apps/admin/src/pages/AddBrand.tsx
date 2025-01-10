@@ -9,7 +9,7 @@ const AddBrand = () => {
     logo: "",
     slogan: "",
   };
-  return <BrandForm coverImageUrl="" defaultValues={defaultValues} logoUrl="" />;
+  return <BrandForm coverImageUrl="" defaultValues={defaultValues} logoUrl="" title={"Create brand"} />;
 };
 
 export default AddBrand;

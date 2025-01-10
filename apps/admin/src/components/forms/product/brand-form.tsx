@@ -26,6 +26,7 @@ type TBrandFormProps = {
   logoUrl?: string;
   defaultValues?: TBrandFieldValues;
   isLoading?: boolean;
+  title: string;
 };
 const BrandForm: FC<TBrandFormProps> = ({
   isInModal,
@@ -34,6 +35,7 @@ const BrandForm: FC<TBrandFormProps> = ({
   coverImageUrl = "",
   defaultValues,
   isLoading,
+  title,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -78,7 +80,7 @@ const BrandForm: FC<TBrandFormProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create brand" size={"sm"} action={<Action />} isInModal={isInModal}>
+        <Page title={title} size={"sm"} action={<Action />} isInModal={isInModal}>
           <div className={cn(isInModal ? "my-4 flex justify-end" : "hidden")}>
             <Action />
           </div>
@@ -160,7 +162,7 @@ const BrandForm: FC<TBrandFormProps> = ({
                         url={coverImageUrl}
                         fieldValue={""}
                         setValue={form.setValue}
-                        fieldName="cover_image"
+                        fieldName="cover_photo"
                       />
                     </FormItem>
                   )}

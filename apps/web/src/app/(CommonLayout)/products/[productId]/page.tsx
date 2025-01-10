@@ -1,6 +1,6 @@
 import AppBreadcrumb, { TAppBreadcrumbItem } from "@/components/ui/AppBreadcrumb";
 import Container from "@/components/ui/Container";
-import { TProduct } from "@repo/utils/types";
+import { TImage, TProduct } from "@repo/utils/types";
 import { Fragment } from "react";
 // import StickyBox from "react-sticky-box";
 import { serverFetcher } from "@/libs/server-fetcher";
@@ -65,7 +65,7 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
               <ProductBrandDetails
                 name={product?.brand?.name!}
                 description={product?.brand?.description!}
-                img={product?.brand?.logo?.url!}
+                img={(product?.brand?.logo as TImage)?.url!}
               />
             )}
             <HomePageTrendingProducts />

@@ -1,8 +1,6 @@
 import { columns } from "@/components/dataTable/image/columns";
 import { ImageDataTable } from "@/components/dataTable/image/data-table";
 import Page from "@/components/layout/Page";
-import LoadingButton from "@/components/ui/loading-button";
-import UploadSingleImage from "@/components/ui/single-image-upload";
 import {
   selectLimit,
   selectOrderBy,
@@ -45,21 +43,11 @@ const ImageListPage = () => {
 
   const images = (data?.data || []) as TImage[];
   return (
-    <Page title="Images" action={<ImageAction />}>
+    <Page title="Images">
       <div className="mx-auto">
         <ImageDataTable columns={columns} data={images} isLoading={isFetching} />
       </div>
     </Page>
-  );
-};
-
-const ImageAction = () => {
-  return (
-    <div>
-      <UploadSingleImage url="" fieldValue={""} fieldName="image" loader={<LoadingButton />}>
-        <div className="">Upload Image</div>
-      </UploadSingleImage>
-    </div>
   );
 };
 

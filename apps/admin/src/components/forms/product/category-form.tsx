@@ -28,9 +28,17 @@ type TCategoryFormProps = {
   imgUrl?: string;
   defaultValues?: TCategoryFieldsValues;
   isLoading?: boolean;
+  title: string;
 };
 
-const CategoryForm: FC<TCategoryFormProps> = ({ isInModal, productForm, imgUrl = "", defaultValues, isLoading }) => {
+const CategoryForm: FC<TCategoryFormProps> = ({
+  isInModal,
+  productForm,
+  imgUrl = "",
+  defaultValues,
+  isLoading,
+  title,
+}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -73,7 +81,7 @@ const CategoryForm: FC<TCategoryFormProps> = ({ isInModal, productForm, imgUrl =
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page title="Create Category" size={"sm"} action={<Action />} isInModal={isInModal}>
+        <Page title={title} size={"sm"} action={<Action />} isInModal={isInModal}>
           <div className="flex flex-col gap-4 lg:flex-row">
             <div className="lg:w-[66%]">
               <PageSection>

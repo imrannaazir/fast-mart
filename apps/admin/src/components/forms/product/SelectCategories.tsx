@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import OptionSelector from "@/components/ui/option-selector";
-import AddCategoryPage from "@/pages/AddCategory";
 import { useGetAllCategoriesQuery } from "@/redux/features/category/categoryApi";
 import { onOpen } from "@/redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/redux/hooks";
@@ -8,6 +7,7 @@ import { TLabelValuePair } from "@/types";
 import queryString from "query-string";
 import { FC, useMemo } from "react";
 import { UseFormReturn } from "react-hook-form";
+import CategoryForm from "./category-form";
 
 type TSelectCategoriesProps = {
   form: UseFormReturn<any>;
@@ -33,7 +33,7 @@ const SelectCategories: FC<TSelectCategoriesProps> = ({ form }) => {
       onOpen({
         title: "Create category",
         description: "Enter all required information to create new category in your store.",
-        children: <AddCategoryPage productForm={form} isInModal={true} />,
+        children: <CategoryForm title="Create category" productForm={form} isInModal={true} />,
         className: "w-full max-w-6xl mx-4",
       })
     );

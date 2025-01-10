@@ -15,7 +15,14 @@ const CategoryDetailsPage = () => {
     description: category?.description,
     image: category?.image?._id,
   };
-  return <CategoryForm isLoading={isFetching} defaultValues={defaultValues} imgUrl={category?.image?.url} />;
+  return (
+    <CategoryForm
+      title={category?.title as string}
+      isLoading={isFetching}
+      defaultValues={defaultValues}
+      imgUrl={category?.image?.url}
+    />
+  );
 };
 
 export default CategoryDetailsPage;

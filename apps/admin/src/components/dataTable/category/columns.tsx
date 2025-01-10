@@ -2,6 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { TCategory, TCollection } from "@repo/utils/types";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import CategoryDataTableAction from "./data-table-action";
 
 export const columns: ColumnDef<TCategory>[] = [
@@ -38,7 +39,9 @@ export const columns: ColumnDef<TCategory>[] = [
         <div className="mr-6 flex items-center justify-start gap-2 lg:mr-0">
           <img className="h-10 w-10 rounded-md border-2 border-gray-100 object-cover" src={imageUrl} alt="" />
           <div>
-            <p className="font-semibold text-gray-700">{title}</p>
+            <Link to={`/contents/categories/${row?.original?._id}`} className="font-semibold text-gray-700">
+              {title}
+            </Link>
           </div>
         </div>
       );

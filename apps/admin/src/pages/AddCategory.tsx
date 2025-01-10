@@ -8,7 +8,7 @@ const AddCategory = () => {
     description: "",
     image: "",
   };
-  return <CategoryForm defaultValues={defaultValues} />;
+  return <CategoryForm defaultValues={defaultValues} title="Create Category" />;
 };
 
 export default AddCategory;

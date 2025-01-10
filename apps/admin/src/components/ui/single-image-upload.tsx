@@ -65,6 +65,7 @@ const UploadSingleImage: FC<TUploadImageProps> = ({
 
             if (res.success) {
               toast.success("Image uploaded.", { duration: 2000 });
+              setImageUrl(res?.data?.url);
               if (setValue) {
                 setValue(fieldName, res.data._id);
               }

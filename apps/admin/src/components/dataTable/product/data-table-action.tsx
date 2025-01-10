@@ -15,6 +15,7 @@ import { useDeleteProductByIdMutation } from "@/redux/features/product/productAp
 import { useAppDispatch } from "@/redux/hooks";
 import { TProduct } from "@repo/utils/types";
 import { Row } from "@tanstack/react-table";
+import { Eye } from "lucide-react";
 import { FaEllipsis } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -74,8 +75,14 @@ const ProductDataTableAction = ({ row }: { row: Row<TProduct> }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="absolute -right-5 w-[200px]">
         <DropdownMenuGroup>
+          <a target="_blank" href={`${import.meta.env.VITE_APP_STORE_FRONT_URL}/products/${productId}`}>
+            <DropdownMenuItem className={cn("cursor-pointer")}>
+              <Eye className="mr-2 h-4 w-4" />
+              <span>Preview</span>
+            </DropdownMenuItem>
+          </a>
           {collectionActions.map((action, i) => (
-            <DropdownMenuItem key={i} onClick={action.fn} className={cn(action.className)}>
+            <DropdownMenuItem key={i} onClick={action.fn} className={cn("cursor-pointer", action.className)}>
               {action.icon}
               <span>{action.title}</span>
             </DropdownMenuItem>

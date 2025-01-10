@@ -6,21 +6,37 @@ import { Search } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useGetAllProductQuery } from "@/redux/features/product/productApi";
 import { TProduct } from "@repo/utils/types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import SearchedProductItem from "./searched-product-item";
 
 const HeaderSearch = () => {
   const [q, setQ] = useState("");
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   const { data, isFetching } = useGetAllProductQuery(`limit=${10}&searchTerm=${q}`, {
     skip: !q,
   });
 
   const products = (data?.data || []) as TProduct[];
+
+  const handleOpenChange = useCallback((newOpen: boolean) => {
+    setOpen(false);
+    if (!newOpen) {
+      setQ("");
+    }
+  }, []);
+
+  const handleCommand = (productId: string) => {
+    setQ("");
+    setOpen(false);
+    navigate(`/products/${productId}`);
+  };
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
-        <div className="relative">
+        <div className="relative" onClick={() => setOpen(true)}>
           <Search className="text-muted-foreground absolute left-2 top-[13px] h-4 w-4" />
           <Input
             value={q}
@@ -64,7 +80,7 @@ const HeaderSearch = () => {
             {q && products?.length > 0 && !isFetching && (
               <CommandGroup>
                 {products?.map((product) => (
-                  <CommandItem>
+                  <CommandItem className="cursor-pointer" onSelect={() => handleCommand(product?._id as string)}>
                     <SearchedProductItem product={product} key={product?._id} />
                   </CommandItem>
                 ))}{" "}

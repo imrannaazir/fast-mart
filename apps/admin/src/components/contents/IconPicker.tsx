@@ -17,9 +17,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 
 type TIconPickerProps = {
   setValue: UseFormSetValue<z.infer<typeof createCollectionSchema>>;
+  iconName: string;
 };
 
-const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
+const IconPicker: FC<TIconPickerProps> = ({ setValue, iconName }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
 
@@ -28,7 +29,6 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
     ?.map(([name]) => name)
     ?.filter((name) => name?.toLowerCase()?.includes(searchTerm?.trim()?.toLowerCase()))
     ?.slice(skip, skip + 100);
-  const [iconName, setIconName] = useState("");
 
   return (
     <Popover>
@@ -76,7 +76,6 @@ const IconPicker: FC<TIconPickerProps> = ({ setValue }) => {
                       key={icon}
                       onSelect={() => {
                         setValue("icon", icon);
-                        setIconName(icon);
                       }}
                     >
                       <TooltipProvider>

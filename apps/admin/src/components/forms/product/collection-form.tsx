@@ -27,6 +27,7 @@ type TCollectionFormProps = {
   isLoading?: boolean;
   productForm?: UseFormReturn<z.infer<typeof createProductSchema>>;
   defaultValues?: TCollectionFieldValues;
+  title: string;
 };
 
 const CollectionForm: FC<TCollectionFormProps> = ({
@@ -35,6 +36,7 @@ const CollectionForm: FC<TCollectionFormProps> = ({
   imgUrl = "",
   isLoading,
   defaultValues,
+  title,
 }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -78,7 +80,7 @@ const CollectionForm: FC<TCollectionFormProps> = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Page size={"sm"} title="Create Collection" action={<Action />} isInModal={isInModal}>
+        <Page size={"sm"} title={title} action={<Action />} isInModal={isInModal}>
           {/* form content */}
           <div className={cn(isInModal ? "my-4 flex justify-end" : "hidden")}>
             <Action />
@@ -116,10 +118,10 @@ const CollectionForm: FC<TCollectionFormProps> = ({
                 <FormField
                   control={form.control}
                   name="icon"
-                  render={() => (
+                  render={({ field }) => (
                     <FormItem>
                       <FormLabel>Icon</FormLabel>
-                      <IconPicker setValue={form.setValue} />
+                      <IconPicker iconName={field?.value as string} setValue={form.setValue} />
                     </FormItem>
                   )}
                 />

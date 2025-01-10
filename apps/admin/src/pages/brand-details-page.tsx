@@ -19,6 +19,7 @@ const BrandDetailsPage = () => {
   };
   return (
     <BrandForm
+      title={brand?.name as string}
       defaultValues={defaultValues}
       coverImageUrl={(brand?.cover_photo as TImage)?.url}
       logoUrl={(brand?.logo as TImage)?.url}

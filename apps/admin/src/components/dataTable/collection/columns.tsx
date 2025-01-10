@@ -3,6 +3,7 @@ import Icon from "@/components/ui/lucide-icon";
 import { TCollection } from "@repo/utils/types";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import CollectionDataTableAction from "./data-table-action";
 
 export const columns: ColumnDef<TCollection>[] = [
@@ -39,7 +40,9 @@ export const columns: ColumnDef<TCollection>[] = [
         <div className="mr-6 flex items-center justify-start gap-2 lg:mr-0">
           <img className="h-10 w-10 rounded-md border-2 border-gray-100 object-cover" src={imageUrl} alt="" />
           <div>
-            <p className="font-semibold text-gray-700">{title}</p>
+            <Link to={`/contents/collections/${row?.original?._id}`} className="font-semibold text-gray-700">
+              {title}
+            </Link>
           </div>
         </div>
       );
