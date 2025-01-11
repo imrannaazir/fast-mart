@@ -28,7 +28,7 @@ import { FC, useEffect } from "react";
 type TProductFormProps = {
   title: string;
   isLoading?: boolean;
-  defaultValues: TProductFieldValues;
+  defaultValues?: TProductFieldValues;
   images: TImageUrl[];
 };
 
@@ -41,7 +41,9 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues, i
   });
 
   useEffect(() => {
-    Object.entries(defaultValues)?.map(([key, value]) => form.setValue(key as keyof TProductFieldValues, value));
+    if (defaultValues) {
+      Object.entries(defaultValues)?.map(([key, value]) => form.setValue(key as keyof TProductFieldValues, value));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultValues]);
 

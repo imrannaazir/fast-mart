@@ -1,5 +1,4 @@
 import ProductForm from "@/components/forms/product/product-form";
-import { TProductFieldValues } from "@repo/utils/types";
 
 const AddProductPage = () => {
   // const isDirty = form.formState.isDirty;
@@ -12,16 +11,7 @@ const AddProductPage = () => {
   //   }
   // }, [dispatch, isDirty]);
 
-  const defaultValues: TProductFieldValues = {
-    price: 0,
-    title: "",
-    brand: "",
-    quantity: 0,
-    compare_price: 0,
-    description: "",
-    weight: 0,
-  };
-  return <ProductForm title="Add product" defaultValues={defaultValues} images={[]} />;
+  return <ProductForm title="Add product" images={[]} />;
 };
 
 export default AddProductPage;

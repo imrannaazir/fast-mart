@@ -15,7 +15,7 @@ const ProductDetails = () => {
   const defaultValues: TProductFieldValues = {
     price: product?.price,
     title: product?.title,
-    brand: product?.brand?._id || "",
+    brand: product?.brand?._id || undefined,
     categories: product?.categories?.map((category) => category?._id) || [],
     collections: product?.collections?.map((collection) => collection?._id as string) || [],
     compare_price: product?.compare_price || 0,

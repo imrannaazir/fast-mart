@@ -18,10 +18,7 @@ import {
 import Product from './product.model';
 
 // create product
-const createProduct = async (
-  payload: TProduct,
-  userId: string,
-): Promise<TProduct> => {
+const createProduct = async (payload: TProduct, userId: string) => {
   // insert  userId into payload
   payload.createdBy = userId;
 
@@ -171,11 +168,18 @@ const createProduct = async (
     }
 
     // create product
-    const product = await Product.create([payload], { session });
+    const product = await Product.updateOne(
+      { title: payload?.title },
+      payload,
+      {
+        upsert: true,
+        session,
+      },
+    );
 
     await session.commitTransaction();
     await session.endSession();
-    return product[0] as TProduct;
+    return product;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     await session.abortTransaction();

@@ -7,6 +7,7 @@ const productSchema = new Schema<TProduct>(
     title: {
       type: String,
       required: true,
+      unique: true,
     },
     description: {
       type: String,

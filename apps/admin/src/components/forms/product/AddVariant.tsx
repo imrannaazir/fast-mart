@@ -1,5 +1,5 @@
 import { useGetAllOptionsQuery, useGetAllVariantsQuery } from "@/redux/features/product/productApi";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 
 import { Button } from "@/components/ui/button";
 import OptionSelector from "@/components/ui/option-selector";
@@ -21,7 +21,6 @@ type TAddVariantProps = {
 const AddVariant: FC<TAddVariantProps> = ({ form }) => {
   //  hook
   const dispatch = useAppDispatch();
-  const [skip, setSkip] = useState(true);
 
   // watch form value
   const variantId = form.watch("variant.variantId");
@@ -30,7 +29,9 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
 
   // query hook
   const { data: variantsData, isFetching: isVariantFetching } = useGetAllVariantsQuery(undefined);
-  const { data: optionsData, isFetching: isOptionFetching } = useGetAllOptionsQuery(`variantId=${variantId}`, { skip });
+  const { data: optionsData, isFetching: isOptionFetching } = useGetAllOptionsQuery(`variantId=${variantId}`, {
+    skip: !variantId,
+  });
 
   /* 
 * filter variants : if already crated a variant with the variant name filter out that variant
@@ -95,13 +96,6 @@ const AddVariant: FC<TAddVariantProps> = ({ form }) => {
     form.setValue("variants", addingVariants);
     form.setValue("variant", { options: [], variantId: "" });
   };
-
-  // when ever variant id will be changed the api will be called
-  useEffect(() => {
-    if (variantId) {
-      setSkip(false);
-    }
-  }, [variantId]);
 
   return (
     <div>
