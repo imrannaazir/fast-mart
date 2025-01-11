@@ -52,7 +52,7 @@ const ProfileInformation = () => {
           dateOfBirth: user?.dateOfBirth ? dayjs(user?.dateOfBirth, dateFormat) : null,
         }}
         layout="vertical"
-        className="grid gap-x-6 md:grid-cols-2"
+        className="grid gap-x-6 sm:grid-cols-2"
       >
         <Form.Item label="First Name" name="firstName" rules={[{ required: true }]}>
           <Input placeholder="Enter first name" />

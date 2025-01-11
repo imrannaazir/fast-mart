@@ -63,7 +63,7 @@ const DropdownUser = () => {
       placement="bottomRight"
     >
       {session?.user?.userId ? (
-        <Avatar className="cursor-pointer" src={""} style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}>
+        <Avatar className="cursor-pointer" style={{ backgroundColor: "#fde3cf", color: "#f56a00" }}>
           {session?.user?.email?.slice(0, 1)?.toUpperCase()}
         </Avatar>
       ) : (

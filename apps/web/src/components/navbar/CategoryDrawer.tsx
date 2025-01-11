@@ -58,7 +58,7 @@ const CategoryDrawer: React.FC<TCategoryDrawerProps> = ({ collections }) => {
         placement="left"
         width={277}
       >
-        <Menu className="lg:hidden" style={{ width: 256 }} mode="inline" items={items} />
+        <Menu className="lg:hidden" style={{ border: "0px" }} mode="inline" items={items} />
       </Drawer>
     </div>
   );

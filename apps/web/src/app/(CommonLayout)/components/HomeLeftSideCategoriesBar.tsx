@@ -12,7 +12,7 @@ const HomeLeftSideCategoriesBar = ({ collections }: { collections: TCollection[]
       <DropdownCategories type="simple" collections={collections} />
       <Divider variant="dashed" className="border-[1.5px] border-gray-400" />
       {["Value of the day", "Top 50 Offers", "New Arrivals"]?.map((item) => (
-        <NavigationLinkItem link={{ id: item, label: item, path: "/#" }}></NavigationLinkItem>
+        <NavigationLinkItem key={item} link={{ id: item, label: item, path: "/#" }}></NavigationLinkItem>
       ))}
     </div>
   );

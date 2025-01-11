@@ -15,7 +15,7 @@ const WishlistPage = async () => {
 "
       />
       {wishlist?.length ? (
-        <div className="grid grid-cols-4 gap-4 space-x-4">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {wishlist.map((item) => {
             const { _id, title, compare_price, media, price } = (item.productId as TWishlistItemProduct) || {};
 

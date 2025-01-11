@@ -1,9 +1,9 @@
 "use client";
 import { TBrand } from "@repo/utils/types";
-import { Drawer } from "antd";
+import { Button, Drawer } from "antd";
+import { PanelRight } from "lucide-react";
 import React, { useState } from "react";
 import { BiX } from "react-icons/bi";
-import { FaBars } from "react-icons/fa";
 import NavigationLinks from "./NavigationLinks";
 
 type TMobileNavMenuDrawerProps = {
@@ -24,9 +24,7 @@ const MobileNavMenuDrawer: React.FC<TMobileNavMenuDrawerProps> = ({ brands }) =>
   return (
     <div className="lg:hidden">
       {/* trigger button */}
-      <button onClick={showDrawer}>
-        <FaBars size={20} />
-      </button>
+      <Button onClick={showDrawer} variant="outlined" icon={<PanelRight size={14} />} size={"middle"} />
 
       <Drawer
         title={

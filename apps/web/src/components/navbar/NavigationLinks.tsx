@@ -82,7 +82,7 @@ const NavigationLinks = async ({ brands }: { brands: TBrand[] }) => {
           )
         )}
       </div>
-      <Menu className="lg:hidden" style={{ width: 256 }} mode="inline" items={mobileMenuLinks} />
+      <Menu className="border-0 lg:hidden" mode="inline" style={{ border: "0px" }} items={mobileMenuLinks} />
     </Fragment>
   );
 };

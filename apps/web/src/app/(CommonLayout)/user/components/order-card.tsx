@@ -19,7 +19,7 @@ const OrderCard: FC<TOrderCardProps> = ({ order }) => {
   return (
     <Card bordered={false}>
       {/* top */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-4">
           <Box className="bg-primary/10 text-primary rounded-full p-2" size={38} />
 
@@ -54,7 +54,7 @@ export default OrderCard;
 const OrderItem = ({ orderItem }: { orderItem: TOrderItem }) => {
   return (
     <Card className="mt-6 bg-gray-100">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
         <Image
           className="size-[180px] rounded-md border object-cover shadow-sm"
           src={orderItem?.product?.media?.[0]?.url || assets?.images?.blank_image}
@@ -68,11 +68,11 @@ const OrderItem = ({ orderItem }: { orderItem: TOrderItem }) => {
         <div>
           <h3 className="text-lg font-semibold">{orderItem?.product?.title}</h3>
           <p
-            className=""
+            className="bg-background rounded-md p-4"
             dangerouslySetInnerHTML={{
               __html: orderItem?.product?.description! || "",
             }}
-          ></p>
+          />
           <div className="mt-4 space-y-1">
             <p>
               Price: <span className="font-semibold">${orderItem?.price}</span>

@@ -1,13 +1,15 @@
 "use client";
 import assets from "@/assets";
 import { useUser } from "@/contexts/user-context";
+import { cn } from "@/libs/utils";
 import { Avatar, Divider, GetProp, Menu, MenuProps } from "antd";
+import { ClassValue } from "clsx";
 import { Edit, Heart, LucideHome } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { LuMapPin, LuShoppingBag } from "react-icons/lu";
 
-const UserSidebar = () => {
+const UserSidebar = ({ className }: { className?: ClassValue }) => {
   type MenuItem = GetProp<MenuProps, "items">[number];
   const pathname = usePathname();
   const pathnameArr = pathname.split("/");
@@ -42,7 +44,7 @@ const UserSidebar = () => {
   ];
   const { user } = useUser();
   return (
-    <aside className="sticky top-6 h-fit rounded-md bg-gray-100">
+    <aside className={cn("h-fit rounded-md bg-gray-100", className)}>
       <div className="relative w-full">
         <Image
           src={assets.images.banners.user_cover}
