@@ -17,6 +17,7 @@ import CustomerListPage from "@/pages/CustomerList";
 import ImageListPage from "@/pages/ImageList";
 import OrderListPage from "@/pages/order-list-page";
 import Playground from "@/pages/playground";
+import SettingPage from "@/pages/settings-page";
 import { TPath } from "@/types";
 import { BarChart2, Home, Images, ShoppingBag, User } from "lucide-react";
 import { IoMdPricetag } from "react-icons/io";
@@ -163,6 +164,10 @@ const paths: TPath[] = [
     label: "Analytics",
     path: "analytics",
     element: <HomePage />,
+  },
+  {
+    path: "settings",
+    element: <SettingPage />,
   },
 ];
 export default paths;

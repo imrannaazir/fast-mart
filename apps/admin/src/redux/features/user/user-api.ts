@@ -1,3 +1,4 @@
+import { TProfileFieldValues } from "@repo/utils/types";
 import baseApi from "../api/baseApi";
 
 export const userApi = baseApi.injectEndpoints({
@@ -10,14 +11,24 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Users"],
     }),
+
+    updateMyData: builder.mutation({
+      query: (data: Partial<TProfileFieldValues>) => ({
+        url: `/users/update-me`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Users"],
+    }),
     // get my data
     getMyData: builder?.query({
       query: () => ({
         url: `/users/me`,
         method: "GET",
       }),
+      providesTags: ["Users"],
     }),
   }),
 });
 
-export const { useGetAllUsersQuery, useGetMyDataQuery } = userApi;
+export const { useGetAllUsersQuery, useGetMyDataQuery, useUpdateMyDataMutation } = userApi;

@@ -19,6 +19,7 @@ type TUploadImageProps = {
   setValue?: UseFormSetValue<any>;
   fieldValue: string;
   url: string;
+  deleteButton?: "show" | "hide";
 };
 
 const UploadSingleImage: FC<TUploadImageProps> = ({
@@ -29,6 +30,7 @@ const UploadSingleImage: FC<TUploadImageProps> = ({
   loader,
   fieldValue,
   url,
+  deleteButton = "show",
 }) => {
   // invoke hooks
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -95,13 +97,14 @@ const UploadSingleImage: FC<TUploadImageProps> = ({
       <label htmlFor={fieldName} className="cursor-pointer">
         <div
           className={cn(
-            "border-foreground mt-2 flex h-[200px] items-center justify-center rounded-md border border-dashed"
+            "border-foreground mt-2 flex h-[200px] items-center justify-center rounded-md border border-dashed",
+            className
           )}
         >
           {isImageUploading ? (
             <AiOutlineLoading3Quarters className="h-6 w-6 animate-spin duration-500" />
           ) : imageUrl ? (
-            <img className="h-full w-full object-cover" src={imageUrl as string} />
+            <img className={cn("h-full w-full object-cover", className)} src={imageUrl as string} />
           ) : (
             <LucideImagePlus className="h-10 w-10 text-gray-500" />
           )}
@@ -111,7 +114,7 @@ const UploadSingleImage: FC<TUploadImageProps> = ({
   }
 
   return (
-    <div className={cn("relative w-full", className)}>
+    <div className={cn("relative w-full")}>
       <input
         id={fieldName}
         disabled={isImageUploading}
@@ -138,7 +141,11 @@ const UploadSingleImage: FC<TUploadImageProps> = ({
         }}
         variant={"destructive"}
         size={"icon"}
-        className={cn(!imageUrl ? "hidden" : "absolute left-2 top-2", !setValue && "hidden")}
+        className={cn(
+          !imageUrl ? "hidden" : "absolute left-2 top-2",
+          !setValue && "hidden",
+          deleteButton === "hide" && "hidden"
+        )}
       >
         <Trash className="h-4 w-4" />
       </Button>

@@ -173,3 +173,7 @@
     font-family: inherit;
   }
 }
+/* calender */
+.rdp-vhidden {
+  @apply hidden;
+}

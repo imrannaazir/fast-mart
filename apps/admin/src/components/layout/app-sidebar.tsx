@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Link } from "react-router-dom";
 import { NavMain } from "./nav-main";
 import { SidebarLogo } from "./sidebar-logo";
 
@@ -27,12 +28,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip={"Settings"}>
-              <Settings2 />
-              <span>Settings</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <Link to={`/settings`}>
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip={"Settings"}>
+                <Settings2 />
+                <span>Settings</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
         </SidebarMenu>{" "}
       </SidebarFooter>
       <SidebarRail />

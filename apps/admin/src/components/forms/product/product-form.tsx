@@ -97,6 +97,7 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues, i
                     <FormItem>
                       <FormLabel>Description</FormLabel>
                       <TextEditor setValue={form.setValue} value={field.value || ""} />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -116,6 +117,7 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues, i
                         fieldValue={field.value || []}
                         images={images || []}
                       />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -222,6 +224,7 @@ const ProductForm: FC<TProductFormProps> = ({ title, isLoading, defaultValues, i
                   render={() => (
                     <FormItem className="mt-2">
                       <AddVariant form={form} />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />

@@ -37,7 +37,7 @@ const HeaderEnd = () => {
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <div className="bg-primary text-background flex items-center justify-between gap-2 rounded-lg p-1 md:pr-2">
             <Avatar className="h-7 w-7 rounded-lg">
-              <AvatarImage src={me?.photo?.url} />
+              <AvatarImage className="object-cover" src={me?.photo?.url} />
               <AvatarFallback>{me?.firstName?.slice(0, 1)}</AvatarFallback>
             </Avatar>
             <p className="hidden text-sm font-medium md:block">{`${me?.firstName || ""} ${me?.lastName || ""}`}</p>
