@@ -9,10 +9,7 @@ import { Image } from '../image/image.model';
 import Category from './category.model';
 
 // create category
-const createCategory = async (
-  payload: TCategory,
-  userId: string,
-): Promise<TCategory> => {
+const createCategory = async (payload: TCategory, userId: string) => {
   // check is collection id valid
   const isCollectionsExist = await Collection.find({
     _id: { $in: payload.collections },
@@ -29,22 +26,14 @@ const createCategory = async (
       throw new AppError(StatusCodes.NOT_FOUND, 'Image not founded.');
     }
   }
-
-  // check is already a category by provided name
-  payload.createdBy = userId;
-  const isAlreadyCategoryByName = await Category.findOne({
-    title: payload.title,
-  });
-
-  if (isAlreadyCategoryByName) {
-    throw new AppError(
-      StatusCodes.CONFLICT,
-      'There is already a category by this title.',
-    );
-  }
-
+  const { _id, ...restPayload } = payload;
+  const whereOption = _id ? { _id } : { _id: new mongoose.Types.ObjectId() };
   // create
-  const result = await Category.create(payload);
+  const result = await Category.findOneAndUpdate(whereOption, restPayload, {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+  });
 
   if (!result) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create category.');
@@ -86,7 +75,6 @@ const getAllCategory = async (
         })),
       }
     : {};
-  console.log(filterCondition, 80);
 
   // sorting condition
   const sortingCondition: Record<string, 1 | mongoose.Expression.Meta | -1> =

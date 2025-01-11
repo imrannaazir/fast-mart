@@ -88,8 +88,6 @@ const verifyAccount = async (token: string) => {
   }
 
   const user = await User.findById(isTokenValid?._id);
-  console.log({ user });
-
   if (user?.status === 'BLOCKED') {
     throw new AppError(StatusCodes.FORBIDDEN, 'Your account is blocked.');
   }

@@ -10,6 +10,7 @@ const CategoryDetailsPage = () => {
   });
   const category = data?.data;
   const defaultValues: TCategoryFieldsValues = {
+    _id: category?._id,
     title: category?.title as string,
     collections: category?.collections as string[],
     description: category?.description,

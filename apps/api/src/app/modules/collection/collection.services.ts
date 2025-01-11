@@ -1,6 +1,6 @@
 import { TCollection, TDeleteManyReturnType } from '@repo/utils/types';
 import { StatusCodes } from 'http-status-codes';
-import { PipelineStage } from 'mongoose';
+import mongoose, { PipelineStage } from 'mongoose';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
@@ -8,10 +8,7 @@ import { Image } from '../image/image.model';
 import { Collection } from './collection.models';
 
 // create collection
-const createCollection = async (
-  payload: TCollection,
-  userId: string,
-): Promise<TCollection> => {
+const createCollection = async (payload: TCollection, userId: string) => {
   // check image id is valid
   if (payload.image) {
     const isImageExist = await Image.findById(payload.image);
@@ -24,7 +21,14 @@ const createCollection = async (
   }
 
   payload.createdBy = userId;
-  const result = await Collection.create(payload);
+
+  const { _id, ...restPayload } = payload;
+  const whereOption = _id ? { _id } : { _id: new mongoose.Types.ObjectId() };
+  const result = await Collection.findOneAndUpdate(whereOption, restPayload, {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+  });
   if (!result) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create collection.');
   }

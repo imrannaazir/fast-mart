@@ -7,7 +7,6 @@ type TOrderStatusProps = { order: TOrder };
 
 const OrderStatus: React.FC<TOrderStatusProps> = ({ order }) => {
   const format = "MMMM D, YYYY - h:mm A";
-  console.log(!!order?.createdAt, "here 10");
 
   const steps = [
     {

@@ -19,8 +19,6 @@ const SelectTags: FC<TSelectTagsProps> = ({ form }) => {
 
   // handle on tag add
   const handleOnTagAdd = () => {
-    console.log("here clicking");
-
     dispatch(
       onOpen({
         title: "Create Tag",

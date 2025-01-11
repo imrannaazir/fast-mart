@@ -11,6 +11,7 @@ const BrandDetailsPage = () => {
 
   const brand = data?.data;
   const defaultValues: TBrandFieldValues = {
+    _id: brand?._id,
     name: brand?.name as string,
     cover_photo: (brand?.cover_photo as TImage)?._id,
     description: brand?.description,

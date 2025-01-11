@@ -167,15 +167,15 @@ const createProduct = async (payload: TProduct, userId: string) => {
       }
     }
 
+    const { _id, ...restPayload } = payload;
+    const whereOption = _id ? { _id } : { _id: new mongoose.Types.ObjectId() };
+
     // create product
-    const product = await Product.updateOne(
-      { title: payload?.title },
-      payload,
-      {
-        upsert: true,
-        session,
-      },
-    );
+    const product = await Product.findByIdAndUpdate(whereOption, restPayload, {
+      upsert: true,
+      setDefaultsOnInsert: true,
+      session,
+    });
 
     await session.commitTransaction();
     await session.endSession();

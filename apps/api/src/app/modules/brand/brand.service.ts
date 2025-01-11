@@ -6,9 +6,16 @@ import AppError from '../../errors/AppError';
 import { TMeta } from '../../utils/sendResponse';
 import Brand from './brand.model';
 
-const createBrand = async (payload: TBrand): Promise<TBrand> => {
+const createBrand = async (payload: TBrand, userId: string) => {
+  payload.createdBy = userId;
   // create brand
-  const result = await Brand.create(payload);
+  const { _id, ...restPayload } = payload;
+  const whereOption = _id ? { _id } : { _id: new mongoose.Types.ObjectId() };
+  const result = await Brand.updateOne(whereOption, restPayload, {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+  });
   if (!result) {
     throw new AppError(StatusCodes.BAD_REQUEST, 'Failed to create brand.');
   }

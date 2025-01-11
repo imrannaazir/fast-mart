@@ -20,7 +20,6 @@ const ProfileInformation = () => {
     const response = await updateProfile(values);
     if (response?.success) {
       message.success(getErrorMessage(response));
-      console.log(response?.data, "from 23");
 
       setUser(response?.data!);
       setIsDisabled(true);

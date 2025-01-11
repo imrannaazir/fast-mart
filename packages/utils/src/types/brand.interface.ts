@@ -1,4 +1,3 @@
-import { Types } from "mongoose";
 import z from "zod";
 import { createBrandSchema } from "../zod-schemas/brand.validation";
 import { TImage } from "./image.interface";
@@ -11,7 +10,7 @@ export type TBrand = {
   slogan?: string;
   cover_photo?: TImage | string;
   noOfProducts?: number;
-  createdBy?: Types.ObjectId;
+  createdBy?: string;
   createdAt?: Date;
   updatedAt?: Date;
 };

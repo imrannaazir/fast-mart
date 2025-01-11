@@ -7,6 +7,7 @@ const variantValidationSchema = z.object({
 });
 
 export const createProductSchema = z.object({
+  _id: z.string().optional(),
   title: z.string(),
   description: z.string().optional(),
   media: z.array(z.string()).optional(),

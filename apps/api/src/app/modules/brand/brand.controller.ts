@@ -5,7 +5,8 @@ import BrandService from './brand.service';
 
 // create brand
 const createBrand = catchAsync(async (req, res) => {
-  const result = await BrandService.createBrand(req.body);
+  const userId = req?.user?._id;
+  const result = await BrandService.createBrand(req.body, userId!);
 
   sendResponse(res, {
     success: true,

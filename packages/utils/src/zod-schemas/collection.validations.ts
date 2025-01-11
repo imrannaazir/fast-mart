@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const createCollectionSchema = z.object({
+  _id: z.string().optional(),
   title: z.string({ required_error: "Please enter a title." }),
   description: z.string().optional(),
   icon: z.string().optional(),

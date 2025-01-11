@@ -13,6 +13,7 @@ const ProductDetails = () => {
     options: variant?.options?.map((option) => option?._id as string),
   }));
   const defaultValues: TProductFieldValues = {
+    _id: product?._id,
     price: product?.price,
     title: product?.title,
     brand: product?.brand?._id || undefined,
@@ -34,8 +35,6 @@ const ProductDetails = () => {
       _id: img?._id as string,
       url: img?.url,
     })) || [];
-
-  console.log(defaultValues);
 
   return <ProductForm images={images} title={product?.title} isLoading={isFetching} defaultValues={defaultValues} />;
 };

@@ -10,7 +10,5 @@ export const getClientSecret = async (amount: number) => {
     cache: "no-store",
   });
 
-  console.log(res, "blah");
-
   return res;
 };

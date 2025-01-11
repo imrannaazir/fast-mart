@@ -9,7 +9,7 @@ export type TCategory = {
   collections: string[] | TCollection[];
   description?: string;
   image?: TImage;
-  createdBy: string;
+  createdBy?: string;
   noOfProducts?: number;
   createdAt: Date;
   updatedAt: Date;

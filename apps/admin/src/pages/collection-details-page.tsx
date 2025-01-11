@@ -10,6 +10,7 @@ const CollectionDetailsPage = () => {
   });
   const collection = data?.data;
   const defaultValues: TCollectionFieldValues = {
+    _id: collection?._id,
     title: collection?.title as string,
     description: collection?.description,
     icon: collection?.icon,

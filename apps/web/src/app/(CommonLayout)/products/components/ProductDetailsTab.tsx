@@ -8,10 +8,6 @@ type TProductDetailsTabProps = {
   product: TProduct;
 };
 const ProductDetailsTab: FC<TProductDetailsTabProps> = ({ product }) => {
-  const onChange = (key: string) => {
-    console.log(key);
-  };
-
   const items: TabsProps["items"] = [
     {
       label: "Description",
@@ -29,7 +25,7 @@ const ProductDetailsTab: FC<TProductDetailsTabProps> = ({ product }) => {
       children: <ProductReviews />,
     },
   ];
-  return <Tabs className="" onChange={onChange} type="card" size="large" items={items} />;
+  return <Tabs className="" type="card" size="large" items={items} />;
 };
 
 export default ProductDetailsTab;

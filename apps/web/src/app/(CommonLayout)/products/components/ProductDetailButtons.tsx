@@ -34,9 +34,6 @@ const ProductDetailButtons = (product: TProduct) => {
   const selectedCartItem = cartList?.find(
     (cartItem) => cartItem?.productId === product?._id && compareTwoArrayOfString(cartItem?.options!, selectedVariants)
   );
-  console.log({
-    selectedCartItem,
-  });
 
   // handle  add to cart
   const handleCart = (type: CartActionType) => {
