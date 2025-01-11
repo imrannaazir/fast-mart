@@ -1,8 +1,9 @@
-import { LogOut } from "lucide-react";
+import { Edit, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -13,11 +14,13 @@ import { logOut } from "@/redux/features/auth/authSlice";
 import { useGetMyDataQuery } from "@/redux/features/user/user-api";
 import { useAppDispatch } from "@/redux/hooks";
 import { TUser } from "@repo/utils/types";
+import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { NotificationDropdown } from "./notification-dropdown";
 
 const HeaderEnd = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { data, isFetching } = useGetMyDataQuery("");
   const me = data?.data as TUser;
   const [logout] = useLogoutMutation();
@@ -56,13 +59,20 @@ const HeaderEnd = () => {
           </DropdownMenuLabel>
 
           <DropdownMenuSeparator />
-
-          <DropdownMenuItem onClick={onLogout} className="cursor-pointer">
-            <div className="flex h-full gap-2">
-              <LogOut className="my-auto h-4 w-4" />
-              <p className="mb-[1px] text-sm">Log out</p>
-            </div>
-          </DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => navigate(`/settings`)} className="cursor-pointer">
+              <div className="flex h-full gap-2">
+                <Edit className="my-auto h-4 w-4" />
+                <p className="mb-[1px] text-sm">Edit profile</p>
+              </div>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onLogout} className="cursor-pointer">
+              <div className="flex h-full gap-2">
+                <LogOut className="my-auto h-4 w-4" />
+                <p className="mb-[1px] text-sm">Log out</p>
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

@@ -12,7 +12,7 @@ export type TUser = {
   firstName: string;
   lastName: string;
   photo?: TImage;
-  dateOfBirth?: Date;
+  dateOfBirth?: Date | string;
   password?: string;
   role: TRole;
   status: TUserStatus;

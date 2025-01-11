@@ -1,3 +1,4 @@
+import { TChangePasswordFieldValues } from "@repo/utils/types";
 import baseApi from "../api/baseApi";
 
 const authApi = baseApi.injectEndpoints({
@@ -27,7 +28,15 @@ const authApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    // change password
+    changePassword: builder.mutation({
+      query: (data: Pick<TChangePasswordFieldValues, "oldPassword" | "password">) => ({
+        url: `/auth/change-password`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLogoutMutation, useLoginMutation, useRegisterMutation } = authApi;
+export const { useLogoutMutation, useLoginMutation, useRegisterMutation, useChangePasswordMutation } = authApi;

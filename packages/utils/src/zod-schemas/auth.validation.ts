@@ -61,3 +61,20 @@ export const changePasswordValidationSchema = z.object({
 export const changePasswordValidationSchemaApi = z.object({
   body: changePasswordValidationSchema,
 });
+
+export const changeAdminPasswordValidationSchema = z
+  .object({
+    password: z
+      .string({ required_error: "Current password is required ." })
+      .min(8, { message: "Current password must be at least character." })
+      .max(30, { message: "Current password must be more then 30 character." }),
+    oldPassword: z
+      .string({ required_error: "New password is required." })
+      .min(8, { message: "New password must be at least 8 character." })
+      .max(30, { message: "new password must be more then 30 character." }),
+    confirmPassword: z.string({ required_error: "Confirm password is required." }),
+  })
+  .refine((data) => data?.password === data?.confirmPassword, {
+    message: "Password did not match.",
+    path: ["confirmPassword"],
+  });

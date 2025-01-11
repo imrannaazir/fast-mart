@@ -1,3 +1,6 @@
+import z from "zod";
+import { changeAdminPasswordValidationSchema } from "../zod-schemas/auth.validation";
+
 export type TLoginUser = {
   email: string;
   password: string;
@@ -8,6 +11,8 @@ export type TChangePasswordPayload = {
   password: string;
   confirmPassword: string;
 };
+
+export type TChangePasswordFieldValues = z.infer<typeof changeAdminPasswordValidationSchema>;
 
 export type TSession = {
   id: number;

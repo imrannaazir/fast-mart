@@ -71,7 +71,7 @@ const ProfileInformationForm = () => {
                     <X />
                   </Button>
                   <Button type="submit" size={"icon"}>
-                    {isLoading ? <Loader2 className="animate-spin duration-150" /> : <Save />}
+                    {isLoading ? <Loader2 className="animate-spin duration-300" /> : <Save />}
                   </Button>
                 </div>
               )}
@@ -81,7 +81,7 @@ const ProfileInformationForm = () => {
             control={form.control}
             name="firstName"
             render={({ field }) => (
-              <FormItem className="col-span-6">
+              <FormItem className="col-span-12 sm:col-span-6">
                 <FormLabel>First name</FormLabel>
                 <FormControl>
                   <Input
@@ -99,7 +99,7 @@ const ProfileInformationForm = () => {
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem className="col-span-6">
+              <FormItem className="col-span-12 sm:col-span-6">
                 <FormLabel>Last name</FormLabel>
                 <FormControl>
                   <Input
@@ -118,7 +118,7 @@ const ProfileInformationForm = () => {
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem className="col-span-6">
+              <FormItem className="col-span-12 sm:col-span-6">
                 <FormLabel>Phone number</FormLabel>
                 <FormControl>
                   <Input
@@ -137,7 +137,7 @@ const ProfileInformationForm = () => {
             control={form.control}
             name="dateOfBirth"
             render={({ field }) => (
-              <FormItem className="col-span-6 mt-1 flex flex-col">
+              <FormItem className="col-span-12 mt-1 flex flex-col sm:col-span-6">
                 <FormLabel className="mb-1">Date of birth</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
