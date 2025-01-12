@@ -10,6 +10,7 @@ import { FC, useMemo } from "react";
 import SidebarSectionHeader from "../../components/SidebarSectionHeader";
 import FilterSection from "./FilterSection";
 import PriceRangeFilter from "./PriceRangeFilter";
+import CategoryFilterSection from "./category-filter-section";
 import ClearFilterButton from "./clear-filter-button";
 
 type TSideBarFilterProps = {
@@ -39,22 +40,12 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({
         label: collection.title,
         count: collection?.noOfProducts!,
       })),
-    []
-  );
-
-  const memoizedCategories = useMemo(
-    () =>
-      categories.map((category) => ({
-        value: category._id!,
-        label: category.title,
-        count: category?.noOfProducts!,
-      })),
-    []
+    [collections]
   );
 
   const memoizedBrands = useMemo(
     () => brands.map((brand) => ({ value: brand?._id!, label: brand?.name, count: brand?.noOfProducts! })),
-    []
+    [brands]
   );
 
   const memoizedRatings = useMemo(
@@ -79,7 +70,6 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({
           </Form.Item>
         </Card>
 
-        {/* price range */}
         <PriceRangeFilter
           maxPrice={roundedMaxPrice}
           maxRange={Number(searchParams.get("maxPrice")) || roundedMaxPrice}
@@ -93,13 +83,7 @@ const SideBarFilter: FC<TSideBarFilterProps> = ({
           name="collections"
           options={memoizedCollections}
         />
-        <FilterSection
-          open={!!searchParams.get("categories")}
-          initialValue={searchParams.get("categories")?.split(",") || []}
-          title="Categories"
-          name="categories"
-          options={memoizedCategories}
-        />
+        {!!searchParams.get("collections") && <CategoryFilterSection categories={categories} />}
         <FilterSection
           open={!!searchParams.get("brands")}
           initialValue={searchParams.get("brands")?.split(",") || []}

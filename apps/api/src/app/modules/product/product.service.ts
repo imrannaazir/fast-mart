@@ -193,13 +193,14 @@ const getAllProduct = async (
   query: Record<string, unknown>,
 ): Promise<{ data: TProduct[]; meta: TMeta }> => {
   const queryObj = { ...query };
-  ['tags', 'categories', 'collections', ''].forEach((item) => {
+  ['tags', 'categories', 'collections', 'brands'].forEach((item) => {
     delete queryObj[item];
   });
   // convert into filterable
   const tags = (query?.tags as string)?.split(',');
   const collections = (query?.collections as string)?.split(',');
   const categories = (query?.categories as string)?.split(',');
+  const brands = (query?.brands as string)?.split(',');
 
   if (query.tags) {
     queryObj['tags'] = { $in: tags };
@@ -209,6 +210,10 @@ const getAllProduct = async (
   }
   if (query.categories) {
     queryObj['categories'] = { $in: categories };
+  }
+
+  if (query?.brands) {
+    queryObj['brand'] = { $in: brands };
   }
 
   // price range filterable query

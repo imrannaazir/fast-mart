@@ -29,3 +29,11 @@ export const compareTwoArrayOfString = (arr1: string[], arr2: string[]) => {
   const newUniqueArr2 = new Set(arr2);
   return arr1.length === arr2.length && arr1.every((value) => newUniqueArr2.has(value));
 };
+
+// currency
+export function formatCurrency(number: number) {
+  return number?.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+}
