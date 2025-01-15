@@ -3,10 +3,11 @@ import apiCall from "@/libs/api";
 import { cn } from "@/libs/utils";
 import { TProduct } from "@repo/utils/types";
 import Image from "next/image";
+import Link from "next/link";
 import SidebarSectionHeader from "./SidebarSectionHeader";
 
 const getProducts = async () => {
-  const response = await apiCall<TProduct[]>("/products", {
+  const response = await apiCall<TProduct[]>("/products/top-products?limit=9", {
     next: {
       revalidate: 3600,
     },
@@ -15,7 +16,7 @@ const getProducts = async () => {
   return response.data;
 };
 
-const HomePageTrendingProducts = async () => {
+const HomePageTrendingProducts = async ({ limit = 9 }: { limit?: number }) => {
   const products = ((await getProducts()) as TProduct[]) || [];
 
   return (
@@ -23,7 +24,7 @@ const HomePageTrendingProducts = async () => {
       <SidebarSectionHeader level="Trending Products" />
       {/* trending products */}
       <div>
-        {products.map((product, i) => {
+        {products?.slice(0, limit).map?.((product, i) => {
           return (
             <div className="flex items-center gap-6" key={product._id}>
               {/* image    */}
@@ -37,9 +38,12 @@ const HomePageTrendingProducts = async () => {
               {/* details  */}
               <div className={cn("py-4", i !== 0 && "border-t-[1.2px] border-dashed border-gray-400")}>
                 {/* title */}
-                <h6 className="max-w-[133px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold">
+                <Link
+                  href={`/products/${product?._id}`}
+                  className="max-w-[133px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold"
+                >
                   {product?.title}{" "}
-                </h6>
+                </Link>
                 <p className="text-sm text-gray-700">
                   {" "}
                   {product?.weight} {product?.unit}

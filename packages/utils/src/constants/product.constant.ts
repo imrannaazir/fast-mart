@@ -3,5 +3,5 @@ export const ProductStatus = {
   ACTIVE: "ACTIVE",
   ARCHIVED: "ARCHIVED",
 } as const;
-export const ProductUnit = ["kg", "g", "lb", "oz"] as const;
+export const ProductUnit = ["kg", "g", "lb", "oz", "ml", "ltr"] as const;
 export const ProductSearchableFields = ["title", "description"];

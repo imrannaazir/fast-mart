@@ -16,7 +16,6 @@ const CollectionDetailsPage = () => {
     icon: collection?.icon,
     image: collection?.image?._id,
   };
-  console.log(defaultValues, "18");
 
   return (
     <CollectionForm

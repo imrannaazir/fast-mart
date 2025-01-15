@@ -4,12 +4,15 @@ import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { serverFetcher } from "@/libs/server-fetcher";
 import { TAppProductCardProps } from "@/types";
 import { TProduct } from "@repo/utils/types";
+import Link from "next/link";
 import queryString from "query-string";
 
-const RelatedProducts = async () => {
+const RelatedProducts = async ({ tags }: { tags: string[] }) => {
   const query = queryString.stringify({
     limit: 5,
+    tags: tags?.join(","),
   });
+
   const response = await serverFetcher<TProduct[]>(`/products?${query}`);
   const products = response?.data;
   return (
@@ -32,9 +35,9 @@ const RelatedProducts = async () => {
           return <AppProductCard key={product._id} product={productCardData} />;
         })}
       </div>
-      <div className="mt-4 flex justify-center pb-4 md:justify-end">
-        <AppButton className="">View More</AppButton>
-      </div>
+      <Link href={"/search"} className="mt-4 flex justify-center pb-4 md:justify-end">
+        <AppButton>View More</AppButton>
+      </Link>
     </div>
   );
 };

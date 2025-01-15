@@ -6,7 +6,7 @@ import { TProduct } from "@repo/utils/types";
 import HomeSectionTop from "./HomeSectionTop";
 
 const getProducts = async () => {
-  const response = await apiCall<TProduct[]>("/products", {
+  const response = await apiCall<TProduct[]>("/products?sort=title&limit=4", {
     next: {
       revalidate: 3600,
     },

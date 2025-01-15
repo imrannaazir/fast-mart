@@ -20,11 +20,7 @@ router.post(
 // get all product : GET
 router.get('/', ProductController.getAllProduct);
 // get top product : GET
-router.get(
-  '/top-products',
-  auth('ADMIN', 'SUPER_ADMIN'),
-  ProductController.getTopProducts,
-);
+router.get('/top-products', ProductController.getTopProducts);
 
 //get highest product price
 router.get('/highest-price', ProductController.getHighestProductPrice);

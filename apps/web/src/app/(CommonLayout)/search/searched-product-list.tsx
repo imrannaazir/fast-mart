@@ -35,6 +35,9 @@ const SearchedProductList = async ({ searchParams }: { searchParams: TProductSea
     queryObj["sort"] = searchParams?.sortOrder === "desc" ? `-${searchParams?.sortBy}` : searchParams?.sortBy;
   }
 
+  queryObj["limit"] = searchParams?.limit || "24";
+  queryObj["page"] = searchParams?.page || "1";
+
   const query = queryString.stringify(queryObj);
   const response = await serverFetcher<TProduct[]>(`/products?${query}`, {
     cache: "no-store",

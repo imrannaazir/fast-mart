@@ -196,6 +196,7 @@ const getAllProduct = async (
   ['tags', 'categories', 'collections', 'brands'].forEach((item) => {
     delete queryObj[item];
   });
+
   // convert into filterable
   const tags = (query?.tags as string)?.split(',');
   const collections = (query?.collections as string)?.split(',');

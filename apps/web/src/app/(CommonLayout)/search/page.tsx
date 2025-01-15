@@ -17,6 +17,8 @@ export type TProductSearchParams = {
   brands: string;
   sortOrder: "desc" | "asc";
   sortBy: string;
+  page: string;
+  limit: string;
 };
 const searchBreadcrumbItems: TAppBreadcrumbItem[] = [
   {

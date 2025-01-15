@@ -8,7 +8,7 @@ import HomePageOfferCards from "./HomePageOfferCards";
 import HomeSectionTop from "./HomeSectionTop";
 
 const getProducts = async () => {
-  const response = await apiCall<TProduct[]>("/products", {
+  const response = await apiCall<TProduct[]>("/products?sort=-title&limit=24", {
     next: {
       revalidate: 3600,
     },

@@ -10,7 +10,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: "STAY HOME & DELIVERED YOUR",
     heading: "DAILY NEEDS",
     description: "Vegetables contain many vitamins and minerals that are good for your health.",
-    path: "/",
+    path: "/search",
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: null,
     heading: "Nut Collection",
     description: "We deliver organic vegetables & fruits",
-    path: "/",
+    path: "/search?collections=677c0032e84c38fabe82cfc1",
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: null,
     heading: "Organic Market",
     description: "Start your daily shopping with some Organic food",
-    path: "/",
+    path: "/search?collections=677bd86ae84c38fabe82cf4c",
   },
   {
     id: 4,
@@ -40,7 +40,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: null,
     heading: "Hot Deals on New Items",
     description: "Daily Essentials Eggs & Dairy",
-    path: "/",
+    path: "/search?collections=677c879f6b354a14eff0d85e&",
   },
   {
     id: 5,
@@ -50,7 +50,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: null,
     heading: "Buy More & Save More",
     description: "Fresh Vegetables",
-    path: "/",
+    path: "/search?collections=677bd86ae84c38fabe82cf4c",
   },
   {
     id: 6,
@@ -60,7 +60,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: null,
     heading: "Organic Meat Prepared",
     description: "Delivered to Your Home",
-    path: "/",
+    path: "/search?collections=677bda6be84c38fabe82cf68",
   },
   {
     id: 7,
@@ -70,7 +70,7 @@ export const heroCovers: THeroCoverProps[] = [
     subHeading: null,
     heading: "Buy More & Save More",
     description: "Nuts & Snacks",
-    path: "/",
+    path: "/search?collections=677c0032e84c38fabe82cfc1",
   },
 ];
 
@@ -83,7 +83,7 @@ export const offerCards = [
     subHeading: null,
     heading: "Fresh MEAT",
     description: null,
-    path: "/",
+    path: "/search?collections=677bda6be84c38fabe82cf68",
   },
   {
     id: 1,
@@ -93,7 +93,7 @@ export const offerCards = [
     subHeading: null,
     heading: "Testy Mushrooms",
     description: null,
-    path: "/",
+    path: "/search?collections=677bd86ae84c38fabe82cf4c",
   },
 ];
 
@@ -104,7 +104,7 @@ export const juiceCover: THeroCoverProps = {
   heading: "TAKE ON THE DAY!",
   description: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate.",
   photo: assets.images.banners.juice,
-  path: "",
+  path: "/search?collections=677bd9bde84c38fabe82cf60",
   offerAmount: null,
   topHeader: null,
 };
@@ -116,7 +116,7 @@ export const drinksCover: THeroCoverProps = {
   heading: "Products",
   offerAmount: "20% Off",
   photo: assets.images.banners.drinks,
-  path: "",
+  path: "/search?collections=677bd9bde84c38fabe82cf60",
   description: null,
   topHeader: null,
 };
@@ -128,7 +128,7 @@ export const summerVegetablesCover: THeroCoverProps = {
   heading: "VEGETABLE",
   offerAmount: null,
   photo: assets.images.banners.summer_vegetable,
-  path: "",
+  path: "/search?collections=677bd86ae84c38fabe82cf4c",
   description: "Save up to 5% OFF",
   topHeader: "SUMMER",
 };

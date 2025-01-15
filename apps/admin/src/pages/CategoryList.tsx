@@ -54,7 +54,7 @@ const CategoryListPage = () => {
 const CategoryAction = () => {
   return (
     <Link to="/contents/categories/add-category">
-      <Button size={"sm"}>Create Category</Button>;
+      <Button size={"sm"}>Create Category</Button>
     </Link>
   );
 };

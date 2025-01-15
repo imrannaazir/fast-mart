@@ -1,14 +1,14 @@
 import AppCard from "@/components/ui/AppCard";
-import HomePageCashbackBanner from "./HomePageCashbackBanner";
-import HomeSectionTop from "./HomeSectionTop";
 import AppProductCard from "@/components/ui/ProductCard/AppProductCard";
 import { drinksCover, juiceCover, summerVegetablesCover } from "@/constants/global.content";
-import { TAppProductCardProps } from "@/types";
 import apiCall from "@/libs/api";
+import { TAppProductCardProps } from "@/types";
 import { TProduct } from "@repo/utils/types";
+import HomePageCashbackBanner from "./HomePageCashbackBanner";
+import HomeSectionTop from "./HomeSectionTop";
 
 const getProducts = async () => {
-  const response = await apiCall<TProduct[]>("/products", {
+  const response = await apiCall<TProduct[]>("/products?brands=677c8ae215b53939233ccca1&limit=12", {
     next: {
       revalidate: 3600,
     },

@@ -68,11 +68,11 @@ const ProductDetailsPage = async ({ params }: { params: { productId: string } })
                 img={(product?.brand?.logo as TImage)?.url!}
               />
             )}
-            <HomePageTrendingProducts />
+            <HomePageTrendingProducts limit={5} />
           </div>
         </div>
 
-        <RelatedProducts />
+        <RelatedProducts tags={product?.tags?.map((tag) => tag?._id) as string[]} />
       </Container>
     </Fragment>
   );
