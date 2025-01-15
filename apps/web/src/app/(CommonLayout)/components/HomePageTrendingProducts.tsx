@@ -38,10 +38,7 @@ const HomePageTrendingProducts = async ({ limit = 9 }: { limit?: number }) => {
               {/* details  */}
               <div className={cn("py-4", i !== 0 && "border-t-[1.2px] border-dashed border-gray-400")}>
                 {/* title */}
-                <Link
-                  href={`/products/${product?._id}`}
-                  className="max-w-[133px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold"
-                >
+                <Link href={`/products/${product?._id}`} className="max-w-[133px] font-semibold">
                   {product?.title}{" "}
                 </Link>
                 <p className="text-sm text-gray-700">
