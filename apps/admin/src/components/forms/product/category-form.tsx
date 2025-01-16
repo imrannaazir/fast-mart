@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 import SelectCollections from "@/components/forms/product/SelectCollections";
+import CategoryFormSkeleton from "@/components/skeletons/category-form-skeleton";
 import PageSection from "@/components/ui/page-section";
 import UploadSingleImage from "@/components/ui/single-image-upload";
 import TextEditor from "@/components/ui/text-editor";
@@ -76,7 +77,7 @@ const CategoryForm: FC<TCategoryFormProps> = ({
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <CategoryFormSkeleton />;
   }
   return (
     <Form {...form}>

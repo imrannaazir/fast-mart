@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import SideBarFilter from "./components/SideBarFilter";
 import MobileFilterMenu from "./components/mobile-filter-menu";
 import SearchedProductList from "./searched-product-list";
+import SearchedProductListSkeleton from "./searched-product-list-skeleton";
 
 export type TProductSearchParams = {
   q: string;
@@ -73,7 +74,7 @@ const SearchPage = async ({ searchParams }: { searchParams: TProductSearchParams
             maxPrice={823}
           />
           {/* header  */}
-          <Suspense fallback={<p>loading...</p>}>
+          <Suspense fallback={<SearchedProductListSkeleton />}>
             <SearchedProductList searchParams={searchParams} />
           </Suspense>
         </section>

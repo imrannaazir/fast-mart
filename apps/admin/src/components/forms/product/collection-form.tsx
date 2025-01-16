@@ -5,6 +5,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 
 import IconPicker from "@/components/contents/IconPicker";
+import CollectionFormSkeleton from "@/components/skeletons/collection-form-skeleton";
 import PageSection from "@/components/ui/page-section";
 import UploadSingleImage from "@/components/ui/single-image-upload";
 import TextEditor from "@/components/ui/text-editor";
@@ -75,7 +76,7 @@ const CollectionForm: FC<TCollectionFormProps> = ({
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <CollectionFormSkeleton />;
   }
   return (
     <Form {...form}>

@@ -1,4 +1,5 @@
 import Page from "@/components/layout/Page";
+import BrandFormSkeleton from "@/components/skeletons/brand-form-skeleton";
 import { Button } from "@/components/ui/button";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -74,7 +75,7 @@ const BrandForm: FC<TBrandFormProps> = ({
   };
 
   if (isLoading) {
-    return <p>loading...</p>;
+    return <BrandFormSkeleton />;
   }
 
   return (
