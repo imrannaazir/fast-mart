@@ -1,3 +1,5 @@
+import { formatCurrency } from "@repo/utils/functions";
+import { TProduct } from "@repo/utils/types";
 import type { TableColumnsType } from "antd";
 import { Table } from "antd";
 import React from "react";
@@ -20,17 +22,39 @@ const fixedColumns: TableColumnsType<FixedDataType> = [
   },
 ];
 
-const fixedData: FixedDataType[] = [];
-for (let i = 0; i < 10; i += 1) {
-  fixedData.push({
-    key: i,
-    name: ["Light", "Bamboo", "Little"][i % 3] as string,
-    description: "Everything that has a beginning, has an end.",
-  });
-}
+type TProductAdditionalInformationProps = {
+  product: TProduct;
+};
 
-const ProductAdditionalInformation: React.FC = () => (
-  <Table columns={fixedColumns} dataSource={fixedData} pagination={false} bordered />
-);
+const ProductAdditionalInformation: React.FC<TProductAdditionalInformationProps> = ({ product }) => {
+  const fixedData: FixedDataType[] = [
+    {
+      key: 1,
+      name: "Price",
+      description: formatCurrency(product?.compare_price!),
+    },
+    {
+      key: 2,
+      name: "Discounted Price",
+      description: formatCurrency(product?.price!),
+    },
+    {
+      key: 3,
+      name: "Quantity",
+      description: `${product?.quantity} pcs`,
+    },
+    {
+      key: 4,
+      name: "Weight",
+      description: product?.weight!?.toString() || "N/A",
+    },
+    {
+      key: 5,
+      name: "Unit",
+      description: product?.unit || "N/A",
+    },
+  ];
+  return <Table columns={fixedColumns} dataSource={fixedData} pagination={false} bordered />;
+};
 
 export default ProductAdditionalInformation;
