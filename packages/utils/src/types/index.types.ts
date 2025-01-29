@@ -13,6 +13,7 @@ export * from "./jwt.interface";
 export * from "./order.interface";
 export * from "./payment-transaction.interfaces";
 export * from "./product.interface";
+export * from "./review.interfaces";
 export * from "./tag.interface";
 export * from "./user.interface";
 export * from "./variant.interfaces";

@@ -8,6 +8,7 @@ export * from "./collection.validations";
 export * from "./image.validations";
 export * from "./order.validation";
 export * from "./product.validation";
+export * from "./review.validations";
 export * from "./tag.validation";
 export * from "./transaction.validations";
 export * from "./user.validation";

@@ -10,6 +10,7 @@ import ImageRoutes from '../modules/image/image.routes';
 import OrderRoute from '../modules/order/order.route';
 import PaymentTransactionRoutes from '../modules/paymentTransaction/payment-transaction.routes';
 import ProductRoutes from '../modules/product/product.route';
+import ReviewRoutes from '../modules/review/review.routes';
 import TagRoutes from '../modules/tag/tag.route';
 import UserRoutes from '../modules/user/user.routes';
 import VariantRoutes, { OptionRoutes } from '../modules/variant/variant.routes';
@@ -87,6 +88,10 @@ const routerModules: TRouteModule[] = [
   {
     path: '/transactions',
     route: PaymentTransactionRoutes,
+  },
+  {
+    path: '/reviews',
+    route: ReviewRoutes,
   },
 ];
 
